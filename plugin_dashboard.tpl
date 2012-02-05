@@ -109,16 +109,7 @@
 <div class="helpwrapper">
   <div id="modalContainer" class="containerPlus draggable {ldelim}buttons:'c', skin:'white', width:'900', height:'450', closed:'true', title:'dashboard premier help container'{rdelim}" style="margin: auto;">
     <div class="evidence">
-      <h3>Serendipity Dashboard Help Container (4 with dock placeholder)!</h3>
-		<input type="button" class="serendipityPrettyButton input_button" onclick="invertSelection()" value="Auswahl umkehren" name="toggle">
-		<input type="submit" class="serendipityPrettyButton input_button" tabindex="10" onclick="return confirm('Sollen die markierten Kommentare gelöscht werden?')" value="Markierte Kommentare löschen" name="toggle">
-        <input type="submit" class="serendipityPrettyButton input_button" value="Approve selected comments" name="serendipity[togglemoderate]">
-		<fieldset>
-			<legend>Spamschutz (Bayes)</legend>
-				<input type="button" name="toogle" value="Als valid lernen" class="serendipityPrettyButton input_button" onclick="markAllHam()">
-				<input type="button" name="toogle" value="Als Spam lernen" class="serendipityPrettyButton input_button" onclick="markAllSpam()">
-			</fieldset>
-
+      <h3>Serendipity Dashboard Help Container ()!</h3>
 
         <ul><strong>ToDo: </strong>
             <li class="checked">nav button with plus/minus img!</li>

@@ -614,7 +614,7 @@ var bayesLoadIndicator = \''.$serendipity['serendipityHTTPPath'] . 'plugins/sere
                     }
 
                     /* get the dashboard template file */
-                    echo $this->fetchTemplatePath('plugin_dashboard_main.tpl');
+                    echo $this->fetchTemplatePath('plugin_dashboard.tpl');
                     
                     $dashboard = ob_get_contents();
                     
