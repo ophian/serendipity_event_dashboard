@@ -38,7 +38,7 @@
                             <li class="mod_referer"><b>{$CONST.REFERER}:</b> <a href="{$eclpen.referer}">{$eclpen.referer|truncate:30:"&hellip;"|default:'N/A'}</a></li>
                         </ul>
                 
-						{if $spamblockbayes_hookin}
+                        {if $spamblockbayes_hookin}
                         <ul class="mod_spam" style="margin: 0 0 2px;width:96%;">
                             <li class="mod_antispam" style="padding: 0 6px 2px;">
                                 {* serendipity_hookPlugin hook="backend_view_comment" hookAll="true" *}
@@ -58,7 +58,7 @@
                                 </span>
                             </li>
                         </ul>
-						{/if}
+                        {/if}
 
                         <ul class="comment_admin">
                             <li class="mod_appmod">
@@ -101,10 +101,10 @@
             <input type="button" onclick="invertSelectionPen()" value="{$CONST.INVERT_SELECTIONS}" name="toggle" class="serendipityPrettyButton input_button" />
             <input type="submit" name="toggle" value="{$CONST.DELETE_SELECTED_COMMENTS}" onclick="return confirm('{$CONST.COMMENTS_DELETE_CONFIRM}')" tabindex="{$smarty.foreach.bar.iteration+1}" class="serendipityPrettyButton input_button" />
             <input type="submit" name="serendipity[togglemoderate]" value="{$CONST.MODERATE_SELECTED_COMMENTS}" class="serendipityPrettyButton input_button" />
-			{if $spamblockbayes_hookin}
-			<span>Spamschutz (Bayes): </span>
+            {if $spamblockbayes_hookin}
+            <span>Spamschutz (Bayes): </span>
             <input type="button" onclick="markAllHam()" name="toogle" value="{$CONST.PLUGIN_EVENT_SPAMBLOCK_BAYES_HAMBUTTON}" class="serendipityPrettyButton input_button" />
-			<input type="button" onclick="markAllSpam()" name="toogle" value="{$CONST.PLUGIN_EVENT_SPAMBLOCK_BAYES_SPAMBUTTON}" class="serendipityPrettyButton input_button" />
+            <input type="button" onclick="markAllSpam()" name="toogle" value="{$CONST.PLUGIN_EVENT_SPAMBLOCK_BAYES_SPAMBUTTON}" class="serendipityPrettyButton input_button" />
             {/if}
         </form>
         

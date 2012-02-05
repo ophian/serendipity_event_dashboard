@@ -97,11 +97,11 @@ article, aside, details, figcaption, figure, footer, header, hgroup, nav, sectio
 }
 #dashboard #pending-comments .comment_text { 
     background: none repeat scroll 0 0 Tan;/*#CCCCCC YellowGreen Thistle SteelBlue LightGreen LemonChiffon Lavender Khaki ThreeDHighlight */
-	color: invert;/* OldLace Navy MidnightBlue LightSteelBlue LightGrey LightGreen LightBlue Lavender Ivory Indigo GhostWhite Gainsboro FloralWhite Azure AliceBlue */
+    color: invert;/* OldLace Navy MidnightBlue LightSteelBlue LightGrey LightGreen LightBlue Lavender Ivory Indigo GhostWhite Gainsboro FloralWhite Azure AliceBlue */
 }
 #dashboard #recent-comments .comment_text { 
     background: none repeat scroll 0 0 SeaGreen;/*#CCCCCC*/
-	color: AliceBlue;/* OldLace Navy MidnightBlue LightSteelBlue LightGrey LightGreen LightBlue Lavender Ivory Indigo GhostWhite Gainsboro FloralWhite Azure AliceBlue */
+    color: AliceBlue;/* OldLace Navy MidnightBlue LightSteelBlue LightGrey LightGreen LightBlue Lavender Ivory Indigo GhostWhite Gainsboro FloralWhite Azure AliceBlue */
     background: none repeat scroll 0 0 MediumSeaGreen;
     color: DarkSlateGrey;
 }
@@ -333,11 +333,11 @@ article, aside, details, figcaption, figure, footer, header, hgroup, nav, sectio
 }
 #dashboard nav#user-menu-left-bottom #iopen.help {
     width: auto;
-	padding: 0;
+    padding: 0;
 }
 #dashboard nav#user-menu-left-bottom #iopen.help img {
     width: 26px;
-	height: 26px;
+    height: 26px;
 }
 #dashboard nav#user-menu-left-bottom div#navbar {
     background: none repeat scroll 0 0 Teal;/*YellowGreen WhiteSmoke */
@@ -439,7 +439,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, nav, sectio
 #dashboard nav#user-menu-left-bottom div a img,
 #dashboard > section div.block-entries div a img {
     border: 0px none; 
-	vertical-align: bottom;
+    vertical-align: bottom;
 }
 #dashboard > section div.first { 
     float: left;
