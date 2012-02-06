@@ -24,7 +24,7 @@
                         <label for="multi-select-comment-{$eclap.id}">{$CONST.INCLUDE_COMMENT_SELECTION|@sprintf:$CONST.COMMENT:$eclap.id:$CONST.IN_SELECTION}</label> - 
                         <label for="multi-select-comment-{$eclap.id}">{$CONST.IN_REPLY_TO}: <a href="{$eclap.entry_url}">{$eclap.title|truncate:48:"&hellip;"}</a>, <time datetime="{$eclap.pubdate}" pubdate>{$CONST.ON} {$eclap.timestamp|@formatTime:'%A, %e. %B %Y'}</time></label>
                     </div>
-                    <div class="box-right"> <a href="#cl_{$eclap.id}" class="button"><img src="{serendipity_getFile file="img/plus.png"}" id="option_{$smarty.foreach.foo.iteration}" class="wizard-img" alt="+/-" /> Press Here</a> </div>
+                    <div class="box-right"> <a href="#cl_{$eclap.id}" class="button"><img src="{serendipity_getFile file="img/plus.png"}" id="option_{$smarty.foreach.foo.iteration}" class="wizard-img" alt="+/-" /> {$CONST.TOGGLE_OPTION}</a> </div>
                 
                     <div id="ct_{$eclap.id}" class="comment_text eclap_text">
                         <div class="summary">{$eclap.summary|truncate:120:"&hellip;"}</div>

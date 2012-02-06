@@ -1,4 +1,4 @@
-{*** plugin_dashboard.tpl 2011-03-25 - last modified 2012-02-04 ***}
+{*** plugin_dashboard.tpl 2011-03-25 - last modified 2012-02-06 ***}
 {*** debug ***}
 
 <div id="dashboard" class="clearfix maincontent">
@@ -78,14 +78,14 @@
     </section>
 {/if}
     
-{foreach from=$elements key="k" item="v" name=nix}
+{foreach from=$elements key="k" item="v" name=elecom}
     {if $v != 'draft' AND $v != 'future' AND $v != 'update' AND $v != 'plugup' AND $v != 'clean'}
     {include file="$fullpath/block_$v.tpl" title="Dashboard $v Notifier"}
     {/if}
 {/foreach}
 
     <section id="entries" class="block-entries-main">
-{foreach from=$elements key="k" item="v" name=nix}
+{foreach from=$elements key="k" item="v" name=eleent}
     {if $v == 'draft' OR $v == 'future'}
     {include file="$fullpath/block_$v.tpl" title="Dashboard $v Notifier"}
     {/if}
@@ -93,7 +93,7 @@
     </section>
 
     <section id="updates" class="block-updates-main">
-{foreach from=$elements key="k" item="v" name=nix}
+{foreach from=$elements key="k" item="v" name=eleupd}
     {if $v == 'update' OR $v == 'plugup'}
     {include file="$fullpath/block_$v.tpl" title="Dashboard $v Notifier"}
     {/if}
@@ -102,7 +102,7 @@
 
 {if NOT $start}
     <footer role="footer">
-        <div class="clearfix"> <h1> <small>2012 - {$sysinfo.version_info}</small> </h1> </div>
+        <div class="clearfix"> <h1> <small>{$smarty.now|date_format} - {$sysinfo.version_info}</small> </h1> </div>
     </footer>
 {/if}
     
@@ -116,22 +116,23 @@
             <li class="checked">Check $admin_vars to be readable by dashbords side-navbar! This is necessary in different perms!</li>
             <li class="checked">Check dashboard elements show up by permission only!</li>
             <li class="checked">Make sequence order change fit into rows and cells!</li>
-            <li class="checked">Build 2 section entries and updates - rewrite the halfbox sections to divs, as the footer does not recognize them and blocks a big margin from end of comments section block!</li>
+            <li class="checked">Build & rewrite the halfbox sections to divs, to stick to a certain Layout!</li>
             <li class="checked">What happens if having differing total halfbox divs?</li>
             <li class="checked">Build real cleanup (compiled templates) function & link with questionaire!</li>
             <li class="checked">Some more sysinfo?, or what to do with left-menu-bottom-space?</li>
-            <li class="checked">cover Bayes Plugin hook</li>
+            <li class="checked">Reengineer Bayes Plugin hook via js for pending comments - AFAP</li>
             <li></li>
-            <li>does my bayes Plugin hook copy really work? I know there is a bug concerning the old bayes js! What about covering bayes for others too?</li>
-            <li>Build poping up multiple help screens, or one big main seperated by columns!</li>
+            <li>Finish bayes plugin hook engineering if possible. There is a bug concerning the old bayes js! <br />What about covering bayes for other sections too?</li>
+            <li>Build poping up multiple help screens to differend themes, or one big main, seperated by columns?</li>
             <li>Make CSS really have fluid grid layout!</li>
-            <li>General code and CSS cleanup!</li>
+            <li>General code and CSS cleanup! (add :focus, rename ids & classes to semantic, not positional names, ...)</li>
             <li></li>
-            <li>ToDo: open (some) links like edit entry inside the dashboard via modalContainer....?</li>
-            <li>ToDo: make dashboard css color customizing navbar tool ....?</li>
+            <li>ToDo: next release, open (some) "edit-entry-links" inside the dashboard via modalContainer....?</li>
+            <li>ToDo: (?) make dashboard css color customizing navbar tool ....?</li>
             <li>ToDo: next release, make all boxes jquery mbContainer like....?</li>
-            <li>React on full dashboard and framed dashboard (see first link); Build option if done!</li>
+            <li>React on full dashboard and framed dashboard (see first link); Build option if done! (?)</li>
         </ul>
+
     </div>
     
     <p>Maybe use div {ldelim} column-width: 26em; column-gap: 1.6em; column-rule: thin dotted black; {rdelim} ... to have multiple Infos ordered in cells ...</p>
