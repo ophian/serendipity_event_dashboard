@@ -96,11 +96,12 @@ article, aside, details, figcaption, figure, footer, header, hgroup, nav, sectio
     width: 97%;
 }
 #dashboard #pending-comments .comment_text { 
-    background: none repeat scroll 0 0 Tan;/*#CCCCCC YellowGreen Thistle SteelBlue LightGreen LemonChiffon Lavender Khaki ThreeDHighlight */
-    color: invert;/* OldLace Navy MidnightBlue LightSteelBlue LightGrey LightGreen LightBlue Lavender Ivory Indigo GhostWhite Gainsboro FloralWhite Azure AliceBlue */
+    background: none repeat scroll 0 0 SteelBlue; /*#CCCCCC White Snow SteelBlue Tan;  YellowGreen Thistle SteelBlue LightGreen LemonChiffon Lavender Khaki ThreeDHighlight */
+    /*color: invert; OldLace Navy MidnightBlue LightSteelBlue LightGrey LightGreen LightBlue Lavender Ivory Indigo GhostWhite Gainsboro FloralWhite Azure AliceBlue */
+    color: PowderBlue;
 }
 #dashboard #recent-comments .comment_text { 
-    background: none repeat scroll 0 0 MediumSeaGreen;/*#CCCCCC SeaGreen */
+    background: none repeat scroll 0 0 DarkSeaGreen; /*#CCCCCC SeaGreen; DarkSeaGreen Linen Ivory MediumSeaGreen;*/
     color: DarkSlateGrey;/* OldLace Navy MidnightBlue LightSteelBlue LightGrey LightGreen LightBlue Lavender Ivory Indigo GhostWhite Gainsboro FloralWhite Azure AliceBlue */
 }
 #dashboard #pending-comments ul.mod_spam { 
@@ -343,16 +344,16 @@ article, aside, details, figcaption, figure, footer, header, hgroup, nav, sectio
     height: 26px;
 }
 #dashboard nav#user-menu-left-bottom div#navbar {
-    background: none repeat scroll 0 0 Teal;/*YellowGreen WhiteSmoke */
+    background: none repeat scroll 0 0 SteelBlue;/*Teal YellowGreen WhiteSmoke */
     width: 84%;
 }
 #dashboard nav#user-menu-left-bottom div#navbar ul li {
-    background: none repeat scroll 0 0 YellowGreen;
+    background: none repeat scroll 0 0 inactivecaption; /* LightSteelblue WhiteSmoke YellowGreen; */
     margin: 0.1% 0.33% 0.5%;
 }
 #dashboard nav#user-menu-left-bottom  button:hover,
 #dashboard nav#user-menu-left-bottom div#navbar a:hover {
-    background: none repeat scroll 0 0 tomato;
+    background: none repeat scroll 0 0 PaleVioletRed; /*tomato;*/
     color: #666666;
     width: 100%;
 }
