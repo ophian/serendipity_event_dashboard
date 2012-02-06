@@ -625,7 +625,7 @@ var bayesLoadIndicator = \''.$serendipity['serendipityHTTPPath'] . 'plugins/sere
                     break;
 
                 case 'css_backend':
-                    $filename = 'dashboard.css';
+                    $filename = 'css/dashboard.css';
                     $tfile = serendipity_getTemplateFile($filename, 'serendipityPath');
                     if (!$tfile || $tfile == $filename) {
                         $tfile = dirname(__FILE__) . '/' . $filename;

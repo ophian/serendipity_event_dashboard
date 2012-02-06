@@ -1,4 +1,4 @@
-// jquery-dashboard.js - last-modified: 2012-02-04
+// jquery-dashboard.js - last-modified: 2012-02-06
 
 // Q: Is $(this).siblings() the same as $(this).parent().children()
 // A: No.
@@ -25,7 +25,7 @@ jQuery(document).ready(function($) {
                 $(this).parent().siblings('.comment_boxed').toggleClass('visuallyhidden');
             }, 
             function () { 
-                console.log(this); // <a class="button" href="#cpl_%">
+                //console.log(this); // <a class="button" href="#cpl_%">
                 $(this).find('img').stop(true, true).attr({src:img_minus}); 
                 $(this).parent().siblings('.comment_boxed').toggleClass('visuallyhidden');
             }
@@ -43,7 +43,7 @@ jQuery(document).ready(function($) {
                 $(this).parent().siblings('.comment_toggleall').toggleClass('visuallyhidden');
             }, 
             function () { 
-                console.log(this); // <a class="button" href="#ta_%">
+                //console.log(this); // <a class="button" href="#ta_%">
                 $(this).find('img').stop(true, true).attr({src:img_minus}); 
                 $(this).parent().siblings('.comment_toggleall').toggleClass('visuallyhidden');
             }
@@ -83,20 +83,17 @@ jQuery(document).ready(function($) {
         $(this).find('img').stop(true, true).attr({src:img_help1});//.fadeIn()
     });
 
-    $("button.navi").click(function() {
-            console.log('click-minus');
-            $(this).find('img').stop(true, true).attr({src:img_minus});//.fadeOut()
-            $(this).siblings().toggleClass('visuallyhidden');
-    }).hover(function() {
-            console.log('hover-minus');
-            $(this).find('img').stop(true, true).attr({src:img_minus});//.fadeOut()
-            $(this).siblings().toggleClass('visuallyhidden');
-        }, function() {
-        if(!$(this).hasClass('selected')) {
-            console.log('hover-plus');
-            $(this).find('img').stop(true, true).attr({src:img_plus});//.fadeIn()
-            $(this).siblings().toggleClass('visuallyhidden');
-        }
+    // navigation event
+    $("button.navi").toggle(
+      function (event) {
+        //console.log('click-minus');
+        $(event.target).siblings().toggleClass('visuallyhidden');
+        $(event.target).find('img').stop(true, true).attr({src:img_minus});
+      },
+      function (event) {
+        //console.log('click-plus');
+        $(event.target).siblings().toggleClass('visuallyhidden');
+        $(event.target).find('img').stop(true, true).attr({src:img_plus});
     });
     
     // help Container

@@ -39,8 +39,12 @@
                         </ul>
                 
                         {if $spamblockbayes_hookin}
-                        <ul class="mod_spam" style="margin: 0 0 2px;width:96%;">
-                            <li class="mod_antispam" style="padding: 0 6px 2px;">
+                        {** 
+                         ** this is very very alpha, as I tried to rewrite things that are done via bayes_commentList.js **
+                         ** this is working ~somehow~, except the rating, but errors naturally in the script itself **
+                         **}
+                        <ul class="mod_spam">
+                            <li class="mod_antispam">
                                 {* serendipity_hookPlugin hook="backend_view_comment" hookAll="true" *}
                                 <a id="ham{$eclpen.id}" class="serendipityIconLink spamblockBayesControls" title="Spamschutz (Bayes): Valid" href="#ham{$eclpen.id}" onclick="ham({$eclpen.id})">
                                     <img alt="" src="{serendipity_getFile file="admin/img/accept.png"}" />
@@ -52,7 +56,7 @@
                                 </a>
                                 <span class="spamblockBayesRating">
                                     <a href="serendipity_admin.php?serendipity[adminModule]=event_display&amp;serendipity[adminAction]=spamblock_bayes&amp;serendipity[comments][{$eclpen.id}]">
-                                        <span id="{$eclpen.id}_rating">0%{$rating}</span>
+                                        <span id="{$eclpen.id}_rating">"0%-test"{$rating}</span>
                                     </a>
                                     <span class="serendipityIconLink spamblockBayesControls"><img title="{$CONST.PLUGIN_EVENT_SPAMBLOCK_BAYES_RATING_EXPLANATION}" src="{serendipity_getFile file="admin/img/admin_msg_note.png"}" /></span>
                                 </span>

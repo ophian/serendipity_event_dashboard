@@ -100,11 +100,14 @@ article, aside, details, figcaption, figure, footer, header, hgroup, nav, sectio
     color: invert;/* OldLace Navy MidnightBlue LightSteelBlue LightGrey LightGreen LightBlue Lavender Ivory Indigo GhostWhite Gainsboro FloralWhite Azure AliceBlue */
 }
 #dashboard #recent-comments .comment_text { 
-    background: none repeat scroll 0 0 SeaGreen;/*#CCCCCC*/
-    color: AliceBlue;/* OldLace Navy MidnightBlue LightSteelBlue LightGrey LightGreen LightBlue Lavender Ivory Indigo GhostWhite Gainsboro FloralWhite Azure AliceBlue */
-    background: none repeat scroll 0 0 MediumSeaGreen;
-    color: DarkSlateGrey;
+    background: none repeat scroll 0 0 MediumSeaGreen;/*#CCCCCC SeaGreen */
+    color: DarkSlateGrey;/* OldLace Navy MidnightBlue LightSteelBlue LightGrey LightGreen LightBlue Lavender Ivory Indigo GhostWhite Gainsboro FloralWhite Azure AliceBlue */
 }
+#dashboard #pending-comments ul.mod_spam { 
+    margin: 2px 0;
+    width: 100%;
+}
+
 #dashboard ul.comment_fields {
     margin: 10px 0 0;
     width: 96%;
@@ -131,10 +134,10 @@ article, aside, details, figcaption, figure, footer, header, hgroup, nav, sectio
 #dashboard div.serendipityAdminMsgNote {
     margin: -13px 0 10px;
 }
-#dashboard .serendipity_admin_list_item {}
 #dashboard .serendipity_admin_comment_pending {
     border: 1px solid #FF0000; /* corrects 2px border */
 }
+#dashboard .serendipity_admin_list_item {}
 #dashboard .serendipity_admin_list_item_uneven {
     background: none repeat scroll 0 0 #EEEEEE;
 }
