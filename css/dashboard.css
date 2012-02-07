@@ -229,6 +229,9 @@ article, aside, details, figcaption, figure, footer, header, hgroup, nav, sectio
 #dashboard .dashboard_future, #dashboard .dashboard_comments, #dashboard .dashboard_draft, #dashboard .dashboard_comments_pending {
     min-height: 30px;
 }
+#dashboard .dashboard_comments_pending form>span {
+    color: #333333 !important; /* must overwrite .serendipityAdminContent span */
+}
 #dashboard form#formMultiDeleteApp {
     margin-top: 18px;
 }
