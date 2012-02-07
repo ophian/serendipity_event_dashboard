@@ -121,11 +121,11 @@
             <li class="checked">Build real cleanup (compiled templates) function & link with questionaire!</li>
             <li class="checked">Some more sysinfo?, or what to do with left-menu-bottom-space?</li>
             <li class="checked">Reengineer Bayes Plugin hook via js for pending comments - AFAP</li>
-            <li class="checked">Let Smarty do the entry|truncating. Do not assign entries doubled!</li>
+            <li class="checked">Let Smarty do the entry|truncating. Do not assign entries doubled! Hide fulltext by default</li>
             <li class="checked">CSS add :focus</li>
+            <li class="checked">Header Comment line have more truncation or how to reap for smaller screens (?)</li>
             <li></li>
             <li>Comment entry shadow for IE!</li>
-            <li>Header Comment line have more truncation or how to reap for smaller screens (?)</li>
             <li>Convert serendipityPrettyButtons to real buttons (?)</li>
             <li>Finish bayes plugin hook engineering, if possible. There is a bug concerning the old bayes js! <br />What about covering bayes for other sections too?</li>
             <li>Build poping up multiple help screens to differend themes, or one big main, seperated by columns (?)</li>
@@ -134,7 +134,7 @@
             <li>General code and CSS cleanup!</li>
             <li></li>
             <li>ToDo: next release, open (some) "edit-entry-links" inside the dashboard via modalContainer... (?)</li>
-            <li>ToDo: (?) make dashboard css color customizing navbar tool ... (?)</li>
+            <li>ToDo: next release, make dashboard css color customizing navbar tool ... (?)</li>
             <li>ToDo: next release, make all boxes jquery mbContainer like... (?)</li>
             <li>React on full dashboard and framed dashboard (see first link); Build option if done! (?)</li>
         </ul>

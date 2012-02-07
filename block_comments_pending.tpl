@@ -4,7 +4,7 @@
         <h3> {$CONST.COMMENTS_FILTER_NEED_APPROVAL} [ {$entry_Compendlist|@count} ]</h3>
 
         {if is_array($entry_Compendlist)}
-        
+
         <form id="formMultiDeletePen" action="#" method="POST" name="formMultiDeletePen">
             {$formtoken}
             <input type="hidden" name="serendipity[formAction]" value="multiDelete" />
@@ -12,22 +12,20 @@
             {foreach from=$entry_Compendlist item=eclpen name='bar'}
 
             <div id="comment_{$eclpen.id}">
-                
+
                 <div id="cpl_{$eclpen.id}" class="serendipity_admin_list_item serendipity_admin_list_item_{cycle values="even,uneven"}{if $eclpen.status == 'pending' || $eclpen.status == 'confirm'} serendipity_admin_comment_pending{/if}">
                     <input id="multi-select-comment-{$eclpen.id}" class="input_checkbox" type="checkbox" name="serendipity[delete][{$eclpen.id}]" value="{$eclpen.entry_id}" onclick="toogle_checkbox('ckbx_{$eclpen.id}', this.checked)" tabindex="{$smarty.foreach.bar.iteration}" />
                     <div class="comment_titel">
                         <label for="multi-select-comment-{$eclpen.id}">{$CONST.INCLUDE_COMMENT_SELECTION|@sprintf:$CONST.COMMENT:$eclpen.id:$CONST.IN_SELECTION}</label> - 
-                        <label for="multi-select-comment-{$eclpen.id}">{$CONST.IN_REPLY_TO}: <a href="{$eclpen.entry_url}">{$eclpen.title|truncate:48:"&hellip;"}</a>, <time datetime="{$eclpen.pubdate}" pubdate>{$CONST.ON} {$eclpen.timestamp|@formatTime:'%A, %e. %B %Y'}</time></label>
+                        <label for="multi-select-comment-{$eclpen.id}">{$CONST.IN_REPLY_TO}: <a href="{$eclpen.entry_url}">{$eclpen.title|truncate:48:"&hellip;"}</a>, <time datetime="{$eclpen.pubdate}" pubdate>{$CONST.ON} <img alt="time" src="{serendipity_getFile file="admin/img/clock.png"}" title="{$eclpen.timestamp|@formatTime:'%A, %e. %B %Y'}" /></time></label>
                     </div>
                     <div class="box-right"> <a href="#cl_{$eclpen.id}" class="button"><img src="{serendipity_getFile file="img/plus.png"}" id="option_{$smarty.foreach.bar.iteration}" class="wizard-img" alt="+/-" /> {$CONST.TOGGLE_OPTION}</a> </div>
-                
+
                     <div id="cpt_{$eclpen.id}" class="comment_text eclpen_text">
                         <div class="summary">{$eclpen.fullBody|strip_tags|truncate:120:"&hellip;"}</div>
                         <div class="fulltxt visuallyhidden">{$eclpen.fullBody|nl2br}</div>
                     </div>
-                
-                    {* <h4>Details</h4> *}
-                
+
                     <div class="comment_boxed">
 
                         <ul class="comment_fields">
@@ -37,7 +35,7 @@
                             <li class="mod_url"><b>{$CONST.URL}:</b> <a href="{$eclpen.url}">{$eclpen.url|truncate:30:"&hellip;"}</a> </li>
                             <li class="mod_referer"><b>{$CONST.REFERER}:</b> <a href="{$eclpen.referer}">{$eclpen.referer|truncate:30:"&hellip;"|default:'N/A'}</a></li>
                         </ul>
-                
+
                         {if $spamblockbayes_hookin}
                         {** 
                          ** this is very very alpha, as I tried to rewrite things that are done via bayes_commentList.js **
@@ -95,13 +93,13 @@
                             </li>
                         </ul>
                     </div><!-- class comment_boxed end -->
-                    
+
                 </div><!-- class serendipity_admin_list_item end -->
                   {$eclpen.action_more}
             </div><!-- #comment_{$eclpen.id} end -->
-            
+
             {/foreach}
-            
+
             <input type="button" onclick="invertSelectionPen()" value="{$CONST.INVERT_SELECTIONS}" name="toggle" class="serendipityPrettyButton input_button" />
             <input type="submit" name="toggle" value="{$CONST.DELETE_SELECTED_COMMENTS}" onclick="return confirm('{$CONST.COMMENTS_DELETE_CONFIRM}')" tabindex="{$smarty.foreach.bar.iteration+1}" class="serendipityPrettyButton input_button" />
             <input type="submit" name="serendipity[togglemoderate]" value="{$CONST.MODERATE_SELECTED_COMMENTS}" class="serendipityPrettyButton input_button" />
@@ -111,9 +109,9 @@
             <input type="button" onclick="markAllSpam()" name="toogle" value="{$CONST.PLUGIN_EVENT_SPAMBLOCK_BAYES_SPAMBUTTON}" class="serendipityPrettyButton input_button" />
             {/if}
         </form>
-        
+
         {/if}
-        
+
     </div>
 </section>
 {/if}

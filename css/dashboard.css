@@ -15,6 +15,11 @@ overflow-y: scroll;
 #dashboard a:focus { outline: thin dotted; }
 #dashboard a:hover, a:active { outline: 0; }
 
+/* corrects BP3.0 for Dashboard */
+#dashboard input[type="checkbox"], #dashboard input[type="radio"] {
+    margin: 1.6px 3px;
+    padding: 0;
+}
 .serendipityAdminContentnoSb {
     background: url("plugins/serendipity_event_dashboard/img/ls3x.png") repeat scroll 0 0 transparent; /* /pattern.gif */
     padding: 3px;
