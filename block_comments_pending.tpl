@@ -17,7 +17,7 @@
                     <input id="multi-select-comment-{$eclpen.id}" class="input_checkbox" type="checkbox" name="serendipity[delete][{$eclpen.id}]" value="{$eclpen.entry_id}" onclick="toogle_checkbox('ckbx_{$eclpen.id}', this.checked)" tabindex="{$smarty.foreach.bar.iteration}" />
                     <div class="comment_titel">
                         <label for="multi-select-comment-{$eclpen.id}">{$CONST.INCLUDE_COMMENT_SELECTION|@sprintf:$CONST.COMMENT:$eclpen.id:$CONST.IN_SELECTION}</label> - 
-                        <label for="multi-select-comment-{$eclpen.id}">{$CONST.IN_REPLY_TO}: <a href="{$eclpen.entry_url}">{$eclpen.title|truncate:48:"&hellip;"}</a>, <time datetime="{$eclpen.pubdate}" pubdate>{$CONST.ON} <img alt="time" src="{serendipity_getFile file="admin/img/clock.png"}" title="{$eclpen.timestamp|@formatTime:'%A, %e. %B %Y'}" /></time></label>
+                        <label for="multi-select-comment-{$eclpen.id}">{$CONST.IN_REPLY_TO}: <a href="{$eclpen.entry_url}">{$eclpen.title|truncate:48:"&hellip;"}</a>, <time datetime="{$eclpen.pubdate}" pubdate>{$CONST.ON} <img alt="*" src="{serendipity_getFile file="admin/img/clock.png"}" title="{$eclpen.timestamp|@formatTime:'%A, %e. %B %Y'}" /></time></label>
                     </div>
                     <div class="box-right"> <a href="#cl_{$eclpen.id}" class="button"><img src="{serendipity_getFile file="img/plus.png"}" id="option_{$smarty.foreach.bar.iteration}" class="wizard-img" alt="+/-" /> {$CONST.TOGGLE_OPTION}</a> </div>
 
@@ -95,7 +95,7 @@
                     </div><!-- class comment_boxed end -->
 
                 </div><!-- class serendipity_admin_list_item end -->
-                  {$eclpen.action_more}
+                {$eclap.action_more}{** what is this for ? **}
             </div><!-- #comment_{$eclpen.id} end -->
 
             {/foreach}

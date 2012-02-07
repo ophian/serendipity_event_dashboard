@@ -120,7 +120,7 @@ class serendipity_event_dashboard extends serendipity_event {
                 break;
 
             default:
-                    return false;
+            return false;
         }
         return true;
     }
@@ -128,7 +128,7 @@ class serendipity_event_dashboard extends serendipity_event {
     function generate_content(&$title) {
         $title = PLUGIN_DASHBOARD_TITLE;
     }
-    
+
     /* get the right template path - as default in template folder or the fallback plugin folder */
     function fetchTemplatePath($filename) {
         global $serendipity;
@@ -183,7 +183,7 @@ class serendipity_event_dashboard extends serendipity_event {
         if (!is_array($comments) || count($comments) == 0) {
             return;
         }
-        
+
         if($use_hook == 'antispam') { 
             $serendipity['smarty']->assign('spamblockbayes_hookin', true);
         }
@@ -210,7 +210,7 @@ class serendipity_event_dashboard extends serendipity_event {
                 'excerpt'   => ((strlen($rs['body']) > serendipity_mb('substr', $rs['body'], 0, $summaryLength) ) ? true : false),
                 'delete_id' => sprintf(COMMENT_DELETE_CONFIRM, $rs['id'], htmlspecialchars($rs['author']))
             );
-            
+
             if (!empty($comment['url']) && substr($comment['url'], 0, 7) != 'http://' && substr($comment['url'], 0, 8) != 'https://') {
                 $comment['url'] = 'http://' . $comment['url'];
             }
@@ -218,7 +218,7 @@ class serendipity_event_dashboard extends serendipity_event {
 
         // what is this for?
         #serendipity_plugin_api::hook_event('backend_view_comment', $comment, '&amp;serendipity[page]='. $page . $searchString);
-        
+
         $serendipity['smarty']->assign(
                         array(  'read_only' => serendipity_db_bool($this->get_config('read_only')),
                                 'urltoken'  => serendipity_setFormToken('url'),
@@ -237,9 +237,9 @@ class serendipity_event_dashboard extends serendipity_event {
         if (!serendipity_checkPermission('adminEntriesMaintainOthers')) {
             $filter[] = 'e.authorid = ' . (int)$serendipity['authorid'];
         }
-        
+
         $filter_sql = '(' . implode( ' AND ' , array_reverse($filter)) . ')';
-        
+
         $orderby = 'timestamp DESC';
         // Fetch the entries
         $entries = serendipity_fetchEntries( false, false, $limit, true, false, $orderby, $filter_sql );
@@ -247,7 +247,7 @@ class serendipity_event_dashboard extends serendipity_event {
         if (!is_array($entries) || count($entries) == 0) {
             return;
         }
-        
+
         $entry = array();
         foreach ($entries as $ey) {
             // Find out if the entry has been modified later than 30 minutes after creation
@@ -275,22 +275,23 @@ class serendipity_event_dashboard extends serendipity_event {
                 }
                 $entry_cats = implode(', ', $cats);
             }
-            
+
             $entry[] = array(
                 'clock'     => $entry_pre,
                 'id'        => $ey['id'],
                 'title'     => htmlspecialchars($ey['title']),
+                'pubdate'   => date("c", (int)$ey['timestamp']),
                 'stime'     => serendipity_formatTime(DATE_FORMAT_SHORT, $ey['timestamp']) . ' ' .$lm,
                 'author'    => htmlspecialchars($ey['author']),
                 'cats'      => $entry_cats,
                 'link'      => serendipity_archiveURL($ey['id'], $ey['title'], 'serendipityHTTPPath', true, array('timestamp' => $ey['timestamp'])),
                 'draft_pre' => ((serendipity_db_bool($ey['isdraft']) || (!$serendipity['showFutureEntries'] && $ey['timestamp'] >= serendipity_serverOffsetHour())) ? true : false)
             );
-            
+
         } // end entries output
-        
+
         $serendipity['smarty']->assign('urltoken', serendipity_setFormToken('url'));
-        
+
         return $entry;
     }
 
@@ -306,11 +307,10 @@ class serendipity_event_dashboard extends serendipity_event {
         }
         return 0;
     }
-    
 
     function CheckUpdate() {
         global $serendipity;
-        
+
         if (!serendipity_checkPermission('adminUsers')) {
             return;
         }
@@ -325,18 +325,18 @@ class serendipity_event_dashboard extends serendipity_event {
             echo "PLUGIN_DASHBOARD_ERROR_URL";
             return;
         }
-        
+
         $version = $this->get_config('update');
-        
+
         while(!feof($file)){
             $line = fgets($file);
 
             if(preg_match('/^' . $version . ':(.+$)/', $line, $match)){
                 $update_to_version = $match[1];
                 $this->set_config('last_version', $update_to_version);
-                
+
                 $serendipity['smarty']->assign('showUpdateNotifier', true);
-                
+
                 if ($version == "stable"){
                     $url="http://prdownloads.sourceforge.net/php-blog/serendipity-" . $update_to_version . ".zip";
                 }
@@ -360,7 +360,7 @@ class serendipity_event_dashboard extends serendipity_event {
 
     function showElementDraft($sort_id) {
         global $serendipity;
-        
+
         $lim = $this->get_config('limit_draft');
         if ($lim < 1) return;
 
@@ -379,7 +379,7 @@ class serendipity_event_dashboard extends serendipity_event {
         $serendipity['smarty']->assign('comments_block_id', $sort_id);
         $serendipity['smarty']->assign('entry_Commentlist', $this->showElementCommentlist("AND status = 'approved'", $lim));
     }
-    
+
     function showElementCommentsPending($sort_id) {
         global $serendipity;
 
@@ -402,12 +402,11 @@ class serendipity_event_dashboard extends serendipity_event {
         $serendipity['smarty']->assign('showElementPlugup', true);
         $serendipity['smarty']->assign('plugup_block_id', $sort_id);
         if (!isset($serendipity['eyecandy']) || serendipity_db_bool($serendipity['eyecandy'])) {
-        
-            // use_js_dragdrop no need actually
+            // use_js_dragdrop ... no need actually
             $serendipity['smarty']->assign(array('use_js_dragdrop' => true, 'eyecandy' => $serendipity['eyecandy']));
         }
     }
-    
+
     function showUpdateNotifier($sort_id) {
         global $serendipity;
 
@@ -420,12 +419,12 @@ class serendipity_event_dashboard extends serendipity_event {
             $this->set_config('last_update', date('Ymd'));
             $this->CheckUpdate(); // this will fill all needed config values
         }
-        
+
         // Check if the last found update version is newer and tell it, if this is the case
         $newVersion = $this->get_config('last_version');
-        
+
         $serendipity['smarty']->assign(array('update_block_id' => $sort_id, 'showElementUpdate' => true));
-        
+
         if($this->compareVersion($newVersion, $serendipity['version'])){
             $eventData = '';
             serendipity_plugin_api::hook_event('plugin_dashboard_updater', $eventData, $newVersion);
@@ -462,7 +461,7 @@ class serendipity_event_dashboard extends serendipity_event {
                                             'plugininstance'    => $this->instance)
                                         );
     }
-    
+
     function showElement($element, $sortindex) {
         switch($element) {
             case 'update':
@@ -487,7 +486,6 @@ class serendipity_event_dashboard extends serendipity_event {
                 $this->showElementClean($sortindex);
                 break;
         }
-        
         return true;
     }
 
@@ -497,13 +495,13 @@ class serendipity_event_dashboard extends serendipity_event {
         $hooks = &$bag->get('event_hooks');
 
         $serendipity['plugin_dashboard_version'] = &$bag->get('version');
-        
+
         /* Set global plugin path setting, to avoid different pluginpath '/plugins/' as plugins serendipity vars */
         if(!isset($serendipity['dashboard']['pluginpath'])) { 
             $pluginpath = pathinfo(dirname(__FILE__));
             $serendipity['dashboard']['pluginpath'] = basename(rtrim($pluginpath['dirname'], '/')) . '/serendipity_event_dashboard/';
         }
-        
+
         // can we still keep this here or better move to backend_frontpage_display hook? (in some cases this place disrupted entry comments forms, why?)
         if (!is_object($serendipity['smarty'])) { 
             serendipity_smarty_init(); // if not set to avoid member function assign() on a non-object error, start Smarty templating
@@ -525,7 +523,7 @@ class serendipity_event_dashboard extends serendipity_event {
                     // Disable the use of Serendipity JQuery in Backend - remember if having it disabled in template....
                     // also either make sure this dashboard is for 1.6 up only or construct a fallback to google 
                     $serendipity['capabilities']['jquery'] = false;
-                    
+
                     break;
 
                  case 'backend_header':
@@ -565,13 +563,13 @@ var bayesLoadIndicator = \''.$serendipity['serendipityHTTPPath'] . 'plugins/sere
                     //set spamblock_bayes
                     $bayespath = $serendipity['serendipityHTTPPath'] . 'plugins/serendipity_event_spamblock_bayes/';
                     echo "<script type='text/javascript' src='{$bayespath}bayes_commentlist.js'></script>";
-                    
+
                     break;
 
                  case 'backend_frontpage_display':
                     $elements = array();
                     $elements = explode(',', $this->get_config('sequence'));
-                    
+
                     $sysinfo = array();
                     /* we already have these infos - but will keep them here for future purposes */
                     if (serendipity_userLoggedIn()) {
@@ -579,7 +577,7 @@ var bayesLoadIndicator = \''.$serendipity['serendipityHTTPPath'] . 'plugins/sere
                     } else {
                         $sysinfo['self_info'] = '';
                     }
-                    
+
                     if ($serendipity['expose_s9y']) {
                         $sysinfo['version_info'] = sprintf(ADMIN_FOOTER_POWERED_BY, $serendipity['versionInstalled'], phpversion());
                     } else {
@@ -590,7 +588,7 @@ var bayesLoadIndicator = \''.$serendipity['serendipityHTTPPath'] . 'plugins/sere
                     $sysinfo['dashboard_version'] = $serendipity['plugin_dashboard_version'];
                     $sysinfo['user'] = htmlspecialchars($serendipity['serendipityUser']);
                     $sysinfo['perm'] = $serendipity['permissionLevels'][$serendipity['serendipityUserlevel']];
-                    
+
                     ob_start();
 
                     // include the POST % GET action file
@@ -607,10 +605,9 @@ var bayesLoadIndicator = \''.$serendipity['serendipityHTTPPath'] . 'plugins/sere
                                                         'version'       => 'Serendipity ' . $serendipity['version'] . ' ['.$this->get_config('update').']'
                                                     )
                                                 );
-                    
-                    
+
                     $eventData = null; // eventData holds the welcome User message and the link and bookmark box
-                    
+
                     // gather the data
                     foreach($elements AS $key => $element) {
                         $this->showElement($element, $key);
@@ -618,9 +615,9 @@ var bayesLoadIndicator = \''.$serendipity['serendipityHTTPPath'] . 'plugins/sere
 
                     /* get the dashboard template file */
                     echo $this->fetchTemplatePath('plugin_dashboard.tpl');
-                    
+
                     $dashboard = ob_get_contents();
-                    
+
                     ob_end_clean();
 
                     // who needs this?
@@ -635,10 +632,8 @@ var bayesLoadIndicator = \''.$serendipity['serendipityHTTPPath'] . 'plugins/sere
                     }
                     echo file_get_contents($tfile);
                     break;
-
             }
         }
-
         return true;
     }
 }

@@ -9,7 +9,7 @@
             <div id="cell_left">
                 <h3>{$efuture.clock}<a href="?serendipity[action]=admin&amp;serendipity[adminModule]=entries&amp;serendipity[adminAction]=edit&amp;serendipity[id]={$efuture.id}" title="#{$efuture.id}">{$efuture.title|truncate:50:"&hellip;"}</a></h3>
                 <div>
-                    <time datetime="2011-02-19T09:54:00">{$efuture.stime}</time>
+                    <time datetime="$edraft.pubdate}">{$efuture.stime}</time>
                 </div>
             </div>
             <div id="cell_right">
