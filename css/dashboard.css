@@ -17,7 +17,7 @@ overflow-y: scroll;
 
 /* corrects BP3.0 for Dashboard */
 #dashboard input[type="checkbox"], #dashboard input[type="radio"] {
-    margin: 1.64px 3px;
+    margin: 3px 3px 0;
     padding: 0;
 }
 .serendipityAdminContentnoSb {
@@ -100,6 +100,9 @@ article, aside, details, figcaption, figure, footer, header, hgroup, nav, sectio
 }
 #dashboard ul li { float: left; padding: 2px 6px; }
 
+#dashboard .comment_titel label time>img {
+    vertical-align: middle;
+}
 #dashboard .comment_text { 
     border: 1px solid #BBBBBB;
     -moz-box-shadow: 5px 5px 5px #333333;
