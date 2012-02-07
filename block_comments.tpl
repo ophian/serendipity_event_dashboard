@@ -27,8 +27,8 @@
                     <div class="box-right"> <a href="#cl_{$eclap.id}" class="button"><img src="{serendipity_getFile file="img/plus.png"}" id="option_{$smarty.foreach.foo.iteration}" class="wizard-img" alt="+/-" /> {$CONST.TOGGLE_OPTION}</a> </div>
                 
                     <div id="ct_{$eclap.id}" class="comment_text eclap_text">
-                        <div class="summary">{$eclap.summary|truncate:120:"&hellip;"}</div>
-                        <div class="fulltxt">{$eclap.fullBody|nl2br}</div>
+                        <div class="summary">{$eclap.fullBody|strip_tags|truncate:120:"&hellip;"}</div>
+                        <div class="fulltxt visuallyhidden">{$eclap.fullBody|nl2br}</div>
                     </div>
                 
                     <div class="comment_boxed">

@@ -191,8 +191,8 @@ class serendipity_event_dashboard extends serendipity_event {
         $comment = array();
         foreach ($comments as $rs) {
             $comment[] = array(
-                'fullBody'  => htmlspecialchars($rs['body']),
-                'summary'   => htmlspecialchars(strip_tags($rs['body'])),
+                'fullBody'  => htmlspecialchars($rs['body']),/*
+                'summary'   => htmlspecialchars(strip_tags($rs['body'])),*/
                 'status'    => $rs['status'],
                 'type'      => $rs['type'],
                 'id'        => $rs['id'],

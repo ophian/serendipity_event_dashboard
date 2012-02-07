@@ -121,8 +121,9 @@
             <li class="checked">Build real cleanup (compiled templates) function & link with questionaire!</li>
             <li class="checked">Some more sysinfo?, or what to do with left-menu-bottom-space?</li>
             <li class="checked">Reengineer Bayes Plugin hook via js for pending comments - AFAP</li>
+            <li class="checked">Let Smarty do the entry|truncating. Do not assign entries doubled!</li>
             <li></li>
-            <li>Let Smarty do the entry|truncating. Do not assign entries doubled!</li>
+            <li>Comment entry shadow for IE!</li>
             <li>Header Comment line have more truncation or how to reap for smaller screens.</li>
             <li>Convert serendipityPrettyButtons to real buttons?</li>
             <li>Finish bayes plugin hook engineering if possible. There is a bug concerning the old bayes js! <br />What about covering bayes for other sections too?</li>

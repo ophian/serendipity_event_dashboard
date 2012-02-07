@@ -22,8 +22,8 @@
                     <div class="box-right"> <a href="#cl_{$eclpen.id}" class="button"><img src="{serendipity_getFile file="img/plus.png"}" id="option_{$smarty.foreach.bar.iteration}" class="wizard-img" alt="+/-" /> {$CONST.TOGGLE_OPTION}</a> </div>
                 
                     <div id="cpt_{$eclpen.id}" class="comment_text eclpen_text">
-                        <div class="summary">{$eclpen.summary|truncate:120:"&hellip;"}</div>
-                        <div class="fulltxt">{$eclpen.fullBody|nl2br}</div>
+                        <div class="summary">{$eclpen.fullBody|strip_tags|truncate:120:"&hellip;"}</div>
+                        <div class="fulltxt visuallyhidden">{$eclpen.fullBody|nl2br}</div>
                     </div>
                 
                     {* <h4>Details</h4> *}
