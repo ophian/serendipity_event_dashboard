@@ -5,7 +5,7 @@ v.0.6.9-alpha-2 | 2012-02-07
 
 * The Serendipity Dashboard Proof of Concept for version 0.7.
 
-* This is Alpha status!
+* This is Alpha status, as long as we do not know what might be missing or too much!
 
 * Please proof the functions and the general behaviour.
 
@@ -15,4 +15,4 @@ v.0.6.9-alpha-2 | 2012-02-07
 
 * Some functions (like help screens) are not ready and still a work in progress!
 
-* This still is strictly based to the default Backend as used in /templates/default/admin/* and /templates/bulletproof/admin/*.
+* This Dashboard-Concept is still strictly based to the default Backend as used in /templates/default/admin/* and /templates/bulletproof/admin/*.
