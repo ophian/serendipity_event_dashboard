@@ -17,7 +17,7 @@ overflow-y: scroll;
 
 /* corrects BP3.0 for Dashboard */
 #dashboard input[type="checkbox"], #dashboard input[type="radio"] {
-    margin: 1.6px 3px;
+    margin: 1.64px 3px;
     padding: 0;
 }
 .serendipityAdminContentnoSb {

@@ -35,10 +35,10 @@
 
                         <ul class="comment_fields">
                             <li class="mod_author"><b>{$CONST.AUTHOR}:</b> {$eclap.author|truncate:30:"&hellip;"} {$eclap.action_author} </li>
-                            <li class="mod_email"><b>{$CONST.EMAIL}:</b> <a href="mailto:{$eclap.email}">{$eclap.email|truncate:30:"&hellip;"|default:'N/A'}</a> </li>
+                            <li class="mod_email"><b>{$CONST.EMAIL}:</b> {if $eclap.email}<a href="mailto:{$eclap.email}">{$eclap.email|truncate:30:"&hellip;"}</a>{else}N/A{/if} </li>
                             <li class="mod_ip"><b>{$CONST.IP}:</b> {$eclap.ip|default:'0.0.0.0'}</li>
-                            <li class="mod_url"><b>{$CONST.URL}:</b> <a href="{$eclap.url}">{$eclap.url|truncate:30:"&hellip;"}</a> </li>
-                            <li class="mod_referer"><b>{$CONST.REFERER}:</b> <a href="{$eclap.referer}">{$eclap.referer|truncate:30:"&hellip;"|default:'N/A'}</a></li>
+                            <li class="mod_url"><b>{$CONST.URL}:</b> {if $eclap.url}<a href="{$eclap.url}">{$eclap.url|truncate:30:"&hellip;"}</a>{else}N/A{/if} </li>
+                            <li class="mod_referer"><b>{$CONST.REFERER}:</b> {if $eclap.referer}<a href="{$eclap.referer}">{$eclap.referer|truncate:30:"&hellip;"}</a>{else}N/A{/if} </li>
                         </ul>
 
                         <ul class="comment_admin">

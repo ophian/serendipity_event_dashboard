@@ -30,10 +30,10 @@
 
                         <ul class="comment_fields">
                             <li class="mod_author"><b>{$CONST.AUTHOR}:</b> {$eclpen.author|truncate:30:"&hellip;"} {$eclpen.action_author} </li>
-                            <li class="mod_email"><b>{$CONST.EMAIL}:</b> <a href="mailto:{$eclpen.email}">{$eclpen.email|truncate:30:"&hellip;"|default:'N/A'}</a> </li>
+                            <li class="mod_email"><b>{$CONST.EMAIL}:</b> {if $eclpen.email}<a href="mailto:{$eclpen.email}">{$eclpen.email|truncate:30:"&hellip;"}</a>{else}N/A{/if} </li>
                             <li class="mod_ip"><b>{$CONST.IP}:</b> {$eclpen.ip|default:'0.0.0.0'}</li>
-                            <li class="mod_url"><b>{$CONST.URL}:</b> <a href="{$eclpen.url}">{$eclpen.url|truncate:30:"&hellip;"}</a> </li>
-                            <li class="mod_referer"><b>{$CONST.REFERER}:</b> <a href="{$eclpen.referer}">{$eclpen.referer|truncate:30:"&hellip;"|default:'N/A'}</a></li>
+                            <li class="mod_url"><b>{$CONST.URL}:</b> {if $eclpen.url}<a href="{$eclpen.url}">{$eclpen.url|truncate:30:"&hellip;"}</a>{else}N/A{/if} </li>
+                            <li class="mod_referer"><b>{$CONST.REFERER}:</b> {if $eclpen.referer}<a href="{$eclpen.referer}">{$eclpen.referer|truncate:30:"&hellip;"}</a>{else}N/A{/if} </li>
                         </ul>
 
                         {if $spamblockbayes_hookin}
