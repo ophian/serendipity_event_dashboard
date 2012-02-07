@@ -517,25 +517,28 @@ class serendipity_event_dashboard extends serendipity_event {
                      ||  !isset($serendipity['GET']['adminAction']) 
                      || ( empty($serendipity['GET']['adminAction']) && !isset($serendipity['GET']['adminModule']) ) 
                      ) { 
-                        $serendipity['POST']['noSidebar'] = true;
-                        $serendipity['POST']['noBanner'] = true;
-                        $serendipity['POST']['noFooter'] = true;
+                        $serendipity['POST']['noSidebar']  = true;
+                        $serendipity['POST']['noBanner']   = true;
+                        $serendipity['POST']['noFooter']   = true;
+                        $serendipity['POST']['h5bp-style'] = true;
                     }
+                    // Disable the use of Serendipity JQuery in Backend - remember if having it disabled in template....
+                    // also either make sure this dashboard is for 1.6 up only or construct a fallback to google 
+                    $serendipity['capabilities']['jquery'] = false;
                     
                     break;
 
                  case 'backend_header':
                     // here we go and and add or restruct the backend header ;-)
+                    if($serendipity['POST']['h5bp-style']) {
+                        echo '<link rel="stylesheet" href="'.$serendipity['serendipityHttpPath'].$serendipity['dashboard']['pluginpath'].'css/style.css" />'."\n";
+                    }
 
-                    // Enable the use of Serendipity JQuery in Backend, if not already done
-                    // also either make sure this dashboard is for 1.6 up only or construct a fallback to google 
-                    $serendipity['capabilities']['jquery'] = false;
-                    
                     echo "\n\n";
                     echo '<link rel="stylesheet" type="text/css" href="'.$serendipity['serendipityHttpPath'].$serendipity['dashboard']['pluginpath'].'css/mbContainer.css" title="style"  media="screen"/>'."\n";
-
-                    echo '<script type="text/javascript" src="'.$serendipity['serendipityHttpPath'].$serendipity['dashboard']['pluginpath'].'inc/modernizr-2.0.6.min.js"></script>'."\n";
-                    echo '<script type="text/javascript" src="'.$serendipity['serendipityHttpPath'].$serendipity['dashboard']['pluginpath'].'inc/jquery.min.js"></script>'."\n";
+                    echo "\n\n";
+                    echo '<script type="text/javascript" src="'.$serendipity['serendipityHttpPath'].$serendipity['dashboard']['pluginpath'].'inc/modernizr.h5bp.custom.js"></script>'."\n";
+                    echo '<script type="text/javascript" src="'.$serendipity['serendipityHttpPath'].$serendipity['dashboard']['pluginpath'].'inc/jquery-1.7.1.min.js"></script>'."\n";
                     #echo '<script type="text/javascript"> jQuery.noConflict(); </script>'."\n";
 
                     echo '<script type="text/javascript" src="'.$serendipity['serendipityHttpPath'].$serendipity['dashboard']['pluginpath'].'inc/ajax-dashboard.js"></script>'."\n";

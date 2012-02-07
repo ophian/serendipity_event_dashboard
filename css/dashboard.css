@@ -326,7 +326,6 @@ article, aside, details, figcaption, figure, footer, header, hgroup, nav, sectio
 }
 #dashboard nav#user-menu-left-bottom #iopen {
     background: none repeat scroll 0 0 PaleVioletRed;
-    display: table-caption;
     float: right;
     margin-top: 2px;
     -moz-box-shadow: 0.1em 0.1em 0.2em #333333;
