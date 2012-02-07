@@ -295,42 +295,42 @@ article, aside, details, figcaption, figure, footer, header, hgroup, nav, sectio
 #dashboard footer h1 {
     margin: 0;
 }
-#dashboard nav#user-menu-left {
+#dashboard nav#user-menu-user-welcome {
     border: 1px solid #BBBBBB;
     display: table-caption;
     float: left;
     margin: 0 0.7%;
     width: 63.6%;
 }
-#dashboard nav#user-menu-left ul li {
+#dashboard nav#user-menu-user-welcome ul li {
     border: 1px solid #BBBBBB;
     display: inline-block;
     margin: 0.5%;
     width: 47%;
 }
-#dashboard nav#user-menu-left h2 {
+#dashboard nav#user-menu-user-welcome h2 {
     margin: 0.5em 0.5em 0.8em;
 }
-#dashboard nav#user-menu-left-bottom {
+#dashboard nav#user-menu-user-navigation {
     border: 1px solid #BBBBBB;
     float: left;
     margin: 0.7%;
     width: 63.6%;
 }
-#dashboard nav#user-menu-left-bottom ul li, #dashboard nav#user-menu-left-bottom span {
+#dashboard nav#user-menu-user-navigation ul li, #dashboard nav#user-menu-user-navigation span {
     border: 1px solid #BBBBBB;
     display: inline-block;
     margin: 0.5%;
     width: 47%; /*-moz-available */
 }
-#dashboard nav#user-menu-left-bottom span {
+#dashboard nav#user-menu-user-navigation span {
     border: 1px solid transparent;
 }
-#dashboard nav#user-menu-left-bottom li.serendipitySideBarMenuLink { 
+#dashboard nav#user-menu-user-navigation li.serendipitySideBarMenuLink { 
     margin: 0.4% 0;
     width: 95.4%;
 }
-#dashboard nav#user-menu-left-bottom button{
+#dashboard nav#user-menu-user-navigation button{
     font-size: 120%;
     padding: 4px;
     display: inline-block;
@@ -339,11 +339,11 @@ article, aside, details, figcaption, figure, footer, header, hgroup, nav, sectio
     background-color: #eee;
     margin: 0 4px 4px 2px;
 }
-#dashboard nav#user-menu-left-bottom  button:focus{
+#dashboard nav#user-menu-user-navigation  button:focus{
     color: #666;
     background-color: YellowGreen;
 }
-#dashboard nav#user-menu-left-bottom #iopen {
+#dashboard nav#user-menu-user-navigation #iopen {
     background: none repeat scroll 0 0 PaleVioletRed;
     float: right;
     margin-top: 2px;
@@ -351,42 +351,42 @@ article, aside, details, figcaption, figure, footer, header, hgroup, nav, sectio
     -webkit-box-shadow: 0.1em 0.1em 0.2em #333333;
     box-shadow: 0.1em 0.1em 0.2em #333333;
 }
-#dashboard nav#user-menu-left-bottom #iopen.navi {
+#dashboard nav#user-menu-user-navigation #iopen.navi {
     width: 14%;
 }
-#dashboard nav#user-menu-left-bottom #iopen span.inline {
+#dashboard nav#user-menu-user-navigation #iopen span.inline {
     border: 0 none;
     display: inline;
     margin: 0;
     padding: 0;
 }
-#dashboard nav#user-menu-left-bottom #iopen.help {
+#dashboard nav#user-menu-user-navigation #iopen.help {
     width: auto;
     padding: 0;
 }
-#dashboard nav#user-menu-left-bottom #iopen.help img {
+#dashboard nav#user-menu-user-navigation #iopen.help img {
     width: 26px;
     height: 26px;
 }
-#dashboard nav#user-menu-left-bottom div#navbar {
+#dashboard nav#user-menu-user-navigation div#navbar {
     background: none repeat scroll 0 0 SteelBlue;/*Teal YellowGreen WhiteSmoke */
     width: 84%;
 }
-#dashboard nav#user-menu-left-bottom div#navbar ul li {
+#dashboard nav#user-menu-user-navigation div#navbar ul li {
     background: none repeat scroll 0 0 inactivecaption; /* LightSteelblue WhiteSmoke YellowGreen; */
     margin: 0.1% 0.33% 0.5%;
 }
-#dashboard nav#user-menu-left-bottom  button:hover,
-#dashboard nav#user-menu-left-bottom div#navbar a:hover {
+#dashboard nav#user-menu-user-navigation  button:hover,
+#dashboard nav#user-menu-user-navigation div#navbar a:hover {
     background: none repeat scroll 0 0 PaleVioletRed; /*tomato;*/
     color: #666666;
     width: 100%;
 }
-#dashboard nav#user-menu-left-bottom ul.onebox li {
+#dashboard nav#user-menu-user-navigation ul.onebox li {
     display: block; 
     float: none;
 }
-#dashboard nav#user-menu-left-bottom span.small {
+#dashboard nav#user-menu-user-navigation span.small {
     border: 0 none;
     color: graytext;
     display: inline;
@@ -395,27 +395,27 @@ article, aside, details, figcaption, figure, footer, header, hgroup, nav, sectio
     width: auto;
 }
 
-#dashboard nav#user-menu-right, 
-#user-menu-right li {
+#dashboard nav#user-menu-user-linkbox, 
+#user-menu-user-linkbox li {
     border: 1px solid #BBBBBB;
     display: inline-block;
     margin: 0 0 0.5%;
     padding: 4px;
     width: 33.3%;
 }
-#dashboard nav#user-menu-right h4 {
+#dashboard nav#user-menu-user-linkbox h4 {
     margin: 1% 0 2%;
     padding: 0;
     font-size: 90%;
 }
-#dashboard nav#user-menu-left ul li, #dashboard nav#user-menu-left-bottom ul li, #dashboard nav#user-menu-right ul li {
+#dashboard nav#user-menu-user-welcome ul li, #dashboard nav#user-menu-user-navigation ul li, #dashboard nav#user-menu-user-linkbox ul li {
     background: none repeat scroll 0 0 inactivecaption; /* Beige - BurlyWood - Gold - LightGreen - MintCream - Moccasin - ButtonHighlight */
 }
-#dashboard nav#user-menu-right ul li {
+#dashboard nav#user-menu-user-linkbox ul li {
     margin: 0 1% 1% 0;
     width: 45.4%;
 }
-#dashboard nav#user-menu-right ul.s9yheader li {
+#dashboard nav#user-menu-user-linkbox ul.s9yheader li {
     background: none repeat scroll 0 0 transparent; /* Beige - BurlyWood - Gold - LightGreen - MintCream - Moccasin - ButtonHighlight */
     font-size: 76%;
 }
@@ -436,9 +436,9 @@ article, aside, details, figcaption, figure, footer, header, hgroup, nav, sectio
 }
 
 #dasboard header > div h1,
-#user-menu-left, #dashboard nav,
-#user-menu-left-bottom, #dashboard nav,
-#user-menu-right, #dashboard nav {
+#user-menu-user-welcome, #dashboard nav,
+#user-menu-user-navigation, #dashboard nav,
+#user-menu-user-linkbox, #dashboard nav {
     background: none repeat scroll 0 0 #EFEFEF;
 }
 #dashboard > section#entries,
@@ -465,7 +465,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, nav, sectio
     float: right;
     margin: 10px 2px 4px;
 }
-#dashboard nav#user-menu-left-bottom div a img,
+#dashboard nav#user-menu-user-navigation div a img,
 #dashboard > section div.block-entries div a img {
     border: 0px none; 
     vertical-align: bottom;

@@ -11,7 +11,7 @@
                 <h2>{$sysinfo.self_info} </h2>
             </div>
             
-            <nav id="user-menu-left" role="navigation">
+            <nav id="user-menu-user-welcome" role="navigation">
                 <h2><span>{$s9yheader.0.welcome}</span></h2>
 
                 <div id="nav-frontpage">
@@ -24,7 +24,7 @@
                 </div>
             </nav>
 
-            <nav id="user-menu-left-bottom" role="navigation">
+            <nav id="user-menu-user-navigation" role="navigation">
 
                 <button id="iopen" class="navi"><span class="inline"><img src="{serendipity_getFile file="img/plus.png"}" id="nav_1" class="wizard-img" alt="+/-" /></span>  Navigation </button>
                 <button id="iopen" class="help" onclick="$('.containerPlus').mb_open();"><img src="{$thispath}/img/help_blue.png" alt="help" /></button>
@@ -48,7 +48,7 @@
 
             </nav>
 
-            <nav id="user-menu-right" role="navigation">
+            <nav id="user-menu-user-linkbox" role="navigation">
                 <h3> Serendipity </h3>
                 <ul class="clearfix">
                     <li><span id="out"><a href="serendipity_admin.php?serendipity[adminModule]=logout">{$CONST.LOGOUT}</a></span></li>
@@ -125,12 +125,12 @@
             <li class="checked">CSS add :focus</li>
             <li class="checked">Header Comment line have more truncation or how to reap for smaller screens (?)</li>
             <li class="checked">Comment entry shadow for IE!</li>
+            <li class="checked">Rename CSS ids & classes to be semantic, not as positional names, if possible ['not sure about these nav ones']...!</li>
             <li></li>
             <li>Convert serendipityPrettyButtons to real buttons (?)</li>
             <li>Finish bayes plugin hook engineering, if possible. There is a bug concerning the old bayes js! <br />What about covering bayes for other sections too?</li>
             <li>Build poping up multiple help screens to differend themes, or one big main, seperated by columns (?)</li>
             <li>Make CSS really have fluid grid layout!</li>
-            <li>Rename CSS ids & classes to be semantic, not as positional names, if possible [not sure about these nav ones]...!</li>
             <li>General code and CSS cleanup!</li>
             <li></li>
             <li>ToDo: next release, open (some) "edit-entry-links" inside the dashboard via modalContainer... (?)</li>
