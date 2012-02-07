@@ -109,7 +109,7 @@
 <div class="helpwrapper">
   <div id="modalContainer" class="containerPlus draggable {ldelim}buttons:'c', skin:'white', width:'900', height:'450', closed:'true', title:'dashboard premier help container'{rdelim}" style="margin: auto;">
     <div class="evidence">
-      <h3>Serendipity Dashboard Help Container ()!</h3>
+      <h3>The Serendipity Dashboard Help Container ()!</h3>
 
         <ul><strong>ToDo: </strong>
             <li class="checked">nav button with plus/minus img!</li>
@@ -122,18 +122,20 @@
             <li class="checked">Some more sysinfo?, or what to do with left-menu-bottom-space?</li>
             <li class="checked">Reengineer Bayes Plugin hook via js for pending comments - AFAP</li>
             <li class="checked">Let Smarty do the entry|truncating. Do not assign entries doubled!</li>
+            <li class="checked">CSS add :focus</li>
             <li></li>
             <li>Comment entry shadow for IE!</li>
-            <li>Header Comment line have more truncation or how to reap for smaller screens.</li>
-            <li>Convert serendipityPrettyButtons to real buttons?</li>
-            <li>Finish bayes plugin hook engineering if possible. There is a bug concerning the old bayes js! <br />What about covering bayes for other sections too?</li>
-            <li>Build poping up multiple help screens to differend themes, or one big main, seperated by columns?</li>
+            <li>Header Comment line have more truncation or how to reap for smaller screens (?)</li>
+            <li>Convert serendipityPrettyButtons to real buttons (?)</li>
+            <li>Finish bayes plugin hook engineering, if possible. There is a bug concerning the old bayes js! <br />What about covering bayes for other sections too?</li>
+            <li>Build poping up multiple help screens to differend themes, or one big main, seperated by columns (?)</li>
             <li>Make CSS really have fluid grid layout!</li>
-            <li>General code and CSS cleanup! (add :focus, rename ids & classes to semantic, not positional names, ...)</li>
+            <li>Rename CSS ids & classes to be semantic, not as positional names, if possible [not sure about these nav ones]...!</li>
+            <li>General code and CSS cleanup!</li>
             <li></li>
-            <li>ToDo: next release, open (some) "edit-entry-links" inside the dashboard via modalContainer....?</li>
-            <li>ToDo: (?) make dashboard css color customizing navbar tool ....?</li>
-            <li>ToDo: next release, make all boxes jquery mbContainer like....?</li>
+            <li>ToDo: next release, open (some) "edit-entry-links" inside the dashboard via modalContainer... (?)</li>
+            <li>ToDo: (?) make dashboard css color customizing navbar tool ... (?)</li>
+            <li>ToDo: next release, make all boxes jquery mbContainer like... (?)</li>
             <li>React on full dashboard and framed dashboard (see first link); Build option if done! (?)</li>
         </ul>
 
