@@ -124,8 +124,8 @@
             <li class="checked">Let Smarty do the entry|truncating. Do not assign entries doubled! Hide fulltext by default</li>
             <li class="checked">CSS add :focus</li>
             <li class="checked">Header Comment line have more truncation or how to reap for smaller screens (?)</li>
+            <li class="checked">Comment entry shadow for IE!</li>
             <li></li>
-            <li>Comment entry shadow for IE!</li>
             <li>Convert serendipityPrettyButtons to real buttons (?)</li>
             <li>Finish bayes plugin hook engineering, if possible. There is a bug concerning the old bayes js! <br />What about covering bayes for other sections too?</li>
             <li>Build poping up multiple help screens to differend themes, or one big main, seperated by columns (?)</li>

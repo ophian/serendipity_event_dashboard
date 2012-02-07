@@ -104,7 +104,11 @@ article, aside, details, figcaption, figure, footer, header, hgroup, nav, sectio
     border: 1px solid #BBBBBB;
     -moz-box-shadow: 5px 5px 5px #333333;
     -webkit-box-shadow: 5px 5px 5px #333333;
-    box-shadow: 5px 5px 5px #333333;
+    -o-box-shadow: 5px 5px 5px #333333;
+    /* commented out for IE9 compatibility only
+    box-shadow: 5px 5px 5px #333333; */
+    -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=6, Direction=115, Color='#333333')";
+    filter: progid:DXImageTransform.Microsoft.Shadow(Strength=6, Direction=115, Color='#333333');
     margin-bottom: 5px;
     margin-left: 2px;
     padding: 10px;
