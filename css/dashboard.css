@@ -167,6 +167,13 @@ article, aside, details, figcaption, figure, footer, header, hgroup, nav, sectio
     margin-right: 6px;
     text-align: right;
 }
+/* IE needs some work here
+.ie9 #dashboard .box-right img { 
+    vertical-align: bottom;
+}
+.ie9 #dashboard .box-right a:hover img { 
+    color: transparent;
+} */
 #dashboard #cell_left { 
     display: table-cell; 
     width: 50%; 
@@ -469,7 +476,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, nav, sectio
     width: 98%;
 }
 #dashboard .dashboard_plugup #upgrade_notice a {
-    display: table-caption;
+    display: block;
     margin: 0;
     padding: 0;
     width: 100%;
