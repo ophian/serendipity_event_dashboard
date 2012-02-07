@@ -12,7 +12,7 @@ overflow-y: scroll;
 #dashboard a { color: #00e; }
 #dashboard a:visited { color: #551a8b; }
 #dashboard a:hover { color: #06e; }
-#dashboard a:focus { outline: thin dotted; }
+#dashboard a:focus { outline: thin dotted; color: #ffffff; background: none repeat scroll 0 0 tomato; /*PaleVioletRed;*/ }
 #dashboard a:hover, a:active { outline: 0; }
 
 /* corrects BP3.0 for Dashboard */
