@@ -75,12 +75,14 @@
                     
                 </div><!-- class serendipity_admin_list_item end -->
                 {$eclap.action_more}{** what is this for ? **}
-            </div><!-- #comment_{$eclap.id} end -->
+            </div><!-- // #comment_{$eclap.id} end -->
 
             {/foreach}
 
-            <input type="button" name="toggle" value="{$CONST.INVERT_SELECTIONS}" onclick="invertSelectionApp()" class="serendipityPrettyButton input_button" />
-            <input type="submit" name="toggle" value="{$CONST.DELETE_SELECTED_COMMENTS}" onclick="return confirm('{$CONST.COMMENTS_DELETE_CONFIRM}')" tabindex="{$smarty.foreach.foo.iteration+1}" class="serendipityPrettyButton input_button" />
+            <div class="input-boxed">
+                <span class="inputtype"><img src="{$thispath}/img/invert.png" alt="" /><input type="button" name="toggle" value="{$CONST.INVERT_SELECTIONS}" onclick="invertSelectionApp()" class="none" /></span>
+                <span class="inputtype"><img src="{$thispath}/img/remove.png" alt="" /><input type="submit" name="toggle" value="{$CONST.DELETE_SELECTED_COMMENTS}" onclick="return confirm('{$CONST.COMMENTS_DELETE_CONFIRM}')" tabindex="{$smarty.foreach.foo.iteration+1}" class="none" /></span>
+            </div>
 
         </form>
 

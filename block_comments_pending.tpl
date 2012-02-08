@@ -95,18 +95,22 @@
                     </div><!-- class comment_boxed end -->
 
                 </div><!-- class serendipity_admin_list_item end -->
-                {$eclap.action_more}{** what is this for ? **}
-            </div><!-- #comment_{$eclpen.id} end -->
+                {$eclpen.action_more}{** what is this for ? **}
+            </div><!-- // #comment_{$eclpen.id} end -->
 
             {/foreach}
 
-            <input type="button" onclick="invertSelectionPen()" value="{$CONST.INVERT_SELECTIONS}" name="toggle" class="serendipityPrettyButton input_button" />
-            <input type="submit" name="toggle" value="{$CONST.DELETE_SELECTED_COMMENTS}" onclick="return confirm('{$CONST.COMMENTS_DELETE_CONFIRM}')" tabindex="{$smarty.foreach.bar.iteration+1}" class="serendipityPrettyButton input_button" />
-            <input type="submit" name="serendipity[togglemoderate]" value="{$CONST.MODERATE_SELECTED_COMMENTS}" class="serendipityPrettyButton input_button" />
+            <div class="input-boxed">
+                <span class="inputtype"><img src="{$thispath}/img/invert.png" alt="" /><input type="button" name="toggle" value="{$CONST.INVERT_SELECTIONS}" onclick="invertSelectionPen()" class="none" /></span>
+                <span class="inputtype"><img src="{$thispath}/img/remove.png" alt="" /><input type="submit" name="toggle" value="{$CONST.DELETE_SELECTED_COMMENTS}" onclick="return confirm('{$CONST.COMMENTS_DELETE_CONFIRM}')" tabindex="{$smarty.foreach.bar.iteration+1}" class="none" /></span>
+                <span class="inputtype"><img src="{$thispath}/img/approve.png" alt="" /><input type="submit" name="serendipity[togglemoderate]" value="{$CONST.MODERATE_SELECTED_COMMENTS}" class="none" /></span>
+            </div>
             {if $spamblockbayes_hookin}
             <span>Spamschutz (Bayes): </span>
-            <input type="button" onclick="markAllHam()" name="toogle" value="{$CONST.PLUGIN_EVENT_SPAMBLOCK_BAYES_HAMBUTTON}" class="serendipityPrettyButton input_button" />
-            <input type="button" onclick="markAllSpam()" name="toogle" value="{$CONST.PLUGIN_EVENT_SPAMBLOCK_BAYES_SPAMBUTTON}" class="serendipityPrettyButton input_button" />
+            <div class="input-boxed">
+                <span class="inputtype"><img src="{serendipity_getFile file="admin/img/accept.png"}" alt="" /><input type="button" onclick="markAllHam()" name="toogle" value="{$CONST.PLUGIN_EVENT_SPAMBLOCK_BAYES_HAMBUTTON}" class="none" /></span>
+                <span class="inputtype"><img src="{$thispath}/../serendipity_event_spamblock_bayes/img/spamblock_bayes.spam.png" alt="" /><input type="button" onclick="markAllSpam()" name="toogle" value="{$CONST.PLUGIN_EVENT_SPAMBLOCK_BAYES_SPAMBUTTON}" class="none" /></span>
+            </div>
             {/if}
         </form>
 
