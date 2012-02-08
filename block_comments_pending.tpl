@@ -102,7 +102,7 @@
 
             <div class="input-boxed">
                 <span class="inputtype"><img src="{$thispath}/img/invert.png" alt="" /><input type="button" name="toggle" value="{$CONST.INVERT_SELECTIONS}" onclick="invertSelectionPen()" class="none" /></span>
-                <span class="inputtype"><img src="{$thispath}/img/remove.png" alt="" /><input type="submit" name="toggle" value="{$CONST.DELETE_SELECTED_COMMENTS}" onclick="return confirm('{$CONST.COMMENTS_DELETE_CONFIRM}')" tabindex="{$smarty.foreach.bar.iteration+1}" class="none" /></span>
+                <span class="inputtype"><img src="{$thispath}/img/remove.png" alt="" /><input type="submit" name="toggle" value="{$CONST.DELETE_SELECTED_COMMENTS}" onclick="return confirm('{$CONST.COMMENTS_DELETE_CONFIRM}')" {* tabindex="{$smarty.foreach.bar.iteration+1}" *}class="none" /></span>
                 <span class="inputtype"><img src="{$thispath}/img/approve.png" alt="" /><input type="submit" name="serendipity[togglemoderate]" value="{$CONST.MODERATE_SELECTED_COMMENTS}" class="none" /></span>
             </div>
             {if $spamblockbayes_hookin}
