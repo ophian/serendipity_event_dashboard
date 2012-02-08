@@ -537,7 +537,7 @@ class serendipity_event_dashboard extends serendipity_event {
                     echo "\n\n";
                     echo '<link rel="stylesheet" type="text/css" href="'.$serendipity['serendipityHttpPath'].$serendipity['dashboard']['pluginpath'].'css/mbContainer.css" title="style"  media="screen"/>'."\n";
                     echo "\n\n";
-                    echo '<script type="text/javascript" src="'.$serendipity['serendipityHttpPath'].$serendipity['dashboard']['pluginpath'].'inc/modernizr.h5bp.custom.js"></script>'."\n";
+                    echo '<script type="text/javascript" src="'.$serendipity['serendipityHttpPath'].$serendipity['dashboard']['pluginpath'].'inc/modernizr-2.5.2.min.js"></script>'."\n";
                     echo '<script type="text/javascript" src="'.$serendipity['serendipityHttpPath'].$serendipity['dashboard']['pluginpath'].'inc/jquery-1.7.1.min.js"></script>'."\n";
                     #echo '<script type="text/javascript"> jQuery.noConflict(); </script>'."\n";
 
