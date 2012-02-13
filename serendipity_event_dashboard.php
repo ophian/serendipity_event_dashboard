@@ -1,6 +1,6 @@
 <?php # $Id$
 
-// last modified: 2012-02-07
+// last modified: 2012-02-13
 
 if (IN_serendipity !== true) {
     die ("Don't hack!");
@@ -40,7 +40,7 @@ class serendipity_event_dashboard extends serendipity_event {
             'php'         => '4.1.0'
         ));
 
-        $propbag->add('version',       '0.6.9-alpha-2');
+        $propbag->add('version',       '0.6.9-alpha-3');
         $propbag->add('author',        'Garvin Hicking, Ian');
         $propbag->add('stackable',     false);
         $propbag->add('configuration', array('read_only', 'limit_comments_pending', 'limit_comments', 'limit_draft', 'limit_future', 'sequence', 'update'));
@@ -513,7 +513,8 @@ class serendipity_event_dashboard extends serendipity_event {
             switch($event) {
                 case 'backend_configure':
                     // here we go and overwrite the backend structure - maybe ;-)
-                    if( ( isset($serendipity['GET']['noSidebar']) || isset($serendipity['POST']['noSidebar']) ) 
+                    // keep for future purposes
+                    /*if( ( isset($serendipity['GET']['noSidebar']) || isset($serendipity['POST']['noSidebar']) ) 
                      ||  !isset($serendipity['GET']['adminAction']) 
                      || ( empty($serendipity['GET']['adminAction']) && !isset($serendipity['GET']['adminModule']) ) 
                      ) { 
@@ -521,7 +522,7 @@ class serendipity_event_dashboard extends serendipity_event {
                         $serendipity['POST']['noBanner']   = true;
                         $serendipity['POST']['noFooter']   = true;
                         $serendipity['POST']['h5bp-style'] = true;
-                    }
+                    }*/
                     // Disable the use of Serendipity JQuery in Backend - remember if having it disabled in template....
                     // also either make sure this dashboard is for 1.6 up only or construct a fallback to google 
                     $serendipity['capabilities']['jquery'] = false;
@@ -531,31 +532,31 @@ class serendipity_event_dashboard extends serendipity_event {
                  case 'backend_header':
                     // here we go and and add or restruct the backend header ;-)
                     if($serendipity['POST']['h5bp-style']) {
-                        echo '<link rel="stylesheet" href="'.$serendipity['serendipityHttpPath'].$serendipity['dashboard']['pluginpath'].'css/style.css" />'."\n";
+                        echo '<link rel="stylesheet" href="'.$serendipity['serendipityHTTPPath'].$serendipity['dashboard']['pluginpath'].'css/style.css" />'."\n";
                     }
 
                     echo "\n\n";
-                    echo '<link rel="stylesheet" type="text/css" href="'.$serendipity['serendipityHttpPath'].$serendipity['dashboard']['pluginpath'].'css/mbContainer.css" title="style"  media="screen"/>'."\n";
+                    echo '<link rel="stylesheet" type="text/css" href="'.$serendipity['serendipityHTTPPath'].$serendipity['dashboard']['pluginpath'].'css/mbContainer.css" title="style"  media="screen"/>'."\n";
                     echo "\n\n";
-                    echo '<script type="text/javascript" src="'.$serendipity['serendipityHttpPath'].$serendipity['dashboard']['pluginpath'].'inc/modernizr-2.5.2.min.js"></script>'."\n";
-                    echo '<script type="text/javascript" src="'.$serendipity['serendipityHttpPath'].$serendipity['dashboard']['pluginpath'].'inc/jquery-1.7.1.min.js"></script>'."\n";
+                    echo '<script type="text/javascript" src="'.$serendipity['serendipityHTTPPath'].$serendipity['dashboard']['pluginpath'].'inc/modernizr-2.5.2.min.js"></script>'."\n";
+                    echo '<script type="text/javascript" src="'.$serendipity['serendipityHTTPPath'].$serendipity['dashboard']['pluginpath'].'inc/jquery-1.7.1.min.js"></script>'."\n";
                     #echo '<script type="text/javascript"> jQuery.noConflict(); </script>'."\n";
 
-                    echo '<script type="text/javascript" src="'.$serendipity['serendipityHttpPath'].$serendipity['dashboard']['pluginpath'].'inc/ajax-dashboard.js"></script>'."\n";
-                    echo '<script type="text/javascript" src="'.$serendipity['serendipityHttpPath'].$serendipity['dashboard']['pluginpath'].'inc/jquery-dashboard.js"></script>'."\n";
-                    echo '<script type="text/javascript" src="'.$serendipity['serendipityHttpPath'].$serendipity['dashboard']['pluginpath'].'inc/jquery-ui-1.8.17.custom.min.js"></script>'."\n";
-                    echo '<script type="text/javascript" src="'.$serendipity['serendipityHttpPath'].$serendipity['dashboard']['pluginpath'].'inc/jquery.metadata.js"></script>'."\n";
-                    echo '<script type="text/javascript" src="'.$serendipity['serendipityHttpPath'].$serendipity['dashboard']['pluginpath'].'inc/mbContainer.js"></script>'."\n";
+                    echo '<script type="text/javascript" src="'.$serendipity['serendipityHTTPPath'].$serendipity['dashboard']['pluginpath'].'inc/ajax-dashboard.js"></script>'."\n";
+                    echo '<script type="text/javascript" src="'.$serendipity['serendipityHTTPPath'].$serendipity['dashboard']['pluginpath'].'inc/jquery-dashboard.js"></script>'."\n";
+                    echo '<script type="text/javascript" src="'.$serendipity['serendipityHTTPPath'].$serendipity['dashboard']['pluginpath'].'inc/jquery-ui-1.8.17.custom.min.js"></script>'."\n";
+                    echo '<script type="text/javascript" src="'.$serendipity['serendipityHTTPPath'].$serendipity['dashboard']['pluginpath'].'inc/jquery.metadata.js"></script>'."\n";
+                    echo '<script type="text/javascript" src="'.$serendipity['serendipityHTTPPath'].$serendipity['dashboard']['pluginpath'].'inc/mbContainer.js"></script>'."\n";
                     // set some JS vars
                     echo '<script type="text/javascript">
 var const_view   = \''.VIEW_FULL.'\';
 var const_hide   = \''.HIDE.'\';
 var img_plus     = \''.serendipity_getTemplateFile("img/plus.png").'\';
 var img_minus    = \''.serendipity_getTemplateFile("img/minus.png").'\';
-var img_help2    = \''.$serendipity['serendipityHttpPath'].$serendipity['dashboard']['pluginpath'].'img/help_oran.png\';
-var img_help1    = \''.$serendipity['serendipityHttpPath'].$serendipity['dashboard']['pluginpath'].'img/help_blue.png\';
-var jspath       = \''.$serendipity['serendipityHttpPath'].$serendipity['dashboard']['pluginpath'].'\';
-var elpath       = \''.$serendipity['serendipityHttpPath'].$serendipity['dashboard']['pluginpath'].'elements/\';
+var img_help2    = \''.$serendipity['serendipityHTTPPath'].$serendipity['dashboard']['pluginpath'].'img/help_oran.png\';
+var img_help1    = \''.$serendipity['serendipityHTTPPath'].$serendipity['dashboard']['pluginpath'].'img/help_blue.png\';
+var jspath       = \''.$serendipity['serendipityHTTPPath'].$serendipity['dashboard']['pluginpath'].'\';
+var elpath       = \''.$serendipity['serendipityHTTPPath'].$serendipity['dashboard']['pluginpath'].'elements/\';
 var learncommentPath = \''.$serendipity['baseURL'].'index.php?/plugin/learncomment\';
 var ratingPath   = \''.$serendipity['baseURL'].'index.php?/plugin/getRating\';
 var bayesCharset = \''.LANG_CHARSET.'\';

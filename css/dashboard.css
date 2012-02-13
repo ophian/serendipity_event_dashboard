@@ -1,11 +1,23 @@
-/* keep the vertical scrollbar while having this hover navigation */
-html #dashboard {
-overflow: -moz-scrollbars-vertical; 
-overflow-y: scroll;
-/*height: 101%;*/
-}
 
 /* BP5 take over, if in sidebar mode */
+button, input[type="button"], input[type="reset"], input[type="submit"] {
+    cursor: pointer;
+}
+
+button, input {
+    line-height: normal;
+}
+
+button, input, select, textarea {
+    font-size: 100%;
+    margin: 0;
+    vertical-align: baseline;
+}
+
+html, button, input, select, textarea {
+    color: #222222;
+    font-family: sans-serif;
+}
 #dashboard ::-moz-selection { background: #fe57a1; color: #fff; text-shadow: none; }
 #dashboard ::selection { background: #fe57a1; color: #fff; text-shadow: none; }
 
@@ -76,6 +88,56 @@ article, aside, details, figcaption, figure, footer, header, hgroup, nav, sectio
     font-size: 1em;
     margin: 0 0 1em;
 }
+#dashboard nav ul#indent-navigation select.serendipitySideBarMenuEntry,
+#dashboard nav ul#indent-navigation select.serendipitySideBarMenuMedia,
+#dashboard nav ul#indent-navigation select.serendipitySideBarMenuAppearance,
+#dashboard nav ul#indent-navigation select.serendipitySideBarMenuUserManagement {
+    display: inline;
+    width: 16em;
+}
+#dashboard header>nav#user-menu-user-navigation-select, #dashboard nav#user-menu-user-navigation-select {
+    border: 1px solid #BBBBBB;
+    display: inline-block;
+    float: left;
+    margin: 0.5em 0.7em;
+    width: 98.4%;
+}
+#dashboard header > nav#user-menu-user-embed-iconset, #dashboard nav#user-menu-user-embed-iconset {
+    border-left: 1px solid #BBBBBB;
+    border-right: 1px solid #BBBBBB;
+    display: inline-block;
+    margin: 1em 0;
+    padding: 0 1em;
+}
+#dashboard nav#user-menu-user-embed-iconset a:hover,
+#dashboard nav#user-menu-user-embed-iconset a:focus,
+#dashboard nav#user-menu-user-embed-iconset a:visited {
+    background: none repeat scroll 0 0 transparent; 
+	color: transparent;
+}
+#dashboard nav#user-menu-user-embed-iconset ul li {
+    margin: 0.5em 0 0;
+}
+#dashboard nav#user-menu-user-embed-iconset img {
+    vertical-align: middle;
+}
+nav#user-menu-user-navigation-select ul#indent-navigation li.select-help {
+    cursor: pointer;
+    display: inline-block;
+    float: right; 
+    height: auto;
+    margin: 0.7% 0;
+    width: auto;
+}
+#dashboard nav#user-menu-user-embed-switch {
+    display: inline-block;
+    float: right;
+}
+nav#user-menu-user-navigation-select div.main-help {
+    margin: 0pt 0.7em 1em 0pt; 
+	float: right; 
+	display: inline-block;
+}
 #dashboard input.serendipityPrettyButton, a.serendipityPrettyButton {
     background: none repeat scroll 0 0 lightSteelBlue; /* LightSteelBlue - IndianRed - sandyBrown - Orange - MediumTurquoise - */
     color: inherit;/*GhostWhite*/
@@ -97,19 +159,17 @@ article, aside, details, figcaption, figure, footer, header, hgroup, nav, sectio
 /* try to rebuild the browser input type (button) behaviour with included image */
 /* YES, I know they normally look different on different OS and different Browsers */
 #dashboard span.inputtype {
-    background: rgb(255,255,255); /* Old browsers */
-    /* IE9 SVG, needs conditional override of 'filter' to 'none' */
-    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPHJhZGlhbEdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgY3g9IjUwJSIgY3k9IjUwJSIgcj0iNzUlIj4KICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNmZmZmZmYiIHN0b3Atb3BhY2l0eT0iMSIvPgogICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjZGRkZGRkIiBzdG9wLW9wYWNpdHk9IjEiLz4KICA8L3JhZGlhbEdyYWRpZW50PgogIDxyZWN0IHg9Ii01MCIgeT0iLTUwIiB3aWR0aD0iMTAxIiBoZWlnaHQ9IjEwMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
-    background: -moz-radial-gradient(center, ellipse cover,  rgba(255,255,255,1) 0%, rgba(221,221,221,1) 100%); /* FF3.6+ */
-    background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,rgba(255,255,255,1)), color-stop(100%,rgba(221,221,221,1))); /* Chrome,Safari4+ */
-    background: -webkit-radial-gradient(center, ellipse cover,  rgba(255,255,255,1) 0%,rgba(221,221,221,1) 100%); /* Chrome10+,Safari5.1+ */
-    background: -o-radial-gradient(center, ellipse cover,  rgba(255,255,255,1) 0%,rgba(221,221,221,1) 100%); /* Opera 12+ */
-    background: -ms-radial-gradient(center, ellipse cover,  rgba(255,255,255,1) 0%,rgba(221,221,221,1) 100%); /* IE10+ */
-    background: radial-gradient(center, ellipse cover,  rgba(255,255,255,1) 0%,rgba(221,221,221,1) 100%); /* W3C */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#dddddd',GradientType=1 ); /* IE6-8 fallback on horizontal gradient */
-    border: 1px solid #ddd;
-    border-bottom-color: #ccc;
-    border-top-color: #eee;
+	background: rgb(255,255,255); /* Old browsers */
+	/* IE9 SVG, needs conditional override of 'filter' to 'none' */
+	background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPHJhZGlhbEdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgY3g9IjUwJSIgY3k9IjUwJSIgcj0iNzUlIj4KICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNmZmZmZmYiIHN0b3Atb3BhY2l0eT0iMSIvPgogICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjZGRkZGRkIiBzdG9wLW9wYWNpdHk9IjEiLz4KICA8L3JhZGlhbEdyYWRpZW50PgogIDxyZWN0IHg9Ii01MCIgeT0iLTUwIiB3aWR0aD0iMTAxIiBoZWlnaHQ9IjEwMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+	background: -moz-radial-gradient(center, ellipse cover,  rgba(255,255,255,1) 0%, rgba(221,221,221,1) 100%); /* FF3.6+ */
+	background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,rgba(255,255,255,1)), color-stop(100%,rgba(221,221,221,1))); /* Chrome,Safari4+ */
+	background: -webkit-radial-gradient(center, ellipse cover,  rgba(255,255,255,1) 0%,rgba(221,221,221,1) 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-radial-gradient(center, ellipse cover,  rgba(255,255,255,1) 0%,rgba(221,221,221,1) 100%); /* Opera 12+ */
+	background: -ms-radial-gradient(center, ellipse cover,  rgba(255,255,255,1) 0%,rgba(221,221,221,1) 100%); /* IE10+ */
+	background: radial-gradient(center, ellipse cover,  rgba(255,255,255,1) 0%,rgba(221,221,221,1) 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#dddddd',GradientType=1 ); /* IE6-8 fallback on horizontal gradient */
+    border: 1px solid #AAAAAA;
     border-radius: 1em/2em;
     -moz-border-radius: 1em/2em;
     -webkit-border-radius: 1em 2em;
@@ -125,22 +185,36 @@ article, aside, details, figcaption, figure, footer, header, hgroup, nav, sectio
     text-shadow: 0 1px 0 #fff;
     width: auto;
 }
-#dashboard input.none[type="button"]:hover, #dashboard input.none[type="button"]:focus,
-#dashboard input.none[type="submit"]:hover, #dashboard input.none[type="submit"]:focus {
-    cursor: default;
-    color: #911;
+/* trying to rebuild mozilla button hover */
+#dashboard span.inputtype:hover,
+#dashboard span.inputtype:focus {
+    background: rgb(254,255,255); /* Old browsers */
+    /* IE9 SVG, needs conditional override of 'filter' to 'none' */
+    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZlZmZmZiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjM1JSIgc3RvcC1jb2xvcj0iI2RkZjFmOSIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNhMGQ4ZWYiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+    background: -moz-linear-gradient(top,  rgba(254,255,255,1) 0%, rgba(221,241,249,1) 35%, rgba(160,216,239,1) 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(254,255,255,1)), color-stop(35%,rgba(221,241,249,1)), color-stop(100%,rgba(160,216,239,1))); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  rgba(254,255,255,1) 0%,rgba(221,241,249,1) 35%,rgba(160,216,239,1) 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  rgba(254,255,255,1) 0%,rgba(221,241,249,1) 35%,rgba(160,216,239,1) 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  rgba(254,255,255,1) 0%,rgba(221,241,249,1) 35%,rgba(160,216,239,1) 100%); /* IE10+ */
+    background: linear-gradient(top,  rgba(254,255,255,1) 0%,rgba(221,241,249,1) 35%,rgba(160,216,239,1) 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#feffff', endColorstr='#a0d8ef',GradientType=0 ); /* IE6-8 */
     box-shadow: 0 1px 3px rgba(0,0,0,.2);
     -moz-box-shadow: 0 1px 3px rgba(0,0,0,.2);
     -webkit-box-shadow: 0 1px 3px rgba(0,0,0,.2);
     -o-box-shadow: 0 1px 3px rgba(0,0,0,.2);
+    cursor: default;
 }
-#dashboard input.none[type="button"]:active,
+#dashboard input.none[type="button"]:hover, #dashboard input.none[type="button"]:focus,
+#dashboard input.none[type="submit"]:hover, #dashboard input.none[type="submit"]:focus {
+    color: #911;
+}
+/*#dashboard input.none[type="button"]:active,
 #dashboard input.none[type="submit"]:active {
     box-shadow: 0 1px 3px rgba(0,0,0,.1);
     -moz-box-shadow: 0 1px 3px rgba(0,0,0,.1);
     -webkit-box-shadow: 0 1px 3px rgba(0,0,0,.1);
     -o-box-shadow: 0 1px 3px rgba(0,0,0,.1);
-}
+}*/
 #dashboard span.inputtype>img {
     vertical-align: middle;
 }
@@ -365,17 +439,15 @@ article, aside, details, figcaption, figure, footer, header, hgroup, nav, sectio
     margin: 0;
 }
 #dashboard nav#user-menu-user-welcome {
-    border: 1px solid #BBBBBB;
-    display: table-caption;
     float: left;
     margin: 0 0.7%;
-    width: 63.6%;
+    width: 64%;
 }
 #dashboard nav#user-menu-user-welcome ul li {
     border: 1px solid #BBBBBB;
     display: inline-block;
-    margin: 0.5%;
-    width: 47%;
+    margin: 0.2em 0.2em 0.2em 0.5em;
+    width: 46%;
 }
 #dashboard nav#user-menu-user-welcome h2 {
     margin: 0.5em 0.5em 0.8em;
@@ -389,8 +461,8 @@ article, aside, details, figcaption, figure, footer, header, hgroup, nav, sectio
 #dashboard nav#user-menu-user-navigation ul li, #dashboard nav#user-menu-user-navigation span {
     border: 1px solid #BBBBBB;
     display: inline-block;
-    margin: 0.5%;
-    width: 47%; /*-moz-available */
+    margin: 0.2em 0.2em 0.2em 0.5em;
+    width: 46%; /*-moz-available */
 }
 #dashboard nav#user-menu-user-navigation span {
     border: 1px solid transparent;
@@ -403,7 +475,6 @@ article, aside, details, figcaption, figure, footer, header, hgroup, nav, sectio
     font-size: 120%;
     padding: 4px;
     display: inline-block;
-    cursor: pointer;
     border: 1px solid #999;
     background-color: #eee;
     margin: 0 4px 4px 2px;
@@ -430,8 +501,9 @@ article, aside, details, figcaption, figure, footer, header, hgroup, nav, sectio
     padding: 0;
 }
 #dashboard nav#user-menu-user-navigation #iopen.help {
-    width: auto;
+    height: auto;
     padding: 0;
+    width: auto;
 }
 #dashboard nav#user-menu-user-navigation #iopen.help img {
     width: 26px;
@@ -464,8 +536,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, nav, sectio
     width: auto;
 }
 
-#dashboard nav#user-menu-user-linkbox, 
-#user-menu-user-linkbox li {
+#dashboard nav#user-menu-user-linkbox, #user-menu-user-linkbox ul li {
     border: 1px solid #BBBBBB;
     display: inline-block;
     margin: 0 0 0.5%;
@@ -506,10 +577,9 @@ article, aside, details, figcaption, figure, footer, header, hgroup, nav, sectio
 #dashboard #recent-comments .openall>img {
     vertical-align: middle;
 }
-#dasboard header > div h1,
-#user-menu-user-welcome, #dashboard nav,
-#user-menu-user-navigation, #dashboard nav,
-#user-menu-user-linkbox, #dashboard nav {
+#dasboard nav#user-menu-user-welcome, 
+#dashboard nav#user-menu-user-navigation, 
+#dashboard nav#user-menu-user-linkbox {
     background: none repeat scroll 0 0 #EFEFEF;
 }
 #dashboard > section#entries,

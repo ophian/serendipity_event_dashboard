@@ -1,7 +1,7 @@
 {if $showElementComPend}
 <section id="pending-comments">
     <div id="sort_{$commpen_block_id}" class="dashboard dashboard_comments_pending">
-        <h3> {$CONST.COMMENTS_FILTER_NEED_APPROVAL} [ {$entry_Compendlist|@count} ]</h3>
+        <h3> {$CONST.COMMENTS_FILTER_NEED_APPROVAL} {$CONST.COMMENTS} [ {$entry_Compendlist|@count} ]</h3>
 
         {if is_array($entry_Compendlist)}
 

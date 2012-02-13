@@ -6,7 +6,7 @@ window.log = function f(){ log.history = log.history || []; log.history.push(arg
 (function(a){function b(){}for(var c="assert,count,debug,dir,dirxml,error,exception,group,groupCollapsed,groupEnd,info,log,markTimeline,profile,profileEnd,time,timeEnd,trace,warn".split(","),d;!!(d=c.pop());){a[d]=a[d]||b;}})
 (function(){try{console.log();return window.console;}catch(a){return (window.console={});}}());
 
-// jquery-dashboard.js - last-modified: 2012-02-07
+// jquery-dashboard.js - last-modified: 2012-02-09
 
 // Q: Is $(this).siblings() the same as $(this).parent().children()
 // A: No.
@@ -104,6 +104,83 @@ jQuery(document).ready(function($) {
         $(event.target).find('img').stop(true, true).attr({src:img_plus});
     });
     
+    //toggle between embed mode navigation per side-bar or select-bar
+    //td#serendipitySideBar and nav#user-menu-user-navigation-select
+    $('nav#user-menu-user-navigation-select').addClass('visuallyhidden');
+    $('td#serendipitySideBar').addClass('no-class');
+    $("img.slidenav").toggle(
+      function (event) {
+        //console.log('click-in');
+        $('td#serendipitySideBar').fadeOut();
+        $('nav#user-menu-user-navigation-select').toggleClass('visuallyhidden')
+      },
+      function (event) {
+        //console.log('click-out');
+        $('td#serendipitySideBar').fadeIn();
+        $('nav#user-menu-user-navigation-select').toggleClass('visuallyhidden')
+    });
+
+
+	// convert backend sidebar entries to dropdown select box - case entries
+	$(function() {
+		$('ul#indent-navigation ul.serendipitySideBarMenuEntry').each(function() { 
+			var $select = $('<select />').attr('class', 'serendipitySideBarMenuEntry');
+
+			$(this).find('a').each(function() {
+				var $option = $('<option />');
+				$option.attr('value', $(this).attr('href')).html($(this).html()).click(function(){window.location.href=$(this).val();});
+				$select.append($option);
+			});
+
+			$(this).replaceWith($select);
+		});
+	});
+
+	// convert backend sidebar entries to dropdown select box - case media
+	$(function() {
+		$('ul#indent-navigation ul.serendipitySideBarMenuMedia').each(function() {
+			var $select = $('<select />').attr('class', 'serendipitySideBarMenuMedia');
+
+			$(this).find('a').each(function() {
+				var $option = $('<option />');
+				$option.attr('value', $(this).attr('href')).html($(this).html()).click(function(){window.location.href=$(this).val();});
+				$select.append($option);
+			});
+
+			$(this).replaceWith($select);
+		});
+	});
+
+	// convert backend sidebar entries to dropdown select box - case appearance
+	$(function() {
+		$('ul#indent-navigation ul.serendipitySideBarMenuAppearance').each(function() {
+			var $select = $('<select />').attr('class', 'serendipitySideBarMenuAppearance');
+
+			$(this).find('a').each(function() {
+				var $option = $('<option />');
+				$option.attr('value', $(this).attr('href')).html($(this).html()).click(function(){window.location.href=$(this).val();});
+				$select.append($option);
+			});
+
+			$(this).replaceWith($select);
+		});
+	});
+
+	// convert backend sidebar entries to dropdown select box - case userManagement
+	$(function() {
+		$('ul#indent-navigation ul.serendipitySideBarMenuUserManagement').each(function() {
+			var $select = $('<select />').attr('class', 'serendipitySideBarMenuUserManagement');
+
+			$(this).find('a').each(function() {
+				var $option = $('<option />');
+				$option.attr('value', $(this).attr('href')).html($(this).html()).click(function(){window.location.href=$(this).val();});
+				$select.append($option);
+			});
+
+			$(this).replaceWith($select);
+		});
+	});
+
     // help Container
     $(function(){
       function openModal(o){
