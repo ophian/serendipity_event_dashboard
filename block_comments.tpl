@@ -2,7 +2,7 @@
 <section id="recent-comments">
     <div id="sort_{$comments_block_id}" class="dashboard dashboard_comments">
         <div class="all-box-right"> <a href="#ta_{$comments_block_id}" class="button serendipityIconLink"><button id="openall_{$comments_block_id}" class="openall"><img src="{serendipity_getFile file="img/plus.png"}" id="option_{$comments_block_id}" class="wizard-img" alt="+/-" /> Toggle all</button></a> </div> 
-        <h3> {$CONST.COMMENTS_FILTER_APPROVED_ONLY} {$CONST.COMMENT} [ {$entry_Commentlist|@count} ] </h3>
+        <h3> {$CONST.COMMENTS_FILTER_APPROVED_ONLY} {$CONST.COMMENTS} [ {$entry_Commentlist|@count} ] </h3>
 
         <div id="antispam">
             {$antispam_hook}

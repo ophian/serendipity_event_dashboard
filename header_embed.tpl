@@ -20,13 +20,13 @@
                 
             </nav>
 
-            <nav id="user-menu-user-embed-switch" class="visuallyhidden" role="navigation">
+            <nav id="user-menu-user-embed-switch" role="navigation">
                  <ul class="clearfix">
                    <li><img id="menu-fadenav" class="slidenav" src="{$thispath}/img/switch128.png" width="64" height="64" alt="slidenav" title="{$CONST.ADMIN_FRONTPAGE} {$CONST.PLUGIN_DASHBOARD_TITLE}" /></li>
                 </ul>
             </nav>
 
-            <nav id="user-menu-user-navigation-select" role="navigation">
+            <nav id="user-menu-user-navigation-select" class="visuallyhidden" role="navigation">
 
                 <form method="post" action="" id="select-form-navigation" class="select-navigation">
                     <ul id="indent-navigation">
