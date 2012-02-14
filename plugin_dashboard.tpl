@@ -4,7 +4,7 @@
 <div id="dashboard" class="clearfix maincontent">
 
 {if NOT $start}
-    {** actually not really in use for now **}
+    {** fullview temporary disabled, until future purposes... **}
     {** include file="$fullpath/header_full.tpl" title="Dashboard Full Header" **}
     {include file="$fullpath/header_embed.tpl" title="Dashboard Embedded Header"}
 {else}
@@ -42,11 +42,12 @@
 {/foreach}
     </section>
 
-{if NOT $start}
+{** if NOT $start}
+    // fullview temporary disabled, until future purposes...
     <footer role="footer">
         <div class="clearfix"> <h1> <small>{$smarty.now|date_format} - {$sysinfo.version_info}</small> </h1> </div>
     </footer>
-{/if}
+{/if **}
     
 <div class="helpwrapper">
   <div id="modalContainer" class="containerPlus draggable {ldelim}buttons:'c', skin:'white', width:'900', height:'450', closed:'true', title:'dashboard premier help container'{rdelim}" style="margin: auto;">
