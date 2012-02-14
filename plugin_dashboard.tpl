@@ -1,11 +1,12 @@
-{*** plugin_dashboard.tpl 2011-03-25 - last modified 2012-02-13 ***}
+{*** plugin_dashboard.tpl 2011-03-25 - last modified 2012-02-14 ***}
 {*** debug ***}
 
 <div id="dashboard" class="clearfix maincontent">
 
 {if NOT $start}
     {** actually not really in use for now **}
-	{include file="$fullpath/header_full.tpl" title="Dashboard Embedded Header"}
+    {** include file="$fullpath/header_full.tpl" title="Dashboard Full Header" **}
+    {include file="$fullpath/header_embed.tpl" title="Dashboard Embedded Header"}
 {else}
     {include file="$fullpath/header_embed.tpl" title="Dashboard Embedded Header"}
 {/if}
