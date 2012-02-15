@@ -43,14 +43,14 @@
                          **}
                         <ul class="mod_spam">
                             <li class="mod_antispam">
-                                {* serendipity_hookPlugin hook="backend_view_comment" hookAll="true" *}
-                                <a id="ham{$eclpen.id}" class="serendipityIconLink spamblockBayesControls" title="Spamschutz (Bayes): Valid" href="#ham{$eclpen.id}" onclick="ham({$eclpen.id})">
-                                    <img alt="" src="{serendipity_getFile file="admin/img/accept.png"}" />
-                                    Valid
-                                </a>
-                                <a id="spam{$eclpen.id}" class="serendipityIconLink spamblockBayesControls" title="Spamschutz (Bayes): Spam" href="#spam{$eclpen.id}" onclick="spam({$eclpen.id})">
-                                    <img alt="" src="{$thispath}/../serendipity_event_spamblock_bayes/img/spamblock_bayes.spam.png" />
-                                    Spam
+                                {* serendipity_hookPlugin hook="backend_view_comment" hookAll="true" *}{* if version >= 0.4.7 $eventData['action_more'] holds ham spam rating *}
+                                <a id="ham{$eclpen.id}" class="serendipityIconLink spamblockBayesControls" onclick="return ham({$eclpen.id})" title="{$CONST.PLUGIN_EVENT_SPAMBLOCK_BAYES_NAME}: {$CONST.PLUGIN_EVENT_SPAMBLOCK_BAYES_HAM}" href="{$serendipityBaseURL}index.php?/plugin/learnAction&amp;action=approve&amp;category=ham&amp;id={$eclpen.id}&amp;entry_id={$eclpen.entry_id}">
+                                    <img src="{serendipity_getFile file="admin/img/accept.png"}" alt="" />
+                                    {$CONST.PLUGIN_EVENT_SPAMBLOCK_BAYES_HAM}
+                                </a> 
+                                <a id="spam{$eclpen.id}" class="serendipityIconLink spamblockBayesControls" onclick="return spam({$eclpen.id})" title="{$CONST.PLUGIN_EVENT_SPAMBLOCK_BAYES_NAME}: {$CONST.PLUGIN_EVENT_SPAMBLOCK_BAYES_SPAM}" href="{$serendipityBaseURL}index.php?/plugin/learnAction&amp;action=delete&amp;category=spam&amp;id={$eclpen.id}&amp;entry_id={$eclpen.entry_id}">
+                                    <img src="{$thispath}/../serendipity_event_spamblock_bayes/img/spamblock_bayes.spam.png" alt="" />
+                                    {$CONST.PLUGIN_EVENT_SPAMBLOCK_BAYES_SPAM}
                                 </a>
                                 <span class="spamblockBayesRating">
                                     <a href="serendipity_admin.php?serendipity[adminModule]=event_display&amp;serendipity[adminAction]=spamblock_bayes&amp;serendipity[comments][{$eclpen.id}]">
