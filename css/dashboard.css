@@ -263,9 +263,14 @@ nav#user-menu-user-navigation-select div.main-help {
     background: none repeat scroll 0 0 DarkSeaGreen; /*#CCCCCC SeaGreen; DarkSeaGreen Linen Ivory MediumSeaGreen;*/
     color: DarkSlateGrey;/* OldLace Navy MidnightBlue LightSteelBlue LightGrey LightGreen LightBlue Lavender Ivory Indigo GhostWhite Gainsboro FloralWhite Azure AliceBlue */
 }
-#dashboard #pending-comments ul.mod_spam { 
+/*#dashboard #pending-comments ul.mod_spam { 
     margin: 2px 0;
     width: 100%;
+}*/
+#dashboard #pending-comments li.mod_ham,
+#dashboard #pending-comments li.mod_spam {
+    background: none repeat scroll 0 0 mediumAquaMarine; /*MediumSeaGreen*/
+	padding: 3px 6px;
 }
 
 #dashboard ul.comment_fields {

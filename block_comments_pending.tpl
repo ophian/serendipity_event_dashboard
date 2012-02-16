@@ -36,32 +36,6 @@
                             <li class="mod_referer"><b>{$CONST.REFERER}:</b> {if $eclpen.referer}<a href="{$eclpen.referer}">{$eclpen.referer|truncate:30:"&hellip;"}</a>{else}N/A{/if} </li>
                         </ul>
 
-                        {if $spamblockbayes_hookin}
-                        {** 
-                         ** this is very very alpha, as I tried to rewrite things that are done via bayes_commentList.js **
-                         ** this is working ~somehow~, except the rating, but errors naturally in the script itself **
-                         **}
-                        <ul class="mod_spam">
-                            <li class="mod_antispam">
-                                {* serendipity_hookPlugin hook="backend_view_comment" hookAll="true" *}{* if version >= 0.4.7 $eventData['action_more'] holds ham spam rating *}
-                                <a id="ham{$eclpen.id}" class="serendipityIconLink spamblockBayesControls" onclick="return ham({$eclpen.id})" title="{$CONST.PLUGIN_EVENT_SPAMBLOCK_BAYES_NAME}: {$CONST.PLUGIN_EVENT_SPAMBLOCK_BAYES_HAM}" href="{$serendipityBaseURL}index.php?/plugin/learnAction&amp;action=approve&amp;category=ham&amp;id={$eclpen.id}&amp;entry_id={$eclpen.entry_id}">
-                                    <img src="{serendipity_getFile file="admin/img/accept.png"}" alt="" />
-                                    {$CONST.PLUGIN_EVENT_SPAMBLOCK_BAYES_HAM}
-                                </a> 
-                                <a id="spam{$eclpen.id}" class="serendipityIconLink spamblockBayesControls" onclick="return spam({$eclpen.id})" title="{$CONST.PLUGIN_EVENT_SPAMBLOCK_BAYES_NAME}: {$CONST.PLUGIN_EVENT_SPAMBLOCK_BAYES_SPAM}" href="{$serendipityBaseURL}index.php?/plugin/learnAction&amp;action=delete&amp;category=spam&amp;id={$eclpen.id}&amp;entry_id={$eclpen.entry_id}">
-                                    <img src="{$thispath}/../serendipity_event_spamblock_bayes/img/spamblock_bayes.spam.png" alt="" />
-                                    {$CONST.PLUGIN_EVENT_SPAMBLOCK_BAYES_SPAM}
-                                </a>
-                                <span class="spamblockBayesRating">
-                                    <a href="serendipity_admin.php?serendipity[adminModule]=event_display&amp;serendipity[adminAction]=spamblock_bayes&amp;serendipity[comments][{$eclpen.id}]">
-                                        <span id="{$eclpen.id}_rating">"0%-test"{$rating}</span>
-                                    </a>
-                                    <span class="serendipityIconLink spamblockBayesControls"><img title="{$CONST.PLUGIN_EVENT_SPAMBLOCK_BAYES_RATING_EXPLANATION}" src="{serendipity_getFile file="admin/img/admin_msg_note.png"}" /></span>
-                                </span>
-                            </li>
-                        </ul>
-                        {/if}
-
                         <ul class="comment_admin">
                             <li class="mod_appmod">
                             {if ($eclpen.status == 'pending' || $eclpen.status == 'confirm') && !$read_only}
@@ -91,6 +65,19 @@
                             <li class="mod_reply">
                                 <a target="_blank" onclick="cf = window.open(this.href, 'CommentForm', 'width=800,height=600,toolbar=no,scrollbars=1,scrollbars,resize=1,resizable=1'); cf.focus(); return false;" href="?serendipity[action]=admin&amp;serendipity[adminModule]=comments&amp;serendipity[adminAction]=reply&amp;serendipity[id]={$eclpen.id}&amp;serendipity[entry_id]={$eclpen.entry_id}&amp;serendipity[noBanner]=true&amp;serendipity[noSidebar]=true&amp;{$urltoken}" title="{$CONST.REPLY}" class="serendipityIconLink"><img src="{serendipity_getFile file="admin/img/user_editor.png"}" alt="{$CONST.REPLY}" />{$CONST.REPLY}</a>
                             </li>
+                            {if $spamblockbayes_hookin}
+                            <li class="mod_antispam">
+                                {* serendipity_hookPlugin hook="backend_view_comment" hookAll="true" *}
+                                <a id="ham{$eclpen.id}" class="serendipityIconLink spamblockBayesControls" onclick="return ham({$eclpen.id})" title="{$CONST.PLUGIN_EVENT_SPAMBLOCK_BAYES_NAME}: {$CONST.PLUGIN_EVENT_SPAMBLOCK_BAYES_HAM}" href="{$serendipityBaseURL}index.php?/plugin/learnAction&amp;action=approve&amp;category=ham&amp;id={$eclpen.id}&amp;entry_id={$eclpen.entry_id}">
+                                    <img src="{serendipity_getFile file="admin/img/accept.png"}" alt="" />
+                                    {$CONST.PLUGIN_EVENT_SPAMBLOCK_BAYES_HAM}
+                                </a> 
+                                <a id="spam{$eclpen.id}" class="serendipityIconLink spamblockBayesControls" onclick="return spam({$eclpen.id})" title="{$CONST.PLUGIN_EVENT_SPAMBLOCK_BAYES_NAME}: {$CONST.PLUGIN_EVENT_SPAMBLOCK_BAYES_SPAM}" href="{$serendipityBaseURL}index.php?/plugin/learnAction&amp;action=delete&amp;category=spam&amp;id={$eclpen.id}&amp;entry_id={$eclpen.entry_id}">
+                                    <img src="{$thispath}/../serendipity_event_spamblock_bayes/img/spamblock_bayes.spam.png" alt="" />
+                                    {$CONST.PLUGIN_EVENT_SPAMBLOCK_BAYES_SPAM}
+                                </a>
+                            </li>
+                            {/if}
                         </ul>
                     </div><!-- class comment_boxed end -->
 
