@@ -152,7 +152,7 @@ class serendipity_event_dashboard extends serendipity_event {
      }
 
     /**
-     * check if plugin is available for install
+     * check if plugin is available and installed
      */
     function plugin_status($name='') {
         $plugins = serendipity_plugin_api::enum_plugins('*', false, $name);
@@ -388,7 +388,7 @@ class serendipity_event_dashboard extends serendipity_event {
         $lim = $this->get_config('limit_comments_pending');
         if ($lim < 1) return;
 
-        if($this->plugin_status('serendipity_event_spamblock_bayes')) { $hookin = 'antispam'; }
+        if(BAYES_INSTALLED) { $hookin = 'antispam'; }
         $serendipity['smarty']->assign('showElementComPend', true);
         $serendipity['smarty']->assign('commpen_block_id', $sort_id);
         $serendipity['smarty']->assign('entry_Compendlist', $this->showElementCommentlist("AND status IN ('pending','confirm')", $lim, $hookin));
@@ -498,6 +498,11 @@ class serendipity_event_dashboard extends serendipity_event {
 
         $serendipity['plugin_dashboard_version'] = &$bag->get('version');
 
+        /* check if bayes plugin is onBoard and installed */
+        if($this->plugin_status('serendipity_event_spamblock_bayes')) { 
+            define('BAYES_INSTALLED', true);
+        }
+
         /* Set global plugin path setting, to avoid different pluginpath '/plugins/' as plugins serendipity vars */
         if(!isset($serendipity['dashboard']['pluginpath'])) { 
             $pluginpath = pathinfo(dirname(__FILE__));
@@ -556,16 +561,19 @@ var img_minus    = \''.serendipity_getTemplateFile("img/minus.png").'\';
 var img_help2    = \''.$serendipity['serendipityHTTPPath'].$serendipity['dashboard']['pluginpath'].'img/help_oran.png\';
 var img_help1    = \''.$serendipity['serendipityHTTPPath'].$serendipity['dashboard']['pluginpath'].'img/help_blue.png\';
 var jspath       = \''.$serendipity['serendipityHTTPPath'].$serendipity['dashboard']['pluginpath'].'\';
-var elpath       = \''.$serendipity['serendipityHTTPPath'].$serendipity['dashboard']['pluginpath'].'elements/\';
+var elpath       = \''.$serendipity['serendipityHTTPPath'].$serendipity['dashboard']['pluginpath'].'elements/\';';
+if(BAYES_INSTALLED) { echo '
 var learncommentPath = \''.$serendipity['baseURL'].'index.php?/plugin/learncomment\';
 var ratingPath   = \''.$serendipity['baseURL'].'index.php?/plugin/getRating\';
 var bayesCharset = \''.LANG_CHARSET.'\';
 var bayesDone    = \''.DONE.'\';
-var bayesLoadIndicator = \''.$serendipity['serendipityHTTPPath'] . 'plugins/serendipity_event_spamblock_bayes/img/spamblock_bayes.load.gif\';
+var bayesLoadIndicator = \''.$serendipity['serendipityHTTPPath'] . 'plugins/serendipity_event_spamblock_bayes/img/spamblock_bayes.load.gif\';';
+} echo '
 </script>'."\n";
-                    //set spamblock_bayes
-                    $bayespath = $serendipity['serendipityHTTPPath'] . 'plugins/serendipity_event_spamblock_bayes/';
-                    echo "<script type='text/javascript' src='{$bayespath}bayes_commentlist.js'></script>";
+                    // include spamblock_bayes js file - see bayes vars above
+                    if(BAYES_INSTALLED) { 
+                        echo "<script type='text/javascript' src='{$serendipity['serendipityHTTPPath']}plugins/serendipity_event_spamblock_bayes/bayes_commentlist.js'></script>";
+                    }
 
                     break;
 
