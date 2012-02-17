@@ -499,8 +499,10 @@ class serendipity_event_dashboard extends serendipity_event {
         $serendipity['plugin_dashboard_version'] = &$bag->get('version');
 
         /* check if bayes plugin is onBoard and installed */
-        if($this->plugin_status('serendipity_event_spamblock_bayes')) { 
-            define('BAYES_INSTALLED', true);
+        if(!BAYES_INSTALLED) { 
+            if($this->plugin_status('serendipity_event_spamblock_bayes')) { 
+                @define('BAYES_INSTALLED', true);
+			}
         }
 
         /* Set global plugin path setting, to avoid different pluginpath '/plugins/' as plugins serendipity vars */
