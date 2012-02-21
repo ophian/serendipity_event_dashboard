@@ -15,7 +15,7 @@
 {if !empty($errormsg)}
     <section id="s9y-error">
         <div class="dashboard dashboard_error">
-            <p class="serendipityAdminMsgError serendipity_backend_msg_notice"><img class="attention" src="{serendipity_getFile file="admin/img/admin_msg_note.png"}" alt="" />{$errormsg}</p>
+            <p class="serendipityAdminMsgError serendipity_backend_msg_notice"><img class="attention" src="{serendipity_getFile file='admin/img/admin_msg_note.png'}" alt="" />{$errormsg}</p>
         </div>
     </section>
 {/if}

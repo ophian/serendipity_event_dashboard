@@ -39,6 +39,11 @@ html, button, input, select, textarea {
 td.noSidebar {
     padding: 3px 3px 10px;
 }
+/* overrules later .serendipityAdminContentDashboard class and is set/reset by jquery-dashboard.js */
+td.serendipityAdminContentDashboard {
+    padding: 3px 3px 10px;
+}
+
 #dashboard.maincontent {
     display: inline;
     margin: 0;

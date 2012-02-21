@@ -19,11 +19,11 @@
                 </div>
                 <ul>
                     {if $edraft.draft_pre}
-                    <li class="mod_preview"><a href="?serendipity[action]=admin&amp;serendipity[adminModule]=entries&amp;serendipity[adminAction]=preview&amp;{$urltoken}&amp;serendipity[id]={$edraft.id}" title="{$CONST.PREVIEW} #{$edraft.id}" title="{$CONST.PREVIEW} #{$edraft.id}" class="serendipityIconLink"><button id="xopen" onclick="$('.containerPlusIF').mb_open();"><img src="{serendipity_getFile file="admin/img/zoom.png"}" alt="{$CONST.PREVIEW}" />{$CONST.PREVIEW}</button></a></li>
+                    <li class="mod_preview"><a href="?serendipity[action]=admin&amp;serendipity[adminModule]=entries&amp;serendipity[adminAction]=preview&amp;{$urltoken}&amp;serendipity[id]={$edraft.id}" title="{$CONST.PREVIEW} #{$edraft.id}" title="{$CONST.PREVIEW} #{$edraft.id}" class="serendipityIconLink"><button id="xopen" onclick="$('.containerPlusIF').mb_open();"><img src="{serendipity_getFile file='admin/img/zoom.png'}" alt="{$CONST.PREVIEW}" />{$CONST.PREVIEW}</button></a></li>
                     {else}
-                    <li class="mod_view"><a target="_blank" href="{$edraft.link}" title="{$CONST.VIEW} #{$edraft.id}" class="serendipityIconLink"><img src="{serendipity_getFile file="admin/img/zoom.png"}" alt="{$CONST.VIEW}" />{$CONST.VIEW}</a></li>
+                    <li class="mod_view"><a target="_blank" href="{$edraft.link}" title="{$CONST.VIEW} #{$edraft.id}" class="serendipityIconLink"><img src="{serendipity_getFile file='admin/img/zoom.png'}" alt="{$CONST.VIEW}" />{$CONST.VIEW}</a></li>
                     {/if}
-                    <li class="mod_edit"><a href="?serendipity[action]=admin&amp;serendipity[adminModule]=entries&amp;serendipity[adminAction]=edit&amp;serendipity[id]={$edraft.id}" title="{$CONST.EDIT} #{$edraft.id}" class="serendipityIconLink"><button id="xopen" onclick="$('.containerPlusIF').mb_open();"><img src="{serendipity_getFile file="admin/img/edit.png"}" alt="{$CONST.EDIT}" />{$CONST.EDIT}</button></a></li>
+                    <li class="mod_edit"><a href="?serendipity[action]=admin&amp;serendipity[adminModule]=entries&amp;serendipity[adminAction]=edit&amp;serendipity[id]={$edraft.id}" title="{$CONST.EDIT} #{$edraft.id}" class="serendipityIconLink"><button id="xopen" onclick="$('.containerPlusIF').mb_open();"><img src="{serendipity_getFile file='admin/img/edit.png'}" alt="{$CONST.EDIT}" />{$CONST.EDIT}</button></a></li>
                 </ul>
             </div>
 
