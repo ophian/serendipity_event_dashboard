@@ -131,26 +131,6 @@ class serendipity_event_dashboard extends serendipity_event {
         $title = PLUGIN_DASHBOARD_TITLE;
     }
 
-    /* get the right template path - as default in template folder or the fallback plugin folder */
-    function fetchTemplatePath($filename) {
-        global $serendipity;
-
-        $tfile = serendipity_getTemplateFile($filename, 'serendipityPath');
-        if (!$tfile || $filename == $tfile) {
-            $tfile = dirname(__FILE__) . '/' . $filename;
-        }
-
-        if(!isset($serendipity['smarty']->_version)) { 
-            $content = $serendipity['smarty']->fetch('file:'. $tfile); // short notation with Smarty3 in S9y 1.7 and up
-        } else { 
-            $inclusion = $serendipity['smarty']->security_settings[@INCLUDE_ANY];
-            $serendipity['smarty']->security_settings[@INCLUDE_ANY] = true;
-            $content = $serendipity['smarty']->fetch('file:'. $tfile);
-            $serendipity['smarty']->security_settings[@INCLUDE_ANY] = $inclusion;
-        }
-        return $content;
-     }
-
     /**
      * check if plugin is available and installed
      */
@@ -629,7 +609,7 @@ var bayesLoadIndicator = \''.$serendipity['serendipityHTTPPath'] . 'plugins/sere
                     }
 
                     /* get the dashboard template file */
-                    echo $this->fetchTemplatePath('plugin_dashboard.tpl');
+                    echo $this->parseTemplate('plugin_dashboard.tpl');
 
                     $dashboard = ob_get_contents();
 
