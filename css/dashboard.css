@@ -275,7 +275,9 @@ nav#user-menu-user-navigation-select div.main-help {
 #dashboard #pending-comments li.mod_ham,
 #dashboard #pending-comments li.mod_spam {
     background: none repeat scroll 0 0 mediumAquaMarine; /*MediumSeaGreen*/
-	padding: 3px 6px;
+    border-radius: 1em 1em 1em 1em / 2em 2em 2em 2em;
+    box-shadow: 0 1px 3px steelblue;
+    box-shadow: 4px 2px 7px steelblue;
 }
 
 #dashboard ul.comment_fields {

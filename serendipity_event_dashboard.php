@@ -1,6 +1,6 @@
 <?php # $Id$
 
-// last modified: 2012-02-13
+// last modified: 2012-03-08
 
 if (IN_serendipity !== true) {
     die ("Don't hack!");
@@ -40,7 +40,7 @@ class serendipity_event_dashboard extends serendipity_event {
             'php'         => '4.1.0'
         ));
 
-        $propbag->add('version',       '0.6.9.3-alpha-3');
+        $propbag->add('version',       '0.6.9.4');
         $propbag->add('author',        'Garvin Hicking, Ian');
         $propbag->add('stackable',     false);
         $propbag->add('configuration', array('read_only', 'limit_comments_pending', 'limit_comments', 'limit_draft', 'limit_future', 'sequence', 'update'));
@@ -569,6 +569,8 @@ var learncommentPath = \''.$serendipity['baseURL'].'index.php?/plugin/learncomme
 var ratingPath   = \''.$serendipity['baseURL'].'index.php?/plugin/getRating\';
 var bayesCharset = \''.LANG_CHARSET.'\';
 var bayesDone    = \''.DONE.'\';
+var bayesHelpImage = \''.serendipity_getTemplateFile ('admin/img/admin_msg_note.png').'\';
+var bayesHelpTitle = \''.PLUGIN_EVENT_SPAMBLOCK_BAYES_RATING_EXPLANATION.'\';
 var bayesLoadIndicator = \''.$serendipity['serendipityHTTPPath'] . 'plugins/serendipity_event_spamblock_bayes/img/spamblock_bayes.load.gif\';';
 } echo '
 </script>'."\n";

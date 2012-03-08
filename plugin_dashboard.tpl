@@ -50,9 +50,12 @@
 {/if **}
     
 <div class="helpwrapper">
-  <div id="modalContainer" class="containerPlus draggable {ldelim}buttons:'c', skin:'white', width:'900', height:'450', closed:'true', title:'dashboard premier help container'{rdelim}" style="margin: auto;">
+  <div id="modalContainer" class="containerPlus draggable {ldelim}buttons:'c', skin:'white', width:'900', height:'450', closed:'true', title:'dashboard proof of concept help container'{rdelim}" style="margin: auto;">
     <div class="evidence">
       <h3>The Serendipity Dashboard Help Container ()!</h3>
+
+        <p>This is a "<em>proof of concept</em>" Dashboard screen for your Serendipity blog backend section. All editable links are passed to their original target, as long this is just a an experimental welcome and information screen. Please pass your suggestions and experiences to the <a href="http://board.s9y.org/viewtopic.php?f=10&t=18370" target="_blank">serendipity forum</a>, which excepts english too.</p>
+        <p>Info: Dashboards's Bayes plugin buttons are still experimental, as long as not using the hook, which will need a new and compatible backend markup</p>
 
         <ul><strong>ToDo: </strong>
             <li class="checked">nav button with plus/minus img!</li>
@@ -74,12 +77,15 @@
             <li class="checked">Convert sidebar / popout-on-click / to dropdown selectboxes & moved help as Proof-of-Concept</li>
             <li class="checked">New embed mode including navigation switch</li>
             <li class="checked">Header links to buttons, as new default design embed quicklink box - without old link and bookmark box content</li>
+            <li class="checked">Finish bayes plugin hook engineering, if possible. Depends on bayes v. 0.4.7!</li>
+            <li class="checked">Check if bayes is installed, before include js and vars and assign to</li>
+            <li class="checked">Change fetchTemplatePath() to native parseTemplate() (needs s9y v. to be >= 1.3, but we 1.6 already) </li>
             <li></li>
             <li>Include old link and bookmark box content to select box, when opening selectbox navigation?</li>
             <li>Move help box button into embed mode design bar?</li>
-            <li>Finish embed design mode to be compat with old admin theme.</li>
-            <li>Finish bayes plugin hook engineering, if possible. There is a bug concerning the old bayes js! <br />What about covering bayes for other sections too?</li>
-            <li>Build poping up multiple help screens to differend themes, or one big main, seperated by columns (?)</li>
+            <li>Finish embed design mode to be compat with old admin theme?</li>
+            <li>Build poping up multiple help screens to differend help content, or one big main, seperated by columns (?)</li>
+            <li>Write help screen(s) content!</li>
             <li>Make CSS really have fluid grid layout!</li>
             <li>General code and CSS cleanup!</li>
             <li></li>
@@ -87,6 +93,7 @@
             <li>ToDo: next release, make dashboard css color customizing navbar tool ... (?)</li>
             <li>ToDo: next release, make all boxes jquery mbContainer like... (?)</li>
             <li>React on full dashboard and framed dashboard (see first link); Build option if done! (?)</li>
+            <li>ToDo: rewrite with new backend smartification</li>
         </ul>
 
     </div>

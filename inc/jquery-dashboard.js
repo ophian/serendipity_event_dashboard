@@ -39,6 +39,8 @@ jQuery(document).ready(function($) {
             }
         );
     });
+
+    // the toggle show/hide all button
     $('.comment_toggleall').addClass('visuallyhidden');
     $('.all-box-right').click(function() {
         // set the class and change the src the first time
