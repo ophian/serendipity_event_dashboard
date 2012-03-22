@@ -1,18 +1,18 @@
-v.0.6.9-alpha-3 | 2012-02-13
+v.0.6.9-beta1 | 2012-03-08
 ===
 
 ## Name: serendipity_event_dashboard
 
 * The Serendipity Dashboard Proof of Concept for version 0.7.
 
-* This is Alpha status, as long as we do not know what might be missing or too much!
+* This is Beta status, as long as there wont be some more testers!
 
-* Please proof the functions and the general behaviour.
+* Please proof the functions and the general behaviour. Live with it for a while.
 
-* Do not mind the colours.
+* Do not mind the colours. They are customizable via CSS.
 
-* The CSS has not yet been cleaned-up.
+* The CSS has not yet been cleaned-up to the end.
 
-* Some functions (like help screens) are not ready and still a work in progress!
+* Some functions (i.e. help screens) are not ready and still a work in progress!
 
 * This Dashboard-Concept is still strictly based to the default Backend as used in /templates/default/admin/* and /templates/bulletproof/admin/*.
