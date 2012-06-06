@@ -1,4 +1,4 @@
-v.0.6.9-beta1 | 2012-03-08
+v.0.6.9-5 | 2012-06-06
 ===
 
 ## Name: serendipity_event_dashboard
@@ -15,4 +15,4 @@ v.0.6.9-beta1 | 2012-03-08
 
 * Some functions (i.e. help screens) are not ready and still a work in progress!
 
-* This Dashboard-Concept is still strictly based to the default Backend as used in /templates/default/admin/* and /templates/bulletproof/admin/*.
+* This Dashboard-Concept is strictly based to the default Backend as used in /templates/default/admin/* and /templates/bulletproof/admin/*.

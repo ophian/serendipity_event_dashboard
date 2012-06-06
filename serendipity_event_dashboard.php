@@ -40,7 +40,7 @@ class serendipity_event_dashboard extends serendipity_event {
             'php'         => '4.1.0'
         ));
 
-        $propbag->add('version',       '0.6.9.4');
+        $propbag->add('version',       '0.6.9.5');
         $propbag->add('author',        'Garvin Hicking, Ian');
         $propbag->add('stackable',     false);
         $propbag->add('configuration', array('read_only', 'limit_comments_pending', 'limit_comments', 'limit_draft', 'limit_future', 'sequence', 'update'));
@@ -280,7 +280,7 @@ class serendipity_event_dashboard extends serendipity_event {
     function compareVersion($newV, $actV) {
         $newV = explode('.', $newV);
         $actV = explode('.', $actV);
-        $length = ( count($newV) < count($actV) ? count($newV) : count($actV) );
+        $length = ( count($newV) > count($actV) ? count($newV) : count($actV) );
 
         for($i=0; $i < $length; $i++){
             if ($newV[$i] > $actV[$i]){
@@ -411,7 +411,7 @@ class serendipity_event_dashboard extends serendipity_event {
             $eventData = '';
             serendipity_plugin_api::hook_event('plugin_dashboard_updater', $eventData, $newVersion);
             $update_text = $this->get_config('update_text');
-            $serendipity['smarty']->assign(array('update_text' => $update_text, 'update_form' => $eventData));
+            $serendipity['smarty']->assign(array('update_text' => $update_text, 'update_form' => !empty($eventData) ? $eventData : 'You are running '.$serendipity['version'] . ' ['.$this->get_config('update').']'));
         }
     }
 
