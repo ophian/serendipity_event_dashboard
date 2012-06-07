@@ -40,7 +40,7 @@ class serendipity_event_dashboard extends serendipity_event {
             'php'         => '4.1.0'
         ));
 
-        $propbag->add('version',       '0.6.9.5');
+        $propbag->add('version',       '0.6.9.6');
         $propbag->add('author',        'Garvin Hicking, Ian');
         $propbag->add('stackable',     false);
         $propbag->add('configuration', array('read_only', 'limit_comments_pending', 'limit_comments', 'limit_draft', 'limit_future', 'sequence', 'update'));
@@ -277,19 +277,6 @@ class serendipity_event_dashboard extends serendipity_event {
         return $entry;
     }
 
-    function compareVersion($newV, $actV) {
-        $newV = explode('.', $newV);
-        $actV = explode('.', $actV);
-        $length = ( count($newV) > count($actV) ? count($newV) : count($actV) );
-
-        for($i=0; $i < $length; $i++){
-            if ($newV[$i] > $actV[$i]){
-                return 1;
-            }
-        }
-        return 0;
-    }
-
     function CheckUpdate() {
         global $serendipity;
 
@@ -331,7 +318,7 @@ class serendipity_event_dashboard extends serendipity_event {
                     }
                     $url="http://www.s9y.org/snapshots/s9y_". date("Ym") . $day . "2342.tar.gz";
                 }
-                if($this->compareVersion($update_to_version, $serendipity['version'])){
+                if ( version_compare($update_to_version, $serendipity['version']) >= 0 ) {
                     $serendipity['smarty']->assign('showElementUpdate', true);
                     $u_text = PLUGIN_DASHBOARD_UPDATE_NOTIFIER . ' <a href="' . $url . '">' . $update_to_version . '</a>';
                     $this->set_config('update_text', $u_text);
@@ -407,7 +394,7 @@ class serendipity_event_dashboard extends serendipity_event {
 
         $serendipity['smarty']->assign(array('update_block_id' => $sort_id, 'showElementUpdate' => true));
 
-        if($this->compareVersion($newVersion, $serendipity['version'])){
+        if ( version_compare($newVersion, $serendipity['version']) >= 0 ) {
             $eventData = '';
             serendipity_plugin_api::hook_event('plugin_dashboard_updater', $eventData, $newVersion);
             $update_text = $this->get_config('update_text');
