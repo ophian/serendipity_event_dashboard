@@ -1,6 +1,6 @@
 <?php # $Id$
 
-// last modified: 2012-03-08
+// last modified: 2012-06-09
 
 if (IN_serendipity !== true) {
     die ("Don't hack!");
@@ -24,6 +24,8 @@ if(!defined(SUMMARY)) @define('SUMMARY', 'Summary');
 @define('CLEAN', 'Clean all compiled templates');
 @define('PLUGIN_DASHBOARD_SYS', 'Dashboard System');
 @define('PLUGIN_DASHBOARD_CLEANSMARTY', 'Cleanup Smarty\'s compiled templates');
+@define('PLUGIN_DASHBOARD_NA', 'N/A [<em>%s, %s</em>] (activate in config)');
+@define('PLUGIN_DASHBOARD_MARK', 'Please do not un-mark all elements at once! Return to config!');
 
 class serendipity_event_dashboard extends serendipity_event {
 
@@ -40,7 +42,7 @@ class serendipity_event_dashboard extends serendipity_event {
             'php'         => '4.1.0'
         ));
 
-        $propbag->add('version',       '0.6.9.6');
+        $propbag->add('version',       '0.6.9.7');
         $propbag->add('author',        'Garvin Hicking, Ian');
         $propbag->add('stackable',     false);
         $propbag->add('configuration', array('read_only', 'limit_comments_pending', 'limit_comments', 'limit_draft', 'limit_future', 'sequence', 'update'));
@@ -118,7 +120,9 @@ class serendipity_event_dashboard extends serendipity_event {
                     'clean'                => array('display' => CLEAN)
                 );
                 $propbag->add('values',      $values);
-                $propbag->add('default',     'comments_pending,comments,draft,future,update,plugup,clean');
+                // functions_plugins_admin.inc.php::case(sequence) needs default to be an array not null, therefore we keep non-grouped 'empty' value here in case of all unmarked elements
+                $secdef = ($this->get_config('update') ?  'empty' : 'comments_pending,comments,draft,future,update,plugup,clean');
+                $propbag->add('default',     $secdef);
                 break;
 
             default:
@@ -280,13 +284,10 @@ class serendipity_event_dashboard extends serendipity_event {
     function CheckUpdate() {
         global $serendipity;
 
-        if (!serendipity_checkPermission('adminUsers')) {
+        if (!serendipity_checkPermission('adminUsers') || $this->get_config('update') == 'none') {
             return;
         }
 
-        if ($this->get_config('update') == 'none') {
-            return;
-        }
         $updateURL = 'https://raw.github.com/s9y/Serendipity/master/docs/RELEASE';
 
         $file = fopen($updateURL, 'r');
@@ -379,7 +380,7 @@ class serendipity_event_dashboard extends serendipity_event {
     function showUpdateNotifier($sort_id) {
         global $serendipity;
 
-        if (!serendipity_checkPermission('adminUsers')) {
+        if (!serendipity_checkPermission('adminUsers') || $this->get_config('update') == 'none') {
             return;
         }
 
@@ -425,10 +426,10 @@ class serendipity_event_dashboard extends serendipity_event {
             return;
         }
         $serendipity['smarty']->assign(
-                                    array(  'showCleanupSmarty' => true,
-                                            'cleanup_block_id'  => $sort_id,
-                                            'plugininstance'    => $this->instance)
-                                        );
+                    array( 'showCleanupSmarty' => true,
+                           'cleanup_block_id'  => $sort_id,
+                           'plugininstance'    => $this->instance
+                    ));
     }
 
     function showElement($element, $sortindex) {
@@ -469,7 +470,7 @@ class serendipity_event_dashboard extends serendipity_event {
         if(!BAYES_INSTALLED) { 
             if($this->plugin_status('serendipity_event_spamblock_bayes')) { 
                 @define('BAYES_INSTALLED', true);
-			}
+            }
         }
 
         /* Set global plugin path setting, to avoid different pluginpath '/plugins/' as plugins serendipity vars */
@@ -576,23 +577,27 @@ var bayesLoadIndicator = \''.$serendipity['serendipityHTTPPath'] . 'plugins/sere
                     // include the POST % GET action file
                     include dirname(__FILE__) . '/' . 'dashboard_request_actions.inc.php';
                     $serendipity['smarty']->assign(
-                                                array(  'start'         => $serendipity['GET']['adminModule'] == 'start' ? true : false,
-                                                        'errormsg'      => $errormsg,
-                                                        'elements'      => $elements,
-                                                        'thispath'      => substr($serendipity['dashboard']['pluginpath'], 0, -1),
-                                                        'fullpath'      => dirname(__FILE__),
-                                                        'antispam_hook' => '',
-                                                        'sysinfo'       => $sysinfo,
-                                                        's9yheader'     => array($eventData),
-                                                        'version'       => 'Serendipity ' . $serendipity['version'] . ' ['.$this->get_config('update').']'
+                                                array(  'start'          => $serendipity['GET']['adminModule'] == 'start' ? true : false,
+                                                        'errormsg'       => $errormsg,
+                                                        'elements'       => $elements,
+                                                        'secgroupempty'  => (($this->get_config('sequence')) ? false : true),
+                                                        'plugininstance' => $this->instance,
+                                                        'thispath'       => substr($serendipity['dashboard']['pluginpath'], 0, -1),
+                                                        'fullpath'       => dirname(__FILE__),
+                                                        'antispam_hook'  => '',
+                                                        'sysinfo'        => $sysinfo,
+                                                        's9yheader'      => array($eventData),
+                                                        'version'        => 'Serendipity ' . $serendipity['version'] . ' ['.$this->get_config('update').']'
                                                     )
                                                 );
 
                     $eventData = null; // eventData holds the welcome User message and the link and bookmark box
 
                     // gather the data
-                    foreach($elements AS $key => $element) {
-                        $this->showElement($element, $key);
+                    if (is_array($elements) && !empty($elements) ) {
+                        foreach($elements AS $key => $element) {
+                            $this->showElement($element, $key);
+                        }
                     }
 
                     /* get the dashboard template file */

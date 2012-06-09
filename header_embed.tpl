@@ -1,3 +1,5 @@
+{*** header_embed.tpl 2012-06-09 - last modified 2012-06-09 ***}
+
     <header role="banner">
         <div class="clearfix">
             <nav id="user-menu-user-welcome" role="navigation">
@@ -7,14 +9,14 @@
 
             <nav id="user-menu-user-embed-iconset" role="navigation">
                 <ul class="clearfix">{* fader-blue3 *}
+                    <li><a id="menu-logoff" href="serendipity_admin.php?serendipity[adminModule]=logout"><img src="{$thispath}/img/exitoctogone.png" width="36" height="36" alt="[LO]" title="{$CONST.LOGOUT}" /></a></li>
                     <li><a id="menu-perset" href="serendipity_admin.php?serendipity[adminModule]=personal"><img src="{$thispath}/img/user.png" alt="[PS]" title="{$CONST.PERSONAL_SETTINGS}" /></a></li>
                     {if $showCleanupSmarty}
-                    <li><a id="menu-cleanup" href="?serendipity[noSidebar]=1&amp;serendipity[noBanner]=1&amp;serendipity[action]=admin&amp;serendipity[dashboard_event]=capct&amp;{$urltoken}" onclick="return confirm('{$CONST.PLUGIN_DASHBOARD_CLEANUP_CONFIRM}')"><img src="{$thispath}/img/cleanup128.png" width="32" height="32" alt="[CP]" title="{$CONST.PLUGIN_DASHBOARD_CLEANSMARTY} [{$CONST.PATH_SMARTY_COMPILE}]" /></a></li>
+                    <li><a id="menu-cleanup" href="?serendipity[action]=admin&amp;serendipity[dashboard_event]=capct&amp;{$urltoken}" onclick="return confirm('{$CONST.PLUGIN_DASHBOARD_CLEANUP_CONFIRM}')"><img src="{$thispath}/img/cleanup128.png" width="32" height="32" alt="[CP]" title="{$CONST.PLUGIN_DASHBOARD_CLEANSMARTY} [{$CONST.PATH_SMARTY_COMPILE}]" /></a></li>
                     {/if}
                     {if 'adminPlugins'|checkPermission}
                     <li><a id="menu-plugco" href="?serendipity[adminModule]=plugins&amp;serendipity[plugin_to_conf]={$plugininstance}" class="pluginmanager_configure"><img src="{$thispath}/img/dsbcon128.png" width="32" height="32" alt="[C]" title="{$sysinfo.title} Plugin [{$sysinfo.dashboard_version}]" /></a></li>
                     {/if}
-                    <li><a id="menu-logoff" href="serendipity_admin.php?serendipity[adminModule]=logout"><img src="{$thispath}/img/exitoctogone.png" width="36" height="36" alt="[LO]" title="{$CONST.LOGOUT}" /></a></li>
                     <li><a id="menu-back2b" href="{$serendipityBaseURL}"><img src="{$thispath}/img/b2b128.png" width="32" height="32" alt="[B2B]" title="{$CONST.BACK_TO_BLOG}" /></a></li>
                 </ul>
                 

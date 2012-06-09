@@ -600,6 +600,11 @@ nav#user-menu-user-navigation-select div.main-help {
     display: inline-block;
     width: 100%;
 }
+#dashboard > div.empty_notice { 
+    background: none repeat scroll 0 0 menu;
+    border: 1px solid #AAAAAA;
+    margin: 0 0 0.4%;
+}
 
 #dashboard > section div#draft-entries,
 #dashboard > section div#future-entries,

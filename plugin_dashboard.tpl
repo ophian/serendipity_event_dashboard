@@ -1,5 +1,13 @@
-{*** plugin_dashboard.tpl 2011-03-25 - last modified 2012-02-14 ***}
+{*** plugin_dashboard.tpl 2012-06-09 - last modified 2012-06-09 ***}
 {*** debug ***}
+
+<!--[if gte IE 9]>
+  <style type="text/css">
+    .gradient {ldelim}
+       filter: none;
+    {rdelim}
+  </style>
+<![endif]-->
 
 <div id="dashboard" class="clearfix maincontent">
 
@@ -21,8 +29,10 @@
 {/if}
     
 {foreach from=$elements key="k" item="v" name=elecom}
-    {if $v != 'draft' AND $v != 'future' AND $v != 'update' AND $v != 'plugup' AND $v != 'clean'}
+    {if $v == 'comments_pending' OR $v == 'comments'}
     {include file="$fullpath/block_$v.tpl" title="Dashboard $v Notifier"}
+    {else}
+    <div class="empty_notice">{$CONST.PLUGIN_DASHBOARD_NA|sprintf:"comment_pending":"comments"}</div>
     {/if}
 {/foreach}
 
@@ -30,6 +40,8 @@
 {foreach from=$elements key="k" item="v" name=eleent}
     {if $v == 'draft' OR $v == 'future'}
     {include file="$fullpath/block_$v.tpl" title="Dashboard $v Notifier"}
+    {else}
+    {$CONST.PLUGIN_DASHBOARD_NA|sprintf:"draft":"future"}
     {/if}
 {/foreach}
     </section>
@@ -38,9 +50,15 @@
 {foreach from=$elements key="k" item="v" name=eleupd}
     {if $v == 'update' OR $v == 'plugup'}
     {include file="$fullpath/block_$v.tpl" title="Dashboard $v Notifier"}
+    {else}
+    {$CONST.PLUGIN_DASHBOARD_NA|sprintf:"update":"plugup"}
     {/if}
 {/foreach}
     </section>
+
+{if $secgroupempty}
+    <div class="serendipity_backend_msg_notice">{$CONST.PLUGIN_DASHBOARD_MARK}</div>
+{/if}
 
 {** if NOT $start}
     // fullview temporary disabled, until future purposes...
@@ -50,7 +68,7 @@
 {/if **}
     
 <div class="helpwrapper">
-  <div id="modalContainer" class="containerPlus draggable {ldelim}buttons:'c', skin:'white', width:'900', height:'450', closed:'true', title:'dashboard proof of concept help container'{rdelim}" style="margin: auto;">
+  <div id="modalContainer" class="containerPlus draggable {ldelim}buttons:'c', skin:'white', width:'900', height:'450', closed:'true', title:'dashboard 0.7 (proof of concept) help container'{rdelim}" style="margin: auto;">
     <div class="evidence">
       <h3>The Serendipity Dashboard Help Container ()!</h3>
 
@@ -79,7 +97,11 @@
             <li class="checked">Header links to buttons, as new default design embed quicklink box - without old link and bookmark box content</li>
             <li class="checked">Finish bayes plugin hook engineering, if possible. Depends on bayes v. 0.4.7!</li>
             <li class="checked">Check if bayes is installed, before include js and vars and assign to</li>
-            <li class="checked">Change fetchTemplatePath() to native parseTemplate() (needs s9y v. to be >= 1.3, but we 1.6 already) </li>
+            <li class="checked">Change fetchTemplatePath() to native parseTemplate() (needs s9y v. to be >= 1.3, but we are 1.6 already) </li>
+            <li class="checked">Fixed and changed VersionCompare to native version_compare() </li>
+            <li class="checked">Added some Constants, replaced logoff GUI-button and minors  </li>
+            <li class="checked">Fixed plugininstance non object error in case of disabled CleanCompiles Sec </li>
+            <li class="checked">Fixed sequence elements be still marked if un-marked and submit all elements in config </li>
             <li></li>
             <li>Include old link and bookmark box content to select box, when opening selectbox navigation?</li>
             <li>Move help box button into embed mode design bar?</li>

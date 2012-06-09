@@ -1,6 +1,14 @@
+0.6.9.7
+-----
+Fixed sequence elements be still marked, if un-marked and submitted all elements in config!
+Fixed plugininstance non object error in case of disabled CleanCompiles Sec
+Added some CONSTANTS
+Changed some gui buttons placement
+minors
+
 0.6.9.6
 -----
-use native version check
+use native version_compare() check
 
 0.6.9.5
 -----
@@ -9,6 +17,32 @@ Updater and use of version notice fix
 0.6.9-alpha-3
 -----
 various changes
+
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+0.6.7:
+----
+*  fixed: 1.6 is older than 1.6.2, didn't check all digits
+
+0.6.6:
+----
+* fixed missing global $serendipity in comments function
+
+0.6.5:
+----
+* bugfixed and reverted the comments query call, 
+  since serendipity_fetchComments() can be used only with 1.6 and up (as older version miss the select 'status' field)
+
+0.6.4:
+----
+* bugfix renamed var 
+
+0.6.3:
+----
+* bugfix CRT comment bug 
+* let it look to github instead of svn berlios
+* cleaned up the updatecheck code flow a little to make it better readable
 
 0.6.2:
 ----
