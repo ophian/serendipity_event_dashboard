@@ -605,6 +605,7 @@ nav#user-menu-user-navigation-select div.main-help {
     border: 1px solid #AAAAAA;
     margin: 0 0 0.4%;
 }
+#dashboard sup.note { color: Tan; /* Silver */}
 
 #dashboard > section div#draft-entries,
 #dashboard > section div#future-entries,

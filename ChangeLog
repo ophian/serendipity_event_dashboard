@@ -1,3 +1,7 @@
+0.6.9.7.1
+-----
+Fixed N/A notices in case of empty element blocks
+
 0.6.9.7
 -----
 Fixed sequence elements be still marked, if un-marked and submitted all elements in config!

@@ -1,6 +1,6 @@
 <?php # $Id$
 
-// last modified: 2012-06-09
+// last modified: 2012-06-10
 
 if (IN_serendipity !== true) {
     die ("Don't hack!");
@@ -24,8 +24,8 @@ if(!defined(SUMMARY)) @define('SUMMARY', 'Summary');
 @define('CLEAN', 'Clean all compiled templates');
 @define('PLUGIN_DASHBOARD_SYS', 'Dashboard System');
 @define('PLUGIN_DASHBOARD_CLEANSMARTY', 'Cleanup Smarty\'s compiled templates');
-@define('PLUGIN_DASHBOARD_NA', 'N/A [<em>%s, %s</em>] (activate in config)');
-@define('PLUGIN_DASHBOARD_MARK', 'Please do not un-mark all elements at once! Return to config!');
+@define('PLUGIN_DASHBOARD_NA', '&#160;N/A [<em>%s, %s</em>] <sup class="note">(activate in config)</sup>');
+@define('PLUGIN_DASHBOARD_MARK', 'Please do not un-mark all dashboard elements at once! Return to config!');
 
 class serendipity_event_dashboard extends serendipity_event {
 
@@ -42,7 +42,7 @@ class serendipity_event_dashboard extends serendipity_event {
             'php'         => '4.1.0'
         ));
 
-        $propbag->add('version',       '0.6.9.7');
+        $propbag->add('version',       '0.6.9.7.1');
         $propbag->add('author',        'Garvin Hicking, Ian');
         $propbag->add('stackable',     false);
         $propbag->add('configuration', array('read_only', 'limit_comments_pending', 'limit_comments', 'limit_draft', 'limit_future', 'sequence', 'update'));
@@ -572,6 +572,12 @@ var bayesLoadIndicator = \''.$serendipity['serendipityHTTPPath'] . 'plugins/sere
                     $sysinfo['user'] = htmlspecialchars($serendipity['serendipityUser']);
                     $sysinfo['perm'] = $serendipity['permissionLevels'][$serendipity['serendipityUserlevel']];
 
+                    $block_elements = array();
+                    $block_elements['clean'] = 'clean';
+                    $block_elements['comments'] = explode(',', 'comments_pending,comments');
+                    $block_elements['entries'] = explode(',', 'draft,future');
+                    $block_elements['updates'] = explode(',', 'update,plugup');
+
                     ob_start();
 
                     // include the POST % GET action file
@@ -580,7 +586,8 @@ var bayesLoadIndicator = \''.$serendipity['serendipityHTTPPath'] . 'plugins/sere
                                                 array(  'start'          => $serendipity['GET']['adminModule'] == 'start' ? true : false,
                                                         'errormsg'       => $errormsg,
                                                         'elements'       => $elements,
-                                                        'secgroupempty'  => (($this->get_config('sequence')) ? false : true),
+                                                        'block_elements' => $block_elements,
+                                                        'secgroupempty'  => ($this->get_config('sequence') ? false : true),
                                                         'plugininstance' => $this->instance,
                                                         'thispath'       => substr($serendipity['dashboard']['pluginpath'], 0, -1),
                                                         'fullpath'       => dirname(__FILE__),

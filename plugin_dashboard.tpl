@@ -1,4 +1,4 @@
-{*** plugin_dashboard.tpl 2012-06-09 - last modified 2012-06-09 ***}
+{*** plugin_dashboard.tpl - last modified 2012-06-10 ***}
 {*** debug ***}
 
 <!--[if gte IE 9]>
@@ -28,30 +28,46 @@
     </section>
 {/if}
     
-{foreach from=$elements key="k" item="v" name=elecom}
-    {if $v == 'comments_pending' OR $v == 'comments'}
-    {include file="$fullpath/block_$v.tpl" title="Dashboard $v Notifier"}
-    {else}
-    <div class="empty_notice">{$CONST.PLUGIN_DASHBOARD_NA|sprintf:"comment_pending":"comments"}</div>
+{assign var="empty_comments" value=true}
+{assign var="empty_entries" value=true}
+{assign var="empty_updates" value=true}
+
+{foreach from=$elements item="element" name="block_element"}
+    {foreach from=$block_elements.comments item="comment" name="bco"}
+        {if $comment == $element}
+            {include file="$fullpath/block_$element.tpl" title="Dashboard $element Notifier"}
+            {assign var="empty_comments" value=false}
+        {/if}
+    {/foreach}
+    {if $empty_comments == true}
+    {if $smarty.foreach.block_element.last && !$secgroupempty}<div class="empty_notice">{$CONST.PLUGIN_DASHBOARD_NA|sprintf:"comment_pending":"comments"}</div>{/if}
     {/if}
 {/foreach}
 
     <section id="entries" class="block-entries-main">
-{foreach from=$elements key="k" item="v" name=eleent}
-    {if $v == 'draft' OR $v == 'future'}
-    {include file="$fullpath/block_$v.tpl" title="Dashboard $v Notifier"}
-    {else}
-    {$CONST.PLUGIN_DASHBOARD_NA|sprintf:"draft":"future"}
+{foreach from=$elements item="element" name="block_element"}
+    {foreach from=$block_elements.entries item="entry" name="ben"}
+        {if $entry == $element}
+            {include file="$fullpath/block_$element.tpl" title="Dashboard $element Notifier"}
+            {assign var="empty_entries" value=false}
+        {/if}
+    {/foreach}
+    {if $empty_entries == true}
+    {if $smarty.foreach.block_element.last && !$secgroupempty}{$CONST.PLUGIN_DASHBOARD_NA|sprintf:"draft":"future"}{/if}
     {/if}
 {/foreach}
     </section>
 
     <section id="updates" class="block-updates-main">
-{foreach from=$elements key="k" item="v" name=eleupd}
-    {if $v == 'update' OR $v == 'plugup'}
-    {include file="$fullpath/block_$v.tpl" title="Dashboard $v Notifier"}
-    {else}
-    {$CONST.PLUGIN_DASHBOARD_NA|sprintf:"update":"plugup"}
+{foreach from=$elements item="element" name="block_element"}
+    {foreach from=$block_elements.updates item="update" name="bup"}
+        {if $update == $element}
+            {include file="$fullpath/block_$element.tpl" title="Dashboard $element Notifier"}
+            {assign var="empty_updates" value=false}
+        {/if}
+    {/foreach}
+    {if $empty_updates == true}
+    {if $smarty.foreach.block_element.last && !$secgroupempty}{$CONST.PLUGIN_DASHBOARD_NA|sprintf:"update":"plugup"}{/if}
     {/if}
 {/foreach}
     </section>
@@ -102,6 +118,7 @@
             <li class="checked">Added some Constants, replaced logoff GUI-button and minors  </li>
             <li class="checked">Fixed plugininstance non object error in case of disabled CleanCompiles Sec </li>
             <li class="checked">Fixed sequence elements be still marked if un-marked and submit all elements in config </li>
+            <li class="checked">Fixed N/A notices in case of missing blocks </li>
             <li></li>
             <li>Include old link and bookmark box content to select box, when opening selectbox navigation?</li>
             <li>Move help box button into embed mode design bar?</li>
