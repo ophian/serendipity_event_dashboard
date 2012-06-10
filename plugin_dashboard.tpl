@@ -39,8 +39,8 @@
             {assign var="empty_comments" value=false}
         {/if}
     {/foreach}
-    {if $empty_comments == true}
-    {if $smarty.foreach.block_element.last && !$secgroupempty}<div class="empty_notice">{$CONST.PLUGIN_DASHBOARD_NA|sprintf:"comment_pending":"comments"}</div>{/if}
+    {if $smarty.foreach.block_element.last && !$secgroupempty && $empty_comments == true}
+    <div class="empty_notice">{$CONST.PLUGIN_DASHBOARD_NA|sprintf:"comment_pending":"comments"}</div>
     {/if}
 {/foreach}
 
@@ -52,8 +52,8 @@
             {assign var="empty_entries" value=false}
         {/if}
     {/foreach}
-    {if $empty_entries == true}
-    {if $smarty.foreach.block_element.last && !$secgroupempty}{$CONST.PLUGIN_DASHBOARD_NA|sprintf:"draft":"future"}{/if}
+    {if $smarty.foreach.block_element.last && !$secgroupempty && $empty_entries == true}
+    {$CONST.PLUGIN_DASHBOARD_NA|sprintf:"draft":"future"}
     {/if}
 {/foreach}
     </section>
@@ -66,8 +66,8 @@
             {assign var="empty_updates" value=false}
         {/if}
     {/foreach}
-    {if $empty_updates == true}
-    {if $smarty.foreach.block_element.last && !$secgroupempty}{$CONST.PLUGIN_DASHBOARD_NA|sprintf:"update":"plugup"}{/if}
+    {if $smarty.foreach.block_element.last && !$secgroupempty && $empty_updates == true}
+    {$CONST.PLUGIN_DASHBOARD_NA|sprintf:"update":"plugup"}
     {/if}
 {/foreach}
     </section>
