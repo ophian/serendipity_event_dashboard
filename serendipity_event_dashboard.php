@@ -42,7 +42,7 @@ class serendipity_event_dashboard extends serendipity_event {
             'php'         => '4.1.0'
         ));
 
-        $propbag->add('version',       '0.6.9.7.1');
+        $propbag->add('version',       '0.6.9.7.5');
         $propbag->add('author',        'Garvin Hicking, Ian');
         $propbag->add('stackable',     false);
         $propbag->add('configuration', array('read_only', 'limit_comments_pending', 'limit_comments', 'limit_draft', 'limit_future', 'sequence', 'update'));
@@ -513,8 +513,10 @@ class serendipity_event_dashboard extends serendipity_event {
                     echo "\n\n";
                     echo '<link rel="stylesheet" type="text/css" href="'.$serendipity['serendipityHTTPPath'].$serendipity['dashboard']['pluginpath'].'css/mbContainer.css" title="style"  media="screen"/>'."\n";
                     echo "\n\n";
-                    echo '<script type="text/javascript" src="'.$serendipity['serendipityHTTPPath'].$serendipity['dashboard']['pluginpath'].'inc/modernizr-2.5.2.min.js"></script>'."\n";
-                    echo '<script type="text/javascript" src="'.$serendipity['serendipityHTTPPath'].$serendipity['dashboard']['pluginpath'].'inc/jquery-1.7.1.min.js"></script>'."\n";
+                    echo '<script type="text/javascript" src="'.$serendipity['serendipityHTTPPath'].$serendipity['dashboard']['pluginpath'].'inc/modernizr-2.5.3.custom.min.js"></script>'."\n";
+                    echo '<script type="text/javascript" src="'.$serendipity['serendipityHTTPPath'].$serendipity['dashboard']['pluginpath'].'inc/jquery-1.7.2.min.js"></script>'."\n";
+                    echo '<script type="text/javascript" src="'.$serendipity['serendipityHTTPPath'].$serendipity['dashboard']['pluginpath'].'inc/jquery.cookie.js"></script>'."\n";
+
                     #echo '<script type="text/javascript"> jQuery.noConflict(); </script>'."\n";
 
                     echo '<script type="text/javascript" src="'.$serendipity['serendipityHTTPPath'].$serendipity['dashboard']['pluginpath'].'inc/ajax-dashboard.js"></script>'."\n";

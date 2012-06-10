@@ -1,3 +1,8 @@
+0.6.9.7.5
+-----
+Added jquery.cookie support for sidebar/selectbar as session cookie
+Update to modernizr-2.5.3.custom.min.js and jquery-1.7.2.min.js
+
 0.6.9.7.1
 -----
 Fixed N/A notices in case of empty element blocks

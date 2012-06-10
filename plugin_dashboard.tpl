@@ -119,6 +119,8 @@
             <li class="checked">Fixed plugininstance non object error in case of disabled CleanCompiles Sec </li>
             <li class="checked">Fixed sequence elements be still marked if un-marked and submit all elements in config </li>
             <li class="checked">Fixed N/A notices in case of missing blocks </li>
+            <li class="checked">Added jquery.cookie support for sidebar/selectbar as session cookie </li>
+            <li class="checked">Update to modernizr-2.5.3.custom.min.js and jquery-1.7.2.min.js </li>
             <li></li>
             <li>Include old link and bookmark box content to select box, when opening selectbox navigation?</li>
             <li>Move help box button into embed mode design bar?</li>

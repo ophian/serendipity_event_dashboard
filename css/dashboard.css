@@ -319,7 +319,7 @@ nav#user-menu-user-navigation-select div.main-help {
     width: 100%; 
 }
 
-#dashboard .visuallyhidden { border: 0; clip: rect(0 0 0 0); height: 0; margin: 0; padding: 0; overflow: hidden; position: absolute; width: 0; }
+#dashboard .visuallyhidden { border: 0 !important; clip: rect(0 0 0 0); height: 0 !important; margin: 0 !important; padding: 0 !important; overflow: hidden; position: absolute; width: 0 !important; }
 
 #dashboard .comment_boxed { 
     background-color: LightGreen; /* SpringGreen - #FFFFCC - GoldenRod - MediumAquaMarine - MediumSeaGreen - MediumSpringGreen - */
