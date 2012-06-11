@@ -82,11 +82,6 @@ jQuery(document).ready(function($) {
         $("td.serendipityAdminContent").removeClass("serendipityAdminContent noClass").addClass("serendipityAdminContentnoSb");
     };
 
-    // toogle between syteminformation and backend (side)-navbar in nav#user-menu-left-bottom
-    //$('button.navi').hover(function(){$(this).siblings('div#navbar').toggleClass('visuallyhidden');});
-//    $('button.navi').hover(function(){$(this).siblings().toggleClass('visuallyhidden');});
-    //if (!$('button.navi').click(function() { $(this).hover(function(){$(this).siblings().toggleClass('visuallyhidden');}) }) );
-
     // help button hover
     $('button.help').hover(function() { 
         $(this).find('img').stop(true, true).attr({src:img_help2});//.fadeOut()
@@ -162,6 +157,10 @@ jQuery(document).ready(function($) {
         //$('nav#user-menu-user-navigation-select').toggleClass('visuallyhidden');
         $('td.serendipityAdminContent').removeClass('serendipityAdminContentDashboard');
     }
+
+    // remove Spartacus Plugin 'backend_pluginlisting_header' < S9y 1.7 PlugUp notice break markup
+    // <br /><div id="upgrade_notice" class="serendipityAdminMsgSuccess...
+    $('div.dashboard dashboard_plugup').html().remove('<br />');
 
     // convert backend sidebar entries to dropdown select box - case entries
     $(function() { 
