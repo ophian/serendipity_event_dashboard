@@ -160,7 +160,8 @@ jQuery(document).ready(function($) {
 
     // remove Spartacus Plugin 'backend_pluginlisting_header' < S9y 1.7 PlugUp notice break markup
     // <br /><div id="upgrade_notice" class="serendipityAdminMsgSuccess...
-    $('div.dashboard_plugup').children().nextAll('br').remove();
+    $('div.dashboard_plugup').children().nextUntil(':not(br)').remove();
+    //$('div.dashboard_plugup').children().nextAll('br').remove();
 
     // convert backend sidebar entries to dropdown select box - case entries
     $(function() { 

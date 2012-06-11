@@ -1,3 +1,8 @@
+0.6.9.7.6
+-----
+Use async attribute for the script tags in HTML5, optimized script loading sort (hopefully)
+Update to jquery-ui-1.8.21.custom.min.js and minified mbContainer.min.js
+
 0.6.9.7.5
 -----
 Added jquery.cookie support for sidebar/selectbar as session cookie

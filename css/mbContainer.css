@@ -15,7 +15,7 @@
 	position: relative;
 }
 .ui-resizable-handle {
-	position: static;
+	position: absolute;
 	font-size: 0.1px;
 	z-index: 99999;
 	display: block;

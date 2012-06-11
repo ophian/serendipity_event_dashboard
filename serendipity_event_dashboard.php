@@ -1,6 +1,6 @@
 <?php # $Id$
 
-// last modified: 2012-06-10
+// last modified: 2012-06-11
 
 if (IN_serendipity !== true) {
     die ("Don't hack!");
@@ -39,10 +39,10 @@ class serendipity_event_dashboard extends serendipity_event {
         $propbag->add('requirements',  array(
             'serendipity' => '1.6',
             'smarty'      => '2.6.7',
-            'php'         => '4.1.0'
+            'php'         => '5.2.6'
         ));
 
-        $propbag->add('version',       '0.6.9.7.5');
+        $propbag->add('version',       '0.6.9.7.6');
         $propbag->add('author',        'Garvin Hicking, Ian');
         $propbag->add('stackable',     false);
         $propbag->add('configuration', array('read_only', 'limit_comments_pending', 'limit_comments', 'limit_draft', 'limit_future', 'sequence', 'update'));
@@ -509,21 +509,24 @@ class serendipity_event_dashboard extends serendipity_event {
                     if($serendipity['POST']['h5bp-style']) {
                         echo '<link rel="stylesheet" href="'.$serendipity['serendipityHTTPPath'].$serendipity['dashboard']['pluginpath'].'css/style.css" />'."\n";
                     }
-
-                    echo "\n\n";
                     echo '<link rel="stylesheet" type="text/css" href="'.$serendipity['serendipityHTTPPath'].$serendipity['dashboard']['pluginpath'].'css/mbContainer.css" title="style"  media="screen"/>'."\n";
-                    echo "\n\n";
-                    echo '<script type="text/javascript" src="'.$serendipity['serendipityHTTPPath'].$serendipity['dashboard']['pluginpath'].'inc/modernizr-2.5.3.custom.min.js"></script>'."\n";
-                    echo '<script type="text/javascript" src="'.$serendipity['serendipityHTTPPath'].$serendipity['dashboard']['pluginpath'].'inc/jquery-1.7.2.min.js"></script>'."\n";
-                    echo '<script type="text/javascript" src="'.$serendipity['serendipityHTTPPath'].$serendipity['dashboard']['pluginpath'].'inc/jquery.cookie.js"></script>'."\n";
+
+                    echo '<script async src="'.$serendipity['serendipityHTTPPath'].$serendipity['dashboard']['pluginpath'].'inc/modernizr-2.5.3.custom.min.js"></script>'."\n";
+                    echo '<script async src="'.$serendipity['serendipityHTTPPath'].$serendipity['dashboard']['pluginpath'].'inc/jquery-1.7.2.min.js"></script>'."\n";
+                    echo '<script async src="'.$serendipity['serendipityHTTPPath'].$serendipity['dashboard']['pluginpath'].'inc/jquery.cookie.min.js"></script>'."\n";
 
                     #echo '<script type="text/javascript"> jQuery.noConflict(); </script>'."\n";
 
                     echo '<script type="text/javascript" src="'.$serendipity['serendipityHTTPPath'].$serendipity['dashboard']['pluginpath'].'inc/ajax-dashboard.js"></script>'."\n";
-                    echo '<script type="text/javascript" src="'.$serendipity['serendipityHTTPPath'].$serendipity['dashboard']['pluginpath'].'inc/jquery-dashboard.js"></script>'."\n";
-                    echo '<script type="text/javascript" src="'.$serendipity['serendipityHTTPPath'].$serendipity['dashboard']['pluginpath'].'inc/jquery-ui-1.8.17.custom.min.js"></script>'."\n";
-                    echo '<script type="text/javascript" src="'.$serendipity['serendipityHTTPPath'].$serendipity['dashboard']['pluginpath'].'inc/jquery.metadata.js"></script>'."\n";
-                    echo '<script type="text/javascript" src="'.$serendipity['serendipityHTTPPath'].$serendipity['dashboard']['pluginpath'].'inc/mbContainer.js"></script>'."\n";
+                    echo '<script async src="'.$serendipity['serendipityHTTPPath'].$serendipity['dashboard']['pluginpath'].'inc/jquery-dashboard.js"></script>'."\n";
+                    echo '<script async src="'.$serendipity['serendipityHTTPPath'].$serendipity['dashboard']['pluginpath'].'inc/jquery-ui-1.8.21.custom.min.js"></script>'."\n";
+                    echo '<script async src="'.$serendipity['serendipityHTTPPath'].$serendipity['dashboard']['pluginpath'].'inc/jquery.metadata.js"></script>'."\n";
+                    // include spamblock_bayes js file - see bayes vars above
+                    if(BAYES_INSTALLED) { 
+                        echo "<script type='text/javascript' src='{$serendipity['serendipityHTTPPath']}plugins/serendipity_event_spamblock_bayes/bayes_commentlist.js'></script>";
+                    }
+                    echo '<script async src="'.$serendipity['serendipityHTTPPath'].$serendipity['dashboard']['pluginpath'].'inc/mbContainer.min.js"></script>'."\n";
+					
                     // set some JS vars
                     echo '<script type="text/javascript">
 var const_view   = \''.VIEW_FULL.'\';
@@ -532,6 +535,8 @@ var img_plus     = \''.serendipity_getTemplateFile("img/plus.png").'\';
 var img_minus    = \''.serendipity_getTemplateFile("img/minus.png").'\';
 var img_help2    = \''.$serendipity['serendipityHTTPPath'].$serendipity['dashboard']['pluginpath'].'img/help_oran.png\';
 var img_help1    = \''.$serendipity['serendipityHTTPPath'].$serendipity['dashboard']['pluginpath'].'img/help_blue.png\';
+var img_slidein  = \''.$serendipity['serendipityHTTPPath'].$serendipity['dashboard']['pluginpath'].'img/fade-in.png\';
+var img_slideout = \''.$serendipity['serendipityHTTPPath'].$serendipity['dashboard']['pluginpath'].'img/fade-out.png\';
 var jspath       = \''.$serendipity['serendipityHTTPPath'].$serendipity['dashboard']['pluginpath'].'\';
 var elpath       = \''.$serendipity['serendipityHTTPPath'].$serendipity['dashboard']['pluginpath'].'elements/\';';
 if(BAYES_INSTALLED) { echo '
@@ -544,10 +549,6 @@ var bayesHelpTitle = \''.PLUGIN_EVENT_SPAMBLOCK_BAYES_RATING_EXPLANATION.'\';
 var bayesLoadIndicator = \''.$serendipity['serendipityHTTPPath'] . 'plugins/serendipity_event_spamblock_bayes/img/spamblock_bayes.load.gif\';';
 } echo '
 </script>'."\n";
-                    // include spamblock_bayes js file - see bayes vars above
-                    if(BAYES_INSTALLED) { 
-                        echo "<script type='text/javascript' src='{$serendipity['serendipityHTTPPath']}plugins/serendipity_event_spamblock_bayes/bayes_commentlist.js'></script>";
-                    }
 
                     break;
 

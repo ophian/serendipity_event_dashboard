@@ -1,4 +1,4 @@
-{*** plugin_dashboard.tpl - last modified 2012-06-10 ***}
+{*** plugin_dashboard.tpl - last modified 2012-06-11 ***}
 {*** debug ***}
 
 <!--[if gte IE 9]>
@@ -121,6 +121,8 @@
             <li class="checked">Fixed N/A notices in case of missing blocks </li>
             <li class="checked">Added jquery.cookie support for sidebar/selectbar as session cookie </li>
             <li class="checked">Update to modernizr-2.5.3.custom.min.js and jquery-1.7.2.min.js </li>
+            <li class="checked">Use async attribute for the script tags in HTML5, optimized script loading sort (hopefully) </li>
+            <li class="checked">Update to jquery-ui-1.8.21.custom.min.js and minified mbContainer.min.js </li>
             <li></li>
             <li>Include old link and bookmark box content to select box, when opening selectbox navigation?</li>
             <li>Move help box button into embed mode design bar?</li>
