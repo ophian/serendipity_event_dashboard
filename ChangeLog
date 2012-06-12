@@ -1,3 +1,7 @@
+0.6.9.8
+-----
+Added note for available dependency event plugin autoupdate
+
 0.6.9.7.6
 -----
 Use async attribute for the script tags in HTML5, optimized script loading sort (hopefully)

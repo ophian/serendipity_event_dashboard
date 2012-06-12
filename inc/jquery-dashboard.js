@@ -120,6 +120,17 @@ jQuery(document).ready(function($) {
         $('td.serendipityAdminContent').removeClass('serendipityAdminContentDashboard');
     });
 
+    // autoupdater note
+    $("img.autoupdate").toggle( 
+      function (event) { 
+        //console.log('toogle autoupdate: click-in');
+        $('#boxed_autoupdate').toggleClass('visuallyhidden');
+      }, 
+      function (event) { 
+        //console.log('toogle autoupdate: click-out');
+        $('#boxed_autoupdate').toggleClass('visuallyhidden');
+    });
+
     // set cookie on slidenav click event
     var $layouts = $('td#serendipitySideBar, .nav#user-menu-user-navigation-select'), // cache objects
         $button  = $('img.slidenav');                                                 // to avoid overhead
@@ -127,8 +138,10 @@ jQuery(document).ready(function($) {
     $button.click(function(e, className) { 
         e.preventDefault();
         if(typeof className != 'undefined') { 
-            $('.'+className).hide();//toggleClass('visuallyhidden');
+        //    $('.'+className).hide();//toggleClass('visuallyhidden');
         }
+
+        // let the function toogle as stated
         $layouts.toggle();
         // set cookie to hold the state
         $.cookie('shown_type', ($layouts.eq(0).is(':visible') ? 'isSideBar' : 'isSelectBar'));
@@ -151,7 +164,7 @@ jQuery(document).ready(function($) {
         //console.log('Cookie: '+shown_type);
     }
 
-    // make sure everything outside dashboard has the normal isSideBar Layout!
+    // make sure everything outside dashboard has the normal 'isSideBar' Layout!
     if ( !$('#dashboard').children().length > 0 ) { 
         $('td#serendipitySideBar').fadeIn();
         //$('nav#user-menu-user-navigation-select').toggleClass('visuallyhidden');

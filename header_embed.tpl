@@ -1,10 +1,11 @@
-{*** header_embed.tpl 2012-06-09 - last modified 2012-06-09 ***}
+{*** header_embed.tpl - last modified 2012-06-12 ***}
 
     <header role="banner">
         <div class="clearfix">
             <nav id="user-menu-user-welcome" role="navigation">
                 <h2><span>{$s9yheader.0.welcome}</span></h2>
 
+                <div id="boxed_autoupdate" class="visuallyhidden"><p><img class="attention" src="{serendipity_getFile file='admin/img/admin_msg_note.png'}" alt="" /> {$CONST.DASHBOARD_AUTOUPDATE_NOTE}</p></div>
             </nav>
 
             <nav id="user-menu-user-embed-iconset" role="navigation">
@@ -24,6 +25,9 @@
 
             <nav id="user-menu-user-embed-switch" role="navigation">
                  <ul class="clearfix">
+                {if $dpdc_plugin_av} 
+                   <li><img id="menu-autoupdate" class="autoupdate" src="{$thispath}/img/emarkred54.png" width="21" height="54" alt="[U]" title=" &#187; Click: Important Info! &#171; " /></li>
+                {/if}
                    <li><img id="menu-fadenav" class="slidenav" src="{$thispath}/img/switch128.png" width="64" height="64" alt="slidenav" title="{$CONST.ADMIN_FRONTPAGE} {$CONST.PLUGIN_DASHBOARD_TITLE}" /></li>
                 </ul>
             </nav>
@@ -78,11 +82,11 @@
                         {*** USER MANAGEMENT END ***}
                         </li>
 
-					</ul>
+                    </ul>
                 </form>
 
                 {** Better use this independent div floating right here, as a li, which interfers badly with the mbContainer js **}
-				<div class="main-help">
+                <div class="main-help">
                     <button id="iopen" class="help" onclick="$('.containerPlus').mb_open();"><img src="{$thispath}/img/help_blue.png" alt="help" /></button>
                 </div>
 

@@ -1,6 +1,6 @@
 <?php # $Id$
 
-// last modified: 2012-06-11
+// last modified: 2012-06-12
 
 if (IN_serendipity !== true) {
     die ("Don't hack!");
@@ -26,6 +26,7 @@ if(!defined(SUMMARY)) @define('SUMMARY', 'Summary');
 @define('PLUGIN_DASHBOARD_CLEANSMARTY', 'Cleanup Smarty\'s compiled templates');
 @define('PLUGIN_DASHBOARD_NA', '&#160;N/A [<em>%s, %s</em>] <sup class="note">(activate in config)</sup>');
 @define('PLUGIN_DASHBOARD_MARK', 'Please do not un-mark all dashboard elements at once! Return to config!');
+@define('DASHBOARD_AUTOUPDATE_NOTE', 'This Dashboard may use an available dependency Plugin: \'serendipity_event_autoupdate\'!<br />To run a pronounced Serendipity Core update without any need to further manual processing, please additional install this plugin first via Spartacus.');
 
 class serendipity_event_dashboard extends serendipity_event {
 
@@ -42,7 +43,7 @@ class serendipity_event_dashboard extends serendipity_event {
             'php'         => '5.2.6'
         ));
 
-        $propbag->add('version',       '0.6.9.7.6');
+        $propbag->add('version',       '0.6.9.8');
         $propbag->add('author',        'Garvin Hicking, Ian');
         $propbag->add('stackable',     false);
         $propbag->add('configuration', array('read_only', 'limit_comments_pending', 'limit_comments', 'limit_draft', 'limit_future', 'sequence', 'update'));
@@ -136,9 +137,9 @@ class serendipity_event_dashboard extends serendipity_event {
     }
 
     /**
-     * check if plugin is available and installed
+     * check if dependency plugin is available for install
      */
-    function plugin_status($name='') {
+    function check_plugin_status($name='') {
         $plugins = serendipity_plugin_api::enum_plugins('*', false, $name);
         if(is_array($plugins) && !empty($plugins[0]['name'])) {
             return true;
@@ -467,8 +468,8 @@ class serendipity_event_dashboard extends serendipity_event {
         $serendipity['plugin_dashboard_version'] = &$bag->get('version');
 
         /* check if bayes plugin is onBoard and installed */
-        if(!BAYES_INSTALLED) { 
-            if($this->plugin_status('serendipity_event_spamblock_bayes')) { 
+        if(!defined(BAYES_INSTALLED)) { 
+            if($this->check_plugin_status('serendipity_event_spamblock_bayes')) { 
                 @define('BAYES_INSTALLED', true);
             }
         }
@@ -556,6 +557,9 @@ var bayesLoadIndicator = \''.$serendipity['serendipityHTTPPath'] . 'plugins/sere
                     $elements = array();
                     $elements = explode(',', $this->get_config('sequence'));
 
+                    // check dependency plugin availability
+                    $dpdcpiav = (!$this->check_plugin_status('serendipity_event_autoupdate') ? true : false);
+
                     $sysinfo = array();
                     /* we already have these infos - but will keep them here for future purposes */
                     if (serendipity_userLoggedIn()) {
@@ -588,6 +592,7 @@ var bayesLoadIndicator = \''.$serendipity['serendipityHTTPPath'] . 'plugins/sere
                     $serendipity['smarty']->assign(
                                                 array(  'start'          => $serendipity['GET']['adminModule'] == 'start' ? true : false,
                                                         'errormsg'       => $errormsg,
+                                                        'dpdc_plugin_av' => serendipity_db_bool($dpdcpiav),
                                                         'elements'       => $elements,
                                                         'block_elements' => $block_elements,
                                                         'secgroupempty'  => ($this->get_config('sequence') ? false : true),

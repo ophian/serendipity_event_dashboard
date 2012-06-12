@@ -138,6 +138,13 @@ nav#user-menu-user-navigation-select ul#indent-navigation li.select-help {
     display: inline-block;
     float: right;
 }
+#dashboard nav#user-menu-user-embed-switch ul li:first-child{
+    padding-top: 8px;
+}
+#dashboard nav#user-menu-user-embed-switch ul li:last-child {
+    float: right;
+    padding: 2px 6px;
+}
 nav#user-menu-user-navigation-select div.main-help {
     margin: 0pt 0.7em 1em 0pt; 
 	float: right; 
@@ -453,7 +460,7 @@ nav#user-menu-user-navigation-select div.main-help {
 #dashboard nav#user-menu-user-welcome {
     float: left;
     margin: 0 0.7%;
-    width: 64%;
+    width: 60%; /*64%*/
 }
 #dashboard nav#user-menu-user-welcome ul li {
     border: 1px solid #BBBBBB;
@@ -463,6 +470,14 @@ nav#user-menu-user-navigation-select div.main-help {
 }
 #dashboard nav#user-menu-user-welcome h2 {
     margin: 0.5em 0.5em 0.8em;
+}
+#dashboard div#boxed_autoupdate {
+    background: none repeat scroll 0 0 ivory;
+    border: 1px solid red;
+    display: table;
+    font-size: 89%;
+    margin: -0.7em 0 0.3em;
+    padding: 0.1em 0 0 0.1em;
 }
 #dashboard nav#user-menu-user-navigation {
     border: 1px solid #BBBBBB;
