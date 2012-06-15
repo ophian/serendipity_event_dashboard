@@ -1,3 +1,9 @@
+0.6.9.9
+-----
+Changed comments header in markup, CSS, jquery to fit the toggling to new markup - opacity to last comments colours
+Plastined iconbar css and changed last added icon for the Plugin availability note
+Enhanced path includement setting with 2 new option for http and full path, while some people use symlinked plugins dirs
+
 0.6.9.8
 -----
 Added note for available dependency event plugin autoupdate

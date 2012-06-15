@@ -1,4 +1,4 @@
-{*** plugin_dashboard.tpl - last modified 2012-06-12 ***}
+{*** plugin_dashboard.tpl - last modified 2012-06-15 ***}
 {*** debug ***}
 
 <!--[if gte IE 9]>
@@ -124,6 +124,9 @@
             <li class="checked">Use async attribute for the script tags in HTML5, optimized script loading sort (hopefully) </li>
             <li class="checked">Update to jquery-ui-1.8.21.custom.min.js and minified mbContainer.min.js </li>
             <li class="checked">Added note for available dependency event plugin autoupdate </li>
+            <li class="checked">Changed comments header in markup, CSS, jquery to fit the toggling to new markup - opacity to comments colours </li>
+            <li class="checked">Plastined iconbar css and changed last added icon for the Plugin availability note </li>
+            <li class="checked">Enhanced path includement setting </li>
             <li></li>
             <li>Include old link and bookmark box content to select box, when opening selectbox navigation?</li>
             <li>Move help box button into embed mode design bar?</li>
@@ -131,6 +134,7 @@
             <li>Build poping up multiple help screens to differend help content, or one big main, seperated by columns (?)</li>
             <li>Write help screen(s) content!</li>
             <li>Make CSS really have fluid grid layout!</li>
+            <li>Mobile ready?! </li>
             <li>General code and CSS cleanup!</li>
             <li></li>
             <li>ToDo: next release, open (some) "edit-entry-links" inside the dashboard via modalContainer... (?)</li>

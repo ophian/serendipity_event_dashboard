@@ -1,6 +1,6 @@
 <?php # $Id$
 
-// last modified: 2012-06-12
+// last modified: 2012-06-15
 
 if (IN_serendipity !== true) {
     die ("Don't hack!");
@@ -15,11 +15,11 @@ if (file_exists($probelang)) {
 include_once dirname(__FILE__) . '/lang_en.inc.php';
 
 // define missing CONSTANTS (<en> fallback) if not within some current S9y installation
-if(!defined(MODERATE_SELECTED_COMMENTS)) @define('MODERATE_SELECTED_COMMENTS', 'Approve selected comments');
-if(!defined(ACTIVE_COMMENT_SUBSCRIPTION)) @define('ACTIVE_COMMENT_SUBSCRIPTION', 'Subscribed');
-if(!defined(PENDING_COMMENT_SUBSCRIPTION)) @define('PENDING_COMMENT_SUBSCRIPTION', 'Pending confirmation');
-if(!defined(NO_COMMENT_SUBSCRIPTION)) @define('NO_COMMENT_SUBSCRIPTION', 'Not subscribed');
-if(!defined(SUMMARY)) @define('SUMMARY', 'Summary');
+if(!defined('MODERATE_SELECTED_COMMENTS')) @define('MODERATE_SELECTED_COMMENTS', 'Approve selected comments');
+if(!defined('ACTIVE_COMMENT_SUBSCRIPTION')) @define('ACTIVE_COMMENT_SUBSCRIPTION', 'Subscribed');
+if(!defined('PENDING_COMMENT_SUBSCRIPTION')) @define('PENDING_COMMENT_SUBSCRIPTION', 'Pending confirmation');
+if(!defined('NO_COMMENT_SUBSCRIPTION')) @define('NO_COMMENT_SUBSCRIPTION', 'Not subscribed');
+if(!defined('SUMMARY')) @define('SUMMARY', 'Summary');
 
 @define('CLEAN', 'Clean all compiled templates');
 @define('PLUGIN_DASHBOARD_SYS', 'Dashboard System');
@@ -27,6 +27,17 @@ if(!defined(SUMMARY)) @define('SUMMARY', 'Summary');
 @define('PLUGIN_DASHBOARD_NA', '&#160;N/A [<em>%s, %s</em>] <sup class="note">(activate in config)</sup>');
 @define('PLUGIN_DASHBOARD_MARK', 'Please do not un-mark all dashboard elements at once! Return to config!');
 @define('DASHBOARD_AUTOUPDATE_NOTE', 'This Dashboard may use an available dependency Plugin: \'serendipity_event_autoupdate\'!<br />To run a pronounced Serendipity Core update without any need to further manual processing, please additional install this plugin first via Spartacus.');
+@define('PLUGIN_DASHBOARD_PATH', 'Image and Script HTTP path');
+@define('PLUGIN_DASHBOARD_PATH_DESC', 'Enter the full HTTP path (everything after your domain name) that leads to this plugin\'s directory.');
+@define('PLUGIN_DASHBOARD_FULLPATH', 'The full path');
+@define('PLUGIN_DASHBOARD_FULLPATH_DESC', 'Enter the full server path that leads to this plugin\'s directory.');
+
+ /* check if bayes plugin is onBoard and installed */
+if(!defined('BAYES_INSTALLED')) { 
+    if(serendipity_event_dashboard::check_plugin_status('serendipity_event_spamblock_bayes')) { 
+        @define('BAYES_INSTALLED', true);
+    }
+}
 
 class serendipity_event_dashboard extends serendipity_event {
 
@@ -43,10 +54,10 @@ class serendipity_event_dashboard extends serendipity_event {
             'php'         => '5.2.6'
         ));
 
-        $propbag->add('version',       '0.6.9.8');
+        $propbag->add('version',       '0.6.9.9');
         $propbag->add('author',        'Garvin Hicking, Ian');
         $propbag->add('stackable',     false);
-        $propbag->add('configuration', array('read_only', 'limit_comments_pending', 'limit_comments', 'limit_draft', 'limit_future', 'sequence', 'update'));
+        $propbag->add('configuration', array('read_only', 'path', 'fullpath', 'limit_comments_pending', 'limit_comments', 'limit_draft', 'limit_future', 'sequence', 'update'));
         $propbag->add('event_hooks',   array(
                                             'backend_configure'             => true,
                                             'backend_header'                => true,
@@ -58,12 +69,28 @@ class serendipity_event_dashboard extends serendipity_event {
     }
 
     function introspect_config_item($name, &$propbag) {
+        global $serendipity;
+
         switch($name) {
             case 'read_only':
                 $propbag->add('type',        'boolean');
                 $propbag->add('name',        PLUGIN_DASHBOARD_READONLY);
                 $propbag->add('description', PLUGIN_DASHBOARD_READONLY_DESC);
                 $propbag->add('default',     'false');
+                break;
+
+            case 'path':
+                $propbag->add('type',        'string');
+                $propbag->add('name',        PLUGIN_DASHBOARD_PATH);
+                $propbag->add('description', PLUGIN_DASHBOARD_PATH_DESC);
+                $propbag->add('default',     $serendipity['serendipityHTTPPath'] . 'plugins/serendipity_event_dashboard');
+                break;
+
+            case 'fullpath':
+                $propbag->add('type',        'string');
+                $propbag->add('name',        PLUGIN_DASHBOARD_FULLPATH);
+                $propbag->add('description', PLUGIN_DASHBOARD_FULLPATH_DESC);
+                $propbag->add('default',     dirname(__FILE__));
                 break;
 
             case 'limit_comments_pending':
@@ -467,17 +494,12 @@ class serendipity_event_dashboard extends serendipity_event {
 
         $serendipity['plugin_dashboard_version'] = &$bag->get('version');
 
-        /* check if bayes plugin is onBoard and installed */
-        if(!defined(BAYES_INSTALLED)) { 
-            if($this->check_plugin_status('serendipity_event_spamblock_bayes')) { 
-                @define('BAYES_INSTALLED', true);
-            }
+        /* set global plugin path setting, to avoid different pluginpath */
+        if (!defined('DASHBOARD_PLUGINPATH')) {
+            @define('DASHBOARD_PLUGINPATH',  $this->get_config('path'));
         }
-
-        /* Set global plugin path setting, to avoid different pluginpath '/plugins/' as plugins serendipity vars */
-        if(!isset($serendipity['dashboard']['pluginpath'])) { 
-            $pluginpath = pathinfo(dirname(__FILE__));
-            $serendipity['dashboard']['pluginpath'] = basename(rtrim($pluginpath['dirname'], '/')) . '/serendipity_event_dashboard/';
+        if (BAYES_INSTALLED && !defined('BAYES_PLUGINPATH')) {
+            @define('BAYES_PLUGINPATH',  str_replace('/serendipity_event_dashboard', '/serendipity_event_spamblock_bayes', $this->get_config('path')));
         }
 
         // can we still keep this here or better move to backend_frontpage_display hook? (in some cases this place disrupted entry comments forms, why?)
@@ -508,25 +530,25 @@ class serendipity_event_dashboard extends serendipity_event {
                  case 'backend_header':
                     // here we go and and add or restruct the backend header ;-)
                     if($serendipity['POST']['h5bp-style']) {
-                        echo '<link rel="stylesheet" href="'.$serendipity['serendipityHTTPPath'].$serendipity['dashboard']['pluginpath'].'css/style.css" />'."\n";
+                        echo '<link rel="stylesheet" href="' . DASHBOARD_PLUGINPATH . '/css/style.css" />'."\n";
                     }
-                    echo '<link rel="stylesheet" type="text/css" href="'.$serendipity['serendipityHTTPPath'].$serendipity['dashboard']['pluginpath'].'css/mbContainer.css" title="style"  media="screen"/>'."\n";
+                    echo '<link rel="stylesheet" type="text/css" href="' . DASHBOARD_PLUGINPATH . '/css/mbContainer.css" title="style"  media="screen"/>'."\n";
 
-                    echo '<script async src="'.$serendipity['serendipityHTTPPath'].$serendipity['dashboard']['pluginpath'].'inc/modernizr-2.5.3.custom.min.js"></script>'."\n";
-                    echo '<script async src="'.$serendipity['serendipityHTTPPath'].$serendipity['dashboard']['pluginpath'].'inc/jquery-1.7.2.min.js"></script>'."\n";
-                    echo '<script async src="'.$serendipity['serendipityHTTPPath'].$serendipity['dashboard']['pluginpath'].'inc/jquery.cookie.min.js"></script>'."\n";
+                    echo '<script async src="' . DASHBOARD_PLUGINPATH . '/inc/modernizr-2.5.3.custom.min.js"></script>'."\n";
+                    echo '<script async src="' . DASHBOARD_PLUGINPATH . '/inc/jquery-1.7.2.min.js"></script>'."\n";
+                    echo '<script async src="' . DASHBOARD_PLUGINPATH . '/inc/jquery.cookie.min.js"></script>'."\n";
 
                     #echo '<script type="text/javascript"> jQuery.noConflict(); </script>'."\n";
 
-                    echo '<script type="text/javascript" src="'.$serendipity['serendipityHTTPPath'].$serendipity['dashboard']['pluginpath'].'inc/ajax-dashboard.js"></script>'."\n";
-                    echo '<script async src="'.$serendipity['serendipityHTTPPath'].$serendipity['dashboard']['pluginpath'].'inc/jquery-dashboard.js"></script>'."\n";
-                    echo '<script async src="'.$serendipity['serendipityHTTPPath'].$serendipity['dashboard']['pluginpath'].'inc/jquery-ui-1.8.21.custom.min.js"></script>'."\n";
-                    echo '<script async src="'.$serendipity['serendipityHTTPPath'].$serendipity['dashboard']['pluginpath'].'inc/jquery.metadata.js"></script>'."\n";
+                    echo '<script type="text/javascript" src="' . DASHBOARD_PLUGINPATH . '/inc/ajax-dashboard.js"></script>'."\n";
+                    echo '<script async src="' . DASHBOARD_PLUGINPATH . '/inc/jquery-dashboard.js"></script>'."\n";
+                    echo '<script async src="' . DASHBOARD_PLUGINPATH . '/inc/jquery-ui-1.8.21.custom.min.js"></script>'."\n";
+                    echo '<script async src="' . DASHBOARD_PLUGINPATH . '/inc/jquery.metadata.js"></script>'."\n";
                     // include spamblock_bayes js file - see bayes vars above
                     if(BAYES_INSTALLED) { 
-                        echo "<script type='text/javascript' src='{$serendipity['serendipityHTTPPath']}plugins/serendipity_event_spamblock_bayes/bayes_commentlist.js'></script>";
+                        echo '<script type="text/javascript" src="' . BAYES_PLUGINPATH . '/bayes_commentlist.js"></script>';
                     }
-                    echo '<script async src="'.$serendipity['serendipityHTTPPath'].$serendipity['dashboard']['pluginpath'].'inc/mbContainer.min.js"></script>'."\n";
+                    echo '<script async src="' . DASHBOARD_PLUGINPATH . '/inc/mbContainer.min.js"></script>'."\n";
 					
                     // set some JS vars
                     echo '<script type="text/javascript">
@@ -534,20 +556,20 @@ var const_view   = \''.VIEW_FULL.'\';
 var const_hide   = \''.HIDE.'\';
 var img_plus     = \''.serendipity_getTemplateFile("img/plus.png").'\';
 var img_minus    = \''.serendipity_getTemplateFile("img/minus.png").'\';
-var img_help2    = \''.$serendipity['serendipityHTTPPath'].$serendipity['dashboard']['pluginpath'].'img/help_oran.png\';
-var img_help1    = \''.$serendipity['serendipityHTTPPath'].$serendipity['dashboard']['pluginpath'].'img/help_blue.png\';
-var img_slidein  = \''.$serendipity['serendipityHTTPPath'].$serendipity['dashboard']['pluginpath'].'img/fade-in.png\';
-var img_slideout = \''.$serendipity['serendipityHTTPPath'].$serendipity['dashboard']['pluginpath'].'img/fade-out.png\';
-var jspath       = \''.$serendipity['serendipityHTTPPath'].$serendipity['dashboard']['pluginpath'].'\';
-var elpath       = \''.$serendipity['serendipityHTTPPath'].$serendipity['dashboard']['pluginpath'].'elements/\';';
+var img_help2    = \'' . DASHBOARD_PLUGINPATH . '/img/help_oran.png\';
+var img_help1    = \'' . DASHBOARD_PLUGINPATH . '/img/help_blue.png\';
+var img_slidein  = \'' . DASHBOARD_PLUGINPATH . '/img/fade-in.png\';
+var img_slideout = \'' . DASHBOARD_PLUGINPATH . '/img/fade-out.png\';
+var jspath       = \'' . DASHBOARD_PLUGINPATH . '/\';
+var elpath       = \'' . DASHBOARD_PLUGINPATH . '/elements/\';';
 if(BAYES_INSTALLED) { echo '
-var learncommentPath = \''.$serendipity['baseURL'].'index.php?/plugin/learncomment\';
-var ratingPath   = \''.$serendipity['baseURL'].'index.php?/plugin/getRating\';
-var bayesCharset = \''.LANG_CHARSET.'\';
-var bayesDone    = \''.DONE.'\';
-var bayesHelpImage = \''.serendipity_getTemplateFile ('admin/img/admin_msg_note.png').'\';
-var bayesHelpTitle = \''.PLUGIN_EVENT_SPAMBLOCK_BAYES_RATING_EXPLANATION.'\';
-var bayesLoadIndicator = \''.$serendipity['serendipityHTTPPath'] . 'plugins/serendipity_event_spamblock_bayes/img/spamblock_bayes.load.gif\';';
+var learncommentPath = \'' . $serendipity['baseURL'] . 'index.php?/plugin/learncomment\';
+var ratingPath   = \'' . $serendipity['baseURL'] . 'index.php?/plugin/getRating\';
+var bayesCharset = \'' . LANG_CHARSET . '\';
+var bayesDone    = \'' . DONE . '\';
+var bayesHelpImage = \'' . serendipity_getTemplateFile ('admin/img/admin_msg_note.png') . '\';
+var bayesHelpTitle = \'' . PLUGIN_EVENT_SPAMBLOCK_BAYES_RATING_EXPLANATION . '\';
+var bayesLoadIndicator = \'' . BAYES_PLUGINPATH . '/img/spamblock_bayes.load.gif\';';
 } echo '
 </script>'."\n";
 
@@ -597,8 +619,8 @@ var bayesLoadIndicator = \''.$serendipity['serendipityHTTPPath'] . 'plugins/sere
                                                         'block_elements' => $block_elements,
                                                         'secgroupempty'  => ($this->get_config('sequence') ? false : true),
                                                         'plugininstance' => $this->instance,
-                                                        'thispath'       => substr($serendipity['dashboard']['pluginpath'], 0, -1),
-                                                        'fullpath'       => dirname(__FILE__),
+                                                        'thispath'       => DASHBOARD_PLUGINPATH,
+                                                        'fullpath'       => $this->get_config('fullpath'),
                                                         'antispam_hook'  => '',
                                                         'sysinfo'        => $sysinfo,
                                                         's9yheader'      => array($eventData),

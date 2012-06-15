@@ -24,20 +24,21 @@ jQuery(document).ready(function($) {
 
     // toggle comments view more block
     $('.comment_boxed').addClass('visuallyhidden');
-    $('.box-right').click(function() {
+    $('.box-right').click(function() { 
+        // console.log(this);
         // set the class and change the src the first time
-        $(this).siblings('.comment_boxed').toggleClass('visuallyhidden');
+        $(this).parent().siblings('.comment_boxed').toggleClass('visuallyhidden');
         $(this).children().find('img').stop(true, true).attr({src:img_minus}); 
         // now toggle src target each time
         $(this).children('.button').toggle( 
             function () { 
                 $(this).find('img').stop(true, true).attr({src:img_plus});
-                $(this).parent().siblings('.comment_boxed').toggleClass('visuallyhidden');
+                $(this).parents().next().siblings('.comment_boxed').toggleClass('visuallyhidden');
             }, 
             function () { 
                 //console.log(this); // <a class="button" href="#cpl_%">
                 $(this).find('img').stop(true, true).attr({src:img_minus});
-                $(this).parent().siblings('.comment_boxed').toggleClass('visuallyhidden');
+                $(this).parents().next().siblings('.comment_boxed').toggleClass('visuallyhidden');
             }
         );
     });
@@ -121,13 +122,15 @@ jQuery(document).ready(function($) {
     });
 
     // autoupdater note
-    $("img.autoupdate").toggle( 
+    $("span#menu-autoupdate").toggle( 
       function (event) { 
         //console.log('toogle autoupdate: click-in');
+        $(this).parents().siblings('#user-menu-user-welcome').find('span').hide();
         $('#boxed_autoupdate').toggleClass('visuallyhidden');
       }, 
       function (event) { 
         //console.log('toogle autoupdate: click-out');
+        $(this).parents().siblings('#user-menu-user-welcome').find('span').show();
         $('#boxed_autoupdate').toggleClass('visuallyhidden');
     });
 
@@ -137,10 +140,11 @@ jQuery(document).ready(function($) {
 
     $button.click(function(e, className) { 
         e.preventDefault();
+/*
         if(typeof className != 'undefined') { 
         //    $('.'+className).hide();//toggleClass('visuallyhidden');
         }
-
+*/
         // let the function toogle as stated
         $layouts.toggle();
         // set cookie to hold the state

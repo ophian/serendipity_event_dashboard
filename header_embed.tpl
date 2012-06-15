@@ -1,4 +1,4 @@
-{*** header_embed.tpl - last modified 2012-06-12 ***}
+{*** header_embed.tpl - last modified 2012-06-14 ***}
 
     <header role="banner">
         <div class="clearfix">
@@ -9,7 +9,7 @@
             </nav>
 
             <nav id="user-menu-user-embed-iconset" role="navigation">
-                <ul class="clearfix">{* fader-blue3 *}
+                <ul class="clearfix">
                     <li><a id="menu-logoff" href="serendipity_admin.php?serendipity[adminModule]=logout"><img src="{$thispath}/img/exitoctogone.png" width="36" height="36" alt="[LO]" title="{$CONST.LOGOUT}" /></a></li>
                     <li><a id="menu-perset" href="serendipity_admin.php?serendipity[adminModule]=personal"><img src="{$thispath}/img/user.png" alt="[PS]" title="{$CONST.PERSONAL_SETTINGS}" /></a></li>
                     {if $showCleanupSmarty}
@@ -25,8 +25,8 @@
 
             <nav id="user-menu-user-embed-switch" role="navigation">
                  <ul class="clearfix">
-                {if $dpdc_plugin_av} 
-                   <li><img id="menu-autoupdate" class="autoupdate" src="{$thispath}/img/emarkred54.png" width="21" height="54" alt="[U]" title=" &#187; Click: Important Info! &#171; " /></li>
+                {if $dpdc_plugin_av && $showElementUpdate} 
+                   <li><span id="menu-autoupdate" class="text-icon text-icon-notifications" alt="[U]" title=" &#187; click: Important Info! &#171; "></span>{* <img id="menu-autoupdate" class="autoupdate" src="{$thispath}/img/emarkred54.png" width="21" height="54" alt="[U]" title=" &#187; Click: Important Info! &#171; " /> *}</li>
                 {/if}
                    <li><img id="menu-fadenav" class="slidenav" src="{$thispath}/img/switch128.png" width="64" height="64" alt="slidenav" title="{$CONST.ADMIN_FRONTPAGE} {$CONST.PLUGIN_DASHBOARD_TITLE}" /></li>
                 </ul>
