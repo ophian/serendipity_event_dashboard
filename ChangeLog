@@ -1,3 +1,7 @@
+0.6.9.9.1
+-----
+Fixed wrong constant if()
+
 0.6.9.9
 -----
 Changed comments header in markup, CSS, jquery to fit the toggling to new markup - opacity to last comments colours

@@ -1,6 +1,6 @@
 <?php # $Id$
 
-// last modified: 2012-06-15
+// last modified: 2012-06-16
 
 if (IN_serendipity !== true) {
     die ("Don't hack!");
@@ -33,7 +33,7 @@ if(!defined('SUMMARY')) @define('SUMMARY', 'Summary');
 @define('PLUGIN_DASHBOARD_FULLPATH_DESC', 'Enter the full server path that leads to this plugin\'s directory.');
 
  /* check if bayes plugin is onBoard and installed */
-if(!defined('BAYES_INSTALLED')) { 
+if (!defined('BAYES_INSTALLED')) { 
     if(serendipity_event_dashboard::check_plugin_status('serendipity_event_spamblock_bayes')) { 
         @define('BAYES_INSTALLED', true);
     }
@@ -381,10 +381,12 @@ class serendipity_event_dashboard extends serendipity_event {
     function showElementCommentsPending($sort_id) {
         global $serendipity;
 
+        static $hookin = null;
+
         $lim = $this->get_config('limit_comments_pending');
         if ($lim < 1) return;
 
-        if(BAYES_INSTALLED) { $hookin = 'antispam'; }
+        if (defined('BAYES_INSTALLED')) { $hookin = 'antispam'; }
         $serendipity['smarty']->assign('showElementComPend', true);
         $serendipity['smarty']->assign('commpen_block_id', $sort_id);
         $serendipity['smarty']->assign('entry_Compendlist', $this->showElementCommentlist("AND status IN ('pending','confirm')", $lim, $hookin));
@@ -498,7 +500,7 @@ class serendipity_event_dashboard extends serendipity_event {
         if (!defined('DASHBOARD_PLUGINPATH')) {
             @define('DASHBOARD_PLUGINPATH',  $this->get_config('path'));
         }
-        if (BAYES_INSTALLED && !defined('BAYES_PLUGINPATH')) {
+        if (defined('BAYES_INSTALLED') && !defined('BAYES_PLUGINPATH')) {
             @define('BAYES_PLUGINPATH',  str_replace('/serendipity_event_dashboard', '/serendipity_event_spamblock_bayes', $this->get_config('path')));
         }
 
@@ -545,11 +547,11 @@ class serendipity_event_dashboard extends serendipity_event {
                     echo '<script async src="' . DASHBOARD_PLUGINPATH . '/inc/jquery-ui-1.8.21.custom.min.js"></script>'."\n";
                     echo '<script async src="' . DASHBOARD_PLUGINPATH . '/inc/jquery.metadata.js"></script>'."\n";
                     // include spamblock_bayes js file - see bayes vars above
-                    if(BAYES_INSTALLED) { 
+                    if (defined('BAYES_INSTALLED')) { 
                         echo '<script type="text/javascript" src="' . BAYES_PLUGINPATH . '/bayes_commentlist.js"></script>';
                     }
                     echo '<script async src="' . DASHBOARD_PLUGINPATH . '/inc/mbContainer.min.js"></script>'."\n";
-					
+
                     // set some JS vars
                     echo '<script type="text/javascript">
 var const_view   = \''.VIEW_FULL.'\';
@@ -562,7 +564,7 @@ var img_slidein  = \'' . DASHBOARD_PLUGINPATH . '/img/fade-in.png\';
 var img_slideout = \'' . DASHBOARD_PLUGINPATH . '/img/fade-out.png\';
 var jspath       = \'' . DASHBOARD_PLUGINPATH . '/\';
 var elpath       = \'' . DASHBOARD_PLUGINPATH . '/elements/\';';
-if(BAYES_INSTALLED) { echo '
+if (defined('BAYES_INSTALLED')) { echo '
 var learncommentPath = \'' . $serendipity['baseURL'] . 'index.php?/plugin/learncomment\';
 var ratingPath   = \'' . $serendipity['baseURL'] . 'index.php?/plugin/getRating\';
 var bayesCharset = \'' . LANG_CHARSET . '\';

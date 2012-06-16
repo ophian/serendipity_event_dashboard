@@ -1,4 +1,4 @@
-{*** plugin_dashboard.tpl - last modified 2012-06-15 ***}
+{*** plugin_dashboard.tpl - last modified 2012-06-16 ***}
 {*** debug ***}
 
 <!--[if gte IE 9]>
@@ -127,6 +127,7 @@
             <li class="checked">Changed comments header in markup, CSS, jquery to fit the toggling to new markup - opacity to comments colours </li>
             <li class="checked">Plastined iconbar css and changed last added icon for the Plugin availability note </li>
             <li class="checked">Enhanced path includement setting </li>
+            <li class="checked">Fixed wrong constant if() </li>
             <li></li>
             <li>Include old link and bookmark box content to select box, when opening selectbox navigation?</li>
             <li>Move help box button into embed mode design bar?</li>
