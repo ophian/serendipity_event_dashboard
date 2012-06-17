@@ -1,6 +1,6 @@
 0.6.9.9.1
 -----
-Fixed wrong constant if()
+Fixed wrong constant if(), removed fullpath option and minor tweaks
 
 0.6.9.9
 -----

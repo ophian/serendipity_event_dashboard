@@ -1,9 +1,9 @@
-{*** header_embed.tpl - last modified 2012-06-14 ***}
+{*** header_embed.tpl - last modified 2012-06-16 ***}
 
     <header role="banner">
         <div class="clearfix">
             <nav id="user-menu-user-welcome" role="navigation">
-                <h2><span>{$s9yheader.0.welcome}</span></h2>
+                <h2><span><img src="{$thispath}/img/s9y4.png" alt="logo">{$s9yheader.0.welcome}</span></h2>
 
                 <div id="boxed_autoupdate" class="visuallyhidden"><p><img class="attention" src="{serendipity_getFile file='admin/img/admin_msg_note.png'}" alt="" /> {$CONST.DASHBOARD_AUTOUPDATE_NOTE}</p></div>
             </nav>

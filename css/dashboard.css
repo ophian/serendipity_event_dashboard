@@ -34,7 +34,7 @@ html, button, input, select, textarea {
     padding: 0;
 }
 .serendipityAdminContentnoSb {
-    background: url("plugins/serendipity_event_dashboard/img/ls3x.png") repeat scroll 0 0 transparent;
+    background: url("{TEMPLATE_PATH}/img/ls3x.png") repeat scroll 0 0 transparent;
     padding: 3px;
 }
 td.noSidebar {
@@ -452,7 +452,7 @@ nav#user-menu-user-navigation-select div.main-help {
     padding-top: 0;
 }
 #dashboard header > div #head, #dashboard footer > div h1 {
-    background: url("plugins/serendipity_event_dashboard/img/stripes.gif") repeat scroll 0 0 transparent;
+    background: url("{TEMPLATE_PATH}/img/stripes.gif") repeat scroll 0 0 transparent;
     color: Gainsboro;
     padding: 6px;
 }
@@ -490,6 +490,10 @@ nav#user-menu-user-navigation-select div.main-help {
 #dashboard nav#user-menu-user-welcome h2 {
     margin: 0.5em 0.5em 0.8em;
 }
+#dashboard nav#user-menu-user-welcome h2 span img{
+    vertical-align: top;
+}
+
 #dashboard div#boxed_autoupdate {
     background: none repeat scroll 0 0 ivory;
     border: 1px solid red;
@@ -822,14 +826,14 @@ nav#user-menu-user-navigation-select div.main-help {
     background: none repeat scroll 0 0 transparent;
     color: DimGrey;
 }
-.text-icon {
+#dashboard .text-icon {
     display: inline-block;
     font-family: 'serif';
     font-style: normal;
     font-weight: normal;
     text-decoration: none;
 }
-#menu-autoupdate.text-icon {
+#dashboard #menu-autoupdate.text-icon {
     border-color: #AAAAAA;
     border-style: solid dashed;
     border-width: 1px;
@@ -838,13 +842,18 @@ nav#user-menu-user-navigation-select div.main-help {
     line-height: 48px;
     margin: 0;
 }
-.text-icon:before {
+#dashboard .text-icon:before {
     font-size: 56px;
     text-decoration: none;
 }
-.text-icon-notifications:before {
+#dashboard .text-icon-notifications:before {
     content: "!";
 }
 #dashboard div#boxed_autoupdate {
     margin: 0.2em 0.8em;
+}
+#dashboard .box-right {
+    background: none repeat scroll 0 0 buttonface;
+    border-bottom: 1px solid transparent;
+    border-left: 1px solid #999999;
 }

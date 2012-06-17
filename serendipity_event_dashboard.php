@@ -29,8 +29,6 @@ if(!defined('SUMMARY')) @define('SUMMARY', 'Summary');
 @define('DASHBOARD_AUTOUPDATE_NOTE', 'This Dashboard may use an available dependency Plugin: \'serendipity_event_autoupdate\'!<br />To run a pronounced Serendipity Core update without any need to further manual processing, please additional install this plugin first via Spartacus.');
 @define('PLUGIN_DASHBOARD_PATH', 'Image and Script HTTP path');
 @define('PLUGIN_DASHBOARD_PATH_DESC', 'Enter the full HTTP path (everything after your domain name) that leads to this plugin\'s directory.');
-@define('PLUGIN_DASHBOARD_FULLPATH', 'The full path');
-@define('PLUGIN_DASHBOARD_FULLPATH_DESC', 'Enter the full server path that leads to this plugin\'s directory.');
 
  /* check if bayes plugin is onBoard and installed */
 if (!defined('BAYES_INSTALLED')) { 
@@ -54,10 +52,10 @@ class serendipity_event_dashboard extends serendipity_event {
             'php'         => '5.2.6'
         ));
 
-        $propbag->add('version',       '0.6.9.9');
+        $propbag->add('version',       '0.6.9.9.1');
         $propbag->add('author',        'Garvin Hicking, Ian');
         $propbag->add('stackable',     false);
-        $propbag->add('configuration', array('read_only', 'path', 'fullpath', 'limit_comments_pending', 'limit_comments', 'limit_draft', 'limit_future', 'sequence', 'update'));
+        $propbag->add('configuration', array('read_only', 'path', 'limit_comments_pending', 'limit_comments', 'limit_draft', 'limit_future', 'sequence', 'update'));
         $propbag->add('event_hooks',   array(
                                             'backend_configure'             => true,
                                             'backend_header'                => true,
@@ -84,13 +82,6 @@ class serendipity_event_dashboard extends serendipity_event {
                 $propbag->add('name',        PLUGIN_DASHBOARD_PATH);
                 $propbag->add('description', PLUGIN_DASHBOARD_PATH_DESC);
                 $propbag->add('default',     $serendipity['serendipityHTTPPath'] . 'plugins/serendipity_event_dashboard');
-                break;
-
-            case 'fullpath':
-                $propbag->add('type',        'string');
-                $propbag->add('name',        PLUGIN_DASHBOARD_FULLPATH);
-                $propbag->add('description', PLUGIN_DASHBOARD_FULLPATH_DESC);
-                $propbag->add('default',     dirname(__FILE__));
                 break;
 
             case 'limit_comments_pending':
@@ -622,7 +613,7 @@ var bayesLoadIndicator = \'' . BAYES_PLUGINPATH . '/img/spamblock_bayes.load.gif
                                                         'secgroupempty'  => ($this->get_config('sequence') ? false : true),
                                                         'plugininstance' => $this->instance,
                                                         'thispath'       => DASHBOARD_PLUGINPATH,
-                                                        'fullpath'       => $this->get_config('fullpath'),
+                                                        'fullpath'       => dirname(__FILE__),
                                                         'antispam_hook'  => '',
                                                         'sysinfo'        => $sysinfo,
                                                         's9yheader'      => array($eventData),
@@ -656,7 +647,7 @@ var bayesLoadIndicator = \'' . BAYES_PLUGINPATH . '/img/spamblock_bayes.load.gif
                     if (!$tfile || $tfile == $filename) {
                         $tfile = dirname(__FILE__) . '/' . $filename;
                     }
-                    echo file_get_contents($tfile);
+                    echo str_replace('{TEMPLATE_PATH}', DASHBOARD_PLUGINPATH, @file_get_contents($tfile));
                     break;
             }
         }
