@@ -70,12 +70,14 @@
                                 <a target="_blank" onclick="cf = window.open(this.href, 'CommentForm', 'width=800,height=600,toolbar=no,scrollbars=1,scrollbars,resize=1,resizable=1'); cf.focus(); return false;" href="?serendipity[action]=admin&amp;serendipity[adminModule]=comments&amp;serendipity[adminAction]=reply&amp;serendipity[id]={$eclpen.id}&amp;serendipity[entry_id]={$eclpen.entry_id}&amp;serendipity[noBanner]=true&amp;serendipity[noSidebar]=true&amp;{$urltoken}" title="{$CONST.REPLY}" class="serendipityIconLink"><img src="{serendipity_getFile file='admin/img/user_editor.png'}" alt="{$CONST.REPLY}" />{$CONST.REPLY}</a>
                             </li>
                             {if $spamblockbayes_hookin}
-                            <li class="mod_antispam">
+                            <li class="mod_ham">Bayes: 
                                 {* serendipity_hookPlugin hook="backend_view_comment" hookAll="true" *}
                                 <a id="ham{$eclpen.id}" class="serendipityIconLink spamblockBayesControls" onclick="return ham({$eclpen.id})" title="{$CONST.PLUGIN_EVENT_SPAMBLOCK_BAYES_NAME}: {$CONST.PLUGIN_EVENT_SPAMBLOCK_BAYES_HAM}" href="{$serendipityBaseURL}index.php?/plugin/learnAction&amp;action=approve&amp;category=ham&amp;id={$eclpen.id}&amp;entry_id={$eclpen.entry_id}">
                                     <img src="{serendipity_getFile file='admin/img/accept.png'}" alt="" />
                                     {$CONST.PLUGIN_EVENT_SPAMBLOCK_BAYES_HAM}
                                 </a> 
+                            </li>
+                            <li class="mod_spam">
                                 <a id="spam{$eclpen.id}" class="serendipityIconLink spamblockBayesControls" onclick="return spam({$eclpen.id})" title="{$CONST.PLUGIN_EVENT_SPAMBLOCK_BAYES_NAME}: {$CONST.PLUGIN_EVENT_SPAMBLOCK_BAYES_SPAM}" href="{$serendipityBaseURL}index.php?/plugin/learnAction&amp;action=delete&amp;category=spam&amp;id={$eclpen.id}&amp;entry_id={$eclpen.entry_id}">
                                     <img src="{$thispath}/../serendipity_event_spamblock_bayes/img/spamblock_bayes.spam.png" alt="" />
                                     {$CONST.PLUGIN_EVENT_SPAMBLOCK_BAYES_SPAM}

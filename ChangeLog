@@ -1,3 +1,7 @@
+0.6.9.9.2
+-----
+added forgotten pending_comments bayes button changes
+
 0.6.9.9.1
 -----
 Fixed wrong constant if(), removed fullpath option and minor tweaks

@@ -1,6 +1,6 @@
 <?php # $Id$
 
-// last modified: 2012-06-16
+// last modified: 2012-06-21
 
 if (IN_serendipity !== true) {
     die ("Don't hack!");
@@ -52,7 +52,7 @@ class serendipity_event_dashboard extends serendipity_event {
             'php'         => '5.2.6'
         ));
 
-        $propbag->add('version',       '0.6.9.9.1');
+        $propbag->add('version',       '0.6.9.9.2');
         $propbag->add('author',        'Garvin Hicking, Ian');
         $propbag->add('stackable',     false);
         $propbag->add('configuration', array('read_only', 'path', 'limit_comments_pending', 'limit_comments', 'limit_draft', 'limit_future', 'sequence', 'update'));
