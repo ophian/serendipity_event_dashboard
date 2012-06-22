@@ -1,6 +1,6 @@
 <?php # $Id$
 
-// last modified: 2012-06-21
+// last modified: 2012-06-22
 
 if (IN_serendipity !== true) {
     die ("Don't hack!");
@@ -29,13 +29,36 @@ if(!defined('SUMMARY')) @define('SUMMARY', 'Summary');
 @define('DASHBOARD_AUTOUPDATE_NOTE', 'This Dashboard may use an available dependency Plugin: \'serendipity_event_autoupdate\'!<br />To run a pronounced Serendipity Core update without any need to further manual processing, please additional install this plugin first via Spartacus.');
 @define('PLUGIN_DASHBOARD_PATH', 'Image and Script HTTP path');
 @define('PLUGIN_DASHBOARD_PATH_DESC', 'Enter the full HTTP path (everything after your domain name) that leads to this plugin\'s directory.');
+@define('PLUGIN_DASHBOARD_INFOBOX', 'Overview');#Auf einen Blick
+@define('PLUGIN_DASHBOARD_FLIPNOTE', 'Click to swap');#Zum umschalten klicken
+@define('INCLUDE_COMMENT_SELECTION_NEW', '#%s');
+@define('PLUGIN_DELETE_SELECTED', 'Delete selected');
+@define('PLUGIN_MODERATE_SELECTED', 'Approve selected');
+@define('PLUGIN_DASHBOARD_INFO_CONTENT', 'Content');#Inhalt
+@define('PLUGIN_DASHBOARD_INFO_DISCUSSION', 'Discussion');#Diskussion
+@define('PLUGIN_DASHBOARD_INFO_ENTRIES', 'Entries'); #Artikel
+@define('PLUGIN_DASHBOARD_INFO_FREETAGS', 'Freetags'); #Schlagwörter
+@define('PLUGIN_DASHBOARD_INFO_COMMENTS_APPROVED', 'Approved'); #Genehmigte
+@define('PLUGIN_DASHBOARD_INFO_COMMENTS_PENDING', 'Open'); #Offen
+@define('PLUGIN_DASHBOARD_INFO_WIDGETS', 'Sidebar Widgets'); #Sidebar Plugins
+@define('PLUGIN_DASHBOARD_INFO_VERSION', 'You are using: %s');#Du nutzt: 
+@define('PLUGIN_DASHBOARD_INFO_WITH', 'with');#mit
+@define('PLUGIN_DASHBOARD_DEPENDENCY_NOTE', 'Enable Plugin-Dependency Note?');
+@define('PLUGIN_DASHBOARD_DEPENDENCY_NOTE_DESC', '');
 
  /* check if bayes plugin is onBoard and installed */
-if (!defined('BAYES_INSTALLED')) { 
+if(!defined('BAYES_INSTALLED')) { 
     if(serendipity_event_dashboard::check_plugin_status('serendipity_event_spamblock_bayes')) { 
         @define('BAYES_INSTALLED', true);
     }
 }
+ /* check if freetags plugin is onBoard and installed */
+if(!defined('FREETAG_INSTALLED')) { 
+    if(serendipity_event_dashboard::check_plugin_status('serendipity_event_freetag')) { 
+        @define('FREETAG_INSTALLED', true);
+    }
+}
+
 
 class serendipity_event_dashboard extends serendipity_event {
 
@@ -52,10 +75,10 @@ class serendipity_event_dashboard extends serendipity_event {
             'php'         => '5.2.6'
         ));
 
-        $propbag->add('version',       '0.6.9.9.2');
+        $propbag->add('version',       '0.7.1');
         $propbag->add('author',        'Garvin Hicking, Ian');
         $propbag->add('stackable',     false);
-        $propbag->add('configuration', array('read_only', 'path', 'limit_comments_pending', 'limit_comments', 'limit_draft', 'limit_future', 'sequence', 'update'));
+        $propbag->add('configuration', array('read_only', 'path', 'limit_comments_pending', 'limit_comments', 'limit_draft', 'limit_future', 'sequence', 'dependencynote', 'update'));
         $propbag->add('event_hooks',   array(
                                             'backend_configure'             => true,
                                             'backend_header'                => true,
@@ -112,6 +135,13 @@ class serendipity_event_dashboard extends serendipity_event {
                 $propbag->add('default',     '5');
                 break;
 
+            case 'dependencynote':
+                $propbag->add('type',        'boolean');
+                $propbag->add('name',        PLUGIN_DASHBOARD_DEPENDENCY_NOTE);
+                $propbag->add('description', '');
+                $propbag->add('default',     'true');
+                break;
+
             case 'update':
                 $propbag->add('type',        'radio');
                 $propbag->add('name',        PLUGIN_DASHBOARD_UPDATE);
@@ -165,6 +195,39 @@ class serendipity_event_dashboard extends serendipity_event {
         return false;
     }
 
+    /**
+     * Count the number of plugins to which the filter criteria matches
+     *
+     * @access public
+     * @param   array  The filter for plugins (left|right|hide|event|eventh) and even more
+     * @param   boolean If true, the filtering logic will be reversed an all plugins that are NOT part of the filter will be evaluated
+     * @return  int     Number of plugins that were found.
+     */
+    function count_plugins($filter = array(), $negate = false) {
+        global $serendipity;
+
+        $sql = "SELECT COUNT(placement) AS count from {$serendipity['dbPrefix']}plugins ";
+
+        if (is_array($filter)) {
+            $sql .= "WHERE ( ";
+            foreach ($filter as $f) {
+                if ($negate) {
+                    $sql .= "placement != '$f' ";
+                } else {
+                    $sql .= "placement='$f' ";
+                }
+                if (next($filter)==true) $sql .= "AND ";
+            }
+            $sql .= " ) ";
+        }
+        $count = serendipity_db_query($sql, true);
+        if (is_array($count) && isset($count[0])) {
+            return (int) $count[0];
+        }
+
+        return 0;
+    }
+
     function showElementCommentlist($where, $limit, $use_hook = null) {
         global $serendipity;
          
@@ -175,15 +238,8 @@ class serendipity_event_dashboard extends serendipity_event {
         $summaryLength = 120;
         $i = 0;
 
-        if (version_compare(substr($serendipity['version'], 0, 3), '1.6') >= 0) { 
-            $comments = serendipity_fetchComments(null, $limit, 'co.id DESC', true, 'NORMAL', $where);
-        } else {
-            $comments = serendipity_db_query("SELECT c.*, e.title FROM {$serendipity['dbPrefix']}comments c
-                                        LEFT JOIN {$serendipity['dbPrefix']}entries e ON (e.id = c.entry_id)
-                                        WHERE 1 = 1 " . $where
-                                        . (!serendipity_checkPermission('adminEntriesMaintainOthers') ? 'AND e.authorid = ' . (int)$serendipity['authorid'] : '') . "
-                                        ORDER BY c.id DESC LIMIT $limit");
-        }
+        // we already use 1.6 up with this dashboard
+        $comments = serendipity_fetchComments(null, $limit, 'co.id DESC', true, 'NORMAL', $where);
 
         if (!is_array($comments) || count($comments) == 0) {
             return;
@@ -201,6 +257,7 @@ class serendipity_event_dashboard extends serendipity_event {
                 'status'    => $rs['status'],
                 'type'      => $rs['type'],
                 'id'        => $rs['id'],
+                'cID'       => (defined('BAYES_INSTALLED') ? (serendipity_event_spamblock_bayes::classify($rs['body'], 'string') * 100) : false),
                 'title'     => htmlspecialchars($rs['title']),
                 'timestamp' => $rs['timestamp'],
                 'pubdate'   => date("c", (int)$rs['timestamp']),
@@ -230,6 +287,27 @@ class serendipity_event_dashboard extends serendipity_event {
                                 'formtoken' => serendipity_setFormToken()
                             ));
         return $comment;
+    }
+
+    function showElementInfolist() {
+        global $serendipity;
+
+        $infolist['total_count']      = serendipity_db_query("SELECT count(id) FROM {$serendipity['dbPrefix']}entries", true);
+        $infolist['draft_count']      = serendipity_db_query("SELECT count(id) FROM {$serendipity['dbPrefix']}entries WHERE isdraft = 'true'", true);
+        $infolist['publish_count']    = serendipity_db_query("SELECT count(id) FROM {$serendipity['dbPrefix']}entries WHERE isdraft = 'false'", true);
+        $infolist['category_count']   = serendipity_db_query("SELECT count(categoryid) FROM {$serendipity['dbPrefix']}category", true);
+        $infolist['image_count']      = serendipity_db_query("SELECT count(id) FROM {$serendipity['dbPrefix']}images", true);
+        $infolist['comment_ct_all']   = serendipity_db_query("SELECT count(id) FROM {$serendipity['dbPrefix']}comments WHERE type = 'NORMAL'", true);
+        $infolist['comment_ct_app']   = serendipity_db_query("SELECT count(id) FROM {$serendipity['dbPrefix']}comments WHERE type = 'NORMAL' AND status = 'approved'", true);
+        $infolist['comment_ct_pen']   = serendipity_db_query("SELECT count(id) FROM {$serendipity['dbPrefix']}comments WHERE type = 'NORMAL' AND status = 'pending'", true);
+        if (defined('BAYES_INSTALLED')) {
+            $infolist['total_spam']       = serendipity_db_query("SELECT count(id) FROM {$serendipity['dbPrefix']}spamblock_bayes_recycler", true, 'num');
+        }
+        if (defined('FREETAG_INSTALLED')) {
+            $infolist['total_tags']       = count(serendipity_db_query("SELECT DISTINCT tag FROM {$serendipity['dbPrefix']}entrytags", false, 'num'));
+            $serendipity['smarty']->assign('is_freetag_installed', true);
+        }
+        return $infolist;
     }
 
     function showElementEntrylist($filter = array(), $limit = 0) {
@@ -391,6 +469,13 @@ class serendipity_event_dashboard extends serendipity_event {
         }
 
         $serendipity['smarty']->assign('showElementPlugup', true);
+        ob_start();
+        serendipity_plugin_api::hook_event('backend_pluginlisting_header', $serendipity['eyecandy']);
+        $candy = ob_get_contents();
+        ob_end_clean();
+        $plugupnote = str_replace('<br />', '', $candy);
+
+        $serendipity['smarty']->assign('plugup_hook_note', (!empty($plugupnote) ? $plugupnote : ''));
         $serendipity['smarty']->assign('plugup_block_id', $sort_id);
         if (!isset($serendipity['eyecandy']) || serendipity_db_bool($serendipity['eyecandy'])) {
             // use_js_dragdrop ... no need actually
@@ -414,7 +499,7 @@ class serendipity_event_dashboard extends serendipity_event {
         // Check if the last found update version is newer and tell it, if this is the case
         $newVersion = $this->get_config('last_version');
 
-        $serendipity['smarty']->assign(array('update_block_id' => $sort_id, 'showElementUpdate' => true));
+        $serendipity['smarty']->assign(array('update_block_id' => $sort_id, 'showElementUpdate' => true, 'show_dependencynote' => $this->get_config('dependencynote')));
 
         if ( version_compare($newVersion, $serendipity['version']) >= 0 ) {
             $eventData = '';
@@ -453,6 +538,29 @@ class serendipity_event_dashboard extends serendipity_event {
                     ));
     }
 
+    function showElementInfo($sort_id) {
+        global $serendipity;
+
+        $serendipity['smarty']->assign('showElementInfo', true);
+        $serendipity['smarty']->assign('info_block_id', $sort_id);
+        $infolist = $this->showElementInfolist();
+        $ilist = array();
+        if (is_array($infolist)) {
+            $ilist['total_entries'] = $infolist['total_count'][0];
+            $ilist['draft_entries'] = $infolist['draft_count'][0];
+            $ilist['pub_entries']   = $infolist['publish_count'][0];
+            $ilist['total_cats']    = $infolist['category_count'][0];
+            $ilist['total_imgs']    = $infolist['image_count'][0];
+            $ilist['total_comts']   = $infolist['comment_ct_all'][0];
+            $ilist['app_comts']     = $infolist['comment_ct_app'][0];
+            $ilist['pen_comts']     = $infolist['comment_ct_pen'][0];
+            $ilist['total_spam']    = $infolist['total_spam'][0];
+            $ilist['total_tags']    = $infolist['total_tags'];
+        }
+        $serendipity['smarty']->assign('infolist', $ilist);
+
+    }
+
     function showElement($element, $sortindex) {
         switch($element) {
             case 'update':
@@ -475,6 +583,9 @@ class serendipity_event_dashboard extends serendipity_event {
                 break;
             case 'clean':
                 $this->showElementClean($sortindex);
+                break;
+            case 'info':
+                $this->showElementInfo($sortindex);
                 break;
         }
         return true;
@@ -571,6 +682,9 @@ var bayesLoadIndicator = \'' . BAYES_PLUGINPATH . '/img/spamblock_bayes.load.gif
                  case 'backend_frontpage_display':
                     $elements = array();
                     $elements = explode(',', $this->get_config('sequence'));
+                    $elements[] = 'info'; // later add to sequence
+                    $elements[] = 'compen';
+                    $elements[] = 'comapp';
 
                     // check dependency plugin availability
                     $dpdcpiav = (!$this->check_plugin_status('serendipity_event_autoupdate') ? true : false);
@@ -593,10 +707,13 @@ var bayesLoadIndicator = \'' . BAYES_PLUGINPATH . '/img/spamblock_bayes.load.gif
                     $sysinfo['dashboard_version'] = $serendipity['plugin_dashboard_version'];
                     $sysinfo['user'] = htmlspecialchars($serendipity['serendipityUser']);
                     $sysinfo['perm'] = $serendipity['permissionLevels'][$serendipity['serendipityUserlevel']];
+                    $sysinfo['theme'] = $serendipity['template'];
+                    $sysinfo['widgets'] = $this->count_plugins(explode('|','hide|event|eventh'), true);
 
                     $block_elements = array();
                     $block_elements['clean'] = 'clean';
-                    $block_elements['comments'] = explode(',', 'comments_pending,comments');
+                    $block_elements['comments'] = explode(',', 'compen,comapp');
+                    #$block_elements['comments'] = explode(',', 'comments_pending,comments');
                     $block_elements['entries'] = explode(',', 'draft,future');
                     $block_elements['updates'] = explode(',', 'update,plugup');
 

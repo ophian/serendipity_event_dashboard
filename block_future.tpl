@@ -1,7 +1,11 @@
+{*** block_future.tpl - last modified 2012-06-22 ***}
+
 {if $showElementFuture}
-<div id="future-entries" class="block-entries">
+<div id="future-entries" class="block-entries block-box">
+    <div class="flip" title="{$CONST.PLUGIN_DASHBOARD_FLIPNOTE}"><br></div>
+    <h3 class="flipbox"><span>{$CONST.PLUGIN_DASHBOARD_FUTURE} [ <span class="num">{$entry_future|@count}</span> ]</span></h3>
     <div id="sort_{$future_block_id}" class="dashboard dashboard_future">
-        <h3> {$CONST.PLUGIN_DASHBOARD_FUTURE} </h3>
+
         {foreach from=$entry_future item=efuture name='future'}
 
         <div class="serendipity_admin_list_item serendipity_admin_list_item_{cycle values="even,uneven"} serendipity_admin_list_item_future">

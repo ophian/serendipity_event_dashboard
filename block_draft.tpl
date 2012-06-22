@@ -1,7 +1,10 @@
+{*** block_draft.tpl - last modified 2012-06-22 ***}
+
 {if $showElementDraft}
-<div id="draft-entries" class="block-entries">
+<div id="draft-entries" class="block-entries block-box">
+    <div class="flip" title="{$CONST.PLUGIN_DASHBOARD_FLIPNOTE}"><br></div>
+    <h3 class="flipbox"><span>{$CONST.DRAFT} [ <span class="num">{$draft_Entrylist|@count}</span> ]</span></h3>
     <div id="sort_{$draft_block_id}" class="dashboard dashboard_draft">
-        <h3> {$CONST.DRAFT} </h3>
 
         {foreach from=$draft_Entrylist item=edraft name='draft'}
 

@@ -1,3 +1,12 @@
+0.7.1
+-----
+Include an info-box-screen as an overview - also depending to the freetag and bayes plugins
+Boxed pending and approved comments into the 2-Column layout
+Added flip box button in box header via JQuery/CSS
+Improved box and CSS layout - mainly in comments
+Added Bayes rating to pending comments, if installed
+Added config option to disable update plugin availability note - default to show true
+
 0.6.9.9.2
 -----
 added forgotten pending_comments bayes button changes

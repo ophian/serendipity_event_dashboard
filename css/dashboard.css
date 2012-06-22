@@ -26,7 +26,7 @@ html, button, input, select, textarea {
 #dashboard a:visited { color: #551a8b; }
 #dashboard a:hover { color: #06e; }
 #dashboard a:focus { outline: thin dotted; color: #ffffff; background: none repeat scroll 0 0 tomato; }
-#dashboard a:hover, a:active { outline: 0; }
+#dashboard a:hover, #dashboard a:active { outline: 0; }
 
 /* corrects BP3.0 for Dashboard */
 #dashboard input[type="checkbox"], #dashboard input[type="radio"] {
@@ -624,6 +624,7 @@ nav#user-menu-user-navigation-select div.main-help {
 #dashboard nav#user-menu-user-linkbox {
     background: none repeat scroll 0 0 #EFEFEF;
 }
+#dashboard > section#comments,
 #dashboard > section#entries,
 #dashboard > section#updates { 
     background: none repeat scroll 0 0 Menu;
@@ -637,6 +638,8 @@ nav#user-menu-user-navigation-select div.main-help {
 }
 #dashboard sup.note { color: Tan; }
 
+#dashboard > section div#pending-comments, 
+#dashboard > section div#recent-comments,
 #dashboard > section div#draft-entries,
 #dashboard > section div#future-entries,
 #dashboard > section div#s9y-plugup,
@@ -648,7 +651,8 @@ nav#user-menu-user-navigation-select div.main-help {
     min-height: 120.8px;
 }
 
-/* these 2 classes set a first class to the first elemets in row via JQuery*/
+/* these 3 classes set a first class to the first element in row via JQuery*/
+#dashboard > section div.block-comments,
 #dashboard > section div.block-entries,
 #dashboard > section div.block-updates { 
     float: right;
@@ -786,9 +790,82 @@ nav#user-menu-user-navigation-select div.main-help {
 }
 
 /* modifications need to fit in right place later */
+/** ++++++++++++++++++++++++++++++++++++++++++++++++ **/
+#dashboard a:focus { 
+    outline: 0 none;
+    background: none repeat scroll 0 0 transparent;
+    box-shadow: 0 1px 2px 2px rgba(41, 69, 100, 0.5);
+}
+#dashboard .mod_bayes ul li img,
+#dashboard .spamblockBayesRating img {
+    height: 16px;
+    width: 16px;
+}
+#dashboard div.input-boxed {
+    margin: 0.3em 0 0;
+}
+#dashboard div.bayes-boxed {
+    display: inline-block;
+}
+
+#dashboard form#formMultiDeletePen,
+#dashboard form#formMultiDeleteApp {
+    margin: 0;
+}
+#dashboard ul.comment_admin li {
+    border: 1px solid AntiqueWhite;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+    -moz-box-shadow: 0 1px 3px rgba(0,0,0,.5);
+    -webkit-box-shadow: 0 1px 3px rgba(0,0,0,.5);
+    -o-box-shadow: 0 1px 3px rgba(0,0,0,.5);
+}
+#dashboard #pending-comments li.mod_bayes {
+    float: right;
+}
+#dashboard ul.comment_admin {
+    margin: 2px 0 4px;
+}
+#dashboard ul.comment_fields,
+#dashboard ul.comment_admin {
+    width: 100%;
+}
+#dashboard ul.comment_admin li:first-child {
+    margin-left: 0.5em;
+}
+#dashboard ul.comment_admin li.mod_bayes {
+    background: none repeat scroll 0 center transparent;
+    border: 0 none;
+    box-shadow: inherit;
+    margin: 0 0.5em 0 0;
+    padding: 0;
+}
+#dashboard #pending-comments li.mod_ham, #dashboard #pending-comments li.mod_spam {
+    border-radius: 0 / 0;
+    box-shadow: 0 none;
+    margin: 0;
+    padding: 0;
+}
+#dashboard #pending-comments li.mod_bayes li {
+    border: 1px solid AntiqueWhite;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+    -moz-box-shadow: 0 1px 3px rgba(0,0,0,.5);
+    -webkit-box-shadow: 0 1px 3px rgba(0,0,0,.5);
+    -o-box-shadow: 0 1px 3px rgba(0,0,0,.5);
+    margin: 0 0.1em 0 0;
+}
+#dashboard #pending-comments li.mod_bayes ul li {
+    padding: 0 0.2em;
+}
+
+#dashboard #cell_left { 
+    width: 56%; 
+}
 #dashboard .comment_text {
     width: inherit;
 }
+
+#dashboard #pending-comments li.mod_bayes li,
+#dashboard ul.comment_admin li,
 #menu-autoupdate.text-icon,
 #dashboard #recent-comments .comments_header,
 #dashboard #pending-comments .comments_header { 
@@ -802,6 +879,10 @@ nav#user-menu-user-navigation-select div.main-help {
     background: -ms-linear-gradient(top,  rgba(254,255,255,1) 0%,rgba(238,238,238,1) 35%,rgba(221,221,221,1) 100%); /* IE10+ */
     background: linear-gradient(top,  rgba(254,255,255,1) 0%,rgba(238,238,238,1) 35%,rgba(221,221,221,1) 100%); /* W3C */
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#feffff', endColorstr='#dddddd',GradientType=0 ); /* IE6-8 */
+}
+#menu-autoupdate.text-icon,
+#dashboard #recent-comments .comments_header,
+#dashboard #pending-comments .comments_header { 
     box-shadow: 0 1px 3px rgba(0,0,0,.2);
     -moz-box-shadow: 0 1px 3px rgba(0,0,0,.2);
     -webkit-box-shadow: 0 1px 3px rgba(0,0,0,.2);
@@ -814,7 +895,7 @@ nav#user-menu-user-navigation-select div.main-help {
     padding: 0.1em 0.2em;
 }
 #dashboard .comment_titel {
-    padding: 0 0.2em 0.12em;
+    padding: 0;
 }
 #dashboard .comment_boxed,
 #dashboard #recent-comments .comment_text,
@@ -856,4 +937,141 @@ nav#user-menu-user-navigation-select div.main-help {
     background: none repeat scroll 0 0 buttonface;
     border-bottom: 1px solid transparent;
     border-left: 1px solid #999999;
+    margin-right: 0;
+    padding: 0.1em 0.2em;
+}
+#dashboard > section#infos {
+    background: none repeat scroll 0 0 menu;
+    display: inline-block;
+    width: 100%;
+}
+#dashboard > section div#info-box {
+    background: none repeat scroll 0 0 #F9F9F9;
+    border: 1px solid #DFDFDF;
+    display: inline-table;
+    margin: 0.3em 0.2em;
+    min-height: 120.8px;
+    padding: 0;
+    width: 49%;
+}
+#dashboard .block-box {
+    cursor: pointer;
+}
+#dashboard .block-box .flip {
+    cursor: pointer;
+    float: right;
+    height: auto;
+    width: 20px;
+}
+
+#dashboard .flipbox {
+    -moz-user-select: none;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+}
+#dashboard .block-box .flipbox {
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    cursor: move;
+    margin: 0;
+    padding: 3px 0;
+}
+#dashboard .flipbox {
+    background: rgb(249,249,249); /* Old browsers f9f9f9 */
+    /* IE9 SVG, needs conditional override of 'filter' to 'none' */
+    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2Y5ZjlmOSIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNlY2VjZWMiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+    background: -moz-linear-gradient(top,  rgba(249,249,249,1) 0%, rgba(236,236,236,1) 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(249,249,249,1)), color-stop(100%,rgba(236,236,236,1))); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  rgba(249,249,249,1) 0%,rgba(236,236,236,1) 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  rgba(249,249,249,1) 0%,rgba(236,236,236,1) 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  rgba(249,249,249,1) 0%,rgba(236,236,236,1) 100%); /* IE10+ */
+    background: linear-gradient(top,  rgba(249,249,249,1) 0%,rgba(236,236,236,1) 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f9f9f9', endColorstr='#ececec',GradientType=0 ); /* IE6-8 */
+}
+#dashboard .flipbox {
+    border-bottom-color: #DFDFDF;
+    box-shadow: 0 1px 0 #FFFFFF;
+    text-shadow: 0 1px 0 #FFFFFF;
+}
+
+#dashboard .block-box h3>span {
+    color: #222222 !important; /* must overwrite .serendipityAdminContent span */
+}
+#dashboard .block-box h3.flipbox span {
+    color: #464646;
+    padding-left: 0.5em;
+}
+
+#dashboard .block-box .flip {
+    background: url("{TEMPLATE_PATH}/img/arrows.png") no-repeat scroll 0 3px transparent;
+}
+
+#dashboard .dashboard_info a { color: #21759B; }
+#dashboard .dashboard_info a:visited { color: #21759B; }
+#dashboard .dashboard_info a:hover { color: #06e; }
+#dashboard .dashboard_info a:focus { outline: thin dotted; color: #ffffff; background: none repeat scroll 0 0 inactivecaption; }
+#dashboard .dashboard_info a:hover, #dashboard .dashboard_info a:active { outline: 0; }
+#dashboard .dashboard_info a.approved {
+    color: green;
+}
+#dashboard .dashboard_info a.waiting {
+    color: #E66F00;
+}
+#dashboard .dashboard_info a.spam {
+    color: red;
+}
+
+#dashboard .dashboard_info .table {
+    margin: 0;
+    padding: 0;
+    position: relative;
+}
+#dashboard .dashboard_info .table span {
+    float: right;
+    text-align: right;
+}
+#dashboard .dashboard_info .table_content {
+    border-top: 1px solid #ECECEC;
+    float: left;
+    width: 45%;
+    padding: 0 10px 12px;
+}
+#dashboard .dashboard_info .table_discussion {
+    border-top: 1px solid #ECECEC;
+    float: right;
+    width: 40%;
+    padding: 0 10px 12px;
+}
+#dashboard label.num,
+#dashboard .block-box h3.flipbox span.num,
+#dashboard .dashboard_info td.b a {
+    font-family: Georgia,"Times New Roman","Bitstream Charter",Times,serif;
+}
+#dashboard .dashboard_info td.b a {
+    font-size: 18px;
+}
+#dashboard .comments_header label {
+    color: lightslategray; /*DarkGrey*/
+}
+#dashboard #upgrade_notice a, #dashboard #cell_left h3 a, #dashboard .comments_header label a { opacity: 0.7; }
+#dashboard #upgrade_notice a:visited, #dashboard #cell_left h3 a:visited, #dashboard .comments_header label a:visited { color: #03e; }
+#dashboard #upgrade_notice a:hover, #dashboard #cell_left h3 a:hover, #dashboard .comments_header label a:hover { color: #06e; }
+
+#dashboard label.num {
+    color: Navy;
+    color: OrangeRed;
+    font-size: 12px;
+    vertical-align: text-top;
+}
+#dashboard .block-box h3.flipbox span.num {
+    color: Red !important; /* must overwrite .serendipityAdminContent span */
+    font-size: 12px;
+    padding: 0;
+    vertical-align: text-top;
+}
+#dashboard .dashboard_info p.sub, #dashboard .dashboard_info .table, #dashboard .dashboard_info .versions {
+    margin: 3px;
+}
+#dashboard .dashboard_info .versions {
+    clear: both;
 }

@@ -1,4 +1,4 @@
-{*** plugin_dashboard.tpl - last modified 2012-06-16 ***}
+{*** plugin_dashboard.tpl - last modified 2012-06-22 ***}
 {*** debug ***}
 
 <!--[if gte IE 9]>
@@ -32,6 +32,8 @@
 {assign var="empty_entries" value=true}
 {assign var="empty_updates" value=true}
 
+
+    <section id="comments" class="block-comments-main">
 {foreach from=$elements item="element" name="block_element"}
     {foreach from=$block_elements.comments item="comment" name="bco"}
         {if $comment == $element}
@@ -43,6 +45,7 @@
     <div class="empty_notice">{$CONST.PLUGIN_DASHBOARD_NA|sprintf:"comment_pending":"comments"}</div>
     {/if}
 {/foreach}
+    </section>
 
     <section id="entries" class="block-entries-main">
 {foreach from=$elements item="element" name="block_element"}
@@ -72,6 +75,10 @@
 {/foreach}
     </section>
 
+    <section id="infos" class="block-infos-main">
+    {include file="$fullpath/block_info.tpl" title="Dashboard Info summary Notifier"}
+    </section>
+
 {if $secgroupempty}
     <div class="serendipity_backend_msg_notice">{$CONST.PLUGIN_DASHBOARD_MARK}</div>
 {/if}
@@ -84,7 +91,7 @@
 {/if **}
     
 <div class="helpwrapper">
-  <div id="modalContainer" class="containerPlus draggable {ldelim}buttons:'c', skin:'white', width:'900', height:'450', closed:'true', title:'dashboard 0.7 (proof of concept) help container'{rdelim}" style="margin: auto;">
+  <div id="modalContainer" class="containerPlus draggable {ldelim}buttons:'c', skin:'white', width:'900', height:'450', closed:'true', title:'Dashboard (proof of concept) help container'{rdelim}" style="margin: auto;">
     <div class="evidence">
       <h3>The Serendipity Dashboard Help Container ()!</h3>
 
@@ -119,28 +126,38 @@
             <li class="checked">Fixed plugininstance non object error in case of disabled CleanCompiles Sec </li>
             <li class="checked">Fixed sequence elements be still marked if un-marked and submit all elements in config </li>
             <li class="checked">Fixed N/A notices in case of missing blocks </li>
-            <li class="checked">Added jquery.cookie support for sidebar/selectbar as session cookie </li>
-            <li class="checked">Update to modernizr-2.5.3.custom.min.js and jquery-1.7.2.min.js </li>
+            <li class="checked">Added JQuery.cookie support for sidebar/selectbar as session cookie </li>
+            <li class="checked">Update to modernizr-2.5.3.custom.min.js and JQuery-1.7.2.min.js </li>
             <li class="checked">Use async attribute for the script tags in HTML5, optimized script loading sort (hopefully) </li>
-            <li class="checked">Update to jquery-ui-1.8.21.custom.min.js and minified mbContainer.min.js </li>
+            <li class="checked">Update to JQuery-ui-1.8.21.custom.min.js and minified mbContainer.min.js </li>
             <li class="checked">Added note for available dependency event plugin autoupdate </li>
-            <li class="checked">Changed comments header in markup, CSS, jquery to fit the toggling to new markup - opacity to comments colours </li>
+            <li class="checked">Changed comments header in markup, CSS, JQuery to fit the toggling to new markup - opacity to comments colours </li>
             <li class="checked">Plastined iconbar css and changed last added icon for the Plugin availability note </li>
             <li class="checked">Enhanced path includement setting </li>
             <li class="checked">Fixed wrong constant if(), removed fullpath option and minor tweaks </li>
+            <li class="checked">Include info-box-screen as an overview - depending also on freetag and the bayes plugins</li>
+            <li class="checked">Boxed pending and approved comments into the 2-Column layout </li>
+            <li class="checked">Added all flip box button in box header via JQuery/CSS </li>
+            <li class="checked">Improved box and CSS layout - mainly in comments </li>
+            <li class="checked">Added Bayes rating to pending comments </li>
+            <li class="checked">Added config option to disable update plugin availability note - default to show true </li>
             <li></li>
-            <li>Include old link and bookmark box content to select box, when opening selectbox navigation?</li>
-            <li>Move help box button into embed mode design bar?</li>
-            <li>Finish embed design mode to be compat with old admin theme?</li>
-            <li>Build poping up multiple help screens to differend help content, or one big main, seperated by columns (?)</li>
-            <li>Write help screen(s) content!</li>
-            <li>Make CSS really have fluid grid layout!</li>
-            <li>Mobile ready?! </li>
-            <li>General code and CSS cleanup!</li>
+            <li>Add frontend 'maintenance mode' on core updates </li>
+            <li>Bind select navigation to JQuery-UI - (js-navigation, ui-customizable, flexible) </li>
+            <li>Rebuild 1-n-Column Design select- and movable via JQuery and disable sequence floater in config </li>
+            <li>Add flexible hook-in boxes by Plugins </li>
+            <li>Include old link and bookmark box content to select box, when opening selectbox navigation? </li>
+            <li>Move help box button into embed mode design bar? </li>
+            <li class="checked">Finish embed design mode to be compat with old admin theme? </li>
+            <li>Build poping up multiple help screens to differend help content, or one big main, seperated by columns (?) </li>
+            <li>Write help screen(s) content! </li>
+            <li>Make CSS really have fluid grid layout! </li>
+            <li>Mobile ready?! Pass to 1-Column Layour via JQuery </li>
+            <li>General code and CSS cleanup! </li>
             <li></li>
             <li>ToDo: next release, open (some) "edit-entry-links" inside the dashboard via modalContainer... (?)</li>
             <li>ToDo: next release, make dashboard css color customizing navbar tool ... (?)</li>
-            <li>ToDo: next release, make all boxes jquery mbContainer like... (?)</li>
+            <li>ToDo: next release, make all boxes JQuery- mbContainer like... (?)</li>
             <li>React on full dashboard and framed dashboard (see first link); Build option if done! (?)</li>
             <li>ToDo: rewrite with new backend smartification</li>
         </ul>
