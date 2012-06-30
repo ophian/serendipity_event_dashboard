@@ -75,7 +75,7 @@ class serendipity_event_dashboard extends serendipity_event {
             'php'         => '5.2.6'
         ));
 
-        $propbag->add('version',       '0.7.1');
+        $propbag->add('version',       '0.7.2');
         $propbag->add('author',        'Garvin Hicking, Ian');
         $propbag->add('stackable',     false);
         $propbag->add('configuration', array('read_only', 'path', 'limit_comments_pending', 'limit_comments', 'limit_draft', 'limit_future', 'sequence', 'dependencynote', 'update'));
@@ -187,7 +187,7 @@ class serendipity_event_dashboard extends serendipity_event {
     /**
      * check if dependency plugin is available for install
      */
-    function check_plugin_status($name='') {
+    static function check_plugin_status($name='') {
         $plugins = serendipity_plugin_api::enum_plugins('*', false, $name);
         if(is_array($plugins) && !empty($plugins[0]['name'])) {
             return true;

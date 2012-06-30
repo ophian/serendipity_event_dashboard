@@ -1,3 +1,7 @@
+0.7.2
+-----
+Added strict to function check_plugin_status() for E_STRICT environment
+
 0.7.1
 -----
 Include an info-box-screen as an overview - also depending to the freetag and bayes plugins
