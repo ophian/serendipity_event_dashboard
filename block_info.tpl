@@ -1,4 +1,4 @@
-{*** block_info.tpl - last modified 2012-06-22 ***}
+{*** block_info.tpl - last modified 2012-07-01 ***}
 
 {if $showElementInfo}
 <div id="info-box" class="block-infos block-box">
@@ -57,7 +57,6 @@
         </div>
         <div class="versions">
             <p>Theme <span class="b"><a href="serendipity_admin.php?serendipity[adminModule]=templates">"{$sysinfo.theme|upper}"</a></span> {$CONST.PLUGIN_DASHBOARD_INFO_WITH} <span class="b"><a href="serendipity_admin.php?serendipity[adminModule]=plugins">{$sysinfo.widgets} {$CONST.PLUGIN_DASHBOARD_INFO_WIDGETS}</a></span></p>
-            {** <p><a title="Suchmaschinen werden angehalten, den Inhalt der Website nicht zu indexieren" href="options-privacy.php">Suchmaschinen werden blockiert</a></p> **}
             <p id="s9y-version-message">{$CONST.PLUGIN_DASHBOARD_INFO_VERSION|sprintf:"<span class='b'>$version</span>."}</p>
             <br class="clear">
         </div>

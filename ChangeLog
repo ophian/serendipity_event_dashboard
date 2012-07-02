@@ -1,3 +1,7 @@
+0.7.3
+-----
+fixed Bayes rating check
+
 0.7.2
 -----
 Added strict to function check_plugin_status() for E_STRICT environment

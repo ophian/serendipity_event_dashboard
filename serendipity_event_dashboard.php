@@ -1,6 +1,6 @@
 <?php # $Id$
 
-// last modified: 2012-06-22
+// last modified: 2012-07-02
 
 if (IN_serendipity !== true) {
     die ("Don't hack!");
@@ -75,7 +75,7 @@ class serendipity_event_dashboard extends serendipity_event {
             'php'         => '5.2.6'
         ));
 
-        $propbag->add('version',       '0.7.2');
+        $propbag->add('version',       '0.7.3');
         $propbag->add('author',        'Garvin Hicking, Ian');
         $propbag->add('stackable',     false);
         $propbag->add('configuration', array('read_only', 'path', 'limit_comments_pending', 'limit_comments', 'limit_draft', 'limit_future', 'sequence', 'dependencynote', 'update'));
@@ -196,6 +196,24 @@ class serendipity_event_dashboard extends serendipity_event {
     }
 
     /**
+     * load its configured instance, if the bayes plugin is onBoard and installed, else return false
+     */
+    static function classifyBayes($coBody) { 
+        $plugins = serendipity_plugin_api::enum_plugins('*', false, 'serendipity_event_spamblock_bayes'); 
+
+        $theBayesInstallation = null;
+
+        foreach($plugins as $plugin) {
+            $theBayesInstallation = serendipity_plugin_api::load_plugin($plugin['name']);
+            break;
+        }
+        if (isset($theBayesInstallation)) {
+            return $theBayesInstallation->classify($coBody, 'body');
+        }
+        return false;
+    }
+
+    /**
      * Count the number of plugins to which the filter criteria matches
      *
      * @access public
@@ -257,7 +275,7 @@ class serendipity_event_dashboard extends serendipity_event {
                 'status'    => $rs['status'],
                 'type'      => $rs['type'],
                 'id'        => $rs['id'],
-                'cID'       => (defined('BAYES_INSTALLED') ? (serendipity_event_spamblock_bayes::classify($rs['body'], 'string') * 100) : false),
+                'cID'       => ($this->classifyBayes($rs['body']) * 100),
                 'title'     => htmlspecialchars($rs['title']),
                 'timestamp' => $rs['timestamp'],
                 'pubdate'   => date("c", (int)$rs['timestamp']),
