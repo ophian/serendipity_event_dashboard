@@ -7,12 +7,14 @@ v.0.7.4 | 2012-07-03
 
 * This is Beta status, as long as there won't be some more testers!
 
-* Please proof the functions and the general behaviour. Live with it for a while.
+* Please test the functions and the general behaviour. Live with it for a while.
 
 * Do not mind the colours. They are customizable via CSS.
 
-* The CSS has not yet been cleaned-up to the end.
+* The CSS has not yet been cleaned-up.
 
 * Some functions (i.e. help screens) are not ready and still a work in progress!
+
+* The current help screen is my development gazette, noting ideas and fixed issues to this P.o.C.
 
 * This Dashboard-Concept is strictly based to the default Backend as used in /templates/default/admin/* and /templates/bulletproof/admin/*.

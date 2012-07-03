@@ -704,7 +704,7 @@ var img_help2    = \'' . DASHBOARD_PLUGINPATH . '/img/help_oran.png\';
 var img_help1    = \'' . DASHBOARD_PLUGINPATH . '/img/help_blue.png\';
 var img_slidein  = \'' . DASHBOARD_PLUGINPATH . '/img/fade-in.png\';
 var img_slideout = \'' . DASHBOARD_PLUGINPATH . '/img/fade-out.png\';
-var jspath       = \'' . DASHBOARD_PLUGINPATH . '/\';
+var jspath       = \'' . DASHBOARD_PLUGINPATH . '\';
 var elpath       = \'' . DASHBOARD_PLUGINPATH . '/elements/\';';
 if (defined('BAYES_INSTALLED')) { echo '
 var learncommentPath = \'' . $serendipity['baseURL'] . 'index.php?/plugin/learncomment\';
