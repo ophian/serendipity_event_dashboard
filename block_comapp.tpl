@@ -1,4 +1,4 @@
-{*** block_comapp.tpl - last modified 2012-06-22 ***}
+{*** block_comapp.tpl - last modified 2012-07-02 ***}
 
 {if $showElementComments}
 <div id="recent-comments" class="block-comments block-box">
@@ -20,7 +20,7 @@
                     <div id="comments_header_{$eclap.id}" class="comments_header">
                         <input id="multi-select-comment-{$eclap.id}" class="input_checkbox" type="checkbox" name="serendipity[delete][{$eclap.id}]" value="{$eclap.entry_id}" onclick="toogle_checkbox('ckbx_{$eclap.id}', this.checked)" tabindex="{$smarty.foreach.foo.iteration}" />
                         <div class="comment_titel">
-                            <label for="multi-select-comment-{$eclap.id}" class="num">{$CONST.INCLUDE_COMMENT_SELECTION_NEW|@sprintf:$eclap.id}</label> - 
+                            <label for="multi-select-comment-{$eclap.id}" class="num">{$CONST.PLUGIN_DASHBOARD_COMMENT_SELECTION_SHORT|@sprintf:$eclap.id}</label> - 
                             <label for="multi-select-comment-{$eclap.id}">{$CONST.IN_REPLY_TO}: <a href="{$eclap.entry_url}" title="{$eclap.title}">{$eclap.title|truncate:48:"&hellip;"}</a>, <time datetime="{$eclap.pubdate}" pubdate>{$CONST.ON} <img alt="*" src="{serendipity_getFile file='admin/img/clock.png'}" title="{$eclap.timestamp|@formatTime:'%A, %e. %B %Y'}" /></time></label>
                         </div>
                         <div class="box-right"> <a href="#cl_{$eclap.id}" class="button"><img src="{serendipity_getFile file='img/plus.png'}" id="option_{$smarty.foreach.foo.iteration}" class="wizard-img" alt="+/-" title="{$CONST.TOGGLE_OPTION}" /> </a> </div>

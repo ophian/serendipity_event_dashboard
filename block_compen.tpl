@@ -1,4 +1,4 @@
-{*** block_compen.tpl - last modified 2012-06-22 ***}
+{*** block_compen.tpl - last modified 2012-07-02 ***}
 
 {if $showElementComPend}
 <div id="pending-comments" class="block-comments block-box">
@@ -20,7 +20,7 @@
                     <div id="comments_header_{$eclpen.id}" class="comments_header">
                         <input id="multi-select-comment-{$eclpen.id}" class="input_checkbox" type="checkbox" name="serendipity[delete][{$eclpen.id}]" value="{$eclpen.entry_id}" onclick="toogle_checkbox('ckbx_{$eclpen.id}', this.checked)" tabindex="{$smarty.foreach.bar.iteration}" />
                         <div class="comment_titel">
-                            <label for="multi-select-comment-{$eclpen.id}" class="num">{$CONST.INCLUDE_COMMENT_SELECTION_NEW|@sprintf:$eclpen.id}</label> - {* $CONST.COMMENT$CONST.IN_SELECTION *}
+                            <label for="multi-select-comment-{$eclpen.id}" class="num">{$CONST.PLUGIN_DASHBOARD_COMMENT_SELECTION_SHORT|@sprintf:$eclpen.id}</label> - {* $CONST.COMMENT$CONST.IN_SELECTION *}
                             <label for="multi-select-comment-{$eclpen.id}">{$CONST.IN_REPLY_TO}: <a href="{$eclpen.entry_url}" title="{$eclpen.title}">{$eclpen.title|truncate:48:"&hellip;"}</a>, <time datetime="{$eclpen.pubdate}" pubdate>{$CONST.ON} <img alt="*" src="{serendipity_getFile file='admin/img/clock.png'}" title="{$eclpen.timestamp|@formatTime:'%A, %e. %B %Y'}" /></time></label>
                         </div>
                         <div class="box-right"> <a href="#cl_{$eclpen.id}" class="button"><img src="{serendipity_getFile file='img/plus.png'}" id="option_{$smarty.foreach.bar.iteration}" class="wizard-img" alt="+/-" title="{$CONST.TOGGLE_OPTION}" /> </a> </div>
@@ -107,8 +107,8 @@
 
             <div class="input-boxed">
                 <span class="inputtype"><img src="{$thispath}/img/invert.png" alt="" /><input type="button" name="toggle" value="{$CONST.INVERT_SELECTIONS}" onclick="invertSelectionPen()" class="none" /></span>
-                <span class="inputtype"><img src="{$thispath}/img/remove.png" alt="" /><input type="submit" name="toggle" value="{$CONST.PLUGIN_DELETE_SELECTED}" onclick="return confirm('{$CONST.COMMENTS_DELETE_CONFIRM}')" {* DELETE_SELECTED_COMMENTSMODERATE_SELECTED_COMMENTStabindex="{$smarty.foreach.bar.iteration+1}" *}class="none" /></span>
-                <span class="inputtype"><img src="{$thispath}/img/approve.png" alt="" /><input type="submit" name="serendipity[togglemoderate]" value="{$CONST.PLUGIN_MODERATE_SELECTED}" class="none" /></span>
+                <span class="inputtype"><img src="{$thispath}/img/remove.png" alt="" /><input type="submit" name="toggle" value="{$CONST.PLUGIN_DASHBOARD_DELETE_SELECTED}" onclick="return confirm('{$CONST.COMMENTS_DELETE_CONFIRM}')" {* DELETE_SELECTED_COMMENTSMODERATE_SELECTED_COMMENTStabindex="{$smarty.foreach.bar.iteration+1}" *}class="none" /></span>
+                <span class="inputtype"><img src="{$thispath}/img/approve.png" alt="" /><input type="submit" name="serendipity[togglemoderate]" value="{$CONST.PLUGIN_DASHBOARD_MODERATE_SELECTED}" class="none" /></span>
             </div>
 
             {if $spamblockbayes_hookin}

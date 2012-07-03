@@ -1,9 +1,9 @@
-{*** block_info.tpl - last modified 2012-07-01 ***}
+{*** block_info.tpl - last modified 2012-07-02 ***}
 
 {if $showElementInfo}
 <div id="info-box" class="block-infos block-box">
     <div class="flip" title="{$CONST.PLUGIN_DASHBOARD_FLIPNOTE}"><br></div>
-    <h3 class="flipbox"><span>{$CONST.PLUGIN_DASHBOARD_INFOBOX}</span></h3>
+    <h3 class="flipbox"><span>{$CONST.PLUGIN_DASHBOARD_INFO_HEADER}</span></h3>
     <div id="sort_{$info_block_id}" class="dashboard dashboard_info">
         <div class="table table_content">
             <p class="sub">{$CONST.PLUGIN_DASHBOARD_INFO_CONTENT}</p>

@@ -1,3 +1,8 @@
+0.7.4
+-----
+improved instance load check
+more consistent constant notation
+
 0.7.3
 -----
 fixed Bayes rating check

@@ -1,6 +1,6 @@
 <?php # $Id$
 
-// last modified: 2012-07-02
+// last modified: 2012-07-03
 
 if (IN_serendipity !== true) {
     die ("Don't hack!");
@@ -21,30 +21,34 @@ if(!defined('PENDING_COMMENT_SUBSCRIPTION')) @define('PENDING_COMMENT_SUBSCRIPTI
 if(!defined('NO_COMMENT_SUBSCRIPTION')) @define('NO_COMMENT_SUBSCRIPTION', 'Not subscribed');
 if(!defined('SUMMARY')) @define('SUMMARY', 'Summary');
 
-@define('CLEAN', 'Clean all compiled templates');
+@define('PLUGIN_DASHBOARD_CLEAN', 'Clean all compiled templates');
 @define('PLUGIN_DASHBOARD_SYS', 'Dashboard System');
 @define('PLUGIN_DASHBOARD_CLEANSMARTY', 'Cleanup Smarty\'s compiled templates');
 @define('PLUGIN_DASHBOARD_NA', '&#160;N/A [<em>%s, %s</em>] <sup class="note">(activate in config)</sup>');
 @define('PLUGIN_DASHBOARD_MARK', 'Please do not un-mark all dashboard elements at once! Return to config!');
-@define('DASHBOARD_AUTOUPDATE_NOTE', 'This Dashboard may use an available dependency Plugin: \'serendipity_event_autoupdate\'!<br />To run a pronounced Serendipity Core update without any need to further manual processing, please additional install this plugin first via Spartacus.');
+@define('PLUGIN_DASHBOARD_AUTOUPDATE_NOTE', 'This Dashboard may use an available dependency Plugin: \'serendipity_event_autoupdate\'!<br />To run a pronounced Serendipity Core update without any need to further manual processing, please additional install this plugin first via Spartacus.');
 @define('PLUGIN_DASHBOARD_PATH', 'Image and Script HTTP path');
 @define('PLUGIN_DASHBOARD_PATH_DESC', 'Enter the full HTTP path (everything after your domain name) that leads to this plugin\'s directory.');
-@define('PLUGIN_DASHBOARD_INFOBOX', 'Overview');#Auf einen Blick
 @define('PLUGIN_DASHBOARD_FLIPNOTE', 'Click to swap');#Zum umschalten klicken
-@define('INCLUDE_COMMENT_SELECTION_NEW', '#%s');
-@define('PLUGIN_DELETE_SELECTED', 'Delete selected');
-@define('PLUGIN_MODERATE_SELECTED', 'Approve selected');
+@define('PLUGIN_DASHBOARD_COMMENT_SELECTION_SHORT', '#%s');
+@define('PLUGIN_DASHBOARD_DELETE_SELECTED', 'Delete selected');
+@define('PLUGIN_DASHBOARD_MODERATE_SELECTED', 'Approve selected');
+@define('PLUGIN_DASHBOARD_INFO', 'Info Box');#
+@define('PLUGIN_DASHBOARD_INFO_HEADER', 'Overview');#Auf einen Blick
 @define('PLUGIN_DASHBOARD_INFO_CONTENT', 'Content');#Inhalt
 @define('PLUGIN_DASHBOARD_INFO_DISCUSSION', 'Discussion');#Diskussion
 @define('PLUGIN_DASHBOARD_INFO_ENTRIES', 'Entries'); #Artikel
 @define('PLUGIN_DASHBOARD_INFO_FREETAGS', 'Freetags'); #Schlagwörter
 @define('PLUGIN_DASHBOARD_INFO_COMMENTS_APPROVED', 'Approved'); #Genehmigte
 @define('PLUGIN_DASHBOARD_INFO_COMMENTS_PENDING', 'Open'); #Offen
-@define('PLUGIN_DASHBOARD_INFO_WIDGETS', 'Sidebar Widgets'); #Sidebar Plugins
+@define('PLUGIN_DASHBOARD_INFO_WIDGETS', 'Sidebar Plugins [Widgets]'); #Sidebar Plugins
 @define('PLUGIN_DASHBOARD_INFO_VERSION', 'You are using: %s');#Du nutzt: 
 @define('PLUGIN_DASHBOARD_INFO_WITH', 'with');#mit
-@define('PLUGIN_DASHBOARD_DEPENDENCY_NOTE', 'Enable Plugin-Dependency Note?');
+@define('PLUGIN_DASHBOARD_DEPENDENCY_NOTE', 'Enable Plugin-Dependency note in Dashboard header?');
 @define('PLUGIN_DASHBOARD_DEPENDENCY_NOTE_DESC', '');
+@define('PLUGIN_DASHBOARD_MAINTENANCE', 'Enable Upgrade Maintenance Mode?');
+@define('PLUGIN_DASHBOARD_MAINTENANCE_NOTE', 'Maintenance Mode Text Splash');
+@define('PLUGIN_DASHBOARD_MAINTENANCE_TEXT', 'Dieser Blog <%s> wird momentan gewartet. Der Blog ist in kurzer Zeit wieder erreichbar.');
 
  /* check if bayes plugin is onBoard and installed */
 if(!defined('BAYES_INSTALLED')) { 
@@ -63,6 +67,7 @@ if(!defined('FREETAG_INSTALLED')) {
 class serendipity_event_dashboard extends serendipity_event {
 
     var $debug;
+    var $bayes_plugin;
 
     function introspect(&$propbag) {
         global $serendipity;
@@ -75,7 +80,7 @@ class serendipity_event_dashboard extends serendipity_event {
             'php'         => '5.2.6'
         ));
 
-        $propbag->add('version',       '0.7.3');
+        $propbag->add('version',       '0.7.4');
         $propbag->add('author',        'Garvin Hicking, Ian');
         $propbag->add('stackable',     false);
         $propbag->add('configuration', array('read_only', 'path', 'limit_comments_pending', 'limit_comments', 'limit_draft', 'limit_future', 'sequence', 'dependencynote', 'update'));
@@ -166,7 +171,7 @@ class serendipity_event_dashboard extends serendipity_event {
                     'future'               => array('display' => PLUGIN_DASHBOARD_FUTURE),
                     'update'               => array('display' => UPDATE),
                     'plugup'               => array('display' => PLUGUP),
-                    'clean'                => array('display' => CLEAN)
+                    'clean'                => array('display' => PLUGIN_DASHBOARD_CLEAN)
                 );
                 $propbag->add('values',      $values);
                 // functions_plugins_admin.inc.php::case(sequence) needs default to be an array not null, therefore we keep non-grouped 'empty' value here in case of all unmarked elements
@@ -196,19 +201,33 @@ class serendipity_event_dashboard extends serendipity_event {
     }
 
     /**
-     * load its configured instance, if the bayes plugin is onBoard and installed, else return false
+     * load its configured instance once, if the bayes plugin is onBoard and installed
      */
-    static function classifyBayes($coBody) { 
-        $plugins = serendipity_plugin_api::enum_plugins('*', false, 'serendipity_event_spamblock_bayes'); 
+    function findBayes() {
+        if (!isset($this->bayes_plugin)) {
+            // find installed plugin 
+            $plugins = serendipity_plugin_api::enum_plugins('*', false, 'serendipity_event_spamblock_bayes'); 
 
-        $theBayesInstallation = null;
+            $plugin_found = null;
 
-        foreach($plugins as $plugin) {
-            $theBayesInstallation = serendipity_plugin_api::load_plugin($plugin['name']);
-            break;
+            foreach($plugins as $plugin) {
+                // load instance
+                $plugin_found = serendipity_plugin_api::load_plugin($plugin['name']);
+                break;
+            }
+
+            $this->bayes_plugin = $plugin_found;
         }
-        if (isset($theBayesInstallation)) {
-            return $theBayesInstallation->classify($coBody, 'body');
+        return $this->bayes_plugin;
+    }
+
+    /**
+     * return classify by configured instance of bayes plugin, else return false
+     */
+    function classifyBayes($coBody) { 
+        $theBayesInstance = $this->findBayes();
+        if (isset($theBayesInstance)) {
+            return $theBayesInstance->classify($coBody, 'body');
         }
         return false;
     }
@@ -246,6 +265,9 @@ class serendipity_event_dashboard extends serendipity_event {
         return 0;
     }
 
+    /**
+     * create comment list array
+     */
     function showElementCommentlist($where, $limit, $use_hook = null) {
         global $serendipity;
          
