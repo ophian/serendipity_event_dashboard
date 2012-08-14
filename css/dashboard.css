@@ -386,13 +386,6 @@ nav#user-menu-user-navigation-select div.main-help {
     margin-right: 6px;
     text-align: right;
 }
-/* IE needs some work here
-.ie9 #dashboard .box-right img { 
-    vertical-align: bottom;
-}
-.ie9 #dashboard .box-right a:hover img { 
-    color:transparent;
-} */
 #dashboard #cell_left, #dashboard #cell_right {
     display: table-cell;
     padding: 0 5px;
@@ -422,9 +415,6 @@ nav#user-menu-user-navigation-select div.main-help {
 }
 #dashboard .dashboard h3.approved {
     margin: 4px 0 0 4px;
-}
-#dashboard .dashboard_future, #dashboard .dashboard_comments, #dashboard .dashboard_draft, #dashboard .dashboard_comments_pending {
-    min-height: 30px;
 }
 #dashboard .dashboard_comments_pending form>span {
     color: #333333 !important; /* must overwrite .serendipityAdminContent span */
