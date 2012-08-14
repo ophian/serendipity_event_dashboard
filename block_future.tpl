@@ -1,7 +1,7 @@
-{*** block_future.tpl - last modified 2012-06-22 ***}
+{*** block_future.tpl - last modified 2012-08-14 ***}
 
 {if $showElementFuture}
-<div id="future-entries" class="block-entries block-box">
+  <div id="future" class="block-entries block-box">
     <div class="flip" title="{$CONST.PLUGIN_DASHBOARD_FLIPNOTE}"><br></div>
     <h3 class="flipbox"><span>{$CONST.PLUGIN_DASHBOARD_FUTURE} [ <span class="num">{$entry_future|@count}</span> ]</span></h3>
     <div id="sort_{$future_block_id}" class="dashboard dashboard_future">
@@ -10,13 +10,13 @@
 
         <div class="serendipity_admin_list_item serendipity_admin_list_item_{cycle values="even,uneven"} serendipity_admin_list_item_future">
 
-            <div id="cell_left">
-                <h3>{$efuture.clock}<a href="?serendipity[action]=admin&amp;serendipity[adminModule]=entries&amp;serendipity[adminAction]=edit&amp;serendipity[id]={$efuture.id}" title="#{$efuture.id}">{$efuture.title|truncate:50:"&hellip;"}</a></h3>
+            <div id="cell_left" class="clmore">
+                <h3>{$efuture.clock}<a href="?serendipity[action]=admin&amp;serendipity[adminModule]=entries&amp;serendipity[adminAction]=edit&amp;serendipity[id]={$efuture.id}" title="#{$efuture.id}-{$efuture.title}">{$efuture.title|truncate:50:"&hellip;"}</a></h3>
                 <div>
                     <time datetime="{$efuture.pubdate}">{$efuture.stime}</time>
                 </div>
             </div>
-            <div id="cell_right">
+            <div id="cell_right" class="txtrht">
                 <div>
                     <span>{$CONST.POSTED_BY} {$efuture.author} {if count($efuture.cats)}{$CONST.IN} {foreach from=$efuture.cats item=cats}{$cats}{/foreach}{/if}</span>
                 </div>
@@ -35,6 +35,6 @@
         {/foreach}
         
    </div>
-</div>
+  </div>
 {/if}
 

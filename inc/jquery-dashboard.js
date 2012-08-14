@@ -5,276 +5,778 @@ window.log = function f(){ log.history = log.history || []; log.history.push(arg
 // make it safe to use console.log always
 (function(a){function b(){}for(var c="assert,count,debug,dir,dirxml,error,exception,group,groupCollapsed,groupEnd,info,log,markTimeline,profile,profileEnd,time,timeEnd,trace,warn".split(","),d;!!(d=c.pop());){a[d]=a[d]||b;}})
 (function(){try{console.log();return window.console;}catch(a){return (window.console={});}}());
-// do we need this if we use jquery.cookie?
-//var s9yCookies={each:function(d,a,c){var e,b;if(!d){return 0}c=c||d;if(typeof(d.length)!="undefined"){for(e=0,b=d.length;e<b;e++){if(a.call(c,d[e],e,d)===false){return 0}}}else{for(e in d){if(d.hasOwnProperty(e)){if(a.call(c,d[e],e,d)===false){return 0}}}}return 1},getHash:function(b){var c=this.get(b),a;if(c){this.each(c.split("&"),function(d){d=d.split("=");a=a||{};a[d[0]]=d[1]})}return a},setHash:function(b,c,a,f,d,e){var g="";this.each(c,function(i,h){g+=(!g?"":"&")+h+"="+i});this.set(b,g,a,f,d,e)},get:function(c){var d=document.cookie,g,f=c+"=",a;if(!d){return}a=d.indexOf("; "+f);if(a==-1){a=d.indexOf(f);if(a!=0){return null}}else{a+=2}g=d.indexOf(";",a);if(g==-1){g=d.length}return decodeURIComponent(d.substring(a+f.length,g))},set:function(b,e,a,g,c,f){var h=new Date();if(typeof(a)=="object"&&a.toGMTString){a=a.toGMTString()}else{if(parseInt(a,10)){h.setTime(h.getTime()+(parseInt(a,10)*1000));a=h.toGMTString()}else{a=""}}document.cookie=b+"="+encodeURIComponent(e)+((a)?"; expires="+a:"")+((g)?"; path="+g:"")+((c)?"; domain="+c:"")+((f)?"; secure":"")},remove:function(a,b){this.set(a,"",-1000,b)}};function getUserSetting(a,b){var c=getAllUserSettings();if(c.hasOwnProperty(a)){return c[a]}if(typeof b!="undefined"){return b}return""}function setUserSetting(c,f,b){if("object"!==typeof userSettings){return false}var d="s9y-settings-"+userSettings.uid,e=s9yCookies.getHash(d)||{},g=userSettings.url,h=c.toString().replace(/[^A-Za-z0-9_]/,""),a=f.toString().replace(/[^A-Za-z0-9_]/,"");if(b){delete e[h]}else{e[h]=a}s9yCookies.setHash(d,e,31536000,g);s9yCookies.set("s9y-settings-time-"+userSettings.uid,userSettings.time,31536000,g);return c}function deleteUserSetting(a){return setUserSetting(a,"",1)}function getAllUserSettings(){if("object"!==typeof userSettings){return{}}return s9yCookies.getHash("s9y-settings-"+userSettings.uid)||{}};
-
-// jquery-dashboard.js - last-modified: 2012-06-22
-
-// Q: Is $(this).siblings() the same as $(this).parent().children()
-// A: No.
-//    $(this).parent().children() selects all the children of the parent (including $(this)).
-//    $(this).siblings() includes all the children of the parent except for $(this)
-//    $(this).closest('classname') walks the DOM tree upwards until match
-//    $(this).children().find('searchtag') falls down the tree until tag matches
-
 // Attention: do not use paulirish log() method, as making our events behave different
 
+// jquery-dashboard.js - last-modified: 2012-08-14
+/*
+   Q: Is $(this).siblings() the same as $(this).parent().children()?
+   A: No.
+      $(this).parent().children() selects all the children of the parent (including $(this)).
+      $(this).siblings() includes all the children of the parent except for $(this)
+      $(this).closest('classname') walks the DOM tree upwards until match
+      $(this).children().find('searchtag') falls down the tree until tag matches
+
+   Q: What is the difference on this vs. $(this)?
+   A: Basically we need $() for special jQuery-only functions. 
+      $(this)[0] == this
+      $("#myDiv")[0] == document.getElementById("myDiv");
+      Using $(this), enables jquery functionalities for the object. Just 'this' only has generic javascript functionalities.
+      This in javascript (usually) represents a reference to the object that invoked the current function. 
+      This concept is somewhat fuzzied a bit by jQuery's attempts to make the use of this more user friendly within their .each() looping stucture.
+      - outside the .each(), this represents the jQuery object that .lockDimensions is invoked by.
+      - inside the .each() it represents the current iterated DOM object.
+      Generally the purpose of storing $(this) in a local variable is to prevent you from calling the jQuery function $() multiple times, 
+      caching a jQueryized this should help efficiency if you have to use it multiple times.
+      $ is simply a valid variable name character and is used as the first character of a variable name usually to queue the programmer that it is 
+      a jQuery object already (and has the associated methods/properties available).
+      This question is actually unrelated to chain-ability, but to maintain chain-ability you should return this so that other function calls can be added, 
+      and maintain the meaning of this in those calls as well.
+
+    Q: How can we get the selectors node and why?
+    A: Select by node getElementById() is the best and fastest selector ever
+      var id  = '#' + this.id;
+      var id  = '#' + $(this).context.id;
+      var id  = '#' + this.parentNode.id;
+      var id  = '#' + $(this).parent().attr("id")
+      var pid = '#' + $(this).parents().eq(2).attr('id');
+      var id  = $(this).closest('div').attr('id');
+
+    Q: Undefined vars and properties
+    A: An undefined variable = if(undefinedVar) will throw an error, but if(someObj.undefinedProperty) not, then use var === undefined, w/o quotes
+
+*/
+
+// define localStorage use
+var isLocalStorage = false;
+// define BlockSort use
+var isRunBlocksort = false;
+
+/**
+ * test local Storage
+ **/
+if (typeof(localStorage) == 'undefined' ) {
+    alert('Your browser does not support HTML5 localStorage. Try upgrading.');
+} else {
+    try {
+        localStorage.setItem("name", "S9y best blog!"); // test saves to the database, "key", "value"
+    } catch (e) {
+        if (e == QUOTA_EXCEEDED_ERR) {
+            alert('LocalStorage Quota exceeded!'); // the test data wasn't successfully saved due to quota exceed so throw an error
+        }
+		if (e) { isLocalStorage = false; }
+    }
+    isLocalStorage = true;
+}
+
+/**
+ * start main functions on document.ready = load in DOM
+ **/
 jQuery(document).ready(function($) {
 
-    // remove overview.inc's echo drop-in
-    $('h3.serendipityWelcomeBack').addClass('visuallyhidden');
-    // remove defaults important span colour //$('span').css(" !important", "");//.removeAttr('style');
-    // This technique does not remove a style that has been applied with a CSS rule in a stylesheet or <style> element
-    // in special properties with !important, while these need overrides with !important too.
-    //$('.serendipityAdminContent span').attr('style','color: #464646 !important');  // this sets an inline style to childrens span elements
+    // set some global vars
 
-    // remove Spartacus Plugin 'backend_pluginlisting_header' < S9y 1.7 PlugUp notice break markup
-    // <br /><div id="upgrade_notice" class="serendipityAdminMsgSuccess...
-    // this did work before, I swear! but now this is pre-captured and replaced by php
-    //$('div.dashboard_plugup').children().nextUntil(':not(br)').remove();
-    //$('div.dashboard_plugup').children().nextAll('br').remove();
+    // each containers [t_ = toggle]
+    var meta       = ['#meta-box-left, #meta-box-right'];
+    var t_text     = ['#comapp, #compen, #feed'];
+    var t_form     = ['#formMultiDeleteApp, #formMultiDeletePen'];
+    
+    // start object selectors
+    var $button    = $('#menu-fadenav');
+    var $sidebar   = $('#serendipitySideBar');
+    var $selectbar = $('#user-menu-user-navigation-select');
 
-    // toggle comments view more block
-    $('.comment_boxed').addClass('visuallyhidden');
-    $('.box-right').click(function() { 
-        // console.log(this);
-        // set the class and change the src the first time
-        $(this).parent().siblings('.comment_boxed').toggleClass('visuallyhidden');
-        $(this).children().find('img').stop(true, true).attr({src:img_minus}); 
-        // now toggle src target each time
-        $(this).children('.button').toggle( 
-            function () { 
-                $(this).find('img').stop(true, true).attr({src:img_plus});
-                $(this).parents().next().siblings('.comment_boxed').toggleClass('visuallyhidden');
+    // storage containers
+    var arr        = []; // array
+    var obj        = {}; // object
+
+    // strings
+    var pathname = $(location).attr('pathname').replace('serendipity_admin.php', '');
+
+    // check to see if cookies exist for the flip box toggle state
+    var flipcookie = $.cookie("cookie_flipped");
+    var fliparray  = flipcookie ? flipcookie.split("|").getUnique() : [];
+
+    // disable or remove this part when done testing
+    // $('#debug').html("flip-read-cookie by elem_ID if sort_ID closed = " + fliparray.join(', ')); 
+    // **********************************
+
+    // var functions
+    /**
+     * Function runBlockSort(storageobject) [OK]
+     * Retrieves the object from storage and manipulates Block IDs
+     **/
+    runBlockSort = (function(bsarr) {
+        var newsortid = 0;
+        jQuery.each(bsarr, function(i, v){
+            $.each(v, function( key, value ) {
+                if ( key == 0 ) { 
+                    storedMeta = value; // = metas | needs to be global in scope!!!
+                    // console.log('storedMeta: '+storedMeta); 
+                }
+                if ( key > 0 ) {
+                    var storedBlockId = this[0];
+                    var storedSortId  = this[1];
+                    var newid         = 'LS-'+storedMeta+'-'+storedSortId; // if storedMeta not set global, this will be the obj of changing key instead, eg 's9y-plugup,sort_3' and the -sort_3-new
+                    var $sortthis     = $('#'+storedBlockId); // even faster as singulary node, no need for add #layout
+
+                    // replace the sort id by newsortid, which must depend on '#layout > li.flipflop' count, do not use LS- prefix while using toggle cookie return info
+                    $sortthis.find('div.dashboard').attr("id", 'sort_'+newsortid);
+                    // console.log($sortthis); // [OK]
+
+                    // also add new id to flipbox h3 title
+                    $sortthis.find('h3.flipbox').attr("id", newid);
+
+                    // return global var set to true, to prevent attracting h3.flipbox id in function setStorageArray(), as running later
+                    isRunBlocksort = true;
+
+                    // console.log('newsortid: '+newsortid+' storedBlockId: '+storedBlockId+ ' && storedSortId: meta '+storedSortId);
+                    newsortid++;
+                }
+            });
+        });
+    });
+
+    /**
+     * Function setLocalStorage(array) [OK]
+     * Feature detect + clear + local reference
+     **/
+    setLocalStorage = (function(sid) {
+        var storage, fail, uid;
+        try {
+            uid = new Date;
+            (storage = window.localStorage).setItem(uid, uid);
+            fail = storage.getItem(uid) != uid;
+            storage.removeItem(uid);
+            fail && (storage = false);
+        } catch(e) {}
+        // Remove old items first
+        localStorage.removeItem('sortid');
+        // localStorage.clear(); // do we really need this?
+
+        // Put the array/object into storage
+        localStorage.setItem('sortid', JSON.stringify(sid)); 
+        // console.log('New fcn sortid '+sid);
+    });
+    
+    /**
+     * Function setStorageArray(metaid, metaobject) [OK]
+     * Returns the new Storage array by new arranged meta and block object
+     **/
+    setStorageArray = (function($metaid, $metaobj) {
+        // arr[$metaid] = [$metaid]; // = new Object();
+        var $metaArr = [$metaid]; //var $metaArr = [];$metaArr.push($metaid);
+        // console.log('setStorageArray fnc array metaArr: '+$metaArr); // = metaArr-ay: meta-box-left/meta-box-right
+        // console.log($metaobj); // = [ul#meta-box-left.boxed-left] && [ul#meta-box-right.boxed-right]
+        $metaobj.find('.flipbox').attr("id", function (index) { 
+            // this = h3.flipbox
+            // console.log('setStorageArray fnc metaobj Index is: '+index); // [OK]
+            var $bid = $(this).closest('div[id].block-box').attr('id').toString();
+            // console.log('id of h3.flipbox: '+$bid);
+            $metaArr.push([$bid, 'sort_'+index]); // stick to array and do not use objects here, as objects key can not be $var, returns "$bid"
+            // do not return new flipbox h3 title ID, if that was done by function runBlockSort
+            if( isRunBlocksort === false ) return $metaid+"-sort_" + index; //else return $bid;
+        });
+        if( isRunBlocksort === false) {
+            // set the sort_X ID to the new dragged value, if that was not! done by function runBlockSort
+            $metaobj.find('div.dashboard').attr("id", function (indexblock) { 
+                // console.log('setStorageArray fnc metaobj div.DASH Index is: '+indexblock); 
+                return "sort_" + indexblock; 
+            });
+            // REMOVED: unfortunately we can not change the elem_X ID here to support its new place in row.
+            // As we are using $.POST to script, this key has to stay unchanged ever
+        }
+        // push both meta arrays to globar arr
+        arr.push($metaArr);
+    });
+
+    /**
+     * Function setContainersHeight() [OK]
+     * Sets the Tooltips first element and removes other by attr()
+     * Calls the setStorageArray(id, object) and 
+     * Sets setLocalStorage(array)
+     **/
+    setCustomTooltip = (function() {
+        var fstBHead  = 'Click to group block items together,<br>Move to drag single or grouped items'; // firstBlocksHeadHelpTitle custom headtooltip
+        arr = []; // will remove preset sort array from DOM
+
+        $('#layout').on('click', '.block-box > h3.flipbox', function() {
+            //void
+        }).find(meta.join(', ')).each(addTooltip);
+        
+        function addTooltip() {
+            var $metaid = this.id;
+            // arr[$metaid] = [];
+            var $thisobj = $(this); // = [ul#meta-box-left.boxed-left] + [ul#meta-box-right.boxed-right]
+            // set dragged and sorted blocks into Storage
+            setStorageArray($metaid, $thisobj);
+            // set new first blocks title
+            $thisobj.children("li:first").find(".flipbox").attr('title', fstBHead);
+        }
+       
+        // lastly put the returned array/object into storage
+        setLocalStorage(arr);
+        // console.log('Sort ID ARRAY: ' + arr);
+    });
+
+    /**
+     * Function setContainersHeight() [OK]
+     * Sets the #layout containers height on demand
+     **/
+    setContainersHeight = (function() {
+        var newLayout = $("#meta-box-left").height();
+        var rightBox  = $("#meta-box-right").height();
+        if(newLayout < rightBox) { var newLayout = rightBox; }
+        $("#layout").css("height", newLayout +10 + 'px'); // 10px seperation space between meta and layout
+        //return newLayout +10;
+    });
+    
+    /**
+     * Function unsetUIHightlight(object) [OK]
+     * Removes this selectors upper li class ui-state-highlight on click flip and toogle buttons
+     **/
+    unsetUIHightlight = (function(obj) {
+        obj.closest('li.flipflop').removeClass('ui-state-highlight');
+    });
+
+    /**
+     * Function runTooltip() [OK]
+     * the Tooltip function
+     **/
+    runTooltip = (function() {
+        // Default tooltip settings
+        var offsetX = 5;
+        var offsetY = 22;
+        var TooltipOpacity = 1;
+
+        setCustomTooltip(); // init customtitles
+
+        // Select all tags having a title attribute
+        $('[title]').mouseenter(function(e) {
+
+            // Get the value of the title attribute
+            var Tooltip = $(this).attr('title');
+
+            if(Tooltip !== '') {
+                // Tooltip exists. Assign it to a custom attribute
+                $(this).attr('customTooltip',Tooltip);
+
+                // Empty title attribute (to ensure that native browser tooltip is not shown)
+                $(this).attr('title','');
+            }
+
+            // Assign customTooltip to variable
+            var customTooltip = $(this).attr('customTooltip');
+
+            // Tooltip exists? Added undefined check to avoid removeAttr returning empty attribute string values
+            if(customTooltip !== '' && customTooltip !== undefined) {
+                // Append tooltip element to body
+                $("body").append('<div id="tooltip">' + customTooltip + '</div>');
+
+                // Set X and Y coordinates for Tooltip
+                $('#tooltip').css('left', e.pageX + offsetX );
+                $('#tooltip').css('top', e.pageY + offsetY );
+
+                // FadeIn effect for Tooltip
+                $('#tooltip').fadeIn('500');
+                $('#tooltip').fadeTo('10',TooltipOpacity);
+            }
+
+        }).mousemove(function(e) {
+            var X = e.pageX;
+            var Y = e.pageY;
+            var tipToBottom, tipToRight;
+
+            // Distance to the right
+            tipToRight = $(window).width() - (X + offsetX + $('#tooltip').outerWidth() + 5);
+
+            // Tooltip too close to the right?
+            if(tipToRight < offsetX) {
+                X = e.pageX + tipToRight;
+            }
+
+            // Distance to the bottom
+            tipToBottom = $(window).height() - (Y + offsetY + $('#tooltip').outerHeight() + 5); // document ?
+
+            // Tooltip too close to the bottom?
+            if(tipToBottom < offsetY) {
+                // Y = e.pageY + tipToBottom; // we dont want this
+                Y = e.pageY - (offsetY + $('#tooltip').outerHeight() + 5);
+            }
+
+            // Assign tooltip position
+            $('#tooltip').css('left', X + offsetX );
+            $('#tooltip').css('top', Y + offsetY );
+
+        }).mouseleave(function() {
+            // Remove tooltip element
+            $("body").children('div#tooltip').remove();
+        });
+    });
+
+    /**
+     * Remember flipped box content that was hidden
+     **/
+    $(function() {
+        $.each( fliparray, function(){
+            var blocktohide = $('#' + this).find('div[id].dashboard').attr('id');
+            // console.log(blocktohide);
+            // hide all sort_ID boxes which appear in fliparray
+            $('#' + blocktohide).hide(); // do we need to setContainersHeight() ?
+        });
+    });
+
+    /**
+     * if LocalStorage is available and is preset with array/object, start fnc runBlockSort()
+     **/
+    $(function() {
+        if ( isLocalStorage === true ) {
+            // Retrieve the object from storage
+            var blocksort = JSON.parse(localStorage.getItem('sortid'));
+            if ( blocksort !== null ) {
+                // console.log("READ LocalStorage by JSON.parse(blocksort): \n", blocksort);
+
+                // hand over the parsed array to be truly readable
+                runBlockSort(blocksort); // meta-box-left,[object Object],[object Object],[object Object], etc 
+
+            }
+        }
+    });
+    
+    /**
+     * initialize tooltip on DOM ready
+     **/
+    $(function() {
+        runTooltip();
+    });
+
+    /**
+     * Some selectors Startup Manipulations on DOM ready
+     **/
+    $(function() {
+        // remove overview.inc's echo drop-in, if set
+        $('h3.serendipityWelcomeBack').addClass('visuallyhidden');
+
+        // set .serendipityAdminContent left padding class on default
+        $('td.serendipityAdminContent').addClass('serendipityAdminContentDashboard');
+    
+        // add missing class to #serendipitySideBar
+        $sidebar.addClass('no-class');
+    
+        // Rename sidebar Button 'Startpage' to 'Dashboard'
+        $sidebar.find('li.serendipitySideBarMenuMainFrontpage a').html('Dashboard');
+    });
+
+    /**
+     * toggle comments view more block on click
+     **/
+    $(function() {
+        $(t_form.join(', ')).find('.comment_boxed').addClass('visuallyhidden');
+        $(t_text.join(', ')).find('.box-right').click(function() { 
+            // console.log(this);
+            // set the class and change the src the first time
+            $(this).parent().siblings('.comment_boxed').toggleClass('visuallyhidden');
+            $(this).children().find('img').stop(true, true).attr({src:img_minus});
+            unsetUIHightlight($(this));
+            // now toggle src target each time
+            $(this).children('.button').toggle( 
+                function () { 
+                    $(this).find('img').stop(true, true).attr({src:img_plus});
+                    $(this).parents().next().siblings('.comment_boxed').toggleClass('visuallyhidden');
+                    // $(this).parents().next().siblings('.feed_text').toggleClass('visuallyhidden');   
+                    unsetUIHightlight($(this));
+                }, 
+                function () { 
+                    // console.log(this); // <a class="button" href="#cpl_%">
+                    $(this).find('img').stop(true, true).attr({src:img_minus});
+                    $(this).parents().next().siblings('.comment_boxed').toggleClass('visuallyhidden');
+                    // $(this).parents().next().siblings('.feed_text').toggleClass('visuallyhidden');  
+                    unsetUIHightlight($(this));
+                }
+            );
+        });
+    });
+
+    /**
+     * toggle comments text block and change view/hide constant on event
+     **/
+    $(function() {
+        $(t_text.join(', ')).find('.fulltxt').addClass('visuallyhidden');
+        $(t_text.join(', ')).find('.text').toggle( 
+        //$('.text').toggle( 
+            function (event) { 
+                $(event.target).html(const_hide);
+                $(this).closest('.serendipity_admin_list_item').children('.comment_text').children().toggleClass('visuallyhidden'); // OK
+                $(this).find('img').attr({src:"templates/default/admin/img/downarrow.png"}); // OK
+                unsetUIHightlight($(this));
             }, 
-            function () { 
-                //console.log(this); // <a class="button" href="#cpl_%">
-                $(this).find('img').stop(true, true).attr({src:img_minus});
-                $(this).parents().next().siblings('.comment_boxed').toggleClass('visuallyhidden');
+            function (event) { 
+                $(event.target).html(const_view);
+                $(this).closest('.serendipity_admin_list_item').children('.comment_text').children().toggleClass('visuallyhidden'); // OK
+                $(this).find('img').attr({src:"templates/default/admin/img/uparrow.png"}); // OK
+                unsetUIHightlight($(this));
             }
         );
     });
-    // the toggle show/hide all button
-    //$('.comment_toggleall').addClass('visuallyhidden');
-    $('.all-box-right').click(function() { 
-        // set the class and change the src the first time
-        $(this).siblings('.comment_toggleall').toggleClass('visuallyhidden');
-        $(this).children().find('img').stop(true, true).attr({src:img_minus});
-        // now toggle src target each time
-        $(this).children('.button').toggle( 
-            function () { 
-                $(this).find('img').stop(true, true).attr({src:img_plus});
-                $(this).parent().siblings('.comment_toggleall').toggleClass('visuallyhidden');
+
+    /**
+     * check if in dashboard w/o or anywhere with old sidebar left on DOM ready
+     **/
+    $(function() {
+        if ($("tr td:first-child").hasClass("serendipityAdminContent")) { 
+            $("td.serendipityAdminContent").removeClass("serendipityAdminContent noClass").addClass("serendipityAdminContentnoSb");
+        };
+    });
+
+    /**
+     * help button hover on mouseover
+     **/
+    $(function() {
+        $('#iopen.help').hover(function() { 
+            $(this).find('img').stop(true, true).attr({src:img_help2}); // .fadeOut()
+        }, function() { 
+            $(this).find('img').stop(true, true).attr({src:img_help1}); // .fadeIn()
+        });
+    });
+
+    /**
+     * navigation event in header_full on DOM ready
+     **/
+    $(function() {
+        $("#iopen.navi").toggle( 
+            function (event) { 
+                // console.log('button.navi: click-minus');
+                $(event.target).siblings().toggleClass('visuallyhidden');
+                $(event.target).find('img').stop(true, true).attr({src:img_minus});
             }, 
-            function () { 
-                //console.log(this); // <a class="button" href="#ta_%">
-                $(this).find('img').stop(true, true).attr({src:img_minus});
-                $(this).parent().siblings('.comment_toggleall').toggleClass('visuallyhidden');
+            function (event) { 
+                // console.log('button.navi: click-plus');
+                $(event.target).siblings().toggleClass('visuallyhidden');
+                $(event.target).find('img').stop(true, true).attr({src:img_plus});
             }
         );
     });
 
-    // toggle comments text block and change view/hide constant on event
-    $('.fulltxt').addClass('visuallyhidden');
-    $('.text').toggle( 
-      function (event) { 
-        $(event.target).html(const_hide);
-        $(this).closest('.serendipity_admin_list_item').children('.comment_text').children().toggleClass('visuallyhidden'); // OK
-      }, 
-      function (event) { 
-        $(event.target).html(const_view);
-        $(this).closest('.serendipity_admin_list_item').children('.comment_text').children().toggleClass('visuallyhidden'); // OK
-      });
+    /**
+     * toogle (flip) the block-box function on click [OK]
+     **/
+    $(function() {
+        $(meta.join(', ')).find('.flip').click(function() {
+            $(this).each(addNSet);
 
-    // set a margin to fits child of the two rows, entries and updates
-    $("#dashboard .block-comments:first").addClass("first");
-    $("#dashboard .block-entries:first").addClass("first");
-    $("#dashboard .block-updates:first").addClass("first");
+            function updateCookie(block, el) {
+                var indx = el.attr('id');
+                var tmp = fliparray.getUnique();
+                if (block.is(':hidden')) { // :visible
+                    // add index of widget to hidden list
+                    tmp.push(indx);
+                } else {
+                    // remove element id from the list
+                    tmp.splice( tmp.indexOf(indx) , 1);
+                }
+                fliparray = tmp.getUnique();
+                $.cookie("cookie_flipped", fliparray.join('|') );
 
-    // check if in dashboard w/o or anywhere with old sidebar left
-    if ($("tr td:first-child").hasClass("serendipityAdminContent")) { 
-        $("td.serendipityAdminContent").removeClass("serendipityAdminContent noClass").addClass("serendipityAdminContentnoSb");
-    };
+                // disable or remove this part when done testing
+                // $('#debug').html("flip-upd cookie = " + fliparray.join(', ')); 
+                // **********************************
+            }
 
-    // help button hover
-    $('button.help').hover(function() { 
-        $(this).find('img').stop(true, true).attr({src:img_help2});//.fadeOut()
-    }, function() { 
-        $(this).find('img').stop(true, true).attr({src:img_help1});//.fadeIn()
-    });
-
-    // navigation event
-    $("button.navi").toggle( 
-      function (event) { 
-        //console.log('button.navi: click-minus');
-        $(event.target).siblings().toggleClass('visuallyhidden');
-        $(event.target).find('img').stop(true, true).attr({src:img_minus});
-      }, 
-      function (event) { 
-        //console.log('button.navi: click-plus');
-        $(event.target).siblings().toggleClass('visuallyhidden');
-        $(event.target).find('img').stop(true, true).attr({src:img_plus});
-    });
-
-    // toggle between embed mode navigation per side-bar or select-bar
-    // td#serendipitySideBar and nav#user-menu-user-navigation-select
-    $('nav#user-menu-user-navigation-select').addClass('visuallyhidden');
-    $('td#serendipitySideBar').addClass('no-class');
-    $("img.slidenav").toggle( 
-      function (event) { 
-        //console.log('toogle slidenav: click-in');
-        $('td#serendipitySideBar').fadeOut();//.toggleClass('visuallyhidden');
-        $('nav#user-menu-user-navigation-select').toggleClass('visuallyhidden');
-        $('td.serendipityAdminContent').addClass('serendipityAdminContentDashboard');
-      }, 
-      function (event) { 
-        //console.log('toogle slidenav: click-out');
-        $('td#serendipitySideBar').fadeIn();//.toggleClass('visuallyhidden');
-        $('nav#user-menu-user-navigation-select').toggleClass('visuallyhidden');
-        $('td.serendipityAdminContent').removeClass('serendipityAdminContentDashboard');
-    });
-
-    // toogle block-box function
-    $('.flip').click(function() {
-        var boxid = this.parentNode.id;
-        $(this).closest('.flip').siblings().find('div').toggle('slow', function() {
-            $('.block-box').css({minHeight:"0"});
-            $('.dashboard').css({minHeight:"0"});// Animation complete.
+            function addNSet() {
+                $(this).siblings('div').toggle('slow', function() {
+                    // set new id#layout height on flip, as flip is a single event only
+                    setContainersHeight();
+                    // get closest parent li element object as this is unique only in both metas
+                    var parliobj = $(this).closest('li');
+                    // console.log(parliobj);
+                    // set cookie to hold the blocks hidden state
+                    updateCookie( $(this), parliobj ); // elem_ID is the static number we want, use this for the cookie!
+                    // console.log( $(this) );
+                });
+                // unsets this parents li .flipflop class ui-state-highlight, if active
+                unsetUIHightlight($(this));
+            }
         });
     });
 
-    // autoupdater note
-    $("span#menu-autoupdate").toggle( 
-      function (event) { 
-        //console.log('toogle autoupdate: click-in');
-        $(this).parents().siblings('#user-menu-user-welcome').find('span').hide();
-        $('#boxed_autoupdate').toggleClass('visuallyhidden');
-      }, 
-      function (event) { 
-        //console.log('toogle autoupdate: click-out');
-        $(this).parents().siblings('#user-menu-user-welcome').find('span').show();
-        $('#boxed_autoupdate').toggleClass('visuallyhidden');
+    /**
+     * toogle autoupdater note [OK]
+     **/
+    $(function() {
+        $("#menu-autoupdate").toggle( 
+            function (event) { 
+                // console.log('toogle autoupdate: click-in');
+                $(this).parents().siblings('#user-menu-user-welcome').find('span').hide();
+                $('#boxed_autoupdate').toggleClass('visuallyhidden');
+            }, 
+            function (event) { 
+                // console.log('toogle autoupdate: click-out');
+                $(this).parents().siblings('#user-menu-user-welcome').find('span').show();
+                $('#boxed_autoupdate').toggleClass('visuallyhidden');
+            }
+        );
     });
 
-    // set cookie on slidenav click event
-    var $layouts = $('td#serendipitySideBar, .nav#user-menu-user-navigation-select'), // cache objects
-        $button  = $('img.slidenav');                                                 // to avoid overhead
-
-    $button.click(function(e, className) { 
-        e.preventDefault();
-        // let the function toogle as stated
-        $layouts.toggle();
-        // set cookie to hold the state
-        $.cookie('shown_type', ($layouts.eq(0).is(':visible') ? 'isSideBar' : 'isSelectBar'));
-        //console.log(className);
-    });
-
-    // check to see if a cookie exists for the app state
-    var shown_type = $.cookie('shown_type');
-    if(shown_type == 'isSelectBar') { 
-        //$button.trigger('click', [shown_type]); // yes, a cookie exist, show this layout
-        $('td#serendipitySideBar').fadeOut();
-        $('nav#user-menu-user-navigation-select').toggleClass('visuallyhidden');
-        $('td.serendipityAdminContent').addClass('serendipityAdminContentDashboard');
-        //console.log('Cookie: '+shown_type);
-    } else { 
-        //$button.trigger('click', ['td#serendipitySideBar']); // no, a cookie does not exist, show td#serendipitySideBar by default
-        $('td#serendipitySideBar').fadeIn();
-        $('nav#user-menu-user-navigation-select').addClass('visuallyhidden');
-        $('td.serendipityAdminContent').removeClass('serendipityAdminContentDashboard');
-        //console.log('Cookie: '+shown_type);
-    }
-
-    // make sure everything outside dashboard has the normal 'isSideBar' Layout!
-    if ( !$('#dashboard').children().length > 0 ) { 
-        $('td#serendipitySideBar').fadeIn();
-        //$('nav#user-menu-user-navigation-select').toggleClass('visuallyhidden');
-        $('td.serendipityAdminContent').removeClass('serendipityAdminContentDashboard');
-    }
-
-    // convert backend sidebar entries to dropdown select box - case entries
+    /**
+     * toggle between embed mode navigation per side-bar or select-bar on button click
+	 * and set the side/select-bar cookie on slide navigation click event [OK]
+     **/
     $(function() { 
-        $('ul#indent-navigation ul.serendipitySideBarMenuEntry').each(function() { 
-            var $select = $('<select />').attr('class', 'serendipitySideBarMenuEntry');
+        $button.click(function(e){
+            e.preventDefault();
+            // let the function toogle sidebar/selectbar as stated and set cookie to hold the state
+			// .is(":visible") // Checks for display:[none|block], ignores visible:[true|false]
+            if ($sidebar.is(':visible')) {
+				$sidebar.fadeOut();
+				$.cookie('cookie_sidebar', 'isSelectBar');
+			} else {
+                $sidebar.fadeIn();
+				$.cookie('cookie_sidebar', 'isSideBar');
+			}
+            $selectbar.toggleClass('visuallyhidden');
+        });
 
-            $(this).find('a').each(function() { 
-                var $option = $('<option />');
-                $option.attr('value', $(this).attr('href')).html($(this).html()).click(function(){window.location.href=$(this).val();});
-                $select.append($option);
+        // check to see if a cookie exists for the app state
+        var cookie_sidebar = $.cookie('cookie_sidebar');
+        if(cookie_sidebar == 'isSelectBar') { 
+            $sidebar.fadeOut();
+            $selectbar.toggleClass('visuallyhidden');
+            // console.log('1-Cookie: '+cookie_sidebar);
+        } else {
+            $sidebar.fadeIn();
+            // console.log('2-Cookie: '+cookie_sidebar);
+		}
+
+        // make sure everything outside dashboard has the normal 'isSideBar' Layout!
+        if ( !$('#dashboard').children().length > 0 ) { 
+            $sidebar.fadeIn();
+            $('td.serendipityAdminContent').removeClass('serendipityAdminContentDashboard');
+        }
+    });
+
+    /**
+     * convert backend sidebar entries to dropdown select box - case each selector [OK]
+     **/
+    $(function() {
+        var base = '#indent-navigation ';
+        var selectors = [
+            'ul.serendipitySideBarMenuEntry',
+            'ul.serendipitySideBarMenuMedia',
+            'ul.serendipitySideBarMenuAppearance',
+            'ul.serendipitySideBarMenuUserManagement'
+        ];
+
+        // we can just use 'select' tag w/o selectors here, as this is strictly based to base id only
+        $(base).on('click', 'select > option', function() {
+            location.href = $(this).val();
+        }).find(selectors.join(', ')).each(linksToSelect);
+
+        function linksToSelect() {
+            var $this = $(this);
+            var $class = $this.attr("class").replace(/[-\s\w]*?([-\w]+)\s?$/, '$1'); // is greedy, replaces first elements clearfix
+            var $select = $(document.createElement('select'))
+                .addClass($class);
+
+            $this.find('a').each(function() {
+                var $a = $(this);
+                $(document.createElement('option'))
+                    .val($a.attr('href'))
+                    .text($a.text())
+                    .appendTo($select);
             });
 
-            $(this).replaceWith($select);
+            $this.replaceWith($select);
+        }
+    });
+
+    /**
+     * metabox drag and drop funtion via jquery-ui framework [OK]
+     **/
+    $(function() {
+        var selectedClass = 'ui-state-highlight',
+            clickDelay = 600,
+            // click time (milliseconds)
+            lastClick, diffClick; // timestamps
+
+        // set to flipflop class only! 
+        $("#layout li.flipflop")
+        // Script to deferentiate a click from a mousedown for drag event
+        .bind('mousedown mouseup', function(e) {
+            if (e.type == "mousedown") {
+                lastClick = e.timeStamp; // get mousedown time
+            } else {
+                diffClick = e.timeStamp - lastClick;
+                if (diffClick < clickDelay) {
+                    // add selected class to group draggable objects
+                    $(this).toggleClass(selectedClass);
+                }
+            }
+        })
+        .draggable({
+            revertDuration: 10,
+            // grouped items animate separately, so leave this number low
+            containment: '#layout',
+            start: function(e, ui) {
+                ui.helper.addClass(selectedClass);
+            },
+            stop: function(e, ui) {
+                // reset group positions
+                $('.' + selectedClass).css({
+                    top: 0,
+                    left: 0
+                });
+            },
+            drag: function(e, ui) {
+                // set selected group position to main dragged object
+                // this works because the position is relative to the starting position
+                $('.' + selectedClass).css({
+                    top: ui.position.top,
+                    left: ui.position.left
+                });
+            }
+        });
+        
+        // $("#layout ul.meta-box").sortable().droppable({          
+        $(meta.join(', ')).sortable().droppable({ // how do we prevent help container movement here? && !$('#modalContainer')
+            drop: function(e, ui) {
+                $('.' + selectedClass).appendTo($(this)).add(ui.draggable) // ui.draggable is appended by the script, so add it after
+                .removeClass(selectedClass).css({
+                    top: 0,
+                    left: 0
+                }).find("h3.flipbox").removeAttr('title customtooltip'); // and remove customtooltip header if class was the first child of meta
+
+                // set new id#layout height on drop and sort
+                setContainersHeight();
+
+                // define BlockSort use to false again, as we now have a dropped object, which needs new sort ids by setStorageArray()
+                isRunBlocksort = false;
+
+                // restart function tooltip to reset the first elements tooltip on drop and sort
+                runTooltip();
+
+                // keep upgrading localStorage
+                setLocalStorage(arr);
+
+                var sobj = $('#'+this.id).find('li[id].flipflop'); // .sortable('serialize'); // .sortable('toArray');
+                var $postMetaArr = [$('#'+this.id)]; // eg. #meta-box-right
+                
+                sobj.attr("id", function (index) { 
+                    // this = li.flipflop
+                    var $dropid = $(this).attr('id').toString(); // collect li#ID name as string
+                    var $blockid = $(this).find('div.block-box');
+                    var $blid = $blockid.attr('id');
+                    $postMetaArr.push(['#'+$dropid, $blid]); // stick to array and do not use objects here
+                });
+                // console.log($postMetaArr); // [OK]
+
+                $url = pathname + 'plugin/dbjsonsort/';
+                // console.log('url ' + $url); // [OK]
+                
+                // Post the array via external_plugin to Plugins config storage
+                jQuery.post($url, {json: JSON.stringify($postMetaArr)}/*, function(data){ alert(data); }*/);
+            }
         });
     });
-
-    // convert backend sidebar entries to dropdown select box - case media
-    $(function() { 
-        $('ul#indent-navigation ul.serendipitySideBarMenuMedia').each(function() { 
-            var $select = $('<select />').attr('class', 'serendipitySideBarMenuMedia');
-
-            $(this).find('a').each(function() { 
-                var $option = $('<option />');
-                $option.attr('value', $(this).attr('href')).html($(this).html()).click(function(){window.location.href=$(this).val();});
-                $select.append($option);
-            });
-
-            $(this).replaceWith($select);
+    
+    /**
+     * set maintenance mode on click
+     **/
+    $(function(){
+        var set = false;
+        $("#moma").on("click", function(){
+            set = !set; // toogle boolean
+            alert( $(this).text() + ' = ' + set + "\n" + '[IN DEVELOPMENT!!' + "\n" + 'This posts to external_plugin and activates function s9y_maintenance_mode(). Please post ideas on how to procced...!]'); // is button text
+            $url = pathname + 'plugin/modemaintence/';
+            // console.log('url ' + $url); // [OK]
+                
+            // Post the set/unset via external_plugin to Plugins config storage - pass booleans as (set?1:0)
+            jQuery.post($url, {setmoma: (set?1:0)});
         });
     });
+   
 
-    // convert backend sidebar entries to dropdown select box - case appearance
-    $(function() { 
-        $('ul#indent-navigation ul.serendipitySideBarMenuAppearance').each(function() { 
-            var $select = $('<select />').attr('class', 'serendipitySideBarMenuAppearance');
+    /**
+     * jquery.mb.containerPlus help
+     **/
+    $(function(){
+        /*
+         * custom method added to the component
+         **/
 
-            $(this).find('a').each(function() { 
-                var $option = $('<option />');
-                $option.attr('value', $(this).attr('href')).html($(this).html()).click(function(){window.location.href=$(this).val();});
-                $select.append($option);
-            });
+        $.containerize.addMethod("modal",function(){
+            var el = this;
 
-            $(this).replaceWith($select);
+            function openModal(o){
+                var $overlay=$("<div/>").attr("id","mb_overlay").css({position:"fixed",width:"100%", height:"100%", top:0, left:0, background:"#000", opacity:.7}).hide();
+
+                if($("#mb_overlay").length)
+                    return;
+
+                $("body").prepend($overlay);
+                $overlay.mb_bringToFront();
+                o.mb_bringToFront();
+
+                o.containerize("centeronwindow",false);
+                $overlay.fadeIn(300);
+            }
+
+            function closeModal(o){
+                $("#mb_overlay").fadeOut(300,function(){$(this).remove();})
+            }
+
+            var opt = {
+                onRestore:function(o){openModal(o.$)},
+                onClose: function(o){closeModal(o.$)}
+            };
+
+            $.extend (el.opt,opt);
         });
-    });
 
-    // convert backend sidebar entries to dropdown select box - case userManagement
-    $(function() { 
-        $('ul#indent-navigation ul.serendipitySideBarMenuUserManagement').each(function() { 
-            var $select = $('<select />').attr('class', 'serendipitySideBarMenuUserManagement');
+        $(".container").containerize();
 
-            $(this).find('a').each(function() { 
-                var $option = $('<option />');
-                $option.attr('value', $(this).attr('href')).html($(this).html()).click(function(){window.location.href=$(this).val();});
-                $select.append($option);
-            });
-
-            $(this).replaceWith($select);
+        /*
+         * custom Buttons for the toolbar
+         **/
+        var changeSkinBtn = $("<button/>").addClass("mbc_button").html("change skin").click(function(e){
+            var el = $(this).parents(".mbc_container");
+            if(!el.hasClass('black')) el.containerize('skin','black'); else el.containerize('skin');
+            e.stopPropagation();
+            e.preventDefault();
         });
+
+        var fullScreenBtn = $("<button/>").addClass("mbc_button").html("full screen").click(function(e){
+            var el = $(this).parents(".mbc_container");
+            el.containerize("fullScreen");
+            e.stopPropagation();
+            e.preventDefault();
+        });
+
+        var closeBtn = $("<button/>").addClass("mbc_button").html("close").click(function(e){
+            var el = $(this).parents(".mbc_container");
+            el.containerize("close");
+            e.stopPropagation();
+            e.preventDefault();
+        });
+
+        $("#cont1").containerize("addtotoolbar", [fullScreenBtn,changeSkinBtn,closeBtn]);
+
     });
+  
+    /**
+     * debug elements
+	 * count how much selectors used - faster access, the more less - .length = count 
+	 * use with ('*') all selectors, or selector tagNames, idNames, classNames etc.
+     **/
+    $(function(){
+		// as of now = 1170 elements! ie. we there have 282 li, 45 ul, 162 div elements, etc
+		// console.log( $('*').length );
+	});
+}); // close jQuery document ready
 
-    $(function() { 
-      function openModal(o) { 
-        var $overlay=$("<div/>").attr("id","mb_overlay").css({position:"fixed",width:"100%", height:"100%", top:0, left:0, background:"#000", opacity:.7}).hide();
-        $("body").prepend($overlay);
-        $overlay.mb_bringToFront();
-        o.mb_bringToFront();
-        o.mb_centerOnWindow(false);
-        $overlay.fadeIn(500);
-      }
-      function closeModal(o) { 
-        $("#mb_overlay").fadeOut(500,function(){$(this).remove();})
-      }
 
-      $(".containerPlus").buildContainers({
-        containment:"document",
-        elementsPath:elpath,
-        dockedIconDim:45,
-        onCreate:function(o){},
-        onClose:function(o){closeModal(o)},
-        onRestore:function(o){openModal(o)},
-        onIconize:function(o){},
-        effectDuration:300
-      });
-    });
+/**
+ * init #layout height on window load = DOM and full Content load ready
+ **/
+jQuery(window).load(function() {
+    setContainersHeight(); // set to height of highest meta-box-xxx
+}); // close jQuery window load
 
-}); // close jQuery

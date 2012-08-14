@@ -1,5 +1,5 @@
 <?php # $Id$
-// dashboard_actions.inc.php
+// dashboard_actions.inc.php - last modified 2012-08-14
 // some POST & GET actions copied from head of comments.inc.php to get included, as also used for the dashboard plugin
 
 if (IN_serendipity !== true) {
@@ -32,18 +32,18 @@ if ($serendipity['POST']['formAction'] == 'multiDelete' && sizeof($serendipity['
 
 /* We clear all compiles smarty template files in templates_c */
 if($serendipity['GET']['dashboard_event'] == 'capct' && serendipity_checkFormToken()) { 
-    $clear = false;
+	$clear = false;
     // smarty clear all compiled templates = capct
     if(method_exists($serendipity['smarty'], 'clearCompiledTemplate')) {
-        if($serendipity['smarty']->clearCompiledTemplate()) {
-            $clear = true;
-        }
+		if($serendipity['smarty']->clearCompiledTemplate()) {
+			$clear = true;
+		}
     }
     if(method_exists($serendipity['smarty'], 'clear_compiled_tpl')) {
-        if($serendipity['smarty']->clear_compiled_tpl()) {
-            $clear = true;
-        }
-    }
+		if($serendipity['smarty']->clear_compiled_tpl()) {
+			$clear = true;
+		}
+	}
     if($clear) $errormsg .= DONE . ': '. 'All Smarty compiled templates cleared!';
 }
         

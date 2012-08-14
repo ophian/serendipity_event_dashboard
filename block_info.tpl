@@ -1,7 +1,7 @@
-{*** block_info.tpl - last modified 2012-07-02 ***}
+{*** block_info.tpl - last modified 2012-08-07 ***}
 
 {if $showElementInfo}
-<div id="info-box" class="block-infos block-box">
+  <div id="info" class="block-infos block-box">
     <div class="flip" title="{$CONST.PLUGIN_DASHBOARD_FLIPNOTE}"><br></div>
     <h3 class="flipbox"><span>{$CONST.PLUGIN_DASHBOARD_INFO_HEADER}</span></h3>
     <div id="sort_{$info_block_id}" class="dashboard dashboard_info">
@@ -61,6 +61,6 @@
             <br class="clear">
         </div>
     </div>
-</div>
+  </div>
 {/if}
 

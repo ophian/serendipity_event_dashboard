@@ -1,3 +1,20 @@
+0.9.2
+-----
+Consistently Constant PLUGIN_DASHBOARD_* use - except core constants
+Added s9y.org Blog Feed Info-Box - default to show true
+Added frontend 'maintenance mode' on core updates - ...still developing!!!
+Added UI custom titles and support drag changes
+Added UI to support draggable(), droppable(), sortable() directly
+Now holds UI-dragged, UI-dropped and UI-sorted item settings on page return
+Now holds toggle state of block items on page return by cookie
+Update to modernizr-2.6.1 and developer version of mb.containerPlus 3.0 (mid July'12)
+Moved all relevant Constants to <en> and <de> lang files
+Update to JQuery 1.8.0 and JQuery-ui-1.8.22
+Removed 'Beta' from autoupdate, as not provided any more.... (we never did, but we had nighlies...)
+Simplified element blocks to all moveable blocks only and moved clean(up) to seperate in config
+Changed dashboard css to a fixed version, which won't load dynamically each request
+As renamed, replaced and erased some files, please start from scratch...
+
 0.7.4
 -----
 improved instance load check

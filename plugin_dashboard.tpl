@@ -1,24 +1,9 @@
-{*** plugin_dashboard.tpl - last modified 2012-06-22 ***}
+{*** plugin_dashboard.tpl - last modified 2012-08-14 ***}
 {*** debug ***}
-
-<!--[if gte IE 9]>
-  <style type="text/css">
-    .gradient {ldelim}
-       filter: none;
-    {rdelim}
-  </style>
-<![endif]-->
 
 <div id="dashboard" class="clearfix maincontent">
 
-{if NOT $start}
-    {** fullview temporary disabled, until future purposes... **}
-    {** include file="$fullpath/header_full.tpl" title="Dashboard Full Header" **}
-    {include file="$fullpath/header_embed.tpl" title="Dashboard Embedded Header"}
-{else}
-    {include file="$fullpath/header_embed.tpl" title="Dashboard Embedded Header"}
-{/if}
-
+{include file="$fullpath/header_embed.tpl" title="Dashboard Embedded Header"}
 
 {if !empty($errormsg)}
     <section id="s9y-error">
@@ -27,150 +12,186 @@
         </div>
     </section>
 {/if}
-    
-{assign var="empty_comments" value=true}
-{assign var="empty_entries" value=true}
-{assign var="empty_updates" value=true}
 
+{if !$secgroupempty}
+<section id="layout" class="overlay">
 
-    <section id="comments" class="block-comments-main">
-{foreach from=$elements item="element" name="block_element"}
-    {foreach from=$block_elements.comments item="comment" name="bco"}
-        {if $comment == $element}
-            {include file="$fullpath/block_$element.tpl" title="Dashboard $element Notifier"}
-            {assign var="empty_comments" value=false}
-        {/if}
+<ul id="meta-box-left" class="boxed-left meta-box">
+{* show UI-preset values in meta-box-left, else show rest elements compared to block-right *}
+{if $metaset[0] == 'meta-box-left'}
+  {foreach from=$metaset[1] key=keyle item="lelem" name="metaset_left"}
+    {foreach from=$lelem key=key item=val name="block_element_left"}
+      {if ($key === 0)}{assign var="element" value=$val}{/if}
+      {if ($key === 1)}{assign var="blockname" value=$val}{/if}
+      {if $smarty.foreach.block_element_left.last && !empty($blockname)}
+
+  <li id="{$element}" class="flipflop">{include file="$fullpath/block_$blockname.tpl" title="Dashboard $blockname Notifier"}</li>
+
+      {/if}
     {/foreach}
-    {if $smarty.foreach.block_element.last && !$secgroupempty && $empty_comments == true}
-    <div class="empty_notice">{$CONST.PLUGIN_DASHBOARD_NA|sprintf:"comment_pending":"comments"}</div>
+  {/foreach}
+{else}
+  {foreach from=$block_elements key=lkey item=lvalue name=block_elements_left}
+
+  <li id="elem_{$lkey}" class="flipflop php-left-sort_{$lkey}">{include file="$fullpath/block_$lvalue.tpl" title="Dashboard $lvalue Notifier"}</li>
+
+  {/foreach}
+{/if}
+{* ON START show elements - grouped by element / 2 - left group *}
+{if !is_array($metaset) || empty($metaset)}
+  {foreach from=$elements key=lkey item=lvalue name=elements_left}
+    {if $lkey < $countelements}
+
+  <li id="elem_{$lkey}" class="flipflop php-element-sort_{$lkey}">{include file="$fullpath/block_$lvalue.tpl" title="Dashboard $lvalue Notifier"}</li>
+
     {/if}
-{/foreach}
-    </section>
-
-    <section id="entries" class="block-entries-main">
-{foreach from=$elements item="element" name="block_element"}
-    {foreach from=$block_elements.entries item="entry" name="ben"}
-        {if $entry == $element}
-            {include file="$fullpath/block_$element.tpl" title="Dashboard $element Notifier"}
-            {assign var="empty_entries" value=false}
-        {/if}
-    {/foreach}
-    {if $smarty.foreach.block_element.last && !$secgroupempty && $empty_entries == true}
-    {$CONST.PLUGIN_DASHBOARD_NA|sprintf:"draft":"future"}
-    {/if}
-{/foreach}
-    </section>
-
-    <section id="updates" class="block-updates-main">
-{foreach from=$elements item="element" name="block_element"}
-    {foreach from=$block_elements.updates item="update" name="bup"}
-        {if $update == $element}
-            {include file="$fullpath/block_$element.tpl" title="Dashboard $element Notifier"}
-            {assign var="empty_updates" value=false}
-        {/if}
-    {/foreach}
-    {if $smarty.foreach.block_element.last && !$secgroupempty && $empty_updates == true}
-    {$CONST.PLUGIN_DASHBOARD_NA|sprintf:"update":"plugup"}
-    {/if}
-{/foreach}
-    </section>
-
-    <section id="infos" class="block-infos-main">
-    {include file="$fullpath/block_info.tpl" title="Dashboard Info summary Notifier"}
-    </section>
-
-{if $secgroupempty}
-    <div class="serendipity_backend_msg_notice">{$CONST.PLUGIN_DASHBOARD_MARK}</div>
+  {/foreach}
 {/if}
 
-{** if NOT $start}
-    // fullview temporary disabled, until future purposes...
-    <footer role="footer">
-        <div class="clearfix"> <h1> <small>{$smarty.now|date_format} - {$sysinfo.version_info}</small> </h1> </div>
-    </footer>
-{/if **}
-    
-<div class="helpwrapper">
-  <div id="modalContainer" class="containerPlus draggable {ldelim}buttons:'c', skin:'white', width:'900', height:'450', closed:'true', title:'Dashboard (proof of concept) help container'{rdelim}" style="margin: auto;">
-    <div class="evidence">
-      <h3>The Serendipity Dashboard Help Container ()!</h3>
+</ul>
 
-        <p>This is a "<em>proof of concept</em>" Dashboard screen for your Serendipity blog backend section. All editable links are passed to their original target, as long this is just a an experimental welcome and information screen. Please pass your suggestions and experiences to the <a href="http://board.s9y.org/viewtopic.php?f=10&t=18370" target="_blank">serendipity forum</a>, which excepts english too.</p>
-        <p>Info: Dashboards's Bayes plugin buttons are still experimental, as long as not using the hook, which will need a new and compatible backend markup</p>
+<ul id="meta-box-right" class="boxed-right meta-box">
+{* show UI-preset values in meta-box-right, else show rest elements compared to block-leftt *}
+{if $metaset[0] == 'meta-box-right'}
+  {foreach from=$metaset[1] key=keyre item="relem" name="metaset_right"}
+    {foreach from=$relem key=key item=val name="block_element_right"}
+      {if ($key === 0)}{assign var="element" value=$val}{/if}
+      {if ($key === 1)}{assign var="blockname" value=$val}{/if}
+      {if $smarty.foreach.block_element_right.last && !empty($blockname)}
 
-        <ul><strong>ToDo: </strong>
-            <li class="checked">nav button with plus/minus img!</li>
-            <li class="checked">Check $admin_vars to be readable by dashbords side-navbar! This is necessary in different perms!</li>
-            <li class="checked">Check dashboard elements show up by permission only!</li>
-            <li class="checked">Make sequence order change fit into rows and cells!</li>
-            <li class="checked">Build & rewrite the halfbox sections to divs, to stick to a certain Layout!</li>
-            <li class="checked">What happens if having differing total halfbox divs?</li>
-            <li class="checked">Build real cleanup (compiled templates) function & link with questionaire!</li>
-            <li class="checked">Some more sysinfo?, or what to do with left-menu-bottom-space?</li>
-            <li class="checked">Reengineer Bayes Plugin hook via js for pending comments - AFAP</li>
-            <li class="checked">Let Smarty do the entry|truncating. Do not assign entries doubled! Hide fulltext by default</li>
-            <li class="checked">CSS add :focus</li>
-            <li class="checked">Header Comment line have more truncation or how to reap for smaller screens (?)</li>
-            <li class="checked">Comment entry shadow for IE!</li>
-            <li class="checked">Rename CSS ids & classes to be semantic, not as positional names, if possible ['not sure about these nav ones']...!</li>
-            <li class="checked">Better comment constant titles</li>
-            <li class="checked">Convert serendipityPrettyButtons to real (looking) buttons including images (?)</li>
-            <li class="checked">Convert sidebar / popout-on-click / to dropdown selectboxes & moved help as Proof-of-Concept</li>
-            <li class="checked">New embed mode including navigation switch</li>
-            <li class="checked">Header links to buttons, as new default design embed quicklink box - without old link and bookmark box content</li>
-            <li class="checked">Finish bayes plugin hook engineering, if possible. Depends on bayes v. 0.4.7!</li>
-            <li class="checked">Check if bayes is installed, before include js and vars and assign to</li>
-            <li class="checked">Change fetchTemplatePath() to native parseTemplate() (needs s9y v. to be >= 1.3, but we are 1.6 already) </li>
-            <li class="checked">Fixed and changed VersionCompare to native version_compare() </li>
-            <li class="checked">Added some Constants, replaced logoff GUI-button and minors  </li>
-            <li class="checked">Fixed plugininstance non object error in case of disabled CleanCompiles Sec </li>
-            <li class="checked">Fixed sequence elements be still marked if un-marked and submit all elements in config </li>
-            <li class="checked">Fixed N/A notices in case of missing blocks </li>
-            <li class="checked">Added JQuery.cookie support for sidebar/selectbar as session cookie </li>
-            <li class="checked">Update to modernizr-2.5.3.custom.min.js and JQuery-1.7.2.min.js </li>
-            <li class="checked">Use async attribute for the script tags in HTML5, optimized script loading sort (hopefully) </li>
-            <li class="checked">Update to JQuery-ui-1.8.21.custom.min.js and minified mbContainer.min.js </li>
-            <li class="checked">Added note for available dependency event plugin autoupdate </li>
-            <li class="checked">Changed comments header in markup, CSS, JQuery to fit the toggling to new markup - opacity to comments colours </li>
-            <li class="checked">Plastined iconbar css and changed last added icon for the Plugin availability note </li>
-            <li class="checked">Enhanced path includement setting </li>
-            <li class="checked">Fixed wrong constant if(), removed fullpath option and minor tweaks </li>
-            <li class="checked">Include info-box-screen as an overview - depending also on freetag and the bayes plugins</li>
-            <li class="checked">Boxed pending and approved comments into the 2-Column layout </li>
-            <li class="checked">Added all flip box button in box header via JQuery/CSS </li>
-            <li class="checked">Improved box and CSS layout - mainly in comments </li>
-            <li class="checked">Added Bayes rating to pending comments </li>
-            <li class="checked">Added config option to disable update plugin availability note - default to show true </li>
-            <li></li>
-            <li>Add frontend 'maintenance mode' on core updates </li>
-            <li>Bind select navigation to JQuery-UI - (js-navigation, ui-customizable, flexible) </li>
-            <li>Rebuild 1-n-Column Design select- and movable via JQuery and disable sequence floater in config </li>
-            <li>Add flexible hook-in boxes by Plugins </li>
-            <li>Include old link and bookmark box content to select box, when opening selectbox navigation? </li>
-            <li>Move help box button into embed mode design bar? </li>
-            <li class="checked">Finish embed design mode to be compat with old admin theme? </li>
-            <li>Build poping up multiple help screens to differend help content, or one big main, seperated by columns (?) </li>
-            <li>Write help screen(s) content! </li>
-            <li>Make CSS really have fluid grid layout! </li>
-            <li>Mobile ready?! Pass to 1-Column Layour via JQuery </li>
-            <li>General code and CSS cleanup! </li>
-            <li></li>
-            <li>ToDo: next release, open (some) "edit-entry-links" inside the dashboard via modalContainer... (?)</li>
-            <li>ToDo: next release, make dashboard css color customizing navbar tool ... (?)</li>
-            <li>ToDo: next release, make all boxes JQuery- mbContainer like... (?)</li>
-            <li>React on full dashboard and framed dashboard (see first link); Build option if done! (?)</li>
-            <li>ToDo: rewrite with new backend smartification</li>
-        </ul>
+  <li id="{$element}" class="flipflop">{include file="$fullpath/block_$blockname.tpl" title="Dashboard $blockname Notifier"}</li>
 
+      {/if}
+    {/foreach}
+  {/foreach}
+{else}
+  {foreach from=$block_elements key=rkey item=rvalue name=block_elements_right}
+
+  <li id="elem_{$rkey}" class="flipflop php-right-sort_{$rkey}">{include file="$fullpath/block_$rvalue.tpl" title="Dashboard $rvalue Notifier"}</li>
+
+  {/foreach}
+{/if}
+{* ON START show elements - grouped by element / 2 - right group *}
+{if !is_array($metaset) || empty($metaset)}
+  {foreach from=$elements key=rkey item=rvalue name=elements_right}
+    {if $rkey >= $countelements}
+
+  <li id="elem_{$rkey}" class="flipflop php-element-sort_{$rkey}">{include file="$fullpath/block_$rvalue.tpl" title="Dashboard $rvalue Notifier"}</li>
+
+    {/if}
+  {/foreach}
+{/if}
+
+</ul>
+
+</section>
+{/if}
+
+{if $secgroupempty}
+<section id="s9y-error">
+    <div class="dashboard dashboard_error">
+        <p class="serendipity_backend_msg_notice">{$CONST.PLUGIN_DASHBOARD_MARK}</p>
     </div>
-    
+</section>
+
+{/if}
+
+ <div id="mbc_wrapper" class="helpwrapper">
+
+  <div id="cont1" class="container" style="top: 240px; left: 240px; width: 800px; height: 400px;" data-drag=true data-collapse=true data-close=true data-containment="document" data-modal=true>
+    <h2><img class="icon" src="{$thispath}/img/s9y4.png"> Serendipity Dashboard [v.{$sysinfo.dashboard_version}] Development Gazette!</h2>
+
+    <p>This is a "<em>proof of concept</em>" Dashboard screen for your Serendipity blog backend section. All editable links, as of now, are passed to their original target, as long as this is just a an experimental welcome and information screen. Please pass your suggestions and experiences to the <a href="http://board.s9y.org/viewtopic.php?f=10&t=18370" target="_blank">serendipity forum</a>, which excepts english too.</p>
+    <p style="font: italic normal lighter 0.9em/1.2em 'Courier New','DejaVu Sans Mono','Bitstream Vera Sans Mono',monospace;">If you ever experience weired screen layout issues or discover some other unwanted scripting behaviour, do a [Shift] + [Strg] + [r] or [Strg] + [F5] first, to avoid caching or loading issues.
+
+    <ul><strong>ToDo: </strong>
+        <li class="checked">nav button with plus/minus img! </li>
+        <li class="checked">Check $admin_vars to be readable by dashbords side-navbar! This is necessary in different perms! </li>
+        <li class="checked">Check dashboard elements show up by permission only! </li>
+        <li class="checked">Make sequence order change fit into rows and cells! </li>
+        <li class="checked">Build & rewrite the halfbox sections to divs, to stick to a certain Layout! </li>
+        <li class="checked">What happens if having differing total halfbox divs? </li>
+        <li class="checked">Build real cleanup (compiled templates) function & link with questionaire! </li>
+        <li class="checked">Some more sysinfo?, or what to do with left-menu-bottom-space? </li>
+        <li class="checked">Reengineer Bayes Plugin hook via js for pending comments - AFAP </li>
+        <li class="checked">Let Smarty do the entry|truncating. Do not assign entries doubled! Hide fulltext by default </li>
+        <li class="checked">CSS add :focus </li>
+        <li class="checked">Header Comment line have more truncation or how to reap for smaller screens (?) </li>
+        <li class="checked">Comment entry shadow for IE! </li>
+        <li class="checked">Rename CSS ids & classes to be semantic, not as positional names, if possible ['not sure about these nav ones']...! </li>
+        <li class="checked">Better comment constant titles </li>
+        <li class="checked">Convert serendipityPrettyButtons to real (looking) buttons including images (?) </li>
+        <li class="checked">Convert sidebar / popout-on-click / to dropdown selectboxes & moved help as Proof-of-Concept </li>
+        <li class="checked">New embed mode including navigation switch </li>
+        <li class="checked">Header links to buttons, as new default design embed quicklink box - without old link and bookmark box content </li>
+        <li class="checked">Finish bayes plugin hook engineering, if possible. Depends on bayes v. 0.4.7! </li>
+        <li class="checked">Check if bayes is installed, before include js and vars and assign to </li>
+        <li class="checked">Change fetchTemplatePath() to native parseTemplate() (needs s9y v. to be >= 1.3, but we are 1.6 already) </li>
+        <li class="checked">Fixed and changed VersionCompare to native version_compare() </li>
+        <li class="checked">Added some Constants, replaced logoff GUI-button and minors  </li>
+        <li class="checked">Fixed plugininstance non object error in case of disabled CleanCompiles Sec </li>
+        <li class="checked">Fixed sequence elements be still marked if un-marked and submit all elements in config </li>
+        <li class="checked">Fixed N/A notices in case of missing blocks </li>
+        <li class="checked">Added JQuery.cookie support for sidebar/selectbar as session cookie </li>
+        <li class="checked">Update to modernizr-2.5.3.custom.min.js and JQuery-1.7.2.min.js </li>
+        <li class="checked">Use async attribute for the script tags in HTML5, optimized script loading sort (hopefully) </li>
+        <li class="checked">Update to JQuery-ui-1.8.21.custom.min.js and minified mbContainer.min.js </li>
+        <li class="checked">Added note for available dependency event plugin autoupdate </li>
+        <li class="checked">Changed comments header in markup, CSS, JQuery to fit the toggling to new markup - opacity to comments colours </li>
+        <li class="checked">Plastined iconbar css and changed last added icon for the Plugin availability note </li>
+        <li class="checked">Enhanced path includement setting </li>
+        <li class="checked">Fixed wrong constant if(), removed fullpath option and minor tweaks </li>
+        <li class="checked">Added info-box-screen as an overview - depending also on freetag and the bayes plugins - default to show true</li>
+        <li class="checked">Boxed pending and approved comments into the 2-Column layout </li>
+        <li class="checked">Added all flip box button in box header via JQuery/CSS </li>
+        <li class="checked">Improved box and CSS layout - mainly in comments </li>
+        <li class="checked">Added Bayes rating to pending comments </li>
+        <li class="checked">Added config option to disable update plugin availability note - default to show true </li>
+        <li class="checked">Consistently Constant PLUGIN_DASHBOARD_* use - except core constants </li>
+        <li class="checked">Added s9y.org Blog Feed Info box screen - default to show true </li>
+        <li class="checked">Added frontend 'maintenance mode' on core updates - <span style="background: none repeat scroll 0 0 gold;text-decoration: blink;">...still developing</span> </li>
+        <li class="checked">Added UI custom titles and support drag changes </li>
+        <li class="checked">Added UI to support draggable(), droppable(), sortable() directly </li>
+        <li class="checked">Holds UI-dragged, UI-dropped and UI-sorted item settings on page return </li>
+        <li class="checked">Holds toggle state of block items on page return by cookie </li>
+        <li class="checked">Update to modernizr-2.6.1 and developer version of mb.containerPlus 3.0 (mid July'12) </li>
+        <li class="checked">Moved all relevant Constants to &lt;en&gt; and &lt;de&gt; lang files </li>
+        <li class="checked">Update to JQuery 1.8.0 and JQuery-ui-1.8.22 </li>
+        <li class="checked">Removed 'Beta' from autoupdate, as not provided any more.... (we never did, but we had nighlies...) </li>
+        <li class="checked">Simplified element blocks to all moveable blocks only and moved clean(up) to seperate in config </li>
+        <li class="checked">To avoid heavy load in dynamic serendipity_admin.css, I removed the dashboard css to a fixed version, which won't load dynamically each request </li>
+        <li class="checked">Removed metadata.js and changed HTML5 async to defer load </li>
+        <li></li>
+        <li>Finish Maintenance Mode (and add some more, like size of spamblock log?) </li>
+        <li>Bind autoupdate plugin to dashboard and write a install GUI? </li>
+        <li>Bind select navigation to JQuery-UI - (js-navigation, ui-customizable, flexible) </li>
+        <li>Add flexible hook-in boxes by Plugins </li>
+        <li>Include old link and bookmark box content to select box, when opening selectbox navigation? </li>
+        <li>Move help box button into embed mode design bar? </li>
+        <li>Build poping up multiple help screens to differend help content, or one big main, seperated by columns (?) </li>
+        <li>Write help screen(s) content! </li>
+        <li>Make CSS really have fluid grid layout! </li>
+        <li>Mobile ready?! Pass to 1-Column Layout via JQuery? </li>
+        <li>General code and CSS cleanup! </li>
+        <li></li>
+        <li>ToDo: Hold feed cached for one day... (?) </li>
+        <li>ToDo: next release, open (some) "edit-entry-links" inside the dashboard via modalContainer... (?) </li>
+        <li>ToDo: next release, make dashboard css color customizing navbar tool ... (?) </li>
+        <li>ToDo: rewrite with new backend smartification </li>
+    </ul>
+
     <p>Maybe use div {ldelim} column-width: 26em; column-gap: 1.6em; column-rule: thin dotted black; {rdelim} ... to have multiple Infos ordered in cells ...</p>
     <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Cras metus. Maecenas justo elit, lacinia sit amet, cursus ut, sagittis sed, eros. Suspendisse potenti. Maecenas nec nisi. Donec vestibulum sollicitudin tellus. Sed consequat pellentesque ante. Vestibulum turpis quam, vulputate nec, nonummy convallis, ultrices congue, ligula. Ut rutrum leo et orci. Proin pharetra. Nam non sem ut eros fringilla ornare. In ullamcorper lorem eget ipsum. Suspendisse semper enim in arcu cursus consectetuer. Suspendisse potenti. Proin libero eros, adipiscing quis, volutpat in, ultrices ut, lacus.</p>
     <p>Nulla facilisi. Vestibulum vel magna in ante lobortis semper. Integer posuere justo et urna. Vestibulum sit amet sapien ut quam tempor fringilla. Fusce a neque a enim mattis dapibus. Ends with a paragraph element!</p>
+    
+    <p>Maecenas faucibus mollis interdum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed diam eget risus varius blandit sit amet non magna. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. </p>
+    <p>Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Aenean lacinia bibendum nulla sed consectetur. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Donec ullamcorper nulla non metus auctor fringilla. Nulla vitae elit libero, a pharetra augue. </p>
+    <p>Maecenas sed diam eget risus varius blandit sit amet non magna. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Cras mattis consectetur purus sit amet fermentum. Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. </p>
+    
+  </div><!-- //#id: cont1 end -->
 
-    <div style="text-align:right; width:100%; margin-top:20px;"><button id="close" onclick="$('#modalContainer').mb_close();">close</button></div>
-
-  </div>
-</div>
+  <div id="dock"></div>
+  
+ </div><!-- //#id: mbc_wrapper end -->
 
 </div><!-- //#id: dashboard end -->

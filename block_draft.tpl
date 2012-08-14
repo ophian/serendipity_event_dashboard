@@ -1,7 +1,7 @@
-{*** block_draft.tpl - last modified 2012-06-22 ***}
+{*** block_draft.tpl - last modified 2012-08-14 ***}
 
 {if $showElementDraft}
-<div id="draft-entries" class="block-entries block-box">
+  <div id="draft" class="block-entries block-box">
     <div class="flip" title="{$CONST.PLUGIN_DASHBOARD_FLIPNOTE}"><br></div>
     <h3 class="flipbox"><span>{$CONST.DRAFT} [ <span class="num">{$draft_Entrylist|@count}</span> ]</span></h3>
     <div id="sort_{$draft_block_id}" class="dashboard dashboard_draft">
@@ -10,13 +10,13 @@
 
         <div class="serendipity_admin_list_item serendipity_admin_list_item_{cycle values="even,uneven"} serendipity_admin_list_item_draft">
 
-            <div id="cell_left">
-                <h3>{$edraft.clock}<a href="?serendipity[action]=admin&amp;serendipity[adminModule]=entries&amp;serendipity[adminAction]=edit&amp;serendipity[id]={$edraft.id}" title="#{$edraft.id}">{$edraft.title|truncate:50:"&hellip;"}</a></h3>
+            <div id="cell_left" class="clmore">
+                <h3>{$edraft.clock}<a href="?serendipity[action]=admin&amp;serendipity[adminModule]=entries&amp;serendipity[adminAction]=edit&amp;serendipity[id]={$edraft.id}" title="#{$edraft.id}-{$edraft.title}">{$edraft.title|truncate:50:"&hellip;"}</a></h3>
                 <div>
                     <time datetime="{$edraft.pubdate}">{$edraft.stime}</time>
                 </div>
             </div>
-            <div id="cell_right">
+            <div id="cell_right" class="txtrht">
                 <div>
                     <span>{$CONST.POSTED_BY} {$edraft.author} {if count($edraft.cats)}{$CONST.IN} {foreach from=$edraft.cats item=cats}{$cats}{/foreach}{/if}</span>
                 </div>
@@ -35,7 +35,6 @@
         {/foreach}
         
    </div>
-</div>
+  </div>
 {/if}
-
 

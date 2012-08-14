@@ -1,7 +1,7 @@
-{*** block_comapp.tpl - last modified 2012-07-02 ***}
+{*** block_comapp.tpl - last modified 2012-08-14 ***}
 
 {if $showElementComments}
-<div id="recent-comments" class="block-comments block-box">
+  <div id="comapp" class="block-comments block-box">
     <div class="flip" title="{$CONST.PLUGIN_DASHBOARD_FLIPNOTE}"><br></div>
     <h3 class="flipbox"><span>{$CONST.COMMENTS_FILTER_APPROVED_ONLY} {$CONST.COMMENTS} [ <span class="num">{$entry_Commentlist|@count}</span> ]</span></h3>
     <div id="sort_{$comments_block_id}" class="dashboard dashboard_comments">
@@ -44,49 +44,47 @@
                         <ul class="comment_admin">
                             <li class="mod_appmod">
                             {if ($eclap.status == 'pending' || $eclap.status == 'confirm') && !$read_only}
-                                <a href="?serendipity[action]=admin&amp;serendipity[adminModule]=comments&amp;serendipity[adminAction]=approve&amp;serendipity[id]={$eclap.id}&amp;{$urltoken}" class="serendipityIconLink" title="{$CONST.APPROVE}"><span id="text_{$eclap.id}" class="admin-mini-icon"><img src="{serendipity_getFile file='admin/img/accept.png'}" title="{$CONST.APPROVE}" alt="[approve]" />{* $CONST.APPROVE *}</span></a>
+                                <a href="?serendipity[action]=admin&amp;serendipity[adminModule]=comments&amp;serendipity[adminAction]=approve&amp;serendipity[id]={$eclap.id}&amp;{$urltoken}" class="serendipityIconLink" title="{$CONST.APPROVE}"><span id="text_{$eclap.id}" class="admin-mini-icon"><img src="{serendipity_getFile file='admin/img/accept.png'}" title="{$CONST.APPROVE}" alt="[approve]" /></span></a>
                             {elseif $eclap.status == 'approved' && !$read_only}
-                                <a href="?serendipity[action]=admin&amp;serendipity[adminModule]=comments&amp;serendipity[adminAction]=pending&amp;serendipity[id]={$eclap.id}&amp;{$urltoken}" class="serendipityIconLink" title="{$CONST.SET_TO_MODERATED}"><span id="text_{$eclap.id}" class="admin-mini-icon"><img src="{serendipity_getFile file='admin/img/clock.png'}" title="{$CONST.SET_TO_MODERATED}" alt="[set2moderate]" />{* $CONST.SET_TO_MODERATED *}</span></a>
+                                <a href="?serendipity[action]=admin&amp;serendipity[adminModule]=comments&amp;serendipity[adminAction]=pending&amp;serendipity[id]={$eclap.id}&amp;{$urltoken}" class="serendipityIconLink" title="{$CONST.SET_TO_MODERATED}"><span id="text_{$eclap.id}" class="admin-mini-icon"><img src="{serendipity_getFile file='admin/img/clock.png'}" title="{$CONST.SET_TO_MODERATED}" alt="[set2moderate]" /></span></a>
                             {else}
-                                <a href="#read_only" class="serendipityIconLink" title="{$CONST.READ_ONLY}"><span id="text_{$eclap.id}" class="admin-mini-icon"><img src="{$thispath}/img/readonly.png" title="{$CONST.READ_ONLY}" alt="[readonly]" />{* $CONST.READ_ONLY *}</span></a>
+                                <a href="#read_only" class="serendipityIconLink" title="{$CONST.READ_ONLY}"><span id="text_{$eclap.id}" class="admin-mini-icon"><img src="{$thispath}/img/readonly.png" title="{$CONST.READ_ONLY}" alt="[readonly]" /></span></a>
                             {/if}
                             </li>
                             <li class="mod_zoom">
                             {if $eclap.excerpt}
-                                <a href="#c{$eclap.id}" class="serendipityIconLink toggle_text"><span id="text_{$eclap.id}" class="text"><img src="{serendipity_getFile file='admin/img/zoom.png'}" title="{$CONST.TOGGLE_OPTION}" alt="[Zoom]" />{* $CONST.TOGGLE_OPTION *}</span></a>
+                                <a href="#c{$eclap.id}" class="serendipityIconLink toggle_text"><span id="text_{$eclap.id}" class="text"><img src="{serendipity_getFile file='admin/img/zoom.png'}" title="{$CONST.TOGGLE_OPTION}" alt="[Zoom]" /></span></a>
                             {/if}
                             </li>
                             <li class="mod_view">
-                                <a target="_blank" href="{$eclap.entrylink}" title="{$CONST.VIEW}" class="serendipityIconLink"><span id="text_{$eclap.id}" class="admin-mini-icon"><img src="{serendipity_getFile file='admin/img/zoom.png'}" title="{$CONST.VIEW}" alt="[view]" />{* $CONST.VIEW *}</span></a>
+                                <a target="_blank" href="{$eclap.entrylink}" title="{$CONST.VIEW}" class="serendipityIconLink"><span id="text_{$eclap.id}" class="admin-mini-icon"><img src="{serendipity_getFile file='admin/img/zoom.png'}" title="{$CONST.VIEW}" alt="[view]" /></span></a>
                             </li>
                             <li class="mod_edit">
-                                <a href="?serendipity[action]=admin&amp;serendipity[adminModule]=comments&amp;serendipity[adminAction]=edit&amp;serendipity[id]={$eclap.id}&amp;serendipity[entry_id]={$eclap.entry_id}&amp;{$urltoken}" title="{$CONST.EDIT}" class="serendipityIconLink"><span id="text_{$eclap.id}" class="admin-mini-icon"><img src="{serendipity_getFile file='admin/img/edit.png'}" title="{$CONST.EDIT}" alt="[edit]" />{* $CONST.EDIT *}</span></a>
+                                <a href="?serendipity[action]=admin&amp;serendipity[adminModule]=comments&amp;serendipity[adminAction]=edit&amp;serendipity[id]={$eclap.id}&amp;serendipity[entry_id]={$eclap.entry_id}&amp;{$urltoken}" title="{$CONST.EDIT}" class="serendipityIconLink"><span id="text_{$eclap.id}" class="admin-mini-icon"><img src="{serendipity_getFile file='admin/img/edit.png'}" title="{$CONST.EDIT}" alt="[edit]" /></span></a>
                             </li>
                             <li class="mod_delete">
                             {if !$read_only}
-                                <a href="?serendipity[action]=admin&amp;serendipity[adminModule]=comments&amp;serendipity[adminAction]=delete&amp;serendipity[id]={$eclap.id}&amp;serendipity[entry_id]={$eclap.entry_id}&amp;{$urltoken}" onclick='return confirm("{$eclap.delete_id}")' title="{$CONST.DELETE}" class="serendipityIconLink"><span id="text_{$eclap.id}" class="admin-mini-icon"><img src="{serendipity_getFile file='admin/img/delete.png'}" title="{$CONST.DELETE}" alt="[delete]" />{* $CONST.DELETE *}</span></a>
+                                <a href="?serendipity[action]=admin&amp;serendipity[adminModule]=comments&amp;serendipity[adminAction]=delete&amp;serendipity[id]={$eclap.id}&amp;serendipity[entry_id]={$eclap.entry_id}&amp;{$urltoken}" onclick='return confirm("{$eclap.delete_id}")' title="{$CONST.DELETE}" class="serendipityIconLink"><span id="text_{$eclap.id}" class="admin-mini-icon"><img src="{serendipity_getFile file='admin/img/delete.png'}" title="{$CONST.DELETE}" alt="[delete]" /></span></a>
                             {/if}
                             </li>
                             <li class="mod_reply">
-                                <a target="_blank" onclick="cf = window.open(this.href, 'CommentForm', 'width=800,height=600,toolbar=no,scrollbars=1,scrollbars,resize=1,resizable=1'); cf.focus(); return false;" href="?serendipity[action]=admin&amp;serendipity[adminModule]=comments&amp;serendipity[adminAction]=reply&amp;serendipity[id]={$eclap.id}&amp;serendipity[entry_id]={$eclap.entry_id}&amp;serendipity[noBanner]=true&amp;serendipity[noSidebar]=true&amp;{$urltoken}" title="{$CONST.REPLY}" class="serendipityIconLink"><span id="text_{$eclap.id}" class="admin-mini-icon"><img src="{serendipity_getFile file='admin/img/user_editor.png'}" title="{$CONST.REPLY}" alt="[reply]" />{* $CONST.REPLY *}</span></a>
+                                <a target="_blank" onclick="cf = window.open(this.href, 'CommentForm', 'width=800,height=600,toolbar=no,scrollbars=1,scrollbars,resize=1,resizable=1'); cf.focus(); return false;" href="?serendipity[action]=admin&amp;serendipity[adminModule]=comments&amp;serendipity[adminAction]=reply&amp;serendipity[id]={$eclap.id}&amp;serendipity[entry_id]={$eclap.entry_id}&amp;serendipity[noBanner]=true&amp;serendipity[noSidebar]=true&amp;{$urltoken}" title="{$CONST.REPLY}" class="serendipityIconLink"><span id="text_{$eclap.id}" class="admin-mini-icon"><img src="{serendipity_getFile file='admin/img/user_editor.png'}" title="{$CONST.REPLY}" alt="[reply]" /></span></a>
                             </li>
                         </ul>
                     </div><!-- class comment_boxed end -->
                     
                 </div><!-- class serendipity_admin_list_item end -->
-                {$eclap.action_more}{** what is this for ? **}
             </div><!-- // #comment_{$eclap.id} end -->
 
             {/foreach}
             <div class="input-boxed">
                 <span class="inputtype"><img src="{$thispath}/img/invert.png" alt="" /><input type="button" name="toggle" value="{$CONST.INVERT_SELECTIONS}" onclick="invertSelectionApp()" class="none" /></span>
-                <span class="inputtype"><img src="{$thispath}/img/remove.png" alt="" /><input type="submit" name="toggle" value="{$CONST.DELETE_SELECTED_COMMENTS}" onclick="return confirm('{$CONST.COMMENTS_DELETE_CONFIRM}')" {* tabindex="{$smarty.foreach.foo.iteration+1}" *}class="none" /></span>
+                <span class="inputtype"><img src="{$thispath}/img/remove.png" alt="" /><input type="submit" name="toggle" value="{$CONST.DELETE_SELECTED_COMMENTS}" onclick="return confirm('{$CONST.COMMENTS_DELETE_CONFIRM}')" class="none" /></span>
             </div>
         </form>
 
         {/if}
     </div>
-</div>
+  </div>
 {/if}
-
 
