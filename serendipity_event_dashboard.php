@@ -886,7 +886,6 @@ class serendipity_event_dashboard extends serendipity_event {
      * @return boolean  true
      */
      function showElement($element, $sortindex) {
-        /
         switch($element) {
             case 'info':
                 $this->showElementInfo($sortindex);

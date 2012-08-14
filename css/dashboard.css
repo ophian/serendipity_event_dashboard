@@ -32,6 +32,10 @@ article, aside, details, figcaption, figure, footer, header, hgroup, nav, sectio
     margin: 0;
 }
 
+#serendipity_plugin_config td h2 {
+    font: 700 126%/1.6 sans-serif;
+}
+
 #dashboard ::-moz-selection { background: #fe57a1; color: #fff; text-shadow: none; }
 #dashboard ::selection { background: #fe57a1; color: #fff; text-shadow: none; }
 
