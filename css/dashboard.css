@@ -761,9 +761,14 @@ nav#user-menu-user-navigation-select div.main-help {
     background: none repeat scroll 0 0 infobackground;
 }
 #dashboard #notifier.single {
-    margin: 0;
     padding: 0;
     width: 98%;
+}
+#dashboard #notifier.single p {
+    border: 1px solid #72878A;
+    margin: 0;
+    opacity: 0.75;
+    padding: 0 0 0 7px;
 }
 #dashboard .mod_bayes ul li img,
 #dashboard .spamblockBayesRating img {
