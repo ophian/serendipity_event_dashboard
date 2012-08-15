@@ -1,4 +1,4 @@
-{*** plugin_dashboard.tpl - last modified 2012-08-14 ***}
+{*** plugin_dashboard.tpl - last modified 2012-08-15 ***}
 {*** debug ***}
 
 <div id="dashboard" class="clearfix maincontent">
@@ -161,6 +161,8 @@
         <li class="checked">Simplified element blocks to all moveable blocks only and moved clean(up) to seperate in config </li>
         <li class="checked">To avoid heavy load in dynamic serendipity_admin.css, I removed the dashboard css to a fixed version, which won't load dynamically each request </li>
         <li class="checked">Removed metadata.js and changed HTML5 async to defer load </li>
+        <li class="checked">Fixed version_compare() update check to alert on new version only </li>
+        <li class="checked">Added some PHPDoc documentary </li>
         <li></li>
         <li>Finish Maintenance Mode (and add some more, like size of spamblock log?) </li>
         <li>Bind autoupdate plugin to dashboard and write a install GUI? </li>

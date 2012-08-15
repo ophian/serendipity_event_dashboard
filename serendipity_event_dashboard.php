@@ -1,6 +1,6 @@
 <?php # $Id$
 
-// - last modified 2012-08-14
+// - last modified 2012-08-15
 
 if (IN_serendipity !== true) {
     die ("Don't hack!");
@@ -41,12 +41,28 @@ if(!defined('AUTOUPDATE_INSTALLED')) {
 }
 
 
-class serendipity_event_dashboard extends serendipity_event {
+/**
+ * Serendipity Backend Dashboard plug-in
+ * 
+ * @author Garvin Hicking
+ * @author Ian
+ */
+ class serendipity_event_dashboard extends serendipity_event {
 
     var $debug;
     var $bayes_plugin;
 
-    function introspect(&$propbag) {
+    /**
+     * The introspection function to setup properties
+     *
+     * Called by serendipity when it wants to display information
+     * about your plugin.
+     *
+     * @access    public
+     * @param     object    A property bag object you can manipulate
+     * @return    true
+     */
+    public function introspect(&$propbag) {
         global $serendipity;
 
         $propbag->add('name',          PLUGIN_DASHBOARD_TITLE);
@@ -57,7 +73,7 @@ class serendipity_event_dashboard extends serendipity_event {
             'php'         => '5.2.6'
         ));
 
-        $propbag->add('version',       '0.9.2');
+        $propbag->add('version',       '0.9.3');
         $propbag->add('author',        'Garvin Hicking, Ian');
         $propbag->add('stackable',     false);
         $propbag->add('configuration', array('read_only', 'path', 'limit_comments_pending', 'limit_comments', 'limit_draft', 'limit_future', 'limit_feed', 'sequence', 'feed_url', 'feed_title', 'feed_content', 'feed_author', 'feed_conum', 'dependencynote', 'maintenance', 'maintenancenote', 'update', 'clean'));
@@ -78,7 +94,18 @@ class serendipity_event_dashboard extends serendipity_event {
         ));
     }
 
-    function introspect_config_item($name, &$propbag) {
+    /**
+     * Introspection of this plugins configuration items
+     *
+     * Called by serendipity when it wants to display the configuration
+     * editor for your plugin.
+     *
+     * @access    public
+     * @param     string    Name of the config item
+     * @param     object    A property bag object you can store the configuration in
+     * @return
+     */
+    public function introspect_config_item($name, &$propbag) {
         global $serendipity;
         switch($name) {
             case 'read_only':
@@ -231,16 +258,24 @@ class serendipity_event_dashboard extends serendipity_event {
         return true;
     }
 
-    function generate_content(&$title) {
+    /**
+     * Set the plug-in title.
+     *
+     * @access    public
+     * @param     string    $title
+     */
+    public function generate_content(&$title) {
         $title = PLUGIN_DASHBOARD_TITLE;
     }
 
     /**
      * Check if dependency plugin is available for install
-     * @param  string   pluginname
-     * @return boolean
+     * 
+     * @access    public
+     * @param     string     pluginname
+     * @return    boolean    true/false
      */
-    static function check_plugin_status($name='') {
+    public static function check_plugin_status($name='') {
         $plugins = serendipity_plugin_api::enum_plugins('*', false, $name);
         if(is_array($plugins) && !empty($plugins[0]['name'])) {
             return true;
@@ -249,10 +284,13 @@ class serendipity_event_dashboard extends serendipity_event {
     }
 
     /**
-     * Load its configured instance once, if the bayes plugin is onBoard and installed
-     * @return string  instance
+     * Load Bayes-Plug-in configured instance once, 
+     * if the bayes plugin is onBoard and installed
+     * 
+     * @access    private
+     * @return    string     instance
      */
-    function findBayes() {
+    private function findBayes() {
         if (!isset($this->bayes_plugin)) {
             // find installed plugin 
             $plugins = serendipity_plugin_api::enum_plugins('*', false, 'serendipity_event_spamblock_bayes');
@@ -272,10 +310,12 @@ class serendipity_event_dashboard extends serendipity_event {
 
     /**
      * return classify bayes rating by configured instance of bayes plugin, else return false
-     * @param  string   commentBody
-     * @return boolean
+     * 
+     * @access    private
+     * @param     string     commentBody
+     * @return    mixed      int classified / boolean false
      */
-    function classifyBayes($coBody) {
+    private function classifyBayes($coBody) {
         $theBayesInstance = $this->findBayes();
         if (isset($theBayesInstance)) {
             return $theBayesInstance->classify($coBody, 'body');
@@ -286,12 +326,12 @@ class serendipity_event_dashboard extends serendipity_event {
     /**
      * Count the number of plugins to which the filter criteria matches
      *
-     * @access public
-     * @param   array  The filter for plugins (left|right|hide|event|eventh) and even more
-     * @param   boolean If true, the filtering logic will be reversed an all plugins that are NOT part of the filter will be evaluated
-     * @return  int     Number of plugins that were found.
+     * @access    private
+     * @param     array      The filter for plugins (left|right|hide|event|eventh) and even more
+     * @param     boolean    If true, the filtering logic will be reversed and all plugins that are NOT part of the filter will be evaluated
+     * @return    int        Number of plugins that were found.
      */
-    function count_plugins($filter = array(), $negate = false) {
+    private static function count_plugins($filter = array(), $negate = false) {
         global $serendipity;
 
         $sql = "SELECT COUNT(placement) AS count from {$serendipity['dbPrefix']}plugins ";
@@ -317,13 +357,16 @@ class serendipity_event_dashboard extends serendipity_event {
     }
 
     /**
-     * Select rss feed content
+     * Select the RSS feed content
+     * 
      * thanks to Stuart Herbert http://blog.stuartherbert.com/php/2007/01/07/using-simplexml-to-parse-rss-feeds/
-     * @param  string   feedContent
-     * @param  int      Limit entries
-     * @return array    articles
+     *
+     * @access    private
+     * @param     string     feedContent
+     * @param     int        Limit entries
+     * @return    array      articles
      **/
-    function select_simple_xml($content, $num) {
+    private static function select_simple_xml($content, $num) {
         /* what we might need to extract
         <item>
             <title></title>
@@ -419,10 +462,13 @@ class serendipity_event_dashboard extends serendipity_event {
     }
 
     /**
-     * Read RSS feed Content
-     * @param  string   content
+     * Read the RSS feed Content
+     *
+     * @access    private
+     * @param     string     url
+     * @return    array      get_url_contents
      */
-    function get_url_contents($url) {
+    private static function get_url_contents($url) {
         $crl = curl_init();
         $timeout = 5;
         $useragent = "Googlebot/2.1 ( http://www.googlebot.com/bot.html)";
@@ -437,9 +483,11 @@ class serendipity_event_dashboard extends serendipity_event {
 
     /**
      * Set upgraders maintenance mode
-     * @param  boolean
+     * 
+     * @access    private
+     * @param     boolean    set/unset
      */
-    function s9y_maintenance_mode($mode=false) {
+    private function s9y_maintenance_mode($mode=false) {
         global $serendipity;
         if (!serendipity_checkPermission('adminUsers')) {
             return;
@@ -457,13 +505,15 @@ class serendipity_event_dashboard extends serendipity_event {
     }
 
     /**
-     * Get Element comments List
-     * @param  string   SQL-where
-     * @param  int      SQL-limit
-     * @param  string   use_hook
-     * @return array    comments
+     * Get the Element comments List (pending and approved)
+     * 
+     * @access    private
+     * @param     string     SQL-where
+     * @param     int        SQL-limit
+     * @param     string     use_hook
+     * @return    array      comments[comment]
      */
-    function showElementCommentlist($where, $limit, $use_hook = null) {
+    private function showElementCommentlist($where, $limit, $use_hook = null) {
         global $serendipity;
 
         if (!serendipity_checkPermission('adminComments')) {
@@ -526,10 +576,12 @@ class serendipity_event_dashboard extends serendipity_event {
     }
 
     /**
-     * Get element Info List
-     * @return array    infoList
+     * Get element Info Counter List
+     * 
+     * @access    private
+     * @return    array      infoList
      */
-    function showElementInfolist() {
+    private static function showElementInfolist() {
         global $serendipity;
 
         $infolist['total_count']      = serendipity_db_query("SELECT count(id) FROM {$serendipity['dbPrefix']}entries", true);
@@ -553,25 +605,31 @@ class serendipity_event_dashboard extends serendipity_event {
 
     /**
      * Get Element Info Feed
+     * 
+     * @access    private
+     * @return    string     XML-feed
      */
-    function showElementInfoFeed() {
+    private function showElementInfoFeed() {
         $blogurl     = $this->get_config('feed_url');
         $blognum     = $this->get_config('limit_feed');
         // read blog rss
-        $s9yblog = $this->get_url_contents($blogurl); // ToDo: cache this for a day.., see updater
+        $s9yfeed = $this->get_url_contents($blogurl); // ToDo: cache this for a day.., see updater
         // select elements as array by limit
-        $s9yblog = $this->select_simple_xml($s9yblog, $blognum);
+        $s9yblog = $this->select_simple_xml($s9yfeed, $blognum);
 
         return $s9yblog;
     }
 
 
     /**
-     * Get Element Entry List
-     * @param  array      filter
-     * @param  int        limit
+     * Get Element Entries List (draft and futures)
+     * 
+     * @access    private
+     * @param     array      filter
+     * @param     int        limit
+     * @return    array      entries[entry]
      */
-    function showElementEntrylist($filter = array(), $limit = 0) {
+    private static function showElementEntrylist($filter = array(), $limit = 0) {
         global $serendipity;
 
         if (!serendipity_checkPermission('adminEntries')) {
@@ -640,9 +698,11 @@ class serendipity_event_dashboard extends serendipity_event {
     }
 
     /**
-     * Check update and autoupdate eventData
+     * Check update, create config values and assign to Smarty
+     * 
+     * @access    private
      */
-    function CheckUpdate() {
+    private function CheckUpdate() {
         global $serendipity;
 
         if (!serendipity_checkPermission('adminUsers') || $this->get_config('update') == 'none') {
@@ -671,7 +731,7 @@ class serendipity_event_dashboard extends serendipity_event {
                 if ($version == "stable"){
                     $url="http://prdownloads.sourceforge.net/php-blog/serendipity-" . $update_to_version . ".zip";
                 }
-                if ( version_compare($update_to_version, $serendipity['version']) >= 0 ) {
+                if ( version_compare($update_to_version, $serendipity['version'], '>') ) {
                     $serendipity['smarty']->assign('showElementUpdate', true);
                     $or_use = (defined('AUTOUPDATE_INSTALLED') ? PLUGIN_DASHBOARD_UPDATE_NOTIFIER_AUTOADD : '');
                     $u_text = sprintf(PLUGIN_DASHBOARD_UPDATE_NOTIFIER, '<a class="link" href="' . $url . '">' . $update_to_version . '</a>' . $or_use);
@@ -683,9 +743,11 @@ class serendipity_event_dashboard extends serendipity_event {
 
     /**
      * Create draft element
-     * @param  int      index
+     * 
+     * @access    private
+     * @param     int        sortIndex
      */
-    function showElementDraft($sort_id) {
+    private function showElementDraft($sort_id) {
         global $serendipity;
 
         $lim = $this->get_config('limit_draft');
@@ -698,9 +760,11 @@ class serendipity_event_dashboard extends serendipity_event {
 
     /**
      * Create comapp element
-     * @param  int      index
+     * 
+     * @access    private
+     * @param     int        sortIndex
      */
-    function showElementComments($sort_id) {
+    private function showElementComments($sort_id) {
         global $serendipity;
 
         $lim = $this->get_config('limit_comments');
@@ -713,9 +777,11 @@ class serendipity_event_dashboard extends serendipity_event {
 
     /**
      * Create compen element
-     * @param  int      index
+     * 
+     * @access    private
+     * @param     int        sortIndex
      */
-    function showElementCommentsPending($sort_id) {
+    private function showElementCommentsPending($sort_id) {
         global $serendipity;
 
         static $hookin = null;
@@ -731,9 +797,11 @@ class serendipity_event_dashboard extends serendipity_event {
 
     /**
      * Create plugup element
-     * @param  int      index
+     * 
+     * @access    private
+     * @param     int        sortIndex
      */
-    function showPluginNotifier($sort_id) {
+    private static function showPluginNotifier($sort_id) {
         global $serendipity;
 
         if (!serendipity_checkPermission('adminUsers')) {
@@ -756,10 +824,13 @@ class serendipity_event_dashboard extends serendipity_event {
     }
 
     /**
-     * Create update element
-     * @param  int      index
+     * Create update element, check update, assign to Smarty and set eventData
+     * 
+     * @access    private
+     * @param     int        sortIndex
+     * @return    mixed      eventData
      */
-    function showUpdateNotifier($sort_id) {
+    private function showUpdateNotifier($sort_id) {
         global $serendipity;
 
         if (!serendipity_checkPermission('adminUsers') || $this->get_config('update') == 'none') {
@@ -777,7 +848,7 @@ class serendipity_event_dashboard extends serendipity_event {
 
         $serendipity['smarty']->assign(array('update_block_id' => $sort_id, 'showElementUpdate' => true, 'show_dependencynote' => $this->get_config('dependencynote')));
 
-        if ( version_compare($newVersion, $serendipity['version']) >= 0 ) {
+        if ( version_compare($newVersion, $serendipity['version'], '>') ) {
             $eventData = '';
             serendipity_plugin_api::hook_event('plugin_dashboard_updater', $eventData, $newVersion);
             $update_text = $this->get_config('update_text');
@@ -789,9 +860,11 @@ class serendipity_event_dashboard extends serendipity_event {
 
     /**
      * Create future element
-     * @param  int      index
+     * 
+     * @access    private
+     * @param     int        sortIndex
      */
-    function showElementFuture($sort_id) {
+    private function showElementFuture($sort_id) {
         global $serendipity;
 
         $lim = $this->get_config('limit_future');
@@ -804,9 +877,11 @@ class serendipity_event_dashboard extends serendipity_event {
 
     /**
      * Create clean element
-     * @param  int      index
+     * 
+     * @access    private
+     * @param     int        sortIndex
      */
-    function showElementClean($sort_id) {
+    private function showElementClean($sort_id) {
         global $serendipity;
 
         if (!serendipity_checkPermission('adminUsers')) {
@@ -828,9 +903,11 @@ class serendipity_event_dashboard extends serendipity_event {
 
     /**
      * Create info element
-     * @param  int      index
+     * 
+     * @access    private
+     * @param     int        sortIndex
      */
-    function showElementInfo($sort_id) {
+    private function showElementInfo($sort_id) {
         global $serendipity;
 
         $serendipity['smarty']->assign('showElementInfo', true);
@@ -855,9 +932,11 @@ class serendipity_event_dashboard extends serendipity_event {
 
     /**
      * Create feed element
-     * @param  int      index
+     * 
+     * @access    private
+     * @param     int        sortIndex
      */
-    function showElementFeed($sort_id) {
+    private function showElementFeed($sort_id) {
         global $serendipity;
 
         $serendipity['smarty']->assign('showElementFeed', true);
@@ -880,12 +959,14 @@ class serendipity_event_dashboard extends serendipity_event {
     }
 
     /**
-     * show elements sorted by default configuration 
-     * @param  array    elements
-     * @param  int      index
-     * @return boolean  true
+     * Switch show element sorted by default configuration 
+     * 
+     * @access    private
+     * @param     array      elements
+     * @param     int        sortIndex
+     * @return    boolean    true
      */
-     function showElement($element, $sortindex) {
+     private function showElement($element, $sortindex) {
         switch($element) {
             case 'info':
                 $this->showElementInfo($sortindex);
@@ -919,7 +1000,20 @@ class serendipity_event_dashboard extends serendipity_event {
         return true;
     }
 
-    function event_hook($event, &$bag, &$eventData, $addData = null) {
+    /**
+     * Hook for Serendipity events, initialize plug-in "listen" to an event
+     *
+     * This method is called by the main plugin API for every event, that is executed.
+     * You need to implement each actions that shall be performed by your plugin here.
+     *
+     * @access    public
+     * @param     string    The name of the executed event
+     * @param     object    A property bag for the current plugin
+     * @param     mixed     Any referenced event data from the serendipity_plugin_api::hook_event() function
+     * @param     mixed     Any additional data from the hook_event call
+     * @return    true
+     */
+    public function event_hook($event, &$bag, &$eventData, $addData = null) {
         global $serendipity;
 
         $hooks = &$bag->get('event_hooks');
