@@ -24,7 +24,7 @@ function invertSelectionPen() {
 // comment checkbox placeholder
 function toogle_checkbox(id, checkvalue) {
     // void 
-	// hold this to make checkboxes be selectable individually via onClick and get inverted by function
+    // hold this to make checkboxes be selectable individually via onClick and get inverted by function
 }
 
 /* two Cookie/Array functions to extend methods and properties via prototype - used by Dashboards JQuery cookie flip show/hide */

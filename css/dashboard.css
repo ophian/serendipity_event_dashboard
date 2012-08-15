@@ -1,6 +1,6 @@
 /*
    dashboard css file
-   last modified: 2012-08-14
+   last modified: 2012-08-15
 */
 
 html, body {
@@ -49,12 +49,6 @@ article, aside, details, figcaption, figure, footer, header, hgroup, nav, sectio
 #dashboard input[type="checkbox"], #dashboard input[type="radio"] {
     margin: 3px 3px 0;
     padding: 0;
-}
-.serendipityAdminContentnoSb {
-    padding: 3px;
-}
-td.noSidebar {
-    padding: 3px 3px 10px;
 }
 /* overrules later .serendipityAdminContentDashboard class and is set/reset by jquery-dashboard.js */
 td.serendipityAdminContentDashboard {

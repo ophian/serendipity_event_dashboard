@@ -7,44 +7,7 @@ window.log = function f(){ log.history = log.history || []; log.history.push(arg
 (function(){try{console.log();return window.console;}catch(a){return (window.console={});}}());
 // Attention: do not use paulirish log() method, as making our events behave different
 
-// jquery-dashboard.js - last-modified: 2012-08-14
-/*
-   Q: Is $(this).siblings() the same as $(this).parent().children()?
-   A: No.
-      $(this).parent().children() selects all the children of the parent (including $(this)).
-      $(this).siblings() includes all the children of the parent except for $(this)
-      $(this).closest('classname') walks the DOM tree upwards until match
-      $(this).children().find('searchtag') falls down the tree until tag matches
-
-   Q: What is the difference on this vs. $(this)?
-   A: Basically we need $() for special jQuery-only functions. 
-      $(this)[0] == this
-      $("#myDiv")[0] == document.getElementById("myDiv");
-      Using $(this), enables jquery functionalities for the object. Just 'this' only has generic javascript functionalities.
-      This in javascript (usually) represents a reference to the object that invoked the current function. 
-      This concept is somewhat fuzzied a bit by jQuery's attempts to make the use of this more user friendly within their .each() looping stucture.
-      - outside the .each(), this represents the jQuery object that .lockDimensions is invoked by.
-      - inside the .each() it represents the current iterated DOM object.
-      Generally the purpose of storing $(this) in a local variable is to prevent you from calling the jQuery function $() multiple times, 
-      caching a jQueryized this should help efficiency if you have to use it multiple times.
-      $ is simply a valid variable name character and is used as the first character of a variable name usually to queue the programmer that it is 
-      a jQuery object already (and has the associated methods/properties available).
-      This question is actually unrelated to chain-ability, but to maintain chain-ability you should return this so that other function calls can be added, 
-      and maintain the meaning of this in those calls as well.
-
-    Q: How can we get the selectors node and why?
-    A: Select by node getElementById() is the best and fastest selector ever
-      var id  = '#' + this.id;
-      var id  = '#' + $(this).context.id;
-      var id  = '#' + this.parentNode.id;
-      var id  = '#' + $(this).parent().attr("id")
-      var pid = '#' + $(this).parents().eq(2).attr('id');
-      var id  = $(this).closest('div').attr('id');
-
-    Q: Undefined vars and properties
-    A: An undefined variable = if(undefinedVar) will throw an error, but if(someObj.undefinedProperty) not, then use var === undefined, w/o quotes
-
-*/
+// jquery-dashboard.js - last-modified: 2012-08-15
 
 // define localStorage use
 var isLocalStorage = false;
@@ -52,7 +15,7 @@ var isLocalStorage = false;
 var isRunBlocksort = false;
 
 /**
- * test local Storage
+ * Test HTML5 clients local Storage
  **/
 if (typeof(localStorage) == 'undefined' ) {
     alert('Your browser does not support HTML5 localStorage. Try upgrading.');
@@ -63,13 +26,13 @@ if (typeof(localStorage) == 'undefined' ) {
         if (e == QUOTA_EXCEEDED_ERR) {
             alert('LocalStorage Quota exceeded!'); // the test data wasn't successfully saved due to quota exceed so throw an error
         }
-		if (e) { isLocalStorage = false; }
+        if (e) { isLocalStorage = false; }
     }
     isLocalStorage = true;
 }
 
 /**
- * start main functions on document.ready = load in DOM
+ * Start main functions on document.ready = load in DOM
  **/
 jQuery(document).ready(function($) {
 
@@ -103,6 +66,7 @@ jQuery(document).ready(function($) {
     // var functions
     /**
      * Function runBlockSort(storageobject) [OK]
+     * 
      * Retrieves the object from storage and manipulates Block IDs
      **/
     runBlockSort = (function(bsarr) {
@@ -138,6 +102,7 @@ jQuery(document).ready(function($) {
 
     /**
      * Function setLocalStorage(array) [OK]
+     * 
      * Feature detect + clear + local reference
      **/
     setLocalStorage = (function(sid) {
@@ -160,6 +125,7 @@ jQuery(document).ready(function($) {
     
     /**
      * Function setStorageArray(metaid, metaobject) [OK]
+     * 
      * Returns the new Storage array by new arranged meta and block object
      **/
     setStorageArray = (function($metaid, $metaobj) {
@@ -168,7 +134,6 @@ jQuery(document).ready(function($) {
         // console.log('setStorageArray fnc array metaArr: '+$metaArr); // = metaArr-ay: meta-box-left/meta-box-right
         // console.log($metaobj); // = [ul#meta-box-left.boxed-left] && [ul#meta-box-right.boxed-right]
         $metaobj.find('.flipbox').attr("id", function (index) { 
-            // this = h3.flipbox
             // console.log('setStorageArray fnc metaobj Index is: '+index); // [OK]
             var $bid = $(this).closest('div[id].block-box').attr('id').toString();
             // console.log('id of h3.flipbox: '+$bid);
@@ -191,7 +156,8 @@ jQuery(document).ready(function($) {
 
     /**
      * Function setContainersHeight() [OK]
-     * Sets the Tooltips first element and removes other by attr()
+     * 
+     * Sets the Tooltips first element and removes others by attr()
      * Calls the setStorageArray(id, object) and 
      * Sets setLocalStorage(array)
      **/
@@ -220,6 +186,7 @@ jQuery(document).ready(function($) {
 
     /**
      * Function setContainersHeight() [OK]
+     * 
      * Sets the #layout containers height on demand
      **/
     setContainersHeight = (function() {
@@ -232,6 +199,7 @@ jQuery(document).ready(function($) {
     
     /**
      * Function unsetUIHightlight(object) [OK]
+     * 
      * Removes this selectors upper li class ui-state-highlight on click flip and toogle buttons
      **/
     unsetUIHightlight = (function(obj) {
@@ -240,7 +208,8 @@ jQuery(document).ready(function($) {
 
     /**
      * Function runTooltip() [OK]
-     * the Tooltip function
+     * 
+     * The Tooltip function
      **/
     runTooltip = (function() {
         // Default tooltip settings
@@ -326,7 +295,7 @@ jQuery(document).ready(function($) {
     });
 
     /**
-     * if LocalStorage is available and is preset with array/object, start fnc runBlockSort()
+     * If LocalStorage is available and is preset with array/object, start fnc runBlockSort()
      **/
     $(function() {
         if ( isLocalStorage === true ) {
@@ -343,7 +312,7 @@ jQuery(document).ready(function($) {
     });
     
     /**
-     * initialize tooltip on DOM ready
+     * Initialize tooltip on DOM ready
      **/
     $(function() {
         runTooltip();
@@ -367,7 +336,7 @@ jQuery(document).ready(function($) {
     });
 
     /**
-     * toggle comments view more block on click
+     * Toggle the comments view more block on click
      **/
     $(function() {
         $(t_form.join(', ')).find('.comment_boxed').addClass('visuallyhidden');
@@ -397,12 +366,11 @@ jQuery(document).ready(function($) {
     });
 
     /**
-     * toggle comments text block and change view/hide constant on event
+     * Toggle the comments text block and change view/hide constant on event
      **/
     $(function() {
         $(t_text.join(', ')).find('.fulltxt').addClass('visuallyhidden');
         $(t_text.join(', ')).find('.text').toggle( 
-        //$('.text').toggle( 
             function (event) { 
                 $(event.target).html(const_hide);
                 $(this).closest('.serendipity_admin_list_item').children('.comment_text').children().toggleClass('visuallyhidden'); // OK
@@ -419,16 +387,7 @@ jQuery(document).ready(function($) {
     });
 
     /**
-     * check if in dashboard w/o or anywhere with old sidebar left on DOM ready
-     **/
-    $(function() {
-        if ($("tr td:first-child").hasClass("serendipityAdminContent")) { 
-            $("td.serendipityAdminContent").removeClass("serendipityAdminContent noClass").addClass("serendipityAdminContentnoSb");
-        };
-    });
-
-    /**
-     * help button hover on mouseover
+     * Help button hover on mouseover
      **/
     $(function() {
         $('#iopen.help').hover(function() { 
@@ -439,25 +398,7 @@ jQuery(document).ready(function($) {
     });
 
     /**
-     * navigation event in header_full on DOM ready
-     **/
-    $(function() {
-        $("#iopen.navi").toggle( 
-            function (event) { 
-                // console.log('button.navi: click-minus');
-                $(event.target).siblings().toggleClass('visuallyhidden');
-                $(event.target).find('img').stop(true, true).attr({src:img_minus});
-            }, 
-            function (event) { 
-                // console.log('button.navi: click-plus');
-                $(event.target).siblings().toggleClass('visuallyhidden');
-                $(event.target).find('img').stop(true, true).attr({src:img_plus});
-            }
-        );
-    });
-
-    /**
-     * toogle (flip) the block-box function on click [OK]
+     * Toogle (flip) and store to Cookie the block-box function on click [OK]
      **/
     $(function() {
         $(meta.join(', ')).find('.flip').click(function() {
@@ -499,7 +440,7 @@ jQuery(document).ready(function($) {
     });
 
     /**
-     * toogle autoupdater note [OK]
+     * Toogle autoupdater header note [OK]
      **/
     $(function() {
         $("#menu-autoupdate").toggle( 
@@ -517,21 +458,21 @@ jQuery(document).ready(function($) {
     });
 
     /**
-     * toggle between embed mode navigation per side-bar or select-bar on button click
-	 * and set the side/select-bar cookie on slide navigation click event [OK]
+     * Toggle between embed mode navigation per side-bar or select-bar on button click
+     * and set the side/select-bar cookie on slide navigation click event [OK]
      **/
     $(function() { 
         $button.click(function(e){
             e.preventDefault();
             // let the function toogle sidebar/selectbar as stated and set cookie to hold the state
-			// .is(":visible") // Checks for display:[none|block], ignores visible:[true|false]
+            // .is(":visible") // Checks for display:[none|block], ignores visible:[true|false]
             if ($sidebar.is(':visible')) {
-				$sidebar.fadeOut();
-				$.cookie('cookie_sidebar', 'isSelectBar');
-			} else {
+                $sidebar.fadeOut();
+                $.cookie('cookie_sidebar', 'isSelectBar');
+            } else {
                 $sidebar.fadeIn();
-				$.cookie('cookie_sidebar', 'isSideBar');
-			}
+                $.cookie('cookie_sidebar', 'isSideBar');
+            }
             $selectbar.toggleClass('visuallyhidden');
         });
 
@@ -544,7 +485,7 @@ jQuery(document).ready(function($) {
         } else {
             $sidebar.fadeIn();
             // console.log('2-Cookie: '+cookie_sidebar);
-		}
+        }
 
         // make sure everything outside dashboard has the normal 'isSideBar' Layout!
         if ( !$('#dashboard').children().length > 0 ) { 
@@ -554,7 +495,7 @@ jQuery(document).ready(function($) {
     });
 
     /**
-     * convert backend sidebar entries to dropdown select box - case each selector [OK]
+     * Convert backend sidebar entries to dropdown select box - case each selector [OK]
      **/
     $(function() {
         var base = '#indent-navigation ';
@@ -589,7 +530,7 @@ jQuery(document).ready(function($) {
     });
 
     /**
-     * metabox drag and drop funtion via jquery-ui framework [OK]
+     * The metabox drag and drop funtion via jquery-ui framework [OK]
      **/
     $(function() {
         var selectedClass = 'ui-state-highlight',
@@ -635,8 +576,7 @@ jQuery(document).ready(function($) {
             }
         });
         
-        // $("#layout ul.meta-box").sortable().droppable({          
-        $(meta.join(', ')).sortable().droppable({ // how do we prevent help container movement here? && !$('#modalContainer')
+        $(meta.join(', ')).sortable().droppable({
             drop: function(e, ui) {
                 $('.' + selectedClass).appendTo($(this)).add(ui.draggable) // ui.draggable is appended by the script, so add it after
                 .removeClass(selectedClass).css({
@@ -656,7 +596,7 @@ jQuery(document).ready(function($) {
                 // keep upgrading localStorage
                 setLocalStorage(arr);
 
-                var sobj = $('#'+this.id).find('li[id].flipflop'); // .sortable('serialize'); // .sortable('toArray');
+                var sobj = $('#'+this.id).find('li[id].flipflop');
                 var $postMetaArr = [$('#'+this.id)]; // eg. #meta-box-right
                 
                 sobj.attr("id", function (index) { 
@@ -678,7 +618,7 @@ jQuery(document).ready(function($) {
     });
     
     /**
-     * set maintenance mode on click
+     * Set upgrading maintenance mode on click
      **/
     $(function(){
         var set = false;
@@ -695,13 +635,10 @@ jQuery(document).ready(function($) {
    
 
     /**
-     * jquery.mb.containerPlus help
+     * JQuery.mb.containerPlus help
      **/
     $(function(){
-        /*
-         * custom method added to the component
-         **/
-
+        // custom method added to the component
         $.containerize.addMethod("modal",function(){
             var el = this;
 
@@ -733,9 +670,7 @@ jQuery(document).ready(function($) {
 
         $(".container").containerize();
 
-        /*
-         * custom Buttons for the toolbar
-         **/
+        // custom Buttons for the toolbar
         var changeSkinBtn = $("<button/>").addClass("mbc_button").html("change skin").click(function(e){
             var el = $(this).parents(".mbc_container");
             if(!el.hasClass('black')) el.containerize('skin','black'); else el.containerize('skin');
@@ -762,19 +697,20 @@ jQuery(document).ready(function($) {
     });
   
     /**
-     * debug elements
-	 * count how much selectors used - faster access, the more less - .length = count 
-	 * use with ('*') all selectors, or selector tagNames, idNames, classNames etc.
+     * Debug elements used
+     * 
+     * count how much selectors used - faster access, the more less - .length = count 
+     * use with ('*') all selectors, or selector tagNames, idNames, classNames etc.
      **/
     $(function(){
-		// as of now = 1170 elements! ie. we there have 282 li, 45 ul, 162 div elements, etc
-		// console.log( $('*').length );
-	});
+        // as of now = 1170 elements! ie. we there have 282 li, 45 ul, 162 div elements, etc
+        // console.log( $('*').length );
+    });
 }); // close jQuery document ready
 
 
 /**
- * init #layout height on window load = DOM and full Content load ready
+ * Init #layout height on window load = DOM and full Content load ready
  **/
 jQuery(window).load(function() {
     setContainersHeight(); // set to height of highest meta-box-xxx
