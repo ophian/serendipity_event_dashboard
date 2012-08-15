@@ -760,6 +760,11 @@ nav#user-menu-user-navigation-select div.main-help {
 #dashboard #notifier {
     background: none repeat scroll 0 0 infobackground;
 }
+#dashboard #notifier.single {
+    margin: 0;
+    padding: 0;
+    width: 98%;
+}
 #dashboard .mod_bayes ul li img,
 #dashboard .spamblockBayesRating img {
     height: 16px;
