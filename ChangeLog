@@ -1,3 +1,10 @@
+0.9.4
+-----
+Some code and CSS cleanup and js event finetuning
+Make CSS really have fluid grid layout!
+CSS down to small Tablet portrait Mode (600x800) should work by default.
+Added some Mobile portrait Mode (320x480) Media Queries w/o finetuning.
+
 0.9.3
 -----
 fixed version_compare() update check to alert on new version only

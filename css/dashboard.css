@@ -1,6 +1,6 @@
 /*
    dashboard css file
-   last modified: 2012-08-15
+   last modified: 2012-08-17
 */
 
 html, body {
@@ -32,6 +32,14 @@ article, aside, details, figcaption, figure, footer, header, hgroup, nav, sectio
     margin: 0;
 }
 
+/* Contain floats: h5bp.com/q */ 
+.clearfix:before, .clearfix:after { content: ""; display: table; }
+.clearfix:after { clear: both; }
+.clearfix { zoom: 1; }
+
+/* apply a natural box layout model to all elements */
+* { -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; }
+
 #serendipity_plugin_config td h2 {
     font: 700 126%/1.6 sans-serif;
 }
@@ -42,7 +50,12 @@ article, aside, details, figcaption, figure, footer, header, hgroup, nav, sectio
 #dashboard a { color: #00e; }
 #dashboard a:visited { color: #551a8b; }
 #dashboard a:hover { color: #06e; }
-#dashboard a:focus { outline: thin dotted; color: #ffffff; background: none repeat scroll 0 0 tomato; }
+#dashboard a:focus { 
+    background: none repeat scroll 0 0 transparent;
+    box-shadow: 0 0 2px 1px rgba(41, 69, 100, 0.5);
+    color: darkblue;
+    outline: 0 none;
+}
 #dashboard a:hover, #dashboard a:active { outline: 0; }
 
 /* corrects BP3.0 for Dashboard */
@@ -50,12 +63,18 @@ article, aside, details, figcaption, figure, footer, header, hgroup, nav, sectio
     margin: 3px 3px 0;
     padding: 0;
 }
+.serendipityAdminContentnoSb {
+    padding: 3px;
+}
+td.noSidebar {
+    padding: 3px 3px 10px;
+}
 /* overrules later .serendipityAdminContentDashboard class and is set/reset by jquery-dashboard.js */
 td.serendipityAdminContentDashboard {
     padding: 3px 3px 10px;
 }
 #dashboard.maincontent {
-    display: inline;
+    display: block;
     margin: 0;
     max-width: 1208px;
     padding: 0;
@@ -90,7 +109,7 @@ td.serendipityAdminContentDashboard {
     margin: 0;
     overflow: auto;
     padding: 10px;
-    position: relative; /* IE PIE lt 9, we need this here */
+    position: relative;
 }
 #dashboard h1, #dashboard h2, #dashboard h3,
 #dashboard h4, #dashboard h5, #dashboard h6,
@@ -101,23 +120,33 @@ td.serendipityAdminContentDashboard {
     margin: 0 0 1em;
 }
 
-#dashboard nav ul#indent-navigation select.serendipitySideBarMenuEntry,
-#dashboard nav ul#indent-navigation select.serendipitySideBarMenuMedia,
-#dashboard nav ul#indent-navigation select.serendipitySideBarMenuAppearance,
-#dashboard nav ul#indent-navigation select.serendipitySideBarMenuUserManagement {
-    display: inline;
-    width: 16em;
+#dashboard header, #dashboard section {
+    background: none repeat scroll 0 0 #F9F9F9;
+    border: 1px solid #AAAAAA;
+    margin: 0 0 4px;
+    max-width: 1208px;
 }
-#dashboard header>nav#user-menu-user-navigation-select, 
-#dashboard nav#user-menu-user-navigation-select {
+#dashboard header > #user-menu-user-navigation-select, 
+#dashboard #user-menu-user-navigation-select {
     border: 1px solid #BBBBBB;
+    clear: both;
     display: inline-block;
-    float: left;
     margin: 0.5em 0.7em;
     width: 98.4%;
 }
-#dashboard header > nav#user-menu-user-embed-iconset, 
-#dashboard nav#user-menu-user-embed-iconset {
+
+#dashboard #indent-navigation select.serendipitySideBarMenuEntry,
+#dashboard #indent-navigation select.serendipitySideBarMenuMedia,
+#dashboard #indent-navigation select.serendipitySideBarMenuAppearance,
+#dashboard #indent-navigation select.serendipitySideBarMenuUserManagement {
+    display: inline;
+    width: 16em;
+}
+#dashboard #select-form-navigation.select-navigation {
+    display: block;
+}
+#dashboard header > #user-menu-user-embed-iconset, 
+#dashboard #user-menu-user-embed-iconset {
     background: rgb(255,255,255); /* Old browsers */
     /* IE9 SVG, needs conditional override of 'filter' to 'none' */
     background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPHJhZGlhbEdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgY3g9IjUwJSIgY3k9IjUwJSIgcj0iNzUlIj4KICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNmZmZmZmYiIHN0b3Atb3BhY2l0eT0iMSIvPgogICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjZGRkZGRkIiBzdG9wLW9wYWNpdHk9IjEiLz4KICA8L3JhZGlhbEdyYWRpZW50PgogIDxyZWN0IHg9Ii01MCIgeT0iLTUwIiB3aWR0aD0iMTAxIiBoZWlnaHQ9IjEwMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
@@ -142,48 +171,44 @@ td.serendipityAdminContentDashboard {
     margin: 0.8em 0;
     padding: 0 1em;
 }
-#dashboard nav#user-menu-user-embed-iconset a:hover,
-#dashboard nav#user-menu-user-embed-iconset a:focus,
-#dashboard nav#user-menu-user-embed-iconset a:visited {
+#dashboard #user-menu-user-embed-iconset a:hover,
+#dashboard #user-menu-user-embed-iconset a:focus,
+#dashboard #user-menu-user-embed-iconset a:visited {
     background: none repeat scroll 0 0 transparent; 
     color: transparent;
 }
-#dashboard nav#user-menu-user-embed-iconset ul li {
+#dashboard #user-menu-user-embed-iconset ul li {
     margin: 0.5em 0 0;
 }
-#dashboard nav#user-menu-user-embed-iconset img {
+#dashboard #user-menu-user-embed-iconset img {
     vertical-align: middle;
 }
-nav#user-menu-user-navigation-select ul#indent-navigation li.select-help {
-    cursor: pointer;
-    display: inline-block;
-    float: right; 
-    height: auto;
-    margin: 0.7% 0;
-    width: auto;
-}
-#dashboard nav#user-menu-user-embed-switch {
+#dashboard #user-menu-user-embed-switch {
     display: inline-block;
     float: right;
+    text-align: end;
 }
-#dashboard nav#user-menu-user-embed-switch ul li:first-child {
+#dashboard #user-menu-user-embed-switch ul li:first-child {
     padding-top: 8px;
 }
-#dashboard nav#user-menu-user-embed-switch ul li:last-child {
+#dashboard #user-menu-user-embed-switch ul li:last-child {
     float: right;
     padding: 2px 6px;
 }
-nav#user-menu-user-navigation-select div.main-help {
-    margin: 0pt 0.7em 1em 0pt; 
-    float: right; 
-    display: inline-block;
+#dashboard #user-menu-user-navigation-select .main-help {
+    margin: 1em 0.7em 1em 0;
+    text-align: end;
 }
 #dashboard input.serendipityPrettyButton, a.serendipityPrettyButton {
     background: none repeat scroll 0 0 lightSteelBlue;
     color: inherit;
     display: inline-block;
 }
-#dashboard div.input-boxed {
+#dashboard .input-boxed {
+    margin: 0.3em 0 0;
+}
+#dashboard .input-boxed,
+#dashboard .bayes-boxed {
     display: inline-block;
 }
 /* reset our normal browsers input type (button) behaviour by CSS */
@@ -269,24 +294,27 @@ nav#user-menu-user-navigation-select div.main-help {
 #dashboard > section ul {
     display: inline-block; 
 }
-#dashboard ul li { float: left; padding: 2px 6px; }
+#dashboard ul li { 
+    float: left; 
+    padding: 2px 6px; 
+}
 
 #dashboard .comment_titel label time>img {
     vertical-align: middle;
 }
 #dashboard .comment_text { 
     border: 1px solid #BBBBBB;
-    -moz-box-shadow: 5px 5px 5px #333333;
-    -webkit-box-shadow: 5px 5px 5px #333333;
-    -o-box-shadow: 5px 5px 5px #333333;
     /* commented out for IE9 compatibility only
     box-shadow: 5px 5px 5px #333333; */
+    -webkit-box-shadow: 5px 5px 5px #333333;
+    -moz-box-shadow: 5px 5px 5px #333333;
+    -o-box-shadow: 5px 5px 5px #333333;
     -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=6, Direction=115, Color='#333333')";
     filter: progid:DXImageTransform.Microsoft.Shadow(Strength=6, Direction=115, Color='#333333');
     margin-bottom: 5px;
     margin-left: 2px;
     padding: 10px;
-    width: 97%;
+    width: inherit;
 }
 
 #dashboard #compen .comment_text { 
@@ -300,26 +328,62 @@ nav#user-menu-user-navigation-select div.main-help {
 }
 #dashboard #compen li.mod_ham,
 #dashboard #compen li.mod_spam {
-    background: none repeat scroll 0 0 mediumAquaMarine;
-    -webkit-border-radius: 1em 1em 1em 1em / 2em 2em 2em 2em;
-    -moz-border-radius: 1em 1em 1em 1em / 2em 2em 2em 2em;
-    -o-border-radius: 1em 1em 1em 1em / 2em 2em 2em 2em;
-    border-radius: 1em 1em 1em 1em / 2em 2em 2em 2em;
-    -webkit-box-shadow: 4px 2px 7px steelblue;
-    -moz-box-shadow: 4px 2px 7px steelblue;
-    -o-box-shadow: 4px 2px 7px steelblue;
-    box-shadow: 4px 2px 7px steelblue;
-    margin: 0 2px;
-    padding: 3px 6px;
+    margin: 0;
+    padding: 0;
 }
 
 #dashboard ul.comment_fields {
     margin: 10px 0 0;
     width: 96%;
 }
-#dashboard ul.comment_admin { 
-    margin: 2px 0 10px; 
-    width: 96%;
+#dashboard ul.comment_admin {
+    margin: 2px 0 4px;
+}
+#dashboard ul.comment_fields,
+#dashboard ul.comment_admin {
+    width: 100%;
+}
+#dashboard ul.comment_admin a:focus { 
+/*
+ * horizontl and vertical offsets & blur radius and spread radius e.g [inset? 2px 2px 2px 2px color]
+ * The horizontal offset of the shadow, positive means the shadow will be on the right of the box, a negative offset will put the shadow on the left of the box.
+ * The vertical offset of the shadow, a negative one means the box-shadow will be above the box, a positive one means the shadow will be below the box.
+ * The blur radius (optional), if set to 0 the shadow will be sharp, the higher the number, the more blurred it will be.
+ * The spread radius (optional), positive values increase the size of the shadow, negative values decrease the size. Default is 0 (the shadow is same size as blur).
+ * Color
+ */
+    -webkit-border-radius: 0.2em 0.2em 0.2em 0.2em;
+    -moz-border-radius: 0.2em 0.2em 0.2em 0.2em;
+    -o-border-radius: 0.2em 0.2em 0.2em 0.2em;
+    border-radius: 0.2em 0.2em 0.2em 0.2em;
+
+    -webkit-box-shadow: 2px 2px 2px rgba(41, 69, 100, 0.5);
+    -moz-box-shadow: 2px 2px 2px rgba(41, 69, 100, 0.5);
+    -0-box-shadow: 2px 2px 2px rgba(41, 69, 100, 0.5);
+    box-shadow: 2px 2px 2px rgba(41, 69, 100, 0.5);
+}
+#dashboard ul.comment_admin li {
+    border: 1px solid AntiqueWhite;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+    -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+    -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+    -o-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+#dashboard #compen li.mod_bayes {
+    float: right;
+}
+#dashboard ul.comment_admin li:first-child {
+    margin-left: 0.5em;
+}
+#dashboard ul.comment_admin li.mod_bayes {
+    background: none repeat scroll 0 center transparent;
+    border: 0 none;
+    box-shadow: inherit;
+    -moz-box-shadow: inherit;
+    -webkit-box-shadow: inherit;
+    -o-box-shadow: inherit;
+    margin: 0 0.5em 0 0;
+    padding: 0;
 }
 #dashboard img.attention { 
     width: 22px; 
@@ -336,7 +400,7 @@ nav#user-menu-user-navigation-select div.main-help {
     border: 0 none; 
     border-bottom: 2px solid #FF0000; 
 }
-#dashboard div.serendipityAdminMsgNote {
+#dashboard .serendipityAdminMsgNote {
     margin: -13px 0 10px;
 }
 #dashboard .serendipity_admin_comment_pending {
@@ -376,9 +440,13 @@ nav#user-menu-user-navigation-select div.main-help {
     text-align: right;
 }
 #dashboard .box-right { 
+    background: none repeat scroll 0 0 buttonface;
+    border-bottom: 1px solid transparent;
+    border-left: 1px solid #999999;
     float: right;
-    margin-right: 6px;
     text-align: right;
+    margin-right: 0;
+    padding: 0.1em 0.2em;
 }
 #dashboard #cell_left, #dashboard #cell_right {
     display: table-cell;
@@ -401,8 +469,9 @@ nav#user-menu-user-navigation-select div.main-help {
     padding: 0;
 }
 #dashboard .dashboard {
-    margin: 0px auto;
+    margin: 0 auto;
     padding: 5px;
+    width: auto;
 }
 #dashboard .dashboard h3 {
     font-size: inherit;
@@ -413,28 +482,32 @@ nav#user-menu-user-navigation-select div.main-help {
 #dashboard .dashboard_comments_pending form>span {
     color: #333333 !important; /* must overwrite .serendipityAdminContent span */
 }
+#dashboard form#formMultiDeletePen,
 #dashboard form#formMultiDeleteApp {
-    margin-top: 18px;
+    margin: 0;
 }
 #dashboard .dashboard_start {
     clear: both;
 }
+#dashboard #notifier {
+    background: none repeat scroll 0 0 infobackground;
+    padding: 5px;
+}
 #dashboard #notifierform {
     padding: 10px 5px;
-}
-#dashboard #notifier {
-    background: none repeat scroll 0 0 Beige;
-    padding: 5px;
 }
 #dashboard #notifierform p {
     margin: 0;
 }
-
-#dashboard header, #dashboard section {
-    background: none repeat scroll 0 0 #F9F9F9;
-    border: 1px solid #AAAAAA;
-    margin: 0 0 0.4%;
-    max-width: 1208px;
+#dashboard #notifier.single {
+    padding: 0;
+    width: 98%;
+}
+#dashboard #notifier.single p {
+    border: 1px solid #72878A;
+    margin: 0;
+    opacity: 0.75;
+    padding: 0 0 0 7px;
 }
 #dashboard footer {
     margin-top: -3px;
@@ -481,24 +554,24 @@ nav#user-menu-user-navigation-select div.main-help {
 #dashboard footer h1 {
     margin: 0;
 }
-#dashboard nav#user-menu-user-welcome {
+#dashboard #user-menu-user-welcome {
     float: left;
     width: 63%;
 }
-#dashboard nav#user-menu-user-welcome ul li {
+#dashboard #user-menu-user-welcome ul li {
     border: 1px solid #BBBBBB;
     display: inline-block;
     margin: 0.2em 0.2em 0.2em 0.5em;
     width: 46%;
 }
-#dashboard nav#user-menu-user-welcome h2 {
+#dashboard #user-menu-user-welcome h2 {
     margin: 0.5em 0.5em 0.8em;
 }
-#dashboard nav#user-menu-user-welcome h2 span img{
+#dashboard #user-menu-user-welcome h2 span img{
     vertical-align: top;
 }
 
-#dashboard div#boxed_autoupdate {
+#dashboard #boxed_autoupdate {
     background: none repeat scroll 0 0 ivory;
     border: 1px solid red;
     display: table;
@@ -506,26 +579,26 @@ nav#user-menu-user-navigation-select div.main-help {
     margin: -0.7em 0 0.3em;
     padding: 0.1em 0 0 0.1em;
 }
-#dashboard nav#user-menu-user-navigation {
+#dashboard #user-menu-user-navigation {
     border: 1px solid #BBBBBB;
     float: left;
     margin: 0.7%;
     width: 63.6%;
 }
-#dashboard nav#user-menu-user-navigation ul li, #dashboard nav#user-menu-user-navigation span {
+#dashboard #user-menu-user-navigation ul li, #dashboard #user-menu-user-navigation span {
     border: 1px solid #BBBBBB;
     display: inline-block;
     margin: 0.2em 0.2em 0.2em 0.5em;
     width: 46%;
 }
-#dashboard nav#user-menu-user-navigation span {
+#dashboard #user-menu-user-navigation span {
     border: 1px solid transparent;
 }
-#dashboard nav#user-menu-user-navigation li.serendipitySideBarMenuLink { 
+#dashboard #user-menu-user-navigation li.serendipitySideBarMenuLink { 
     margin: 0.4% 0;
     width: 95.4%;
 }
-#dashboard nav#user-menu-user-navigation button{
+#dashboard #user-menu-user-navigation button{
     font-size: 120%;
     padding: 4px;
     display: inline-block;
@@ -533,11 +606,11 @@ nav#user-menu-user-navigation-select div.main-help {
     background-color: #eee;
     margin: 0 4px 4px 2px;
 }
-#dashboard nav#user-menu-user-navigation  button:focus{
+#dashboard #user-menu-user-navigation  button:focus{
     color: #666;
     background-color: YellowGreen;
 }
-#dashboard nav#user-menu-user-navigation #iopen {
+#dashboard #user-menu-user-navigation #iopen {
     background: none repeat scroll 0 0 PaleVioletRed;
     float: right;
     margin-top: 2px;
@@ -545,43 +618,43 @@ nav#user-menu-user-navigation-select div.main-help {
     -webkit-box-shadow: 0.1em 0.1em 0.2em #333333;
     box-shadow: 0.1em 0.1em 0.2em #333333;
 }
-#dashboard nav#user-menu-user-navigation #iopen.navi {
+#dashboard #user-menu-user-navigation #iopen.navi {
     width: 14%;
 }
-#dashboard nav#user-menu-user-navigation #iopen span.inline {
+#dashboard #user-menu-user-navigation #iopen span.inline {
     border: 0 none;
     display: inline;
     margin: 0;
     padding: 0;
 }
-#dashboard nav#user-menu-user-navigation #iopen.help {
+#dashboard #user-menu-user-navigation #iopen.help {
     height: auto;
     padding: 0;
     width: auto;
 }
-#dashboard nav#user-menu-user-navigation #iopen.help img {
+#dashboard #user-menu-user-navigation #iopen.help img {
     width: 26px;
     height: 26px;
 }
-#dashboard nav#user-menu-user-navigation div#navbar {
+#dashboard #user-menu-user-navigation #navbar {
     background: none repeat scroll 0 0 SteelBlue;
     width: 84%;
 }
-#dashboard nav#user-menu-user-navigation div#navbar ul li {
+#dashboard #user-menu-user-navigation #navbar ul li {
     background: none repeat scroll 0 0 inactivecaption;
     margin: 0.1% 0.33% 0.5%;
 }
-#dashboard nav#user-menu-user-navigation  button:hover,
-#dashboard nav#user-menu-user-navigation div#navbar a:hover {
+#dashboard #user-menu-user-navigation  button:hover,
+#dashboard #user-menu-user-navigation #navbar a:hover {
     background: none repeat scroll 0 0 PaleVioletRed;
     color: #666666;
     width: 100%;
 }
-#dashboard nav#user-menu-user-navigation ul.onebox li {
+#dashboard #user-menu-user-navigation ul.onebox li {
     display: block; 
     float: none;
 }
-#dashboard nav#user-menu-user-navigation span.small {
+#dashboard #user-menu-user-navigation span.small {
     border: 0 none;
     color: graytext;
     display: inline;
@@ -590,26 +663,26 @@ nav#user-menu-user-navigation-select div.main-help {
     width: auto;
 }
 
-#dashboard nav#user-menu-user-linkbox, #user-menu-user-linkbox ul li {
+#dashboard #user-menu-user-linkbox, #user-menu-user-linkbox ul li {
     border: 1px solid #BBBBBB;
     display: inline-block;
     margin: 0 0 0.5%;
     padding: 4px;
     width: 33.3%;
 }
-#dashboard nav#user-menu-user-linkbox h4 {
+#dashboard #user-menu-user-linkbox h4 {
     margin: 1% 0 2%;
     padding: 0;
     font-size: 90%;
 }
-#dashboard nav#user-menu-user-welcome ul li, #dashboard nav#user-menu-user-navigation ul li, #dashboard nav#user-menu-user-linkbox ul li {
+#dashboard #user-menu-user-welcome ul li, #dashboard #user-menu-user-navigation ul li, #dashboard #user-menu-user-linkbox ul li {
     background: none repeat scroll 0 0 inactivecaption;
 }
-#dashboard nav#user-menu-user-linkbox ul li {
+#dashboard #user-menu-user-linkbox ul li {
     margin: 0 1% 1% 0;
     width: 45.4%;
 }
-#dashboard nav#user-menu-user-linkbox ul.s9yheader li {
+#dashboard #user-menu-user-linkbox ul.s9yheader li {
     background: none repeat scroll 0 0 transparent;
     font-size: 76%;
 }
@@ -623,52 +696,23 @@ nav#user-menu-user-navigation-select div.main-help {
 #dashboard #comapp .openall>img {
     vertical-align: middle;
 }
-#dashboard nav#user-menu-user-welcome, 
-#dashboard nav#user-menu-user-navigation, 
-#dashboard nav#user-menu-user-linkbox {
-    background: none repeat scroll 0 0 #EFEFEF;
+/* overwrite welcome */
+#dashboard #user-menu-user-welcome, 
+#dashboard #user-menu-user-navigation, 
+#dashboard #user-menu-user-linkbox {
+    background: none repeat scroll 0 0 transparent;
 }
-#dashboard > section#comments,
-#dashboard > section#entries,
-#dashboard > section#updates { 
-    background: none repeat scroll 0 0 Menu;
-    display: inline-block;
-    width: 100%;
-}
-#dashboard > div.empty_notice { 
+#dashboard > .empty_notice { 
     background: none repeat scroll 0 0 menu;
     border: 1px solid #AAAAAA;
     margin: 0 0 0.4%;
 }
 #dashboard sup.note { color: Tan; }
 
-#dashboard > section div#compen, 
-#dashboard > section div#comapp,
-#dashboard > section div#draft,
-#dashboard > section div#future,
-#dashboard > section div#plugup,
-#dashboard > section div#update {
-    background: none repeat scroll 0 0 #F9F9F9;
-    border: 1px solid #DFDFDF;
-    display: table-caption;
-    width: 49%;
-    min-height: 120.8px;
-}
-
-/* these 3 classes set a first class to the first element in row via JQuery*/
-#dashboard > section div.block-comments,
-#dashboard > section div.block-entries,
-#dashboard > section div.block-updates { 
-    float: right;
-    margin: 10px 2px 4px;
-}
-#dashboard nav#user-menu-user-navigation div a img,
-#dashboard > section div.block-entries div a img {
+#dashboard #user-menu-user-navigation div a img,
+#dashboard > section .block-entries div a img {
     border: 0px none; 
     vertical-align: bottom;
-}
-#dashboard > section div.first { 
-    float: left;
 }
 
 #dashboard .dashboard_update p {
@@ -702,73 +746,14 @@ nav#user-menu-user-navigation-select div.main-help {
     padding: 0;
 }
 
-/* Contain floats: h5bp.com/q */ 
-.clearfix:before, .clearfix:after { content: ""; display: table; }
-.clearfix:after { clear: both; }
-.clearfix { zoom: 1; }
 
 /*
- *  These modification additions need to fit in right place later
+ *  These additions need to fit in right place later
  * ++++++++++++++++++++++++++++++++++++++++++++++++ *
  */
-/*
- * The :nth-child() and :nth-of-type() pseudo-classes allow to select elements with a formula. *: for all elements.
- * The syntax is :nth-child(an+b), where you replace a and b by numbers of your choice. For instance, :nth-child(3n+1) selects the 1st, 4th, 7th etc. child.
- * div:nth-of-type() works the same, except that it only considers element of the given type (<div> in the example).
- * :first-of-type == :first-child and :last-of-type == :last-child and :only-of-type means an element which is the only child of its parent.
- */
-#dashboard a:focus { 
-    outline: 0 none;
-    background: none repeat scroll 0 0 transparent;
-    box-shadow: 0 1px 2px 2px rgba(41, 69, 100, 0.5);
-}
-#dashboard ul.comment_admin a:focus { 
-/*
- * horizontl and vertical offsets & blur radius and spread radius e.g [inset? 2px 2px 2px 2px color]
- * The horizontal offset of the shadow, positive means the shadow will be on the right of the box, a negative offset will put the shadow on the left of the box.
- * The vertical offset of the shadow, a negative one means the box-shadow will be above the box, a positive one means the shadow will be below the box.
- * The blur radius (optional), if set to 0 the shadow will be sharp, the higher the number, the more blurred it will be.
- * The spread radius (optional), positive values increase the size of the shadow, negative values decrease the size. Default is 0 (the shadow is same size as blur).
- * Color
- */
-    -webkit-border-radius: 0.2em 0.2em 0.2em 0.2em;
-    -moz-border-radius: 0.2em 0.2em 0.2em 0.2em;
-    -o-border-radius: 0.2em 0.2em 0.2em 0.2em;
-    border-radius: 0.2em 0.2em 0.2em 0.2em;
-    -webkit-box-shadow: 2px 2px 2px rgba(41, 69, 100, 0.5);
-    -moz-box-shadow: 2px 2px 2px rgba(41, 69, 100, 0.5);
-    -0-box-shadow: 2px 2px 2px rgba(41, 69, 100, 0.5);
-    box-shadow: 2px 2px 2px rgba(41, 69, 100, 0.5);
-}
-#dashboard a:focus {
-    box-shadow: 0 0 2px 1px rgba(41, 69, 100, 0.5);
-    color: darkblue;
-    outline: 0 none;
-}
-/* overwrite welcome */
-#dashboard nav#user-menu-user-welcome, 
-#dashboard nav#user-menu-user-navigation, 
-#dashboard nav#user-menu-user-linkbox {
-    background: none repeat scroll 0 0 transparent;
-}
-#dashboard section#dashhelp {
-    border: 0 none;
-}
+
 #dashboard .not-available {
     margin-left: 0.8em;
-}
-#dashboard #notifier {
-    background: none repeat scroll 0 0 infobackground;
-}
-#dashboard #notifier.single {
-    padding: 0;
-    width: 98%;
-}
-#dashboard #notifier.single p {
-    border: 1px solid #72878A;
-    margin: 0;
-    opacity: 0.75;
-    padding: 0 0 0 7px;
 }
 #dashboard .mod_bayes ul li img,
 #dashboard .spamblockBayesRating img {
@@ -781,65 +766,8 @@ nav#user-menu-user-navigation-select div.main-help {
     height: 14px;
     width: 14px;
 }
-#dashboard div.input-boxed {
-    margin: 0.3em 0 0;
-}
-#dashboard div.bayes-boxed {
-    display: inline-block;
-}
 
-#dashboard form#formMultiDeletePen,
-#dashboard form#formMultiDeleteApp {
-    margin: 0;
-}
-#dashboard ul.comment_admin li {
-    border: 1px solid AntiqueWhite;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
-    -moz-box-shadow: 0 1px 3px rgba(0,0,0,.5);
-    -webkit-box-shadow: 0 1px 3px rgba(0,0,0,.5);
-    -o-box-shadow: 0 1px 3px rgba(0,0,0,.5);
-}
-#dashboard #compen li.mod_bayes {
-    float: right;
-}
-#dashboard ul.comment_admin {
-    margin: 2px 0 4px;
-}
-#dashboard ul.comment_fields,
-#dashboard ul.comment_admin {
-    width: 100%;
-}
-#dashboard ul.comment_admin li:first-child {
-    margin-left: 0.5em;
-}
-#dashboard ul.comment_admin li.mod_bayes {
-    background: none repeat scroll 0 center transparent;
-    border: 0 none;
-    box-shadow: inherit;
-    -moz-box-shadow: inherit;
-    -webkit-box-shadow: inherit;
-    -o-box-shadow: inherit;
-    margin: 0 0.5em 0 0;
-    padding: 0;
-}
-#dashboard #compen li.mod_ham, #dashboard #compen li.mod_spam {
-    -webkit-border-radius: 0 / 0;
-    -moz-border-radius: 0 / 0;
-    -o-border-radius: 0 / 0;
-    border-radius: 0 / 0;
-    -webkit-box-shadow: 0 none;
-    -moz-box-shadow: 0 none;
-    -o-box-shadow: 0 none;
-    box-shadow: 0 none;
-    margin: 0;
-    padding: 0;
-}
 #dashboard #compen li.mod_bayes li {
-    border: 1px solid AntiqueWhite;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
-    -moz-box-shadow: 0 1px 3px rgba(0,0,0,.5);
-    -webkit-box-shadow: 0 1px 3px rgba(0,0,0,.5);
-    -o-box-shadow: 0 1px 3px rgba(0,0,0,.5);
     margin: 0 0.1em 0 0;
 }
 #dashboard #compen li.mod_bayes ul li {
@@ -848,9 +776,6 @@ nav#user-menu-user-navigation-select div.main-help {
 
 #dashboard #cell_left.clmore { 
     width: 56%; 
-}
-#dashboard .comment_text {
-    width: inherit;
 }
 #dashboard #compen li.mod_bayes li,
 #dashboard ul.comment_admin li,
@@ -879,10 +804,6 @@ nav#user-menu-user-navigation-select div.main-help {
     -o-box-shadow: 0 1px 3px rgba(0,0,0,.2);
     cursor: default;
     margin: 0 3px;
-}
-#dashboard .box-right { 
-    margin-right: 0;
-    padding: 0.1em 0.2em;
 }
 #dashboard .comment_titel {
     padding: 0;
@@ -920,23 +841,9 @@ nav#user-menu-user-navigation-select div.main-help {
 #dashboard .text-icon-notifications:before {
     content: "!";
 }
-#dashboard div#boxed_autoupdate {
+#dashboard #boxed_autoupdate {
     margin: 0.2em 0.8em;
 }
-#dashboard .box-right {
-    background: none repeat scroll 0 0 buttonface;
-    border-bottom: 1px solid transparent;
-    border-left: 1px solid #999999;
-    margin-right: 0;
-    padding: 0.1em 0.2em;
-}
-
-#dashboard > section#infos {
-    background: none repeat scroll 0 0 menu;
-    display: inline-block;
-    width: 100%;
-}
-/*#dashboard > section div#info etc better use */
 #dashboard > section .block-box {
     background: none repeat scroll 0 0 #F9F9F9;
     border: 1px solid #DFDFDF;
@@ -947,9 +854,11 @@ nav#user-menu-user-navigation-select div.main-help {
     cursor: pointer;
 }
 #dashboard .block-box .flip {
+    background: url("images/arrows.png") no-repeat scroll 0 0 transparent;
     cursor: pointer;
     float: right;
     height: auto;
+    margin: 0 4px 0 0;
     width: 20px;
 }
 
@@ -957,31 +866,13 @@ nav#user-menu-user-navigation-select div.main-help {
     -moz-user-select: none;
     border-bottom-style: solid;
     border-bottom-width: 1px;
-}
-#dashboard .block-box .flipbox {
-    border-top-left-radius: 3px;
-    border-top-right-radius: 3px;
-    cursor: move;
-    margin: 0;
-    padding: 3px 0;
-}
-#dashboard #layout li.flipflop,
-#dashboard #layout .block-box .flipbox {
-    top: 0;
-    left: 0;
-}
-#dashboard #layout li.flipflop:nth-of-type(1),
-#dashboard #layout .block-box .flipbox:nth-of-type(1) {
-    top: 0;
-}
-#dashboard #layout li.ui-state-highlight .block-box {
-    margin-left: 0;
-}
-#dashboard #layout li.ui-state-highlight:nth-of-type(1) {
-    top: 6;
-}
+    border-bottom-color: #DFDFDF;
+    -webkit-box-shadow: 0 1px 0 #FFFFFF;
+    -moz-box-shadow: 0 1px 0 #FFFFFF;
+    -o-box-shadow: 0 1px 0 #FFFFFF;
+    box-shadow: 0 1px 0 #FFFFFF;
+    text-shadow: 0 1px 0 #FFFFFF;
 
-#dashboard .flipbox {
     background: rgb(249,249,249); /* Old browsers f9f9f9 */
     /* IE9 SVG, needs conditional override of 'filter' to 'none' */
     background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2Y5ZjlmOSIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNlY2VjZWMiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
@@ -993,21 +884,37 @@ nav#user-menu-user-navigation-select div.main-help {
     background: linear-gradient(top,  rgba(249,249,249,1) 0%,rgba(236,236,236,1) 100%); /* W3C */
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f9f9f9', endColorstr='#ececec',GradientType=0 ); /* IE6-8 */
 }
-#dashboard .flipbox {
-    border-bottom-color: #DFDFDF;
-    box-shadow: 0 1px 0 #FFFFFF;
-    text-shadow: 0 1px 0 #FFFFFF;
+#dashboard .block-box .flipbox {
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    cursor: move;
+    margin: 0;
+    padding: 3px 0;
 }
+#dashboard #layout li.flipflop {
+    display: inline-block;
+    margin: 0 -1px;
+    padding: 0;
+    width: 100%;
+}
+#dashboard #layout li.flipflop,
+#dashboard #layout .block-box .flipbox {
+    top: 0;
+    left: 0;
+}
+#dashboard #layout li.flipflop:nth-of-type(1) {
+    margin: 4px 0 0;
+}
+#dashboard #layout li.ui-state-highlight .block-box {
+    margin-left: 1.5px;
+}
+
 #dashboard .block-box h3>span {
     color: #222222 !important; /* must overwrite .serendipityAdminContent span */
 }
 #dashboard .block-box h3.flipbox span {
     color: #464646;
     padding-left: 0.5em;
-}
-#dashboard .block-box .flip {
-    background: url("images/arrows.png") no-repeat scroll 0 3px transparent; 
-/*    background: url("{TEMPLATE_PATH}/img/arrows.png") no-repeat scroll 0 3px transparent; moved into dynamic css only*/
 }
 #dashboard .dashboard_info { width: 98.3%; }
 #dashboard .dashboard_info a { color: #21759B; }
@@ -1053,13 +960,13 @@ nav#user-menu-user-navigation-select div.main-help {
 #dashboard .dashboard_info td.b a {
     font-size: 18px;
 }
-#dashboard div.feed_title {
+#dashboard .feed_title {
     display: inline-block;
     margin: 1.75px;
     padding: 0;
     vertical-align: top;
 }
-#dashboard div.feed_title label:nth-of-type(2) span {
+#dashboard .feed_title label:nth-of-type(2) span {
     background: none repeat scroll 0 0 transparent;
     color: DimGrey !important;
     font-size: smaller;
@@ -1102,32 +1009,34 @@ nav#user-menu-user-navigation-select div.main-help {
     clear: both;
 }
 
-#dashboard section#layout {
-    background: none repeat scroll 0 center transparent;/*;RosyBrown*/
-    display: block;
-    height: 100%;
-    min-height: 552px; /* set for sidebar mode */
-    max-width: 1208px;
-    min-width: 604px;
-    margin: auto;
-}
-/*#dashboard #layout .boxed-left, #dashboard #layout .boxed-right {*/
-#dashboard #layout .meta-box {
+#dashboard #layout {
     background: none repeat scroll 0 center transparent;
     display: block;
+    margin: auto;
+    max-width: 1208px;
+    min-height: 552px; /* set for sidebar mode */
+    min-width: 569px; /* Small tablet portrait (600x800) */
+    height: 100%;
+    width: 100%;
+}
+/* both metas */
+#dashboard #layout .meta-box {
+    background: none repeat scroll 0 center transparent;
+    display: inline-block;
     float: left;
+    margin: 0;
     max-width: 604px;
-    min-height: 536px; /* 200px; minimal box height, when all block-box'es are closed or moved #layout has 552 this 536, to be able to drag bog boxes w/o issues */
-    min-width: 49%;
-    overflow: visible;
+    min-height: 536px; /* set min-height to be able to drag and drop boxes w/o issues */
+    overflow: visible; /* needed by li.ui-draggable-dragging */
+    padding: 0;
     visibility: visible;
     width: 50%;
 }
+
 #dashboard #layout .meta-box:hover {
     background-color: #FDFDFF;
-    outline: thin dashed #F0F0F0;
-  /* Move the outline 3px away from the border */
-    outline-offset: -2px;
+    outline: thin dashed #F0DADA;/*F0F0F0;*/
+    outline-offset: -2px; /* Move the outline 2px, as of border */
     padding-bottom: 0.5em;
 }
 
@@ -1139,7 +1048,6 @@ nav#user-menu-user-navigation-select div.main-help {
 .ui-state-highlight, .ui-widget-content .ui-state-highlight, .ui-widget-header .ui-state-highlight  {
     border: 1px solid #fad42e; 
     background: #fbec88 url("images/ui-bg_flat_55_fbec88_40x100.png") 50% 50% repeat-x;
-/*    background: #fbec88 url("{TEMPLATE_PATH}/css/images/ui-bg_flat_55_fbec88_40x100.png") 50% 50% repeat-x;  moved into dynamic css only*/
     color: #363636; 
 }
 /*----------------------------------*/
@@ -1147,30 +1055,30 @@ nav#user-menu-user-navigation-select div.main-help {
 /* JQUERY-UI_MODS in here */
 #dashboard  section#layout .ui-layout-main {position: relative; height: 100%; overflow: hidden; margin: 0; padding: 0; border: medium none; cursor: auto;}
 
-#dashboard  .ui-state-highlight, #dashboard  .ui-widget-content #dashboard  .ui-state-highlight, #dashboard  .ui-widget-header #dashboard  .ui-state-highlight {
-    margin-left: 1.8px;
-}
+/*
+ * The :nth-child() and :nth-of-type() pseudo-classes allow to select elements with a formula. *: for all elements.
+ * The syntax is :nth-child(an+b), where you replace a and b by numbers of your choice. For instance, :nth-child(3n+1) selects the 1st, 4th, 7th etc. child.
+ * div:nth-of-type() works the same, except that it only considers element of the given type (<div> in the example).
+ * :first-of-type == :first-child and :last-of-type == :last-child and :only-of-type means an element which is the only child of its parent.
+ */
 #dashboard #layout li.ui-state-highlight:nth-of-type(n+1) {
-    margin: 0 3px 1px; /* do not overlap highlight borders bottom 1px and intent l/r 3px */
-    width: 96.2%;      /* adjust block width as of l/r intent */
-}
-#dashboard #layout li.ui-state-highlight:nth-of-type(n+1) div.block-box {
-    margin: 0 0 0 -1.8px; /* indent all highlighted block-box back minus some mille, as ui-state-highlight moved margin-left 1.8px above */
-    width: 100.8%;        /* adjust block width as of l/r intent */
+    margin: 3px 2px;
+    padding: 0.25em;
+    width: 98.8%;      /* adjust block width as of l/r intent */
 }
 #dashboard #layout li.ui-state-highlight:nth-of-type(1) {
-    margin: 0 0 7px 3px; /* adjust first blocks bottom for the same highlighter space as following li's */ 
+    margin: 4px 0 3px 2px;
 }
-#dashboard #layout li.ui-state-highlight:nth-of-type(1) div.block-box {
-    margin: 0 0 5px 1.8px; /* adjust first blocks bottom */ 
-    margin: 0 0 0 -1.8px;
-    width: 100.8%;
+#dashboard #layout li.ui-state-highlight:nth-of-type(n+1) .block-box {
+    margin: 0;
+    width: 100%;
+}
+#dashboard #layout li.ui-state-highlight:nth-of-type(1) .block-box {
+    margin: 0;
+    width: 100%;
 }
 /*------------------------------------*/
 
-#dashboard #layout li.flipflop {
-    width: 97%;position:relative;
-}
 #dashboard #layout ul li.widget {
     clear: both;
     width: 97%;
@@ -1178,34 +1086,14 @@ nav#user-menu-user-navigation-select div.main-help {
 #dashboard #layout .block-box {
     min-height: 0; /* flipping boxes need this better here, as in jquery toogle() */
     position: relative;
-    width: 100%;
+    width: 99%;
 }
 #dashboard #meta-box-left .block-box {
-    left: -1px; /* ugly, but centers :) */
+    left: 0;
     top: 0;
-}
-#dashboard #layout .block-box .ui-draggable-dragging {
-    width: 50%;
-    left: 39px;
-}
-#dashboard > section#layout  ul.column {
-    display: inline;
 }
 #dashboard #layout .block-box h3 > span {
     font-family: Georgia,"Times New Roman","Bitstream Charter",Times,serif;
-}
-#dashboard > section div.block-comments, #dashboard > section div.block-entries, #dashboard > section div.block-updates {
-    margin: inherit;
-}
-#dashboard > section#layout  div.block-comments, #dashboard > section#layout  div.block-entries, #dashboard > section#layout  div.block-updates {
-    float: left;
-}
-#dashboard #layout li.flipflop div.block-box {
-    margin: 0.3em 0.2em;
-}
-#dashboard #meta-box-left > li:nth-of-type(1) div.block-box,
-#dashboard #meta-box-right > li:nth-of-type(1) div.block-box {
-    margin: 0.5em 0 0 0.2em;
 }
 #dashboard a.linkbox {
     background: none repeat scroll 0 0 whitesmoke;
@@ -1274,10 +1162,10 @@ nav#user-menu-user-navigation-select div.main-help {
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#e5e5e5',GradientType=0 ); /* IE6-8 */
 }
 .mbc_container{
-    -webkit-border-radius: 1em 1em 1em 1em;
-    -moz-border-radius: 1em 1em 1em 1em;
-    -o-border-radius: 1em 1em 1em 1em;
-    border-radius: 1em 1em 1em 1em;
+    -webkit-border-radius: 0.8em 0.8em 0.8em 0.8em;
+    -moz-border-radius: 0.8em 0.8em 0.8em 0.8em;
+    -o-border-radius: 0.8em 0.8em 0.8em 0.8em;
+    border-radius: 0.8em 0.8em 0.8em 0.8em;
     -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
     -moz-box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
     -o-box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
@@ -1641,4 +1529,88 @@ nav#user-menu-user-navigation-select div.main-help {
     vertical-align: middle;
 }
 /*----------------------------------------------*/
+/* Responsive Design */
+/* The SelectBar Mode works w/o horizontal scrollbar in Small tablet portrait Mode (600x800) and up */
+/* Therefore we need to redesign for 
+   Mobile landscape (480x320)
+   Mobile portrait (320x480)
+ */
+/* underneath 600 width... (see #dashboard #layout min-width: 569px; */
+/* designed for Mobile portrait (320x480) */
+@media screen and (max-width: 568px) {
 
+    #serendipityAdminBanner {
+        background: inherit;
+        border: inherit;
+        height: inherit;
+        line-height: 0;
+    }
+    #serendipityAdminBanner h1, 
+    #serendipityAdminBanner h2 {
+        margin: 0;
+        visibility: hidden;
+    }
+    #serendipitySideBar {
+        display: none !important;
+        padding: 0;
+        visibility: hidden;
+        width: 0;
+    }
+    #dashboard nav#user-menu-user-welcome {
+        display: none;
+        visibility: hidden;
+    }
+    #dashboard #layout {
+        float: inherit;
+        min-width: inherit;
+    }
+    #dashboard nav#user-menu-user-welcome {
+        width: inherit;
+    }
+    #dashboard header > #user-menu-user-embed-iconset, 
+    #dashboard #user-menu-user-embed-iconset {
+        margin: 0 5%;
+    }
+    #dashboard #user-menu-user-embed-switch {
+        display: none;
+        float: inherit;
+        text-align: inherit;
+    }
+    #dashboard header > #user-menu-user-navigation-select, 
+    #dashboard #user-menu-user-navigation-select {
+        width: 93.4%;
+    }
+    #dashboard #user-menu-user-navigation-select #navbar    {
+        display: table-caption;
+    }
+    #dashboard #layout .meta-box {
+        min-height: 0;
+        width: inherit;
+    }
+    #dashboard #layout #meta-box-right.meta-box {
+        /* show content but disable box - how? */
+        /* All-in! But for sure tell user to drag&drop all meta-right boxes into meta-left! */
+        background: none repeat scroll 0 center transparent;
+        display: inline;
+        float: inherit;
+        margin: 0;
+        max-width: inherit;
+        min-height: inherit;
+        overflow: hidden;
+        padding: 0;
+        visibility: visible;
+        width: inherit;
+    }
+    #dashboard #layout #meta-box-right:empty {
+        display: none;
+    }
+}
+ 
+/*
+@media (min-width: 450px) and (max-width: 950px) {
+    Netbooks  
+} 
+@media (max-width: 450px) {
+      Mobiles 
+}
+*/ 

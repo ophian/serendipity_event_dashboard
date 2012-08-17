@@ -7,7 +7,7 @@ window.log = function f(){ log.history = log.history || []; log.history.push(arg
 (function(){try{console.log();return window.console;}catch(a){return (window.console={});}}());
 // Attention: do not use paulirish log() method, as making our events behave different
 
-// jquery-dashboard.js - last-modified: 2012-08-15
+// jquery-dashboard.js - last-modified: 2012-08-17
 
 // define localStorage use
 var isLocalStorage = false;
@@ -38,10 +38,12 @@ jQuery(document).ready(function($) {
 
     // set some global vars
 
-    // each containers [t_ = toggle]
+    // each containers [t_ = toggle, c_ = click]
     var meta       = ['#meta-box-left, #meta-box-right'];
+    var c_text     = ['#info, #draft, #future, #update, #plugup'];
     var t_text     = ['#comapp, #compen, #feed'];
     var t_form     = ['#formMultiDeleteApp, #formMultiDeletePen'];
+
     
     // start object selectors
     var $button    = $('#menu-fadenav');
@@ -75,7 +77,6 @@ jQuery(document).ready(function($) {
             $.each(v, function( key, value ) {
                 if ( key == 0 ) { 
                     storedMeta = value; // = metas | needs to be global in scope!!!
-                    // console.log('storedMeta: '+storedMeta); 
                 }
                 if ( key > 0 ) {
                     var storedBlockId = this[0];
@@ -85,7 +86,6 @@ jQuery(document).ready(function($) {
 
                     // replace the sort id by newsortid, which must depend on '#layout > li.flipflop' count, do not use LS- prefix while using toggle cookie return info
                     $sortthis.find('div.dashboard').attr("id", 'sort_'+newsortid);
-                    // console.log($sortthis); // [OK]
 
                     // also add new id to flipbox h3 title
                     $sortthis.find('h3.flipbox').attr("id", newid);
@@ -116,11 +116,9 @@ jQuery(document).ready(function($) {
         } catch(e) {}
         // Remove old items first
         localStorage.removeItem('sortid');
-        // localStorage.clear(); // do we really need this?
 
         // Put the array/object into storage
         localStorage.setItem('sortid', JSON.stringify(sid)); 
-        // console.log('New fcn sortid '+sid);
     });
     
     /**
@@ -131,12 +129,9 @@ jQuery(document).ready(function($) {
     setStorageArray = (function($metaid, $metaobj) {
         // arr[$metaid] = [$metaid]; // = new Object();
         var $metaArr = [$metaid]; //var $metaArr = [];$metaArr.push($metaid);
-        // console.log('setStorageArray fnc array metaArr: '+$metaArr); // = metaArr-ay: meta-box-left/meta-box-right
-        // console.log($metaobj); // = [ul#meta-box-left.boxed-left] && [ul#meta-box-right.boxed-right]
+
         $metaobj.find('.flipbox').attr("id", function (index) { 
-            // console.log('setStorageArray fnc metaobj Index is: '+index); // [OK]
             var $bid = $(this).closest('div[id].block-box').attr('id').toString();
-            // console.log('id of h3.flipbox: '+$bid);
             $metaArr.push([$bid, 'sort_'+index]); // stick to array and do not use objects here, as objects key can not be $var, returns "$bid"
             // do not return new flipbox h3 title ID, if that was done by function runBlockSort
             if( isRunBlocksort === false ) return $metaid+"-sort_" + index; //else return $bid;
@@ -144,11 +139,8 @@ jQuery(document).ready(function($) {
         if( isRunBlocksort === false) {
             // set the sort_X ID to the new dragged value, if that was not! done by function runBlockSort
             $metaobj.find('div.dashboard').attr("id", function (indexblock) { 
-                // console.log('setStorageArray fnc metaobj div.DASH Index is: '+indexblock); 
                 return "sort_" + indexblock; 
             });
-            // REMOVED: unfortunately we can not change the elem_X ID here to support its new place in row.
-            // As we are using $.POST to script, this key has to stay unchanged ever
         }
         // push both meta arrays to globar arr
         arr.push($metaArr);
@@ -171,7 +163,6 @@ jQuery(document).ready(function($) {
         
         function addTooltip() {
             var $metaid = this.id;
-            // arr[$metaid] = [];
             var $thisobj = $(this); // = [ul#meta-box-left.boxed-left] + [ul#meta-box-right.boxed-right]
             // set dragged and sorted blocks into Storage
             setStorageArray($metaid, $thisobj);
@@ -181,7 +172,6 @@ jQuery(document).ready(function($) {
        
         // lastly put the returned array/object into storage
         setLocalStorage(arr);
-        // console.log('Sort ID ARRAY: ' + arr);
     });
 
     /**
@@ -288,7 +278,6 @@ jQuery(document).ready(function($) {
     $(function() {
         $.each( fliparray, function(){
             var blocktohide = $('#' + this).find('div[id].dashboard').attr('id');
-            // console.log(blocktohide);
             // hide all sort_ID boxes which appear in fliparray
             $('#' + blocktohide).hide(); // do we need to setContainersHeight() ?
         });
@@ -302,15 +291,12 @@ jQuery(document).ready(function($) {
             // Retrieve the object from storage
             var blocksort = JSON.parse(localStorage.getItem('sortid'));
             if ( blocksort !== null ) {
-                // console.log("READ LocalStorage by JSON.parse(blocksort): \n", blocksort);
-
                 // hand over the parsed array to be truly readable
-                runBlockSort(blocksort); // meta-box-left,[object Object],[object Object],[object Object], etc 
-
+                runBlockSort(blocksort); // meta-box-left,[object Object] etc 
             }
         }
     });
-    
+
     /**
      * Initialize tooltip on DOM ready
      **/
@@ -341,32 +327,42 @@ jQuery(document).ready(function($) {
     $(function() {
         $(t_form.join(', ')).find('.comment_boxed').addClass('visuallyhidden');
         $(t_text.join(', ')).find('.box-right').click(function() { 
-            // console.log(this);
             // set the class and change the src the first time
             $(this).parent().siblings('.comment_boxed').toggleClass('visuallyhidden');
             $(this).children().find('img').stop(true, true).attr({src:img_minus});
-            unsetUIHightlight($(this));
             // now toggle src target each time
             $(this).children('.button').toggle( 
                 function () { 
                     $(this).find('img').stop(true, true).attr({src:img_plus});
                     $(this).parents().next().siblings('.comment_boxed').toggleClass('visuallyhidden');
-                    // $(this).parents().next().siblings('.feed_text').toggleClass('visuallyhidden');   
                     unsetUIHightlight($(this));
                 }, 
                 function () { 
-                    // console.log(this); // <a class="button" href="#cpl_%">
                     $(this).find('img').stop(true, true).attr({src:img_minus});
                     $(this).parents().next().siblings('.comment_boxed').toggleClass('visuallyhidden');
-                    // $(this).parents().next().siblings('.feed_text').toggleClass('visuallyhidden');  
                     unsetUIHightlight($(this));
                 }
             );
+            unsetUIHightlight($(this));
+            // set new id#layout height on toogle inside 
+            setContainersHeight();
+        });
+    });
+    
+    /**
+     * On click feed/comments input-* buttons unset ui-highlight parent box
+     **/
+    $(function() {
+        $(t_text.join(', ')).find('input, span, a, img, div.comment_titel, div.input-boxed, div.bayes-boxed, div.feed_title, ul.feed_fields').click(function(){
+            unsetUIHightlight($(this));
+        });
+        $(c_text.join(', ')).find('a, p, span, table, ul, time, input').click(function(){
+            unsetUIHightlight($(this));
         });
     });
 
     /**
-     * Toggle the comments text block and change view/hide constant on event
+     * Toggle the feed/comments text block and change view/hide constant on event
      **/
     $(function() {
         $(t_text.join(', ')).find('.fulltxt').addClass('visuallyhidden');
@@ -376,12 +372,16 @@ jQuery(document).ready(function($) {
                 $(this).closest('.serendipity_admin_list_item').children('.comment_text').children().toggleClass('visuallyhidden'); // OK
                 $(this).find('img').attr({src:"templates/default/admin/img/downarrow.png"}); // OK
                 unsetUIHightlight($(this));
+                // set new id#layout height on toogle inside 
+                setContainersHeight();
             }, 
             function (event) { 
                 $(event.target).html(const_view);
                 $(this).closest('.serendipity_admin_list_item').children('.comment_text').children().toggleClass('visuallyhidden'); // OK
                 $(this).find('img').attr({src:"templates/default/admin/img/uparrow.png"}); // OK
                 unsetUIHightlight($(this));
+                // set new id#layout height on toogle inside 
+                setContainersHeight();
             }
         );
     });
@@ -428,10 +428,8 @@ jQuery(document).ready(function($) {
                     setContainersHeight();
                     // get closest parent li element object as this is unique only in both metas
                     var parliobj = $(this).closest('li');
-                    // console.log(parliobj);
                     // set cookie to hold the blocks hidden state
                     updateCookie( $(this), parliobj ); // elem_ID is the static number we want, use this for the cookie!
-                    // console.log( $(this) );
                 });
                 // unsets this parents li .flipflop class ui-state-highlight, if active
                 unsetUIHightlight($(this));
@@ -445,12 +443,10 @@ jQuery(document).ready(function($) {
     $(function() {
         $("#menu-autoupdate").toggle( 
             function (event) { 
-                // console.log('toogle autoupdate: click-in');
                 $(this).parents().siblings('#user-menu-user-welcome').find('span').hide();
                 $('#boxed_autoupdate').toggleClass('visuallyhidden');
             }, 
             function (event) { 
-                // console.log('toogle autoupdate: click-out');
                 $(this).parents().siblings('#user-menu-user-welcome').find('span').show();
                 $('#boxed_autoupdate').toggleClass('visuallyhidden');
             }
@@ -481,10 +477,8 @@ jQuery(document).ready(function($) {
         if(cookie_sidebar == 'isSelectBar') { 
             $sidebar.fadeOut();
             $selectbar.toggleClass('visuallyhidden');
-            // console.log('1-Cookie: '+cookie_sidebar);
         } else {
             $sidebar.fadeIn();
-            // console.log('2-Cookie: '+cookie_sidebar);
         }
 
         // make sure everything outside dashboard has the normal 'isSideBar' Layout!
@@ -606,10 +600,8 @@ jQuery(document).ready(function($) {
                     var $blid = $blockid.attr('id');
                     $postMetaArr.push(['#'+$dropid, $blid]); // stick to array and do not use objects here
                 });
-                // console.log($postMetaArr); // [OK]
 
                 $url = pathname + 'plugin/dbjsonsort/';
-                // console.log('url ' + $url); // [OK]
                 
                 // Post the array via external_plugin to Plugins config storage
                 jQuery.post($url, {json: JSON.stringify($postMetaArr)}/*, function(data){ alert(data); }*/);
@@ -626,7 +618,6 @@ jQuery(document).ready(function($) {
             set = !set; // toogle boolean
             alert( $(this).text() + ' = ' + set + "\n" + '[IN DEVELOPMENT!!' + "\n" + 'This posts to external_plugin and activates function s9y_maintenance_mode(). Please post ideas on how to procced...!]'); // is button text
             $url = pathname + 'plugin/modemaintence/';
-            // console.log('url ' + $url); // [OK]
                 
             // Post the set/unset via external_plugin to Plugins config storage - pass booleans as (set?1:0)
             jQuery.post($url, {setmoma: (set?1:0)});
@@ -703,7 +694,6 @@ jQuery(document).ready(function($) {
      * use with ('*') all selectors, or selector tagNames, idNames, classNames etc.
      **/
     $(function(){
-        // as of now = 1170 elements! ie. we there have 282 li, 45 ul, 162 div elements, etc
         // console.log( $('*').length );
     });
 }); // close jQuery document ready

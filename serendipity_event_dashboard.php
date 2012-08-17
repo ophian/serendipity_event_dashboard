@@ -1,6 +1,6 @@
 <?php # $Id$
 
-// - last modified 2012-08-15
+// - last modified 2012-08-17
 
 if (IN_serendipity !== true) {
     die ("Don't hack!");
@@ -73,7 +73,7 @@ if(!defined('AUTOUPDATE_INSTALLED')) {
             'php'         => '5.2.6'
         ));
 
-        $propbag->add('version',       '0.9.3');
+        $propbag->add('version',       '0.9.4');
         $propbag->add('author',        'Garvin Hicking, Ian');
         $propbag->add('stackable',     false);
         $propbag->add('configuration', array('read_only', 'path', 'limit_comments_pending', 'limit_comments', 'limit_draft', 'limit_future', 'limit_feed', 'sequence', 'feed_url', 'feed_title', 'feed_content', 'feed_author', 'feed_conum', 'dependencynote', 'maintenance', 'maintenancenote', 'update', 'clean'));
@@ -654,13 +654,13 @@ if(!defined('AUTOUPDATE_INSTALLED')) {
         foreach ($entries as $ey) {
             // Find out if the entry has been modified later than 30 minutes after creation
             if ($ey['timestamp'] <= ($ey['last_modified'] - 60*30)) {
-                $lm = '<a href="#" title="' . LAST_UPDATED . ': ' . serendipity_formatTime(DATE_FORMAT_SHORT, $ey['last_modified']) . '" onclick="alert(this.title)"><img src="'. serendipity_getTemplateFile('admin/img/clock.png') .'" alt="*" /></a>';
+                $lm = '<a href="#" title="' . LAST_UPDATED . ': ' . serendipity_formatTime(DATE_FORMAT_SHORT, $ey['last_modified']) . '"><img src="'. serendipity_getTemplateFile('admin/img/clock.png') .'" alt="*" /></a>';
             } else {
                 $lm = '';
             }
 
             if (!$serendipity['showFutureEntries'] && $ey['timestamp'] >= serendipity_serverOffsetHour()) {
-                $entry_pre = '<a href="#" title="' . ENTRY_PUBLISHED_FUTURE . '" onclick="alert(this.title)"><img src="'. serendipity_getTemplateFile('admin/img/clock_future.png') .'" alt="*" /></a> ';
+                $entry_pre = '<a href="#" title="' . ENTRY_PUBLISHED_FUTURE . '"><img src="'. serendipity_getTemplateFile('admin/img/clock_future.png') .'" alt="*" /></a> ';
             } else {
                 $entry_pre = '';
             }
@@ -1058,6 +1058,7 @@ if(!defined('AUTOUPDATE_INSTALLED')) {
                  case 'backend_header':
                     // here we go and and add or restruct the backend header ;-)
                     echo "\n\n";
+                    echo '<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" /> '."\n\n";
                     if($serendipity['POST']['h5bp-style']) {
                         echo '        <link rel="stylesheet" href="' . DASHBOARD_PLUGINPATH . '/css/style.css" />'."\n";
                     }

@@ -1,9 +1,9 @@
-v.0.9.3 | 2012-08-15
+v.0.9.4 | 2012-08-17
 ===
 
 ## Name: serendipity_event_dashboard
 
-* The Serendipity Dashboard [Proof of Concept] for version ?.
+* The Serendipity Dashboard [Proof of Concept] for version 1.x.
 
 * This is Beta status, as long as there won't be some more testers!
 
@@ -11,9 +11,7 @@ v.0.9.3 | 2012-08-15
 
 * Do not mind the colours. They are customizable via CSS.
 
-* The CSS has not yet been cleaned-up.
-
-* Some functions (i.e. help screens) are not ready and still a work in progress!
+* Some minor functions (i.e. help screens) are not ready and still a work in progress!
 
 * The current help screen is my development gazette, noting ideas and fixed issues to this P.o.C.
 

@@ -1,4 +1,4 @@
-{*** plugin_dashboard.tpl - last modified 2012-08-15 ***}
+{*** plugin_dashboard.tpl - last modified 2012-08-17 ***}
 {*** debug ***}
 
 <div id="dashboard" class="clearfix maincontent">
@@ -159,23 +159,27 @@
         <li class="checked">Update to JQuery 1.8.0 and JQuery-ui-1.8.22 </li>
         <li class="checked">Removed 'Beta' from autoupdate, as not provided any more.... (we never did, but we had nighlies...) </li>
         <li class="checked">Simplified element blocks to all moveable blocks only and moved clean(up) to seperate in config </li>
-        <li class="checked">To avoid heavy load in dynamic serendipity_admin.css, I removed the dashboard css to a fixed version, which won't load dynamically each request </li>
+        <li class="checked">To avoid heavy load in dynamic serendipity_admin.css, I removed the dashboard css to a fixed version. </li>
         <li class="checked">Removed metadata.js and changed HTML5 async to defer load </li>
         <li class="checked">Fixed version_compare() update check to alert on new version only </li>
         <li class="checked">Added some PHPDoc documentary </li>
+        <li class="checked">Some code and CSS cleanup and js event finetuning </li>
+        <li class="checked">Make CSS really have fluid grid layout! </li> 
+        <li class="checked">CSS small tablet portrait Mode (600x800) should work by default. </li>
+        <li class="checked">Added some Mobile portrait (320x480) Media Queries w/o finetuning. </li>
         <li></li>
         <li>Finish Maintenance Mode (and add some more, like size of spamblock log?) </li>
-        <li>Bind autoupdate plugin to dashboard and write a install GUI? </li>
-        <li>Bind select navigation to JQuery-UI - (js-navigation, ui-customizable, flexible) </li>
-        <li>Add flexible hook-in boxes by Plugins </li>
-        <li>Include old link and bookmark box content to select box, when opening selectbox navigation? </li>
-        <li>Move help box button into embed mode design bar? </li>
-        <li>Build poping up multiple help screens to differend help content, or one big main, seperated by columns (?) </li>
+        <li>Bind autoupdate plugin to dashboard and write a install GUI (?) </li>
+        <li>Bind select navigation to JQuery-UI - (js-navigation, ui-customizable, flexible) (?) </li>
+        <li>Add flexible hook-in box ability by Plugins! </li>
+        <li>Include old link and bookmark box content to select box, when opening selectbox navigation (?) </li>
+        <li>Move help box button into embed mode design bar (?) </li>
+        <li>Build poping up multiple help screens to different help content, or one big main, seperated by columns (?) </li>
         <li>Write help screen(s) content! </li>
-        <li>Make CSS really have fluid grid layout! </li>
-        <li>Mobile ready?! Pass to 1-Column Layout via JQuery? </li>
-        <li>General code and CSS cleanup! </li>
+        <li class="checked">Move Meta-Box-Left Boxes to Mobile-1-Column Layout via JQuery (?) </li>
+        <li>Add Multi Browser support. At the moment this is designed with current FF only... </li>
         <li></li>
+        <li>ToDo: Rewrite for Smarty3 and S9y 1.7! </li>
         <li>ToDo: Hold feed cached for one day... (?) </li>
         <li>ToDo: next release, open (some) "edit-entry-links" inside the dashboard via modalContainer... (?) </li>
         <li>ToDo: next release, make dashboard css color customizing navbar tool ... (?) </li>
