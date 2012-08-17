@@ -1572,6 +1572,10 @@ td.serendipityAdminContentDashboard {
     }
     #dashboard header > #user-menu-user-embed-iconset, 
     #dashboard #user-menu-user-embed-iconset {
+        background: inherit;
+        border: 0 none;
+        border-radius: 0 0 0 0;
+        box-shadow: 0 0 0 transparent;
         margin: 0 5%;
     }
     #dashboard #user-menu-user-embed-switch {
@@ -1606,6 +1610,12 @@ td.serendipityAdminContentDashboard {
     }
     #dashboard #layout #meta-box-right:empty {
         display: none;
+    }
+    #dashboard #layout .meta-box:hover {
+        background-color: inherit;
+        outline: 0 none;
+        outline-offset: inherit;
+        padding-bottom: inherit;
     }
 }
  
