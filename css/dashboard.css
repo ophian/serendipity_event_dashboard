@@ -1539,6 +1539,9 @@ td.serendipityAdminContentDashboard {
 /* designed for Mobile portrait (320x480) */
 @media screen and (max-width: 568px) {
 
+    #serendipityAdminInfopane {
+        text-align: center;
+    }
     #serendipityAdminBanner {
         background: inherit;
         border: inherit;
