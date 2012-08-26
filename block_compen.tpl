@@ -1,4 +1,4 @@
-{*** block_compen.tpl - last modified 2012-08-14 ***}
+{*** block_compen.tpl - last modified 2012-08-26 ***}
 
 {if $showElementComPend}
   <div id="compen" class="block-comments block-box">
@@ -81,7 +81,7 @@
                                     </li>
                                     <li class="mod_spam" title="{$CONST.PLUGIN_EVENT_SPAMBLOCK_BAYES_NAME}: {$CONST.PLUGIN_EVENT_SPAMBLOCK_BAYES_SPAM}">
                                         <a id="spam{$eclpen.id}" class="serendipityIconLink spamblockBayesControls" onclick="return spam({$eclpen.id})" href="{$serendipityBaseURL}index.php?/plugin/learnAction&amp;action=delete&amp;category=spam&amp;id={$eclpen.id}&amp;entry_id={$eclpen.entry_id}">
-                                            <img src="{$thispath}/../serendipity_event_spamblock_bayes/img/spamblock_bayes.spam.png" alt="" />
+                                            <img src="{$thispath}/img/spamblock_bayes.spam.png" alt="" />
                                             {$CONST.PLUGIN_EVENT_SPAMBLOCK_BAYES_SPAM}
                                         </a>
                                     </li>
@@ -114,7 +114,7 @@
             <div><span>Spamschutz (Bayes): </span></div>
             <div class="bayes-boxed">
                 <span class="inputtype"><img src="{serendipity_getFile file='admin/img/accept.png'}" alt="" /><input type="button" onclick="markAllHam()" name="toogle" value="{$CONST.PLUGIN_EVENT_SPAMBLOCK_BAYES_HAMBUTTON}" class="none" /></span>
-                <span class="inputtype"><img src="{$thispath}/../serendipity_event_spamblock_bayes/img/spamblock_bayes.spam.png" alt="" /><input type="button" onclick="markAllSpam()" name="toogle" value="{$CONST.PLUGIN_EVENT_SPAMBLOCK_BAYES_SPAMBUTTON}" class="none" /></span>
+                <span class="inputtype"><img src="{$thispath}/img/spamblock_bayes.spam.png" alt="" /><input type="button" onclick="markAllSpam()" name="toogle" value="{$CONST.PLUGIN_EVENT_SPAMBLOCK_BAYES_SPAMBUTTON}" class="none" /></span>
             </div>
             {/if}
         </form>

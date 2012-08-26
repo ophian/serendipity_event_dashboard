@@ -1,3 +1,13 @@
+0.9.6
+-----
+Finished service Maintenance Mode and set strong remember-me cookie, while in set
+Get some structure into lang files
+Added .htaccess file with rewrite rule to view documentation_‹lang›.html file, if any
+Added UTF-8 ‹en› lang file
+Some IE9 fixes and finally dropped support for everything less than IE9
+For User Level Dashboards UI, the drag and drop storing has changed to support cookie values by Userlevel client 
+Fixed jQuery Cookies to be more specific
+
 0.9.4
 -----
 Some code and CSS cleanup and js event finetuning

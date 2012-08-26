@@ -1,11 +1,11 @@
-v.0.9.4 | 2012-08-17
+v.0.9.6 | 2012-08-26
 ===
 
 ## Name: serendipity_event_dashboard
 
 * The Serendipity Dashboard [Proof of Concept] for version 1.x.
 
-* This is Beta status, as long as there won't be some more testers!
+* This has testing status, as long as there won't be some more testers!
 
 * Please test the functions and the general behaviour. Live with it for a while.
 

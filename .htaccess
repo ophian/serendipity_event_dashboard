@@ -1,0 +1,5 @@
+#
+# Tell serendipity to not redirect plugin documentation files
+#
+RewriteEngine On
+RewriteRule ^(.*/documentation([0-9a-z\.\_\+]+)\.html?)$ - [L]

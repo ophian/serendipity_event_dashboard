@@ -1,4 +1,4 @@
-{*** plugin_dashboard.tpl - last modified 2012-08-17 ***}
+{*** plugin_dashboard.tpl - last modified 2012-08-26 ***}
 {*** debug ***}
 
 <div id="dashboard" class="clearfix maincontent">
@@ -106,7 +106,7 @@
 
     <ul><strong>ToDo: </strong>
         <li class="checked">nav button with plus/minus img! </li>
-        <li class="checked">Check $admin_vars to be readable by dashbords side-navbar! This is necessary in different perms! </li>
+        <li class="checked">Check $admin_vars to be readable by dashboards side-navbar! This is necessary in different perms! </li>
         <li class="checked">Check dashboard elements show up by permission only! </li>
         <li class="checked">Make sequence order change fit into rows and cells! </li>
         <li class="checked">Build & rewrite the halfbox sections to divs, to stick to a certain Layout! </li>
@@ -149,7 +149,7 @@
         <li class="checked">Added config option to disable update plugin availability note - default to show true </li>
         <li class="checked">Consistently Constant PLUGIN_DASHBOARD_* use - except core constants </li>
         <li class="checked">Added s9y.org Blog Feed Info box screen - default to show true </li>
-        <li class="checked">Added frontend 'maintenance mode' on core updates - <span style="background: none repeat scroll 0 0 gold;text-decoration: blink;">...still developing</span> </li>
+        <li class="checked">Added frontend 'maintenance mode' on core updates - unfinished </li>
         <li class="checked">Added UI custom titles and support drag changes </li>
         <li class="checked">Added UI to support draggable(), droppable(), sortable() directly </li>
         <li class="checked">Holds UI-dragged, UI-dropped and UI-sorted item settings on page return </li>
@@ -165,20 +165,28 @@
         <li class="checked">Added some PHPDoc documentary </li>
         <li class="checked">Some code and CSS cleanup and js event finetuning </li>
         <li class="checked">Make CSS really have fluid grid layout! </li> 
-        <li class="checked">CSS small tablet portrait Mode (600x800) should work by default. </li>
-        <li class="checked">Added some Mobile portrait (320x480) Media Queries w/o finetuning. </li>
+        <li class="checked">CSS small tablet portrait Mode (600x800) should work by default. All underneath is mobile view! </li>
+        <li class="checked">Added some Mobile portrait (320x480) and Mobile landscape (max width 450) Media Queries w/o finetuning </li>
+        <li class="checked">Finished service Maintenance Mode and set strong remember-me cookie, while in set </li>
+        <li class="checked">Get some structure into lang files </li>
+        <li class="checked">Added .htaccess file with rewrite rule to view documentation_&lsaquo;lang&rsaquo;.html file, if any </li>
+        <li class="checked">Added UTF-8 &lsaquo;en&rsaquo; lang file </li>
+        <li class="checked">Some IE9 fixes (CSS, JS, fetch references) and finally dropped support for everything less than IE9 </li>
+        <li class="checked">For User Level Dashboards UI, the drag and drop storing has changed to support cookie values by Userlevel client </li>
+        <li class="checked">Fixing jQuery Cookies to be more specific </li>
         <li></li>
-        <li>Finish Maintenance Mode (and add some more, like size of spamblock log?) </li>
-        <li>Bind autoupdate plugin to dashboard and write a install GUI (?) </li>
+        <li>Add some more maintenance, like size of spamblock log, or hint to install DBClean plugin (?) </li>
         <li>Bind select navigation to JQuery-UI - (js-navigation, ui-customizable, flexible) (?) </li>
-        <li>Add flexible hook-in box ability by Plugins! </li>
-        <li>Include old link and bookmark box content to select box, when opening selectbox navigation (?) </li>
+        <li>Shall the overview box only show information amounts by user (?) </li>
+        <li>Add flexible hook-in box (event hook) ability by Plugins! </li>
+        <li class="discard">Include old link and bookmark box content to select box, when opening selectbox navigation (?) </li>
         <li>Move help box button into embed mode design bar (?) </li>
         <li>Build poping up multiple help screens to different help content, or one big main, seperated by columns (?) </li>
         <li>Write help screen(s) content! </li>
-        <li class="checked">Move Meta-Box-Left Boxes to Mobile-1-Column Layout via JQuery (?) </li>
-        <li>Add Multi Browser support. At the moment this is designed with current FF only... </li>
+        <li class="discard">Move Meta-Box-Left Boxes to Mobile-1-Column Layout via JQuery (?) </li>
+        <li class="discard">Add Multi Browser support. At the moment this is designed with current FF only... </li>
         <li></li>
+        <li>ToDo: Bind autoupdate plugin to dashboard and write a install GUI (?) </li>
         <li>ToDo: Rewrite for Smarty3 and S9y 1.7! </li>
         <li>ToDo: Hold feed cached for one day... (?) </li>
         <li>ToDo: next release, open (some) "edit-entry-links" inside the dashboard via modalContainer... (?) </li>

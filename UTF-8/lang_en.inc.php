@@ -20,7 +20,7 @@
 @define('PLUGIN_DASHBOARD_INFO', 'Info Box');
 @define('PLUGIN_DASHBOARD_MAINTENANCE', 'Enable Button: \'Service Maintenance Mode\' in the Dashboards Update-Block Element?');
 @define('PLUGIN_DASHBOARD_MAINTENANCE_NOTE', 'Maintenance Mode Text Splash Screen');
-@define('PLUGIN_DASHBOARD_MAINTENANCE_TEXT', 'The Blog &#187;%s&#171; is in maintenance mode. This Blog will be back online shortly.');
+@define('PLUGIN_DASHBOARD_MAINTENANCE_TEXT', 'The Blog »%s« is in maintenance mode. This Blog will be back online shortly.');
 
 /* propbag & mixed */
 @define('PLUGIN_DASHBOARD_TITLE', 'Dashboard');

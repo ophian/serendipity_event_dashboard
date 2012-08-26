@@ -1,4 +1,4 @@
-{*** block_update.tpl - last modified 2012-08-15 ***}
+{*** block_update.tpl - last modified 2012-08-26 ***}
 
 {if $showElementUpdate}
   <div id="update" class="block-updates block-box">
@@ -11,7 +11,8 @@
                 {$update_text|default:"<p> N/A </p>"}
             </div>
             <div id="notifierform">
-                {$update_form|default:"<p> $version is up to date! </p>"}
+                <div id="cell_left">{$update_form|default:"<p> $version is up to date! </p>"}</div>
+                <div id="cell_right" class="txtrht">{$service_mode}</div>
             </div>
         </div>
         

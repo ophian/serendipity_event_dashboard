@@ -1,4 +1,4 @@
-{*** header_embed.tpl - last modified 2012-08-14 ***}
+{*** header_embed.tpl - last modified 2012-08-26 ***}
 
     <header role="banner">
         <div class="clearfix">
@@ -25,7 +25,7 @@
 
             <nav id="user-menu-user-embed-switch" role="navigation">
                  <ul class="clearfix">
-                {if $dpdc_plugin_av && $showElementUpdate && $show_dependencynote} 
+                {if $dpdc_plugin_av && $showElementUpdate && $show_dpdc_note}
                    <li><span id="menu-autoupdate" class="text-icon text-icon-notifications" alt="[U]" title=" &#187; click: Important Info! &#171; "></span></li>
                 {/if}
                    <li><img id="menu-fadenav" class="slidenav" src="{$thispath}/img/switch128.png" width="64" height="64" alt="slidenav" title="{$CONST.ADMIN_FRONTPAGE} {$CONST.PLUGIN_DASHBOARD_TITLE}" /></li>

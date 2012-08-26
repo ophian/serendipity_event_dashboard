@@ -1,6 +1,6 @@
 <?php # $Id$
 
-// - last modified 2012-08-17
+// - last modified 2012-08-26
 
 if (IN_serendipity !== true) {
     die ("Don't hack!");
@@ -73,11 +73,12 @@ if(!defined('AUTOUPDATE_INSTALLED')) {
             'php'         => '5.2.6'
         ));
 
-        $propbag->add('version',       '0.9.4');
+        $propbag->add('version',       '0.9.6');
         $propbag->add('author',        'Garvin Hicking, Ian');
         $propbag->add('stackable',     false);
         $propbag->add('configuration', array('read_only', 'path', 'limit_comments_pending', 'limit_comments', 'limit_draft', 'limit_future', 'limit_feed', 'sequence', 'feed_url', 'feed_title', 'feed_content', 'feed_author', 'feed_conum', 'dependencynote', 'maintenance', 'maintenancenote', 'update', 'clean'));
         $propbag->add('event_hooks',   array(
+                                            'frontend_configure'            => true,
                                             'backend_configure'             => true,
                                             'backend_header'                => true,
                                             'external_plugin'               => true,
@@ -246,7 +247,7 @@ if(!defined('AUTOUPDATE_INSTALLED')) {
                     'feed'       => array('display' => PLUGIN_DASHBOARD_FEED),
                     'comapp'     => array('display' => COMMENT),
                     'update'     => array('display' => UPDATE),
-                    'plugup'     => array('display' => PLUGUP)
+                    'plugup'     => array('display' => PLUGIN_DASHBOARD_PLUGUP)
                 );
                 $propbag->add('values',      $values);
                 $propbag->add('default',     'info,compen,future,draft,feed,comapp,update,plugup');
@@ -321,6 +322,70 @@ if(!defined('AUTOUPDATE_INSTALLED')) {
             return $theBayesInstance->classify($coBody, 'body');
         }
         return false;
+    }
+
+    /**
+     * Clean up a multidimensional array which has empty values
+     *
+     * @access    private
+     * @param     array    $metaset-array
+     * @return    array    reset keys
+     */
+    private function array_cleanup($array) {
+        foreach ($array as $key => $value) {
+            if (is_array($value)) {
+                if (empty($value[1])) {
+                    unset($array[$key]);
+                } else {
+                    $array[$key] = $this->array_cleanup($array[$key]);
+                }
+            }
+        }
+        return $array_new_keys = array_values($array); // sorted by original key order
+    }
+
+    /**
+     * Set None-IE9 'Dashboard Unavailable' Mode and provide some browsers upgrades and a dashboard uninstall link
+     *
+     * @access    private
+     * @return
+     */
+    private static function checkBrowser() {
+        global $serendipity;
+        if(preg_match('/(?i)msie [1-8]/',$_SERVER['HTTP_USER_AGENT'])) {
+            serendipity_die('
+                <div style=" clear: both; text-align:center; position: relative;">
+                    <h2>Sorry, no Dashboard support for your Browser!</h2>
+                    <a href="http://windows.microsoft.com/en-US/internet-explorer/downloads/ie-9/worldwide-languages">
+                        <img alt="Windows" width="120" height="26" src="' . DASHBOARD_PLUGINPATH . '/img/windows.png" style="border:0 none" border="0" />
+                    </a>
+                    <p>Please return to the: <a href="' . $serendipity['serendipityHTTPPath'] . 'serendipity_admin.php?serendipity[adminModule]=plugins">plugin installation dir</a>!</p>
+                    <h3>Your browser is <em>ancient!</em></h3>
+                    <p class="chromeframe"><a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p>
+                </div>
+            ');
+        }
+        return;
+    }
+
+    /**
+     * Set Maintenance Mode header 505 Temporarily Unavailable
+     *
+     * @access    private
+     * @return
+     */
+    private function service_mode() {
+        $retry = 300; // seconds
+        $protocol = $_SERVER["SERVER_PROTOCOL"];
+        if ( 'HTTP/1.1' != $protocol && 'HTTP/1.0' != $protocol )
+            $protocol = 'HTTP/1.0';
+        serendipity_header( "$protocol 503 Service Temporarily Unavailable", true, 503 );
+        serendipity_header( 'Status: 503 Service Temporarily Unavailable', true, 503 );
+        serendipity_header( 'X-S9y-Maintenance: true' ); // Used for debugging detection
+        serendipity_header( 'Content-Type: text/html; charset=utf-8' );
+        serendipity_header( "Retry-After: $retry" );
+        serendipity_die(nl2br("<h2>503 - SERENDIPITY SERVICE MODE</h2>\n".$this->get_config('maintenancenote')));
+        exit; // actually no need, but for secure reasons left alive
     }
 
     /**
@@ -482,26 +547,62 @@ if(!defined('AUTOUPDATE_INSTALLED')) {
     }
 
     /**
+     * Set automatic strong cookie autologin if in maintenance mode
+     *
+     * @access    private
+     * @param     boolean    set/unset
+     */
+    private static function service_autologin($set=null) {
+        global $serendipity;
+
+        if($set && !isset($serendipity['COOKIE']['author_information'])) {
+            // set a global var to remember automatic autologin
+            $serendipity['dashboard']['autologin'] = true;
+            echo 'autologin set true'; // console post answer
+            serendipity_issueAutologin(
+                array('username' => $serendipity['user'],
+                      'password' => $serendipity['pass']
+                )
+            );
+        }
+        if (!set && $serendipity['dashboard']['autologin']) {
+            // automatic autologin logout
+            $serendipity['dashboard']['autologin'] = false;
+            echo 'autologin set false'; // console post answer
+            serendipity_deleteCookie('author_information');
+            serendipity_deleteCookie('author_information_iv');
+        }
+    }
+
+    /**
      * Set upgraders maintenance mode
-     * 
+     *
      * @access    private
      * @param     boolean    set/unset
      */
     private function s9y_maintenance_mode($mode=false) {
         global $serendipity;
+
         if (!serendipity_checkPermission('adminUsers')) {
             return;
         }
+        // return user to use the autologin cookie to stay logged-in while in service maintenance mode
+        if ($mode) { $this->service_autologin(true); } else { $this->service_autologin(false); }
 
-        $is_logged_in = serendipity_userLoggedIn();
-        if($mode) 
-            echo "This Maintenance Mode is still developing. Please send any ideas on how to proceed here to the s9y.org forum, or via  PM, or create a GitHub issue.";
-        else
-            echo "Undo Maintenance Dev Mode done!";
-        // ToDo: finish
-        if ( !$is_logged_in ) {
-            //serendipity_die(nl2br($this->get_config('maintenancenote')));
-        }
+        $privateVariables = array();
+        $privateVariables['maintenance'] = serendipity_db_bool($mode) ? 'true' : 'false'; // we cant write real booleans here, as the function does not provide it
+
+        $r = serendipity_updateLocalConfig(
+                $serendipity['dbName'],
+                $serendipity['dbPrefix'],
+                $serendipity['dbHost'],
+                $serendipity['dbUser'],
+                $serendipity['dbPass'],
+                $serendipity['dbType'],
+                $serendipity['dbPersistent'],
+                $privateVariables
+            );
+        return $r;
     }
 
     /**
@@ -523,7 +624,7 @@ if(!defined('AUTOUPDATE_INSTALLED')) {
         $summaryLength = 120;
         $i = 0;
 
-        // we already use 1.6 up with this dashboard
+        // we already use 1.6 and up with this dashboard
         $comments = serendipity_fetchComments(null, $limit, 'co.id DESC', true, 'NORMAL', $where);
 
         if (!is_array($comments) || count($comments) == 0) {
@@ -810,10 +911,12 @@ if(!defined('AUTOUPDATE_INSTALLED')) {
 
         $serendipity['smarty']->assign('showElementPlugup', true);
         ob_start();
+        // ToDo: ask /serendipity_admin.php?serendipity[adminModule]=plugins&serendipity[adminAction]=addnew&serendipity[only_group]=UPGRADE&serendipity[type]=event
+        //       if there is a upgrade plugin array available and not empty...
         serendipity_plugin_api::hook_event('backend_pluginlisting_header', $serendipity['eyecandy']);
         $candy = ob_get_contents();
         ob_end_clean();
-        $plugupnote = str_replace('<br />', '', $candy);
+        $plugupnote = str_replace('<br />', '', $candy); // prior 1.7
 
         $serendipity['smarty']->assign('plugup_hook_note', (!empty($plugupnote) ? $plugupnote : ''));
         $serendipity['smarty']->assign('plugup_block_id', $sort_id);
@@ -843,19 +946,26 @@ if(!defined('AUTOUPDATE_INSTALLED')) {
             $this->CheckUpdate(); // this will fill all needed config values
         }
 
-        // Check if the last found update version is newer and tell it, if this is the case
-        $newVersion = $this->get_config('last_version');
+        $update_text = '';
+        $update_form = '';
+        $newVersion  = $this->get_config('last_version');
+        $momabutton  = serendipity_db_bool($this->get_config('maintenance')) ? '<button id="moma" class="button">' . PLUGIN_DASHBOARD_MAINTENANCE_MODE . '</button>' : '';
 
-        $serendipity['smarty']->assign(array('update_block_id' => $sort_id, 'showElementUpdate' => true, 'show_dependencynote' => $this->get_config('dependencynote')));
-
+        // Compare last found update version to current Serendipity version
         if ( version_compare($newVersion, $serendipity['version'], '>') ) {
             $eventData = '';
             serendipity_plugin_api::hook_event('plugin_dashboard_updater', $eventData, $newVersion);
             $update_text = $this->get_config('update_text');
-            $momabutton  = serendipity_db_bool($this->get_config('maintenance')) ? '<div id="cell_right"><button id="moma" class="button">set to Upgrade Maintenance Mode</button></div>' : '';
-            $update_form = !empty($eventData) ? '<div id="cell_left">'.$eventData.'</div>' . $momabutton : 'You are running '.$serendipity['version'] . ' ['.$this->get_config('update').']';
-            $serendipity['smarty']->assign(array('update_text' => $update_text, 'update_form' => $update_form));
+            $eventData   = str_replace('Update now automatically', PLUGIN_DASHBOARD_UPDATE_BUTTON_TEXT, $eventData);
+            $update_form = $eventData;
         }
+        $serendipity['smarty']->assign(
+                        array( 'update_block_id'   => $sort_id,
+                               'showElementUpdate' => true,
+                               'update_text'       => $update_text,
+                               'update_form'       => $update_form,
+                               'service_mode'      => $momabutton )
+                        );
     }
 
     /**
@@ -1019,6 +1129,8 @@ if(!defined('AUTOUPDATE_INSTALLED')) {
         $hooks = &$bag->get('event_hooks');
 
         $serendipity['plugin_dashboard_version'] = &$bag->get('version');
+        // deny automatic autologin by default
+        $serendipity['dashboard']['autologin'] = false;
 
         /* set global plugin path setting, to avoid different pluginpath '/plugins/', while some people use symlinked plugins dirs */
         if (!defined('DASHBOARD_PLUGINPATH')) {
@@ -1027,13 +1139,21 @@ if(!defined('AUTOUPDATE_INSTALLED')) {
         if (defined('BAYES_INSTALLED') && !defined('BAYES_PLUGINPATH')) {
             @define('BAYES_PLUGINPATH',  str_replace('/serendipity_event_dashboard', '/serendipity_event_spamblock_bayes', $this->get_config('path')));
         }
-        // can we still keep this here or better move to backend_frontpage_display hook? (in some cases this place disrupted entry comments forms, why?)
-        if (!is_object($serendipity['smarty'])) {
-            serendipity_smarty_init(); // if not set start Smarty templating, to avoid member function assign() on a non-object error
-        }
 
-        if (isset($hooks[$event]) && serendipity_userLoggedIn()) {
+        if (isset($hooks[$event])) {
             switch($event) {
+                case 'frontend_configure':
+                    serendipity_header('X-Debug1: hook-frontend_configure'); // Used for debugging detection
+                    serendipity_header('X-Debug2: set-moma '.$serendipity['maintenance'].'');
+                    // This will stop serendipity immediately throwing a 503 Service Temporarily Unavailable maintenance message,
+                    // if var is set to true and user is not logged into admin users.
+                    // Do not log-off while in maintenace mode, else you can not access your blog again!
+                    // We have to be strict here. This var is stored in serendipity_config_local.inc file!
+                    if ( !serendipity_checkPermission('adminUsers') && serendipity_db_bool($serendipity['maintenance']) ) {
+                        $this->service_mode();
+                    }
+                    break;
+
                 case 'backend_configure':
                     // here we go and overwrite the backend structure - maybe ;-)
                     // keep for future purposes
@@ -1046,32 +1166,52 @@ if(!defined('AUTOUPDATE_INSTALLED')) {
                         $serendipity['POST']['noFooter']   = true;
                         $serendipity['POST']['h5bp-style'] = true;
                     }*/
+
+                    echo '<!DOCTYPE html>'."\n";
+                    serendipity_header('X-Debug3: hook-backend_configure'); // Used for debugging detection
+
+                    if (!is_object($serendipity['smarty'])) {
+                        serendipity_smarty_init(); // if not set, start Smarty templating to avoid member function assign() on a non-object error
+                    }
                     // Disable the use of Serendipity JQuery in Backend - remember if having it disabled in template....
                     // also either make sure this dashboard is for 1.6 up only or construct a fallback to google 
                     $serendipity['capabilities']['jquery'] = false;
 
-                    /* get the dashboard template file */
-                    #echo $this->fetchTemplatePath('admin_index.tpl'); //old
+                    /* get the dashboard admin index template file */
+                    #echo $this->parseTemplate('admin_index.tpl'); // we cannot do this, as long we don not clone large parts of serendipity_admin.php
 
                     break;
 
-                 case 'backend_header':
+                case 'backend_header':
+                    $servicehook = NULL;
+                    // read already set $serendipity['maintenance']
+                    if (isset($serendipity['maintenance']) && !empty($serendipity['maintenance'])) $servicehook = $serendipity['maintenance'];
+
                     // here we go and and add or restruct the backend header ;-)
                     echo "\n\n";
-                    echo '<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" /> '."\n\n";
+                    // I have done everything I could find, to force IE9 into standard mode only, without success! See doctype above!
+                    // http://msdn.microsoft.com/en-us/library/cc288325%28v=vs.85%29.aspx (maybe its just a local phenomenon...)
+                    // For now, there will at least be a javascript alert to the user to change it manually!
+                    #echo '        <!--[if IE 9]> <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/> <![endif]-->'."\n";
+                    echo '        <!--[if IE 9]> <meta http-equiv="X-UA-Compatible" content="IE=9,chrome=1"/> <![endif]-->'."\n";
+                    echo '        <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0"/> '."\n\n";
                     if($serendipity['POST']['h5bp-style']) {
-                        echo '        <link rel="stylesheet" href="' . DASHBOARD_PLUGINPATH . '/css/style.css" />'."\n";
+                        echo '        <link rel="stylesheet" href="' . DASHBOARD_PLUGINPATH . '/css/style.css" type="text/css" media="screen"/>'."\n";
                     }
-                    echo '        <link rel="stylesheet" type="text/css" href="' . DASHBOARD_PLUGINPATH . '/css/dashboard.css" title="dashboard" style"  media="screen"/>'."\n\n";
-
+                    echo '        <link rel="stylesheet" href="' . DASHBOARD_PLUGINPATH . '/css/dashboard.css" type="text/css" media="screen"/>'."\n\n";
+                    echo '        <!--[if gte IE 9]> <style type="text/css"> .gradient { filter: none; } </style> <![endif]-->';
+                    echo "\n\n";
+                    // Trying to reference JQUERY and JSON for IE Browsers and even more the CSS is a hassle!
+                    // I hate things like that and do not really want to support this!
+                    echo '        <!--[if lte IE 9]> <script src="' . DASHBOARD_PLUGINPATH . '/inc/jquery-1.8.0.min.js" type="text/javascript"></script> <![endif]-->'."\n";
+                    echo '        <!--[if lte IE 9]> <script src="' . DASHBOARD_PLUGINPATH . '/inc/json2.js" type="text/javascript"></script> <![endif]-->'."\n";
+                    // IE referencing end
                     echo '        <script src="' . DASHBOARD_PLUGINPATH . '/inc/modernizr-2.6.1.min.js" defer></script>'."\n";
                     echo '        <script src="' . DASHBOARD_PLUGINPATH . '/inc/jquery-1.8.0.min.js" defer></script>'."\n";
                     echo '        <script src="' . DASHBOARD_PLUGINPATH . '/inc/jquery-ui-1.8.22.custom.min.js" defer></script>'."\n";
                     echo '        <script src="' . DASHBOARD_PLUGINPATH . '/inc/jquery.cookie.min.js" defer></script>'."\n";
                     echo '        <script src="' . DASHBOARD_PLUGINPATH . '/inc/jquery.mb.containerPlus.js" defer></script>'."\n\n";
-
-                    #echo '<script type="text/javascript"> jQuery.noConflict(); </script>'."\n";
-
+                    #echo '       <script type="text/javascript"> jQuery.noConflict(); </script>'."\n";
                     echo '        <script src="' . DASHBOARD_PLUGINPATH . '/inc/ajax-dashboard.js" defer></script>'."\n";
                     echo '        <script src="' . DASHBOARD_PLUGINPATH . '/inc/jquery-dashboard.js" defer></script>'."\n";
                     // include spamblock_bayes js file - see bayes constant on top
@@ -1080,39 +1220,27 @@ if(!defined('AUTOUPDATE_INSTALLED')) {
                     }
                     // set some JS vars
                     echo '        <script type="text/javascript">
-            var const_view   = \'' . VIEW_FULL . '\';
-            var const_hide   = \'' . HIDE . '\';
-            var img_plus     = \'' . serendipity_getTemplateFile("img/plus.png") . '\';
-            var img_minus    = \'' . serendipity_getTemplateFile("img/minus.png") . '\';
-            var img_help2    = \'' . DASHBOARD_PLUGINPATH . '/img/help_oran.png\';
-            var img_help1    = \'' . DASHBOARD_PLUGINPATH . '/img/help_blue.png\';
-            var img_slidein  = \'' . DASHBOARD_PLUGINPATH . '/img/fade-in.png\';
-            var img_slideout = \'' . DASHBOARD_PLUGINPATH . '/img/fade-out.png\';';
+            var const_view         = \'' . VIEW_FULL . '\';
+            var const_hide         = \'' . HIDE . '\';
+            var dashpath           = \'' . DASHBOARD_PLUGINPATH . '/\';';
 if (defined('BAYES_INSTALLED')) { echo '
-            var learncommentPath = \'' . $serendipity['baseURL'] . 'index.php?/plugin/learncomment\';
-            var ratingPath   = \'' . $serendipity['baseURL'] . 'index.php?/plugin/getRating\';
-            var bayesCharset = \'' . LANG_CHARSET . '\';
-            var bayesDone    = \'' . DONE . '\';
-            var bayesHelpImage = \'' . serendipity_getTemplateFile ('admin/img/admin_msg_note.png') . '\';
-            var bayesHelpTitle = \'' . PLUGIN_EVENT_SPAMBLOCK_BAYES_RATING_EXPLANATION . '\';
-            var bayesLoadIndicator = \'' . BAYES_PLUGINPATH . '/img/spamblock_bayes.load.gif\';';
+            var bayesCharset       = \'' . LANG_CHARSET . '\';
+            var bayesDone          = \'' . DONE . '\';
+            var bayesHelpTitle     = \'' . PLUGIN_EVENT_SPAMBLOCK_BAYES_RATING_EXPLANATION . '\';';
 } 
+if ($this->get_config('maintenance')) { echo '
+            var const_service      = \'' . PLUGIN_DASHBOARD_MAINTENANCE_MODE_DESC . '\';';
+}
+if ($this->get_config('maintenance') && !empty($servicehook)) { echo '
+            var servicehook        = ' . $servicehook . ';'; // set as boolean
+}
 echo "\n        </script>\n\n";
-
-echo '        <!--[if gte IE 9]>
-          <style type="text/css">
-            .gradient {
-               filter: none;
-            }
-          </style>
-        <![endif]-->
-
-';
 
                     break;
 
                 case 'external_plugin':
                     $db['jspost'] = explode('/', $eventData);
+                    $userlevel = USERLEVEL_ADMIN;
 
                     // [0]=modemaintence; [1]=setmoma [boolean]
                     if($db['jspost'][0] == 'modemaintence') {
@@ -1141,42 +1269,71 @@ echo '        <!--[if gte IE 9]>
 
                         $emt = str_replace('e;, ','', $emt); // removes 0 = 'e;, ' if any
                         $setConfStr = $metase[0] . '|' . substr($emt, 0, -2); // removes last ', ' if any
-                        $setConfStr = str_replace('#', '', $setConfStr); // removes all '#'
+                        $setConfStr = str_replace('#', '', $setConfStr); // removes all leading '#'
+
+                        // set to config or cookie depending Userlevel
+                        if ((int)$serendipity['serendipityUserlevel'] < (int)USERLEVEL_ADMIN) {
+                            // remove empty elements block name from string, as user has not admin user level
+                            // also see array_cleanup() securing, when fetching metaset again for output
+                            $setConfStr = preg_replace('{(?P<name>\w+);([,])\s}', '', $setConfStr); // ie. 'elem_6;, '
+                            // I know it looks weired with these missing start and stop brackets, but its the only way... ;-)
+                            $name = 'dashboard][metaset]['.(int)$serendipity['serendipityUserlevel'];
+                            // set http cookie for non admin users
+                            serendipity_setCookie("$name", serialize($setConfStr));
+                            // ie. serendipity[dashboard][metaset][0] = meta-box-right|elem_4;feed, elem_5;comapp, elem_2;future, elem_3;draft, elem_1;compen and (cookie: expires; path; domain)
+                        } else {
+                            $this->set_config('metaset', $setConfStr);
+                        }
+
                         // give back the answer string to json jQuery.post
                         $postAnswer = 'metaset, ' . $setConfStr; // eg. metaset, meta-box-right|elem_4, elem_5, elem_6, elem_7, elem_1, elem_3
-                        // set to config
-                        $this->set_config('metaset', $setConfStr);
-                        // give json answer
-                        echo $postAnswer;
+                        echo $postAnswer; // console post answer
                     }
-                    // free all used arrays and vars
+                    // free all temporary used arrays and vars
                     unset($db);
                     unset($pix);
                     unset($selector);
                     unset($metase);
                     unset($emt);
                     unset($setConfStr);
+                    unset($name);
 
                     break;
 
-                 case 'backend_frontpage_display':
+                case 'backend_frontpage_display':
+                    // redirect <= IE8 Browsers - no support!
+                    $this->checkBrowser();
+
                     $elements = array();
                     $elements = explode(',', $this->get_config('sequence'));
                     if(!empty($elements)) {
                         $countmainelements = count(array_values($elements));
                         if (in_array("clean", $elements)) { $countmainelements = ($countmainelements-1); }
                     }
-                    $metaset = ($this->get_config('metaset') ? $this->get_config('metaset') : array());
+                    // read the metaset array by admin from config, or user from cookie
+                    if (isset($serendipity['COOKIE']['dashboard']['metaset'][(int)$serendipity['serendipityUserlevel']])) {
+                        if ($serendipity['expose_s9y']) serendipity_header('X-Serendipity-MetasetClientRestore: Cookie');
+                        // echo '<pre>';print_r($serendipity['COOKIE']);echo '</pre>';
+                        $metaset = unserialize($serendipity['COOKIE']['dashboard']['metaset'][(int)$serendipity['serendipityUserlevel']]);
+                    } else {
+                        $metaset = false;
+                    }
+
+                    if (!$metaset) $metaset = ($this->get_config('metaset') ? $this->get_config('metaset') : array());
+
                     if(!empty($metaset) && !empty($elements)) {
                         $metaset = explode('|', $metaset);
                         $metaset = array($metaset[0], $metaset[1]);
                         $mix[] = explode(',', $metaset[1]);
                         foreach ($mix[0] AS $v) { $newmix[] = explode(';', trim($v)); }
-                        // keep the block name in an array to sort out in tpl
-                        // the compare to array
+                        // output double check this array, to avoid non-valid - say empty - key/value pairs
+                        $newmix = $this->array_cleanup($newmix);
+                        // keep the block name in the array to sort out in tpl later on
                         foreach ($newmix as $k => $val) $mixarr[] = $val[1];
+                        // the compare-to $elements array $mixarr
                         $block_elements = array_diff($elements, $mixarr);
                         $metaset = array($metaset[0], $newmix);
+                        // free temporary arrays
                         unset($mix);
                         unset($newmix);
                         unset($mixarr);
@@ -1209,10 +1366,12 @@ echo '        <!--[if gte IE 9]>
                     ob_start();
                     // include the POST % GET action file
                     include dirname(__FILE__) . '/' . 'dashboard_request_actions.inc.php';
+                    // now assign all needed data to smarty
                     $serendipity['smarty']->assign(
                                                 array(  'start'          => $serendipity['GET']['adminModule'] == 'start' ? true : false,
                                                         'errormsg'       => $errormsg,
                                                         'dpdc_plugin_av' => $dpdc_plugin_av,
+                                                        'show_dpdc_note' => $this->get_config('dependencynote'),
                                                         'elements'       => $elements,
                                                         'countelements'  => ($countmainelements / 2),
                                                         'block_elements' => $block_elements,
@@ -1235,7 +1394,7 @@ echo '        <!--[if gte IE 9]>
 
                     // gather the data
                     if (is_array($elements) && !empty($elements) ) {
-                        // include header 'clean'element, if
+                        // include header 'clean'element, if set
                         if(serendipity_db_bool($this->get_config('clean'))) $elements[] = 'clean';
                         foreach($elements AS $key => $e) {
                             //echo "$this->showElement($e, $key);";

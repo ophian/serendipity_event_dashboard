@@ -7,36 +7,15 @@ window.log = function f(){ log.history = log.history || []; log.history.push(arg
 (function(){try{console.log();return window.console;}catch(a){return (window.console={});}}());
 // Attention: do not use paulirish log() method, as making our events behave different
 
-// jquery-dashboard.js - last-modified: 2012-08-17
-
-// define localStorage use
-var isLocalStorage = false;
-// define BlockSort use
-var isRunBlocksort = false;
-
-/**
- * Test HTML5 clients local Storage
- **/
-if (typeof(localStorage) == 'undefined' ) {
-    alert('Your browser does not support HTML5 localStorage. Try upgrading.');
-} else {
-    try {
-        localStorage.setItem("name", "S9y best blog!"); // test saves to the database, "key", "value"
-    } catch (e) {
-        if (e == QUOTA_EXCEEDED_ERR) {
-            alert('LocalStorage Quota exceeded!'); // the test data wasn't successfully saved due to quota exceed so throw an error
-        }
-        if (e) { isLocalStorage = false; }
-    }
-    isLocalStorage = true;
-}
+// jquery-dashboard.js - last-modified: 2012-08-26
 
 /**
  * Start main functions on document.ready = load in DOM
  **/
 jQuery(document).ready(function($) {
 
-    // set some global vars
+    // define some global vars
+    var isRunBlocksort = false; // defines BlockSort use
 
     // each containers [t_ = toggle, c_ = click]
     var meta       = ['#meta-box-left, #meta-box-right'];
@@ -44,7 +23,6 @@ jQuery(document).ready(function($) {
     var t_text     = ['#comapp, #compen, #feed'];
     var t_form     = ['#formMultiDeleteApp, #formMultiDeletePen'];
 
-    
     // start object selectors
     var $button    = $('#menu-fadenav');
     var $sidebar   = $('#serendipitySideBar');
@@ -55,19 +33,25 @@ jQuery(document).ready(function($) {
     var obj        = {}; // object
 
     // strings
-    var pathname = $(location).attr('pathname').replace('serendipity_admin.php', '');
+    var pathname           = $(location).attr('pathname').replace('serendipity_admin.php', '');
+    var hostname           = $(location).attr('hostname');
+    var protocol           = $(location).attr('protocol');
+    var img_plus           = pathname + 'templates/default/img/plus.png';
+    var img_minus          = pathname + 'templates/default/img/minus.png';
+    var img_help2          = dashpath + 'img/help_oran.png';
+    var img_help1          = dashpath + 'img/help_blue.png';
+    var learncommentPath   = protocol + '//' + hostname + pathname + 'index.php?/plugin/learncomment';
+    var ratingPath         = protocol + '//' + hostname + pathname + 'index.php?/plugin/getRating';
+    var bayesHelpImage     = pathname + 'templates/default/admin/img/admin_msg_note.png';
+    var bayesLoadIndicator = pathname + 'img/spamblock_bayes.load.gif';
 
     // check to see if cookies exist for the flip box toggle state
-    var flipcookie = $.cookie("cookie_flipped");
+    var flipcookie = $.cookie('serendipity[dashboard][cookie_flipped]');
     var fliparray  = flipcookie ? flipcookie.split("|").getUnique() : [];
-
-    // disable or remove this part when done testing
-    // $('#debug').html("flip-read-cookie by elem_ID if sort_ID closed = " + fliparray.join(', ')); 
-    // **********************************
 
     // var functions
     /**
-     * Function runBlockSort(storageobject) [OK]
+     * Function Expression runBlockSort(storageobject) [OK]
      * 
      * Retrieves the object from storage and manipulates Block IDs
      **/
@@ -101,7 +85,7 @@ jQuery(document).ready(function($) {
     });
 
     /**
-     * Function setLocalStorage(array) [OK]
+     * Function Expression setLocalStorage(array) [OK]
      * 
      * Feature detect + clear + local reference
      **/
@@ -122,19 +106,19 @@ jQuery(document).ready(function($) {
     });
     
     /**
-     * Function setStorageArray(metaid, metaobject) [OK]
+     * Function Expression setStorageArray(metaid, metaobject) [OK]
      * 
      * Returns the new Storage array by new arranged meta and block object
      **/
     setStorageArray = (function($metaid, $metaobj) {
-        // arr[$metaid] = [$metaid]; // = new Object();
-        var $metaArr = [$metaid]; //var $metaArr = [];$metaArr.push($metaid);
+        var $metaArr = [$metaid];
 
         $metaobj.find('.flipbox').attr("id", function (index) { 
             var $bid = $(this).closest('div[id].block-box').attr('id').toString();
-            $metaArr.push([$bid, 'sort_'+index]); // stick to array and do not use objects here, as objects key can not be $var, returns "$bid"
+            // stick to array and do not use objects here, as objects key can not be $var, returns "$bid"
+            $metaArr.push([$bid, 'sort_'+index]);
             // do not return new flipbox h3 title ID, if that was done by function runBlockSort
-            if( isRunBlocksort === false ) return $metaid+"-sort_" + index; //else return $bid;
+            if( isRunBlocksort === false ) return $metaid+"-sort_" + index;
         });
         if( isRunBlocksort === false) {
             // set the sort_X ID to the new dragged value, if that was not! done by function runBlockSort
@@ -147,7 +131,7 @@ jQuery(document).ready(function($) {
     });
 
     /**
-     * Function setContainersHeight() [OK]
+     * Function Expression setCustomTooltip() [OK]
      * 
      * Sets the Tooltips first element and removes others by attr()
      * Calls the setStorageArray(id, object) and 
@@ -175,7 +159,7 @@ jQuery(document).ready(function($) {
     });
 
     /**
-     * Function setContainersHeight() [OK]
+     * Function Expression setContainersHeight() [OK]
      * 
      * Sets the #layout containers height on demand
      **/
@@ -186,9 +170,9 @@ jQuery(document).ready(function($) {
         $("#layout").css("height", newLayout +10 + 'px'); // 10px seperation space between meta and layout
         //return newLayout +10;
     });
-    
+
     /**
-     * Function unsetUIHightlight(object) [OK]
+     * Function Expression unsetUIHightlight(object) [OK]
      * 
      * Removes this selectors upper li class ui-state-highlight on click flip and toogle buttons
      **/
@@ -197,7 +181,7 @@ jQuery(document).ready(function($) {
     });
 
     /**
-     * Function runTooltip() [OK]
+     * Function Expression runTooltip() [OK]
      * 
      * The Tooltip function
      **/
@@ -305,6 +289,14 @@ jQuery(document).ready(function($) {
     });
 
     /**
+     * Try to init #layout height on document ready
+     * As we couldn't use 'jQuery(window).load(' w/o IE9 alerts, we use this here instead
+     **/
+    $(function(){
+        setContainersHeight(); // set to height of highest meta-box-xxx
+    });
+
+    /**
      * Some selectors Startup Manipulations on DOM ready
      **/
     $(function() {
@@ -353,10 +345,10 @@ jQuery(document).ready(function($) {
      * On click feed/comments input-* buttons unset ui-highlight parent box
      **/
     $(function() {
-        $(t_text.join(', ')).find('input, span, a, img, div.comment_titel, div.input-boxed, div.bayes-boxed, div.feed_title, ul.feed_fields').click(function(){
+        $(t_text.join(', ')).find('span, a, img, div.comment_titel, div.input-boxed, div.bayes-boxed, div.feed_title, ul.feed_fields').click(function(){
             unsetUIHightlight($(this));
         });
-        $(c_text.join(', ')).find('a, p, span, table, ul, time, input').click(function(){
+        $(c_text.join(', ')).find('a, p, span, table, ul, time, input[type=submit], button').click(function(){
             unsetUIHightlight($(this));
         });
     });
@@ -415,11 +407,7 @@ jQuery(document).ready(function($) {
                     tmp.splice( tmp.indexOf(indx) , 1);
                 }
                 fliparray = tmp.getUnique();
-                $.cookie("cookie_flipped", fliparray.join('|') );
-
-                // disable or remove this part when done testing
-                // $('#debug').html("flip-upd cookie = " + fliparray.join(', ')); 
-                // **********************************
+                $.cookie('serendipity[dashboard][cookie_flipped]', fliparray.join('|'), { expires: 180, path: pathname, domain: hostname });
             }
 
             function addNSet() {
@@ -464,16 +452,16 @@ jQuery(document).ready(function($) {
             // .is(":visible") // Checks for display:[none|block], ignores visible:[true|false]
             if ($sidebar.is(':visible')) {
                 $sidebar.fadeOut();
-                $.cookie('cookie_sidebar', 'isSelectBar');
+                $.cookie('serendipity[dashboard][cookie_sidebar]', 'isSelectBar', { expires: 180, path: pathname, domain: hostname });
             } else {
                 $sidebar.fadeIn();
-                $.cookie('cookie_sidebar', 'isSideBar');
+                $.cookie('serendipity[dashboard][cookie_sidebar]', 'isSideBar', { expires: 180, path: pathname, domain: hostname });
             }
             $selectbar.toggleClass('visuallyhidden');
         });
 
         // check to see if a cookie exists for the app state
-        var cookie_sidebar = $.cookie('cookie_sidebar');
+        var cookie_sidebar = $.cookie('serendipity[dashboard][cookie_sidebar]');
         if(cookie_sidebar == 'isSelectBar') { 
             $sidebar.fadeOut();
             $selectbar.toggleClass('visuallyhidden');
@@ -610,13 +598,13 @@ jQuery(document).ready(function($) {
     });
     
     /**
-     * Set upgrading maintenance mode on click
+     * Set service maintenance mode on click
      **/
     $(function(){
-        var set = false;
+        var set = typeof servicehook !== 'undefined' ? servicehook : false; // avoid reloading missmatch
         $("#moma").on("click", function(){
             set = !set; // toogle boolean
-            alert( $(this).text() + ' = ' + set + "\n" + '[IN DEVELOPMENT!!' + "\n" + 'This posts to external_plugin and activates function s9y_maintenance_mode(). Please post ideas on how to procced...!]'); // is button text
+            alert( $(this).text() + ' = ' + set + "\n\n" + const_service); // is button text + attention const
             $url = pathname + 'plugin/modemaintence/';
                 
             // Post the set/unset via external_plugin to Plugins config storage - pass booleans as (set?1:0)
@@ -698,11 +686,11 @@ jQuery(document).ready(function($) {
     });
 }); // close jQuery document ready
 
-
 /**
  * Init #layout height on window load = DOM and full Content load ready
+ * As we can't use 'jQuery(window).load(' here w/o IE9 alerts, we have to check undefined
+ * See also document ready init
  **/
 jQuery(window).load(function() {
-    setContainersHeight(); // set to height of highest meta-box-xxx
+    if(typeof setContainersHeight !== 'undefined') setContainersHeight(); // set to height of highest meta-box-xxx
 }); // close jQuery window load
-
