@@ -168,7 +168,7 @@ td.serendipityAdminContentDashboard {
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     color: inherit;
     display: inline-block;
-    margin: 0.8em 0;
+    margin: 0.8em 0 0 0.8em; /* Small tablet portrait (600x800) needs left-margin auto indent */
     padding: 0 1em;
 }
 #dashboard #user-menu-user-embed-iconset a:hover,
@@ -445,6 +445,7 @@ td.serendipityAdminContentDashboard {
     display: table-cell;
     padding: 0 5px;
     text-align: left;
+    vertical-align: bottom;
     width: 50%;
 }
 #dashboard #cell_left h3 { 
@@ -549,7 +550,8 @@ td.serendipityAdminContentDashboard {
 }
 #dashboard #user-menu-user-welcome {
     float: left;
-    width: 63%;
+    min-width: 50%;
+    max-width: 63%;
 }
 #dashboard #user-menu-user-welcome ul li {
     border: 1px solid #BBBBBB;
@@ -1574,7 +1576,7 @@ td.serendipityAdminContentDashboard {
         -moz-box-shadow: 0 0 0 transparent;
         -0-box-shadow: 0 0 0 transparent;
         box-shadow: 0 0 0 transparent;
-        margin: 0 21%; /* mobile landscape only */
+        margin: 0 20%; /* mobile landscape only */
     }
     #dashboard #user-menu-user-embed-switch {
         display: none;
@@ -1622,6 +1624,19 @@ td.serendipityAdminContentDashboard {
         margin: 0 5%;
     }
 }
+/* screen only */
+@media (min-width: 1024px) {
+    #dashboard #user-menu-user-welcome {
+        width: 54%;
+    }
+}
+/* screen only */
+@media (min-width: 1200px) {
+    #dashboard #user-menu-user-welcome {
+        width: 63%;
+    }
+}
+
 /*
 @media (min-width: 450px) and (max-width: 950px) {
     Netbooks  

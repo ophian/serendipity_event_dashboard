@@ -101,7 +101,7 @@
   <div id="cont1" class="container" style="top: 240px; left: 240px; width: 800px; height: 400px;" data-drag=true data-collapse=true data-close=true data-containment="document" data-modal=true>
     <h2><img class="icon" src="{$thispath}/img/s9y4.png"> Serendipity Dashboard [v.{$sysinfo.dashboard_version}] Development Gazette!</h2>
 
-    <p>This is a "<em>proof of concept</em>" Dashboard screen for your Serendipity blog backend section. All editable links, as of now, are passed to their original target, as long as this is just a an experimental welcome and information screen. Please pass your suggestions and experiences to the <a href="http://board.s9y.org/viewtopic.php?f=10&t=18370" target="_blank">serendipity forum</a>, which excepts english too.</p>
+    <p>This is a "<em>proof of concept</em>" Dashboard screen for your Serendipity blog backend section. All editable links, as of now, are passed to their original target, as long as this is just a an experimental welcome and information screen. Please pass your suggestions and experiences to the <a href="http://board.s9y.org/viewtopic.php?f=4&t=18863" target="_blank">serendipity forum</a>.</p>
     <p style="font: italic normal lighter 0.9em/1.2em 'Courier New','DejaVu Sans Mono','Bitstream Vera Sans Mono',monospace;">If you ever experience weired screen layout issues or discover some other unwanted scripting behaviour, do a [Shift] + [Strg] + [r] or [Strg] + [F5] first, to avoid caching or loading issues.
 
     <ul><strong>ToDo: </strong>
