@@ -445,7 +445,7 @@ td.serendipityAdminContentDashboard {
     display: table-cell;
     padding: 0 5px;
     text-align: left;
-    vertical-align: bottom;
+    vertical-align: baseline;
     width: 50%;
 }
 #dashboard #cell_left h3 { 
@@ -488,7 +488,9 @@ td.serendipityAdminContentDashboard {
     padding: 5px;
 }
 #dashboard #notifierform {
+    display: inline-table; /* see .serendipity_admin_list_item_draft and . serendipity_admin_list_item_future ~406 */
     padding: 10px 5px;
+    width: 100%;
 }
 #dashboard #notifierform p {
     margin: 0;
