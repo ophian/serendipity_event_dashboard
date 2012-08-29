@@ -1,4 +1,4 @@
-// ajax-dashboard.js - last-modified: 2012-08-25
+// ajax-dashboard.js - last-modified: 2012-08-27
 // AJAX 'Asynchronous JavaScript and XML' used as short name for native JavaScript here... meaning pure (mostly S9y) javascript functions
 
 /**
@@ -30,7 +30,7 @@ function invertSelectionPen() {
 /**
  * comment checkbox placeholder
  **/
-function toogle_checkbox(id, checkvalue) {
+function toggle_checkbox(id, checkvalue) {
     // Void - hold this function as long using serendipity's default toggle functions
     // This returns checkboxes be selectable individually via onClick and get inverted by function
 }
@@ -100,7 +100,7 @@ if (typeof(localStorage) == 'undefined' ) {
     alert('Your browser does not support HTML5 localStorage. Try upgrading.');
 } else {
     try {
-        localStorage.setItem("name", "S9y best blog!"); // test saves to the database, "key", "value"
+        localStorage.setItem("name", "S9y - the best blog in blogosphere!"); // test saves to the database, "key", "value"
     } catch (e) {
         if (e == QUOTA_EXCEEDED_ERR) {
             alert('LocalStorage Quota exceeded!'); // the test data wasn't successfully saved due to quota exceed so throw an error

@@ -1,4 +1,4 @@
-{*** header_embed.tpl - last modified 2012-08-26 ***}
+{*** header_embed.tpl - last modified 2012-08-27 ***}
 
     <header role="banner">
         <div class="clearfix">
@@ -16,7 +16,7 @@
                     <li><a id="menu-cleanup" href="?serendipity[action]=admin&amp;serendipity[dashboard_event]=capct&amp;{$urltoken}" onclick="return confirm('{$CONST.PLUGIN_DASHBOARD_CLEANUP_CONFIRM}')"><img src="{$thispath}/img/cleanup128.png" width="32" height="32" alt="[CP]" title="{$CONST.PLUGIN_DASHBOARD_CLEANSMARTY} [{$CONST.PATH_SMARTY_COMPILE}]" /></a></li>
                     {/if}
                     {if 'adminPlugins'|checkPermission}
-                    <li><a id="menu-plugco" href="?serendipity[adminModule]=plugins&amp;serendipity[plugin_to_conf]={$plugininstance}" class="pluginmanager_configure"><img src="{$thispath}/img/dsbcon128.png" width="32" height="32" alt="[C]" title="{$sysinfo.title} Plugin [{$sysinfo.dashboard_version}]" /></a></li>
+                    <li><a id="menu-plugco" href="?serendipity[adminModule]=plugins&amp;serendipity[plugin_to_conf]={$plugininstance}" class="pluginmanager_configure"><img src="{$thispath}/img/dsbcon128.png" width="32" height="32" alt="[C]" title="{$sysinfo.title} Plugin [{$sysinfo.this_v}]" /></a></li>
                     {/if}
                     <li><a id="menu-back2b" href="{$serendipityBaseURL}"><img src="{$thispath}/img/b2b128.png" width="32" height="32" alt="[B2B]" title="{$CONST.BACK_TO_BLOG}" /></a></li>
                 </ul>

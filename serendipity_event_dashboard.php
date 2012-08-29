@@ -1,6 +1,6 @@
 <?php # $Id$
 
-// - last modified 2012-08-26
+// - last modified 2012-08-29
 
 if (IN_serendipity !== true) {
     die ("Don't hack!");
@@ -73,7 +73,7 @@ if(!defined('AUTOUPDATE_INSTALLED')) {
             'php'         => '5.2.6'
         ));
 
-        $propbag->add('version',       '0.9.6.1');
+        $propbag->add('version',       '0.9.7');
         $propbag->add('author',        'Garvin Hicking, Ian');
         $propbag->add('stackable',     false);
         $propbag->add('configuration', array('read_only', 'path', 'limit_comments_pending', 'limit_comments', 'limit_draft', 'limit_future', 'limit_feed', 'sequence', 'feed_url', 'feed_title', 'feed_content', 'feed_author', 'feed_conum', 'dependencynote', 'maintenance', 'maintenancenote', 'update', 'clean'));
@@ -558,19 +558,21 @@ if(!defined('AUTOUPDATE_INSTALLED')) {
         if($set && !isset($serendipity['COOKIE']['author_information'])) {
             // set a global var to remember automatic autologin
             $serendipity['dashboard']['autologin'] = true;
-            echo 'autologin set true'; // console post answer
+            serendipity_setCookie('dashboard_autologin', '1');
             serendipity_issueAutologin(
                 array('username' => $serendipity['user'],
                       'password' => $serendipity['pass']
                 )
             );
+            echo 'true'; // console post answer
         }
-        if (!set && $serendipity['dashboard']['autologin']) {
+        if (!$set && ($serendipity['dashboard']['autologin'] || isset($serendipity['COOKIE']['dashboard_autologin'])) ) {
             // automatic autologin logout
             $serendipity['dashboard']['autologin'] = false;
-            echo 'autologin set false'; // console post answer
+            serendipity_deleteCookie('dashboard_autologin');
             serendipity_deleteCookie('author_information');
             serendipity_deleteCookie('author_information_iv');
+            echo 'false'; // console post answer
         }
     }
 
@@ -602,6 +604,7 @@ if(!defined('AUTOUPDATE_INSTALLED')) {
                 $serendipity['dbPersistent'],
                 $privateVariables
             );
+        #echo serendipity_db_bool($mode) ? 'true' : 'false'; // ajax post answer to validate as string - see service_autologin echos
         return $r;
     }
 
@@ -1208,7 +1211,7 @@ if(!defined('AUTOUPDATE_INSTALLED')) {
                     // IE referencing end
                     echo '        <script src="' . DASHBOARD_PLUGINPATH . '/inc/modernizr-2.6.1.min.js" defer></script>'."\n";
                     echo '        <script src="' . DASHBOARD_PLUGINPATH . '/inc/jquery-1.8.0.min.js" defer></script>'."\n";
-                    echo '        <script src="' . DASHBOARD_PLUGINPATH . '/inc/jquery-ui-1.8.22.custom.min.js" defer></script>'."\n";
+                    echo '        <script src="' . DASHBOARD_PLUGINPATH . '/inc/jquery-ui-1.8.23.custom.min.js" defer></script>'."\n";
                     echo '        <script src="' . DASHBOARD_PLUGINPATH . '/inc/jquery.cookie.min.js" defer></script>'."\n";
                     echo '        <script src="' . DASHBOARD_PLUGINPATH . '/inc/jquery.mb.containerPlus.js" defer></script>'."\n\n";
                     #echo '       <script type="text/javascript"> jQuery.noConflict(); </script>'."\n";
@@ -1229,7 +1232,9 @@ if (defined('BAYES_INSTALLED')) { echo '
             var bayesHelpTitle     = \'' . PLUGIN_EVENT_SPAMBLOCK_BAYES_RATING_EXPLANATION . '\';';
 } 
 if ($this->get_config('maintenance')) { echo '
-            var const_service      = \'' . PLUGIN_DASHBOARD_MAINTENANCE_MODE_DESC . '\';';
+            var const_service      = \'' . PLUGIN_DASHBOARD_MAINTENANCE_MODE_DESC . '\';
+            var const_serv_active  = \'' . PLUGIN_DASHBOARD_MAINTENANCE_MODE_ACTIVE . '\';
+            var const_serv_origin  = \'' . PLUGIN_DASHBOARD_MAINTENANCE_MODE . '\';';
 }
 if ($this->get_config('maintenance') && !empty($servicehook)) { echo '
             var servicehook        = ' . $servicehook . ';'; // set as boolean
@@ -1252,48 +1257,35 @@ echo "\n        </script>\n\n";
                     if($db['jspost'][0] == 'dbjsonsort') {
                         // data was send by JSON.stringify() - decode to array
                         $pix = json_decode($_POST['json'], true);
-                        // convert the POST array to a readable $meta-selector array
-                        $selector = $pix[0]['selector'];
-                        if($selector == '#meta-box-right' || $selector == '#meta-box-left') {
-                            $metase = array($selector);
-                            foreach ($pix AS $key => $val) {
-                                if($key > 0) {
-                                    foreach ($val AS $k => $v) {
-                                        $metase[$key][] = $v;
-                                    }
-                                }
+                        $emt = '';
+                        foreach ($pix AS $ke => $va) {
+                            if ($ke > 0) {
+                                $emt .= trim($va[0]).';'.trim($va[1]).', '; 
                             }
                         }
-                        $emt = '';
-                        foreach ($metase AS $ke => $va) { if ($ke > 0) { $emt .= $va[0].';'.$va[1].', '; } }
-
-                        $emt = str_replace('e;, ','', $emt); // removes 0 = 'e;, ' if any
-                        $setConfStr = $metase[0] . '|' . substr($emt, 0, -2); // removes last ', ' if any
-                        $setConfStr = str_replace('#', '', $setConfStr); // removes all leading '#'
+                        $setConfStr = trim($pix[0]) . '|' . substr($emt, 0, -2); // removes last ', '
 
                         // set to config or cookie depending Userlevel
                         if ((int)$serendipity['serendipityUserlevel'] < (int)USERLEVEL_ADMIN) {
                             // remove empty elements block name from string, as user has not admin user level
-                            // also see array_cleanup() securing, when fetching metaset again for output
+                            // also see array_cleanup() double check securing, when fetching metaset again for output
                             $setConfStr = preg_replace('{(?P<name>\w+);([,])\s}', '', $setConfStr); // ie. 'elem_6;, '
-                            // I know it looks weired with these missing start and stop brackets, but its the only way... ;-)
-                            $name = 'dashboard][metaset]['.(int)$serendipity['serendipityUserlevel'];
+                            // using multidimensional cookie arrays was sadly denied by Chrome and IE browser - so back to flat
+                            $name = 'dashboard_metaset_' . (int)$serendipity['serendipityUserlevel'];
                             // set http cookie for non admin users
                             serendipity_setCookie("$name", serialize($setConfStr));
-                            // ie. serendipity[dashboard][metaset][0] = meta-box-right|elem_4;feed, elem_5;comapp, elem_2;future, elem_3;draft, elem_1;compen and (cookie: expires; path; domain)
+                            // ie. serendipity[dashboard_metaset_0] = meta-box-right|elem_4;feed, elem_5;comapp, elem_2;future, elem_3;draft, elem_1;compen and (cookie: expires 180 days; path; this domain)
                         } else {
                             $this->set_config('metaset', $setConfStr);
                         }
 
                         // give back the answer string to json jQuery.post
-                        $postAnswer = 'metaset, ' . $setConfStr; // eg. metaset, meta-box-right|elem_4, elem_5, elem_6, elem_7, elem_1, elem_3
+                        $postAnswer = 'metaset, ' . $setConfStr; // eg. metaset, meta-box-right|elem_4;feed, elem_5;comapp, elem_6;update, elem_7;plugup, elem_2;future, elem_3;draft, elem_1;compen
                         echo $postAnswer; // console post answer
                     }
                     // free all temporary used arrays and vars
                     unset($db);
                     unset($pix);
-                    unset($selector);
-                    unset($metase);
                     unset($emt);
                     unset($setConfStr);
                     unset($name);
@@ -1311,17 +1303,23 @@ echo "\n        </script>\n\n";
                         if (in_array("clean", $elements)) { $countmainelements = ($countmainelements-1); }
                     }
                     // read the metaset array by admin from config, or user from cookie
-                    if (isset($serendipity['COOKIE']['dashboard']['metaset'][(int)$serendipity['serendipityUserlevel']])) {
+                    if ( ((int)$serendipity['serendipityUserlevel'] < (int)USERLEVEL_ADMIN) 
+                      && isset($serendipity['COOKIE']['dashboard_metaset_'.(int)$serendipity['serendipityUserlevel']]) ) {
                         if ($serendipity['expose_s9y']) serendipity_header('X-Serendipity-MetasetClientRestore: Cookie');
-                        // echo '<pre>';print_r($serendipity['COOKIE']);echo '</pre>';
-                        $metaset = unserialize($serendipity['COOKIE']['dashboard']['metaset'][(int)$serendipity['serendipityUserlevel']]);
+                        $metaset = unserialize($serendipity['COOKIE']['dashboard_metaset_'.(int)$serendipity['serendipityUserlevel']]);
                     } else {
                         $metaset = false;
                     }
 
-                    if (!$metaset) $metaset = ($this->get_config('metaset') ? $this->get_config('metaset') : array());
+                    $conf_metaset = $this->get_config('metaset');
 
-                    if(!empty($metaset) && !empty($elements)) {
+                    // temporary bugfix while there may be a possible cookie and storing missmatch from 0.9.6.(1) to 0.9.7 in $metaset and $conf_metaset
+                    if ($metaset == '|') $metaset = false;
+                    if ($conf_metaset == '|') $conf_metaset = 'meta-box-right|elem_4;feed, elem_5;comapp, elem_6;update, elem_2;future, elem_3;draft, elem_1;compen, elem_7;plugup';
+
+                    if (!$metaset) $metaset = ((isset($conf_metaset) && !empty($conf_metaset)) ? $conf_metaset : array());
+
+                    if( !empty($metaset) && !empty($elements) ) {
                         $metaset = explode('|', $metaset);
                         $metaset = array($metaset[0], $metaset[1]);
                         $mix[] = explode(',', $metaset[1]);
@@ -1329,7 +1327,7 @@ echo "\n        </script>\n\n";
                         // output double check this array, to avoid non-valid - say empty - key/value pairs
                         $newmix = $this->array_cleanup($newmix);
                         // keep the block name in the array to sort out in tpl later on
-                        foreach ($newmix as $k => $val) $mixarr[] = $val[1];
+                        foreach ($newmix as $k => $val) { $mixarr[] = $val[1]; }
                         // the compare-to $elements array $mixarr
                         $block_elements = array_diff($elements, $mixarr);
                         $metaset = array($metaset[0], $newmix);
@@ -1355,13 +1353,13 @@ echo "\n        </script>\n\n";
                     } else {
                         $sysinfo['version_info'] = sprintf(ADMIN_FOOTER_POWERED_BY, '', '');
                     }
-                    $sysinfo['intitle'] = ADMIN_FRONTPAGE;
-                    $sysinfo['title'] = PLUGIN_DASHBOARD_TITLE;
-                    $sysinfo['dashboard_version'] = $serendipity['plugin_dashboard_version'];
-                    $sysinfo['user'] = htmlspecialchars($serendipity['serendipityUser']);
-                    $sysinfo['perm'] = $serendipity['permissionLevels'][$serendipity['serendipityUserlevel']];
-                    $sysinfo['theme'] = $serendipity['template'];
-                    $sysinfo['widgets'] = $this->count_plugins(explode('|','hide|event|eventh'), true);
+                    $sysinfo['intitle']  = ADMIN_FRONTPAGE;
+                    $sysinfo['this_v']   = $serendipity['plugin_dashboard_version'];
+                    $sysinfo['title']    = PLUGIN_DASHBOARD_TITLE;
+                    $sysinfo['user']     = htmlspecialchars($serendipity['serendipityUser']);
+                    $sysinfo['perm']     = $serendipity['permissionLevels'][$serendipity['serendipityUserlevel']];
+                    $sysinfo['theme']    = $serendipity['template'];
+                    $sysinfo['widgets']  = $this->count_plugins(explode('|','hide|event|eventh'), true);
 
                     ob_start();
                     // include the POST % GET action file

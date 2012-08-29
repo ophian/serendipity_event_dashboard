@@ -1,5 +1,5 @@
 <?php
-/* last modified - 2012-08-26 */
+/* last modified - 2012-08-27 */
 
 /* propbag config only */
 @define('PLUGIN_DASHBOARD_DESC', 'Shows some summary information on the backend frontpage');
@@ -69,6 +69,7 @@
 
 /* UI-Block maintenance */
 @define('PLUGIN_DASHBOARD_MAINTENANCE_MODE', 'Service Maintenance Mode');
+@define('PLUGIN_DASHBOARD_MAINTENANCE_MODE_ACTIVE', '...active maintenance...');
 @define('PLUGIN_DASHBOARD_MAINTENANCE_MODE_DESC', 'ATTENTION!\nDo not log-off, until reset to false again!!!');
 
 /* HTML element attributes */

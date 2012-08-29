@@ -1,4 +1,4 @@
-{*** plugin_dashboard.tpl - last modified 2012-08-26 ***}
+{*** plugin_dashboard.tpl - last modified 2012-08-28 ***}
 {*** debug ***}
 
 <div id="dashboard" class="clearfix maincontent">
@@ -99,7 +99,7 @@
  <div id="mbc_wrapper" class="helpwrapper">
 
   <div id="cont1" class="container" style="top: 240px; left: 240px; width: 800px; height: 400px;" data-drag=true data-collapse=true data-close=true data-containment="document" data-modal=true>
-    <h2><img class="icon" src="{$thispath}/img/s9y4.png"> Serendipity Dashboard [v.{$sysinfo.dashboard_version}] Development Gazette!</h2>
+    <h2><img class="icon" src="{$thispath}/img/s9y4.png"> Serendipity Dashboard [v.{$sysinfo.this_v}] Development Gazette!</h2>
 
     <p>This is a "<em>proof of concept</em>" Dashboard screen for your Serendipity blog backend section. All editable links, as of now, are passed to their original target, as long as this is just a an experimental welcome and information screen. Please pass your suggestions and experiences to the <a href="http://board.s9y.org/viewtopic.php?f=4&t=18863" target="_blank">serendipity forum</a>.</p>
     <p style="font: italic normal lighter 0.9em/1.2em 'Courier New','DejaVu Sans Mono','Bitstream Vera Sans Mono',monospace;">If you ever experience weired screen layout issues or discover some other unwanted scripting behaviour, do a [Shift] + [Strg] + [r] or [Strg] + [F5] first, to avoid caching or loading issues.
@@ -174,6 +174,10 @@
         <li class="checked">Some IE9 fixes (CSS, JS, fetch references) and finally dropped support for everything less than IE9 </li>
         <li class="checked">For User Level Dashboards UI, the drag and drop storing has changed to support cookie values by Userlevel client </li>
         <li class="checked">Fixing jQuery Cookies to be more specific </li>
+        <li class="checked">Fixing Cookies back to flat array string[], as Chrome and IE9 denied supporting multidimensional array cookies </li>
+        <li class="checked">Some more Chrome and small IE9 fixes </li>
+        <li class="checked">Better secured Maintenance Mode and animated Button blink, if set true (FF only to now) </li>
+        <li class="checked">Update to jquery-ui-1.8.23.custom.min.js </li>
         <li></li>
         <li>Add some more maintenance, like size of spamblock log, or hint to install DBClean plugin (?) </li>
         <li>Bind select navigation to JQuery-UI - (js-navigation, ui-customizable, flexible) (?) </li>

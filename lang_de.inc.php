@@ -1,5 +1,5 @@
 <?php
-/* last modified - 2012-08-26 */
+/* last modified - 2012-08-27 */
 
 /* propbag config only */
 @define('PLUGIN_DASHBOARD_DESC', 'Zeigt ausgewählte Informationen auf der Startseite der Verwaltungsoberfläche als Übersicht');
@@ -69,6 +69,7 @@
 
 /* UI-Block maintenance */
 @define('PLUGIN_DASHBOARD_MAINTENANCE_MODE', 'Service Wartungsmodus');
+@define('PLUGIN_DASHBOARD_MAINTENANCE_MODE_ACTIVE', '...aktive Wartung...');
 @define('PLUGIN_DASHBOARD_MAINTENANCE_MODE_DESC', 'ACHTUNG:\nNicht ausloggen, bevor wieder auf false zurückgesetzt!!');
 
 /* HTML element attributes */

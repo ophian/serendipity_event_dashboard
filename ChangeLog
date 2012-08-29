@@ -1,3 +1,15 @@
+0.9.7
+-----
+Fixing Cookies back to flat array string[], as Chrome and IE9 denied supporting multidimensional array cookies
+Some more Chrome and small IE9 fixes
+Better secured Maintenance Mode and animated Button blink, if set true (FF only to now)
+Update to jquery-ui-1.8.23.custom.min.js
+
+0.9.6.1
+-------
+small css boxing fix 
+new dashboard thread forum link and some css 
+
 0.9.6
 -----
 Finished service Maintenance Mode and set strong remember-me cookie, while in set

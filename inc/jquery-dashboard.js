@@ -7,7 +7,7 @@ window.log = function f(){ log.history = log.history || []; log.history.push(arg
 (function(){try{console.log();return window.console;}catch(a){return (window.console={});}}());
 // Attention: do not use paulirish log() method, as making our events behave different
 
-// jquery-dashboard.js - last-modified: 2012-08-26
+// jquery-dashboard.js - last-modified: 2012-08-29
 
 /**
  * Start main functions on document.ready = load in DOM
@@ -16,6 +16,7 @@ jQuery(document).ready(function($) {
 
     // define some global vars
     var isRunBlocksort = false; // defines BlockSort use
+    var isSetService   = typeof servicehook !== 'undefined' ? servicehook : false; // avoid reloading missmatch
 
     // each containers [t_ = toggle, c_ = click]
     var meta       = ['#meta-box-left, #meta-box-right'];
@@ -44,9 +45,15 @@ jQuery(document).ready(function($) {
     var ratingPath         = protocol + '//' + hostname + pathname + 'index.php?/plugin/getRating';
     var bayesHelpImage     = pathname + 'templates/default/admin/img/admin_msg_note.png';
     var bayesLoadIndicator = pathname + 'img/spamblock_bayes.load.gif';
+    var logoff_text        = "Gotcha!\n" + 
+                             "I remember me saying: 'Do not log off while Maintenance Mode'!\n" + 
+                             "Note: There is no return if you proceed!\n\n" + 
+                             "Do you really want to log off now?\n\n" +
+                             "Then please unset maintenance mode first!";
+
 
     // check to see if cookies exist for the flip box toggle state
-    var flipcookie = $.cookie('serendipity[dashboard][cookie_flipped]');
+    var flipcookie = $.cookie('serendipity[dashboard_cookie_flipped]');
     var fliparray  = flipcookie ? flipcookie.split("|").getUnique() : [];
 
     // var functions
@@ -174,10 +181,28 @@ jQuery(document).ready(function($) {
     /**
      * Function Expression unsetUIHightlight(object) [OK]
      * 
-     * Removes this selectors upper li class ui-state-highlight on click flip and toogle buttons
+     * Removes this selectors upper li class ui-state-highlight on click flip and toggle buttons
      **/
     unsetUIHightlight = (function(obj) {
         obj.closest('li.flipflop').removeClass('ui-state-highlight');
+    });
+
+    /**
+     * Function Expression watchLogOff() [OK]
+     *
+     * Set on click logoff notification, while in maintenance mode
+     * Denies logoff if isSetService = servicehook = response = true
+     **/
+    watchLogOff = (function(set) {
+        if (set) {
+            $("#moma").css({'text-decoration':'blink'}).html(const_serv_active);
+            $('#user-menu-user-embed-iconset li:nth-child(1)').on('click', 'a', (function(e) {
+                e.preventDefault(); // Cancel a link's default action using the preventDefault method
+                alert(logoff_text);
+            }));
+        } else {
+            $('#user-menu-user-embed-iconset li:nth-child(1)').unbind('click');
+        }
     });
 
     /**
@@ -282,17 +307,25 @@ jQuery(document).ready(function($) {
     });
 
     /**
-     * Initialize tooltip on DOM ready
+     * Start up some essential init functions
      **/
     $(function() {
+        /*
+         * Initialize tooltip on DOM ready
+         */
         runTooltip();
-    });
 
-    /**
-     * Try to init #layout height on document ready
-     * As we couldn't use 'jQuery(window).load(' w/o IE9 alerts, we use this here instead
-     **/
-    $(function(){
+        /*
+         * Watch init Log-Off Button if in Maintenance Mode
+         */
+        if (isSetService) {
+            watchLogOff(isSetService);
+        }
+
+        /*
+         * Try to init #layout height on document ready
+         * As we couldn't use (see bottom) only 'jQuery(window).load(' w/o IE9 alerts, we use this instead
+         */
         setContainersHeight(); // set to height of highest meta-box-xxx
     });
 
@@ -336,7 +369,7 @@ jQuery(document).ready(function($) {
                 }
             );
             unsetUIHightlight($(this));
-            // set new id#layout height on toogle inside 
+            // set new id#layout height on toggle inside 
             setContainersHeight();
         });
     });
@@ -364,7 +397,7 @@ jQuery(document).ready(function($) {
                 $(this).closest('.serendipity_admin_list_item').children('.comment_text').children().toggleClass('visuallyhidden'); // OK
                 $(this).find('img').attr({src:"templates/default/admin/img/downarrow.png"}); // OK
                 unsetUIHightlight($(this));
-                // set new id#layout height on toogle inside 
+                // set new id#layout height on toggle inside 
                 setContainersHeight();
             }, 
             function (event) { 
@@ -372,7 +405,7 @@ jQuery(document).ready(function($) {
                 $(this).closest('.serendipity_admin_list_item').children('.comment_text').children().toggleClass('visuallyhidden'); // OK
                 $(this).find('img').attr({src:"templates/default/admin/img/uparrow.png"}); // OK
                 unsetUIHightlight($(this));
-                // set new id#layout height on toogle inside 
+                // set new id#layout height on toggle inside 
                 setContainersHeight();
             }
         );
@@ -390,7 +423,7 @@ jQuery(document).ready(function($) {
     });
 
     /**
-     * Toogle (flip) and store to Cookie the block-box function on click [OK]
+     * Toggle (flip) and store to Cookie the block-box function on click [OK]
      **/
     $(function() {
         $(meta.join(', ')).find('.flip').click(function() {
@@ -407,7 +440,10 @@ jQuery(document).ready(function($) {
                     tmp.splice( tmp.indexOf(indx) , 1);
                 }
                 fliparray = tmp.getUnique();
-                $.cookie('serendipity[dashboard][cookie_flipped]', fliparray.join('|'), { expires: 180, path: pathname, domain: hostname });
+                // ugly workaround for chrome and ie browser, which denied local hostnames
+                if( !$.cookie('serendipity[dashboard_cookie_flipped]', fliparray.join('|'), { expires: 180, path: pathname, domain: hostname }) ) {
+                    $.cookie('serendipity[dashboard_cookie_flipped]', fliparray.join('|'), { expires: 180, path: pathname });//, domain: hostname
+                }
             }
 
             function addNSet() {
@@ -426,7 +462,7 @@ jQuery(document).ready(function($) {
     });
 
     /**
-     * Toogle autoupdater header note [OK]
+     * Toggle autoupdater header note [OK]
      **/
     $(function() {
         $("#menu-autoupdate").toggle( 
@@ -448,20 +484,26 @@ jQuery(document).ready(function($) {
     $(function() { 
         $button.click(function(e){
             e.preventDefault();
-            // let the function toogle sidebar/selectbar as stated and set cookie to hold the state
+            // let the function toggle sidebar/selectbar as stated and set cookie to hold the state
             // .is(":visible") // Checks for display:[none|block], ignores visible:[true|false]
             if ($sidebar.is(':visible')) {
                 $sidebar.fadeOut();
-                $.cookie('serendipity[dashboard][cookie_sidebar]', 'isSelectBar', { expires: 180, path: pathname, domain: hostname });
+                // ugly workaround for chrome and ie browser, which denied local hostnames set as domain: hostname
+                if( !$.cookie('serendipity[dashboard_cookie_sidebar]', 'isSelectBar', { expires: 180, path: pathname, domain: hostname }) ) {
+                    $.cookie('serendipity[dashboard_cookie_sidebar]', 'isSelectBar', { expires: 180, path: pathname });//, domain: hostname
+                }
             } else {
                 $sidebar.fadeIn();
-                $.cookie('serendipity[dashboard][cookie_sidebar]', 'isSideBar', { expires: 180, path: pathname, domain: hostname });
+                // ugly workaround for chrome and ie browser, which denied local hostnames set as domain: hostname
+                if( !$.cookie('serendipity[dashboard_cookie_sidebar]', 'isSideBar', { expires: 180, path: pathname, domain: hostname }) ) {
+                    $.cookie('serendipity[dashboard_cookie_sidebar]', 'isSideBar', { expires: 180, path: pathname });//, domain: hostname
+                }
             }
             $selectbar.toggleClass('visuallyhidden');
         });
 
         // check to see if a cookie exists for the app state
-        var cookie_sidebar = $.cookie('serendipity[dashboard][cookie_sidebar]');
+        var cookie_sidebar = $.cookie('serendipity[dashboard_cookie_sidebar]');
         if(cookie_sidebar == 'isSelectBar') { 
             $sidebar.fadeOut();
             $selectbar.toggleClass('visuallyhidden');
@@ -579,20 +621,20 @@ jQuery(document).ready(function($) {
                 setLocalStorage(arr);
 
                 var sobj = $('#'+this.id).find('li[id].flipflop');
-                var $postMetaArr = [$('#'+this.id)]; // eg. #meta-box-right
-                
+                var $postMetaArr = [$(this.id).selector]; // eg. meta-box-right (chrome needs strict selector match, else pushing circular structure to JSON errors)
+               
                 sobj.attr("id", function (index) { 
                     // this = li.flipflop
                     var $dropid = $(this).attr('id').toString(); // collect li#ID name as string
                     var $blockid = $(this).find('div.block-box');
                     var $blid = $blockid.attr('id');
-                    $postMetaArr.push(['#'+$dropid, $blid]); // stick to array and do not use objects here
+                    $postMetaArr.push([$dropid, $blid]); // stick to array and do not use objects here
                 });
 
                 $url = pathname + 'plugin/dbjsonsort/';
                 
                 // Post the array via external_plugin to Plugins config storage
-                jQuery.post($url, {json: JSON.stringify($postMetaArr)}/*, function(data){ alert(data); }*/);
+                jQuery.post($url, {json: JSON.stringify($postMetaArr)});
             }
         });
     });
@@ -601,17 +643,42 @@ jQuery(document).ready(function($) {
      * Set service maintenance mode on click
      **/
     $(function(){
-        var set = typeof servicehook !== 'undefined' ? servicehook : false; // avoid reloading missmatch
         $("#moma").on("click", function(){
-            set = !set; // toogle boolean
-            alert( $(this).text() + ' = ' + set + "\n\n" + const_service); // is button text + attention const
+            isSetService = !isSetService; // toggle boolean
+            if (isSetService) {
+                alert( $(this).text() + ' = ' + isSetService + "\n\n" + const_service); // is button text + attention const
+                // keep original button text and set active Maintenance Mode button
+                service_origin = $(this).html();
+                $(this).css({'text-decoration':'blink'}).html(const_serv_active); // blink FF only - ToDo: do this by ui-animation or similar
+            } else { 
+                if(typeof service_origin === 'undefined') service_origin = const_serv_origin;
+                $(this).removeAttr('style').html( service_origin );
+            }
             $url = pathname + 'plugin/modemaintence/';
                 
-            // Post the set/unset via external_plugin to Plugins config storage - pass booleans as (set?1:0)
-            jQuery.post($url, {setmoma: (set?1:0)});
+            // Post the set/unset via external_plugin to Plugins config storage - pass POST booleans as (set?1:0)
+            response = $.ajax({
+                url: $url,
+                type: 'post',
+                async: false,
+                dataType: 'text',
+                data: { setmoma: (isSetService?1:0) },
+                success: function(response){
+                    // async false is needed to really know what has been set
+                    response = (response === 'true') ? true : false;
+                },
+                error: function(){
+                    alert('MoMa respond set failure!');
+                }
+            }).responseText;
+
+            console.log('IN: isSetService: '+isSetService + ' && response: '+response);
+
+            // un/set watchLogger's popup click event
+            watchLogOff(isSetService);
         });
     });
-   
+    
 
     /**
      * JQuery.mb.containerPlus help

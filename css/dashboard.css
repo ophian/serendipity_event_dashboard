@@ -1,6 +1,6 @@
 /*
    dashboard css file
-   last modified: 2012-08-25
+   last modified: 2012-08-27
 */
 
 html, body {
@@ -1078,7 +1078,7 @@ td.serendipityAdminContentDashboard {
     width: 97%;
 }
 #dashboard #layout .block-box {
-    min-height: 0; /* flipping boxes need this better here, as in jquery toogle() */
+    min-height: 0; /* flipping boxes need this better here, as in jquery toggle() */
     position: relative;
     width: 99%;
 }

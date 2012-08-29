@@ -1,4 +1,4 @@
-{*** block_comapp.tpl - last modified 2012-08-14 ***}
+{*** block_comapp.tpl - last modified 2012-08-27 ***}
 
 {if $showElementComments}
   <div id="comapp" class="block-comments block-box">
@@ -18,7 +18,7 @@
                 
                 <div id="colist_{$eclap.id}" class="serendipity_admin_list_item serendipity_admin_list_item_{cycle values="even,uneven"}{if $eclap.status == 'pending' || $eclap.status == 'confirm'} serendipity_admin_comment_pending{/if}">
                     <div id="comments_header_{$eclap.id}" class="comments_header">
-                        <input id="multi-select-comment-{$eclap.id}" class="input_checkbox" type="checkbox" name="serendipity[delete][{$eclap.id}]" value="{$eclap.entry_id}" onclick="toogle_checkbox('ckbx_{$eclap.id}', this.checked)" tabindex="{$smarty.foreach.foo.iteration}" />
+                        <input id="multi-select-comment-{$eclap.id}" class="input_checkbox" type="checkbox" name="serendipity[delete][{$eclap.id}]" value="{$eclap.entry_id}" onclick="toggle_checkbox('ckbx_{$eclap.id}', this.checked)" tabindex="{$smarty.foreach.foo.iteration}" />
                         <div class="comment_titel">
                             <label for="multi-select-comment-{$eclap.id}" class="num">{$CONST.PLUGIN_DASHBOARD_COMMENT_SELECTION_SHORT|@sprintf:$eclap.id}</label> - 
                             <label for="multi-select-comment-{$eclap.id}">{$CONST.IN_REPLY_TO}: <a href="{$eclap.entry_url}" title="{$eclap.title}">{$eclap.title|truncate:48:"&hellip;"}</a>, <time datetime="{$eclap.pubdate}" pubdate>{$CONST.ON} <img alt="*" src="{serendipity_getFile file='admin/img/clock.png'}" title="{$eclap.timestamp|@formatTime:'%A, %e. %B %Y'}" /></time></label>
