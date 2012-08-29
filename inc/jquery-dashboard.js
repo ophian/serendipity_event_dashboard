@@ -622,7 +622,7 @@ jQuery(document).ready(function($) {
 
                 var sobj = $('#'+this.id).find('li[id].flipflop');
                 var $postMetaArr = [$(this.id).selector]; // eg. meta-box-right (chrome needs strict selector match, else pushing circular structure to JSON errors)
-               
+
                 sobj.attr("id", function (index) { 
                     // this = li.flipflop
                     var $dropid = $(this).attr('id').toString(); // collect li#ID name as string
@@ -632,13 +632,13 @@ jQuery(document).ready(function($) {
                 });
 
                 $url = pathname + 'plugin/dbjsonsort/';
-                
+
                 // Post the array via external_plugin to Plugins config storage
                 jQuery.post($url, {json: JSON.stringify($postMetaArr)});
             }
         });
     });
-    
+
     /**
      * Set service maintenance mode on click
      **/
@@ -672,13 +672,11 @@ jQuery(document).ready(function($) {
                 }
             }).responseText;
 
-            console.log('IN: isSetService: '+isSetService + ' && response: '+response);
-
             // un/set watchLogger's popup click event
             watchLogOff(isSetService);
         });
     });
-    
+
 
     /**
      * JQuery.mb.containerPlus help
