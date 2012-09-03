@@ -1,10 +1,10 @@
-{*** block_compen.tpl - last modified 2012-08-27 ***}
+{*** block_compen.tpl - last modified 2012-08-31 ***}
 
 {if $showElementComPend}
   <div id="compen" class="block-comments block-box">
     <div class="flip" title="{$CONST.PLUGIN_DASHBOARD_FLIPNOTE}"><br></div>
     <h3 class="flipbox"><span>{$CONST.COMMENTS_FILTER_NEED_APPROVAL} {$CONST.COMMENTS} [ <span class="num">{$entry_Compendlist|@count}</span> ]</span></h3>
-    <div id="sort_{$commpen_block_id}" class="dashboard dashboard_comments_pending">
+    <div id="sort_{$commpen_block_id}" class="block-content block-content-comments-pending">
 
         {if is_array($entry_Compendlist)}
         

@@ -7,7 +7,7 @@ window.log = function f(){ log.history = log.history || []; log.history.push(arg
 (function(){try{console.log();return window.console;}catch(a){return (window.console={});}}());
 // Attention: do not use paulirish log() method, as making our events behave different
 
-// jquery-dashboard.js - last-modified: 2012-08-29
+// jquery-dashboard.js - last-modified: 2012-09-03
 
 /**
  * Start main functions on document.ready = load in DOM
@@ -27,7 +27,7 @@ jQuery(document).ready(function($) {
     // start object selectors
     var $button    = $('#menu-fadenav');
     var $sidebar   = $('#serendipitySideBar');
-    var $selectbar = $('#user-menu-user-navigation-select');
+    var $selectbar = $('#nav-navigation-select');
 
     // storage containers
     var arr        = []; // array
@@ -50,7 +50,6 @@ jQuery(document).ready(function($) {
                              "Note: There is no return if you proceed!\n\n" + 
                              "Do you really want to log off now?\n\n" +
                              "Then please unset maintenance mode first!";
-
 
     // check to see if cookies exist for the flip box toggle state
     var flipcookie = $.cookie('serendipity[dashboard_cookie_flipped]');
@@ -76,7 +75,7 @@ jQuery(document).ready(function($) {
                     var $sortthis     = $('#'+storedBlockId); // even faster as singulary node, no need for add #layout
 
                     // replace the sort id by newsortid, which must depend on '#layout > li.flipflop' count, do not use LS- prefix while using toggle cookie return info
-                    $sortthis.find('div.dashboard').attr("id", 'sort_'+newsortid);
+                    $sortthis.find('div.block-content').attr("id", 'sort_'+newsortid);
 
                     // also add new id to flipbox h3 title
                     $sortthis.find('h3.flipbox').attr("id", newid);
@@ -84,7 +83,6 @@ jQuery(document).ready(function($) {
                     // return global var set to true, to prevent attracting h3.flipbox id in function setStorageArray(), as running later
                     isRunBlocksort = true;
 
-                    // console.log('newsortid: '+newsortid+' storedBlockId: '+storedBlockId+ ' && storedSortId: meta '+storedSortId);
                     newsortid++;
                 }
             });
@@ -111,7 +109,7 @@ jQuery(document).ready(function($) {
         // Put the array/object into storage
         localStorage.setItem('sortid', JSON.stringify(sid)); 
     });
-    
+
     /**
      * Function Expression setStorageArray(metaid, metaobject) [OK]
      * 
@@ -119,7 +117,6 @@ jQuery(document).ready(function($) {
      **/
     setStorageArray = (function($metaid, $metaobj) {
         var $metaArr = [$metaid];
-
         $metaobj.find('.flipbox').attr("id", function (index) { 
             var $bid = $(this).closest('div[id].block-box').attr('id').toString();
             // stick to array and do not use objects here, as objects key can not be $var, returns "$bid"
@@ -129,7 +126,7 @@ jQuery(document).ready(function($) {
         });
         if( isRunBlocksort === false) {
             // set the sort_X ID to the new dragged value, if that was not! done by function runBlockSort
-            $metaobj.find('div.dashboard').attr("id", function (indexblock) { 
+            $metaobj.find('div.block-content').attr("id", function (indexblock) { 
                 return "sort_" + indexblock; 
             });
         }
@@ -151,7 +148,7 @@ jQuery(document).ready(function($) {
         $('#layout').on('click', '.block-box > h3.flipbox', function() {
             //void
         }).find(meta.join(', ')).each(addTooltip);
-        
+
         function addTooltip() {
             var $metaid = this.id;
             var $thisobj = $(this); // = [ul#meta-box-left.boxed-left] + [ul#meta-box-right.boxed-right]
@@ -160,7 +157,7 @@ jQuery(document).ready(function($) {
             // set new first blocks title
             $thisobj.children("li:first").find(".flipbox").attr('title', fstBHead);
         }
-       
+
         // lastly put the returned array/object into storage
         setLocalStorage(arr);
     });
@@ -188,6 +185,27 @@ jQuery(document).ready(function($) {
     });
 
     /**
+     * Function Expression smooth element blink() [OK]
+     */
+    blink = (function(el) {
+        if (!el) { el = this; } // console.log(el);
+        $(el).animate({ opacity: 0.5 }, 1200, 'linear', function() {
+            $(this).animate({ opacity: 1 }, 1200, blink );
+        });
+    });
+
+    /**
+     * Function Expression set function blink w/o to bind another time [OK]
+     */
+    triggerBlinkReload = (function(set) {
+        if (set) {
+            // blink button active maintenance mode if set on page reload
+            $("#moma").css({'color':'red'}).html(const_serv_active);
+            blink("#moma");
+        }
+    });
+
+    /**
      * Function Expression watchLogOff() [OK]
      *
      * Set on click logoff notification, while in maintenance mode
@@ -195,13 +213,12 @@ jQuery(document).ready(function($) {
      **/
     watchLogOff = (function(set) {
         if (set) {
-            $("#moma").css({'text-decoration':'blink'}).html(const_serv_active);
-            $('#user-menu-user-embed-iconset li:nth-child(1)').on('click', 'a', (function(e) {
+            $('#nav-embed-iconset li:nth-child(1)').on('click', 'a', (function(e) {
                 e.preventDefault(); // Cancel a link's default action using the preventDefault method
                 alert(logoff_text);
             }));
         } else {
-            $('#user-menu-user-embed-iconset li:nth-child(1)').unbind('click');
+            $('#nav-embed-iconset li:nth-child(1)').unbind('click');
         }
     });
 
@@ -286,7 +303,7 @@ jQuery(document).ready(function($) {
      **/
     $(function() {
         $.each( fliparray, function(){
-            var blocktohide = $('#' + this).find('div[id].dashboard').attr('id');
+            var blocktohide = $('#' + this).find('div[id].block-content').attr('id');
             // hide all sort_ID boxes which appear in fliparray
             $('#' + blocktohide).hide(); // do we need to setContainersHeight() ?
         });
@@ -301,7 +318,7 @@ jQuery(document).ready(function($) {
             var blocksort = JSON.parse(localStorage.getItem('sortid'));
             if ( blocksort !== null ) {
                 // hand over the parsed array to be truly readable
-                runBlockSort(blocksort); // meta-box-left,[object Object] etc 
+                runBlockSort(blocksort); // meta-box-left,[object Object], etc 
             }
         }
     });
@@ -316,9 +333,12 @@ jQuery(document).ready(function($) {
         runTooltip();
 
         /*
-         * Watch init Log-Off Button if in Maintenance Mode
+         * Watch init set Maintenance Mode
          */
         if (isSetService) {
+            // trigger event blink() on page load
+            triggerBlinkReload(isSetService);
+            // trigger event stop log-off
             watchLogOff(isSetService);
         }
 
@@ -337,11 +357,11 @@ jQuery(document).ready(function($) {
         $('h3.serendipityWelcomeBack').addClass('visuallyhidden');
 
         // set .serendipityAdminContent left padding class on default
-        $('td.serendipityAdminContent').addClass('serendipityAdminContentDashboard');
-    
+        $('td.serendipityAdminContent').addClass('serendipityAdminContentDashboard clearfix');
+
         // add missing class to #serendipitySideBar
         $sidebar.addClass('no-class');
-    
+
         // Rename sidebar Button 'Startpage' to 'Dashboard'
         $sidebar.find('li.serendipitySideBarMenuMainFrontpage a').html('Dashboard');
     });
@@ -373,7 +393,7 @@ jQuery(document).ready(function($) {
             setContainersHeight();
         });
     });
-    
+
     /**
      * On click feed/comments input-* buttons unset ui-highlight parent box
      **/
@@ -387,23 +407,23 @@ jQuery(document).ready(function($) {
     });
 
     /**
-     * Toggle the feed/comments text block and change view/hide constant on event
+     * Toggle the feed/comments text block and change view/hide constant on event [OK]
      **/
     $(function() {
         $(t_text.join(', ')).find('.fulltxt').addClass('visuallyhidden');
         $(t_text.join(', ')).find('.text').toggle( 
             function (event) { 
                 $(event.target).html(const_hide);
-                $(this).closest('.serendipity_admin_list_item').children('.comment_text').children().toggleClass('visuallyhidden'); // OK
-                $(this).find('img').attr({src:"templates/default/admin/img/downarrow.png"}); // OK
+                $(this).closest('.serendipity_admin_list_item').children('.comment_text').children().toggleClass('visuallyhidden');
+                $(this).find('img').attr({src:"templates/default/admin/img/downarrow.png"});
                 unsetUIHightlight($(this));
                 // set new id#layout height on toggle inside 
                 setContainersHeight();
             }, 
             function (event) { 
                 $(event.target).html(const_view);
-                $(this).closest('.serendipity_admin_list_item').children('.comment_text').children().toggleClass('visuallyhidden'); // OK
-                $(this).find('img').attr({src:"templates/default/admin/img/uparrow.png"}); // OK
+                $(this).closest('.serendipity_admin_list_item').children('.comment_text').children().toggleClass('visuallyhidden');
+                $(this).find('img').attr({src:"templates/default/admin/img/uparrow.png"});
                 unsetUIHightlight($(this));
                 // set new id#layout height on toggle inside 
                 setContainersHeight();
@@ -431,13 +451,13 @@ jQuery(document).ready(function($) {
 
             function updateCookie(block, el) {
                 var indx = el.attr('id');
-                var tmp = fliparray.getUnique();
+                var tmp  = fliparray.getUnique();
                 if (block.is(':hidden')) { // :visible
                     // add index of widget to hidden list
                     tmp.push(indx);
                 } else {
                     // remove element id from the list
-                    tmp.splice( tmp.indexOf(indx) , 1);
+                    tmp.splice( tmp.indexOf(indx), 1);
                 }
                 fliparray = tmp.getUnique();
                 // ugly workaround for chrome and ie browser, which denied local hostnames
@@ -467,11 +487,11 @@ jQuery(document).ready(function($) {
     $(function() {
         $("#menu-autoupdate").toggle( 
             function (event) { 
-                $(this).parents().siblings('#user-menu-user-welcome').find('span').hide();
+                $(this).parents().siblings('#nav-welcome').find('span').hide();
                 $('#boxed_autoupdate').toggleClass('visuallyhidden');
             }, 
             function (event) { 
-                $(this).parents().siblings('#user-menu-user-welcome').find('span').show();
+                $(this).parents().siblings('#nav-welcome').find('span').show();
                 $('#boxed_autoupdate').toggleClass('visuallyhidden');
             }
         );
@@ -485,7 +505,7 @@ jQuery(document).ready(function($) {
         $button.click(function(e){
             e.preventDefault();
             // let the function toggle sidebar/selectbar as stated and set cookie to hold the state
-            // .is(":visible") // Checks for display:[none|block], ignores visible:[true|false]
+            // .is(":visible") - Checks for display:[none|block], ignores visible:[true|false]
             if ($sidebar.is(':visible')) {
                 $sidebar.fadeOut();
                 // ugly workaround for chrome and ie browser, which denied local hostnames set as domain: hostname
@@ -511,7 +531,7 @@ jQuery(document).ready(function($) {
             $sidebar.fadeIn();
         }
 
-        // make sure everything outside dashboard has the normal 'isSideBar' Layout!
+        // make sure everything outside dashboard context has the normal 'isSideBar' Layout!
         if ( !$('#dashboard').children().length > 0 ) { 
             $sidebar.fadeIn();
             $('td.serendipityAdminContent').removeClass('serendipityAdminContentDashboard');
@@ -522,7 +542,7 @@ jQuery(document).ready(function($) {
      * Convert backend sidebar entries to dropdown select box - case each selector [OK]
      **/
     $(function() {
-        var base = '#indent-navigation ';
+        var base = '#indent-navigation';
         var selectors = [
             'ul.serendipitySideBarMenuEntry',
             'ul.serendipitySideBarMenuMedia',
@@ -530,20 +550,27 @@ jQuery(document).ready(function($) {
             'ul.serendipitySideBarMenuUserManagement'
         ];
 
-        // we can just use 'select' tag w/o selectors here, as this is strictly based to base id only
-        $(base).on('click', 'select > option', function() {
-            location.href = $(this).val();
-        }).find(selectors.join(', ')).each(linksToSelect);
+        // In FF this is a click event and we can just use 'select' tag w/o selectors here, as this is strictly based to base id only
+        // $(base).on('change click', 'select > option', function(e) { 
+        // but Chrome denied to fire the event at all.... possibly because using dummy element option directly
+        $(base).on('click', '#navbar > ul > li > select', function(e) { 
+            var $so = $(this).children("option:selected").stop();
+            var val = $so.val();
+            e.stopImmediatePropagation();
+            $(this).prop('selectedIndex',0); // set selected index back to the first empty element for debug or error cases
+            if (val.length) {
+                location.href = val;
+            }
+        }).find(selectors.join(', ')).each(linksToSelect); // trigger the event with .change() on load, if we ever want to
 
         function linksToSelect() {
             var $this = $(this);
             var $class = $this.attr("class").replace(/[-\s\w]*?([-\w]+)\s?$/, '$1'); // is greedy, replaces first elements clearfix
-            var $select = $(document.createElement('select'))
-                .addClass($class);
+            var $select = $('<select/>').addClass($class);
 
             $this.find('a').each(function() {
                 var $a = $(this);
-                $(document.createElement('option'))
+                $('<option/>')
                     .val($a.attr('href'))
                     .text($a.text())
                     .appendTo($select);
@@ -552,6 +579,7 @@ jQuery(document).ready(function($) {
             $this.replaceWith($select);
         }
     });
+
 
     /**
      * The metabox drag and drop funtion via jquery-ui framework [OK]
@@ -599,7 +627,7 @@ jQuery(document).ready(function($) {
                 });
             }
         });
-        
+
         $(meta.join(', ')).sortable().droppable({
             drop: function(e, ui) {
                 $('.' + selectedClass).appendTo($(this)).add(ui.draggable) // ui.draggable is appended by the script, so add it after
@@ -614,9 +642,6 @@ jQuery(document).ready(function($) {
                 // define BlockSort use to false again, as we now have a dropped object, which needs new sort ids by setStorageArray()
                 isRunBlocksort = false;
 
-                // restart function tooltip to reset the first elements tooltip on drop and sort
-                runTooltip();
-
                 // keep upgrading localStorage
                 setLocalStorage(arr);
 
@@ -624,7 +649,6 @@ jQuery(document).ready(function($) {
                 var $postMetaArr = [$(this.id).selector]; // eg. meta-box-right (chrome needs strict selector match, else pushing circular structure to JSON errors)
 
                 sobj.attr("id", function (index) { 
-                    // this = li.flipflop
                     var $dropid = $(this).attr('id').toString(); // collect li#ID name as string
                     var $blockid = $(this).find('div.block-box');
                     var $blid = $blockid.attr('id');
@@ -636,7 +660,8 @@ jQuery(document).ready(function($) {
                 // Post the array via external_plugin to Plugins config storage
                 jQuery.post($url, {json: JSON.stringify($postMetaArr)});
             }
-        });
+        }).on(runTooltip); // bind event function tooltip to reset the first elements tooltip on drop and sort
+        // This fixes issue after drag&drop and tooltip by first element, which, hovered, brought vertical scrollbar to show/hide until reload
     });
 
     /**
@@ -649,13 +674,15 @@ jQuery(document).ready(function($) {
                 alert( $(this).text() + ' = ' + isSetService + "\n\n" + const_service); // is button text + attention const
                 // keep original button text and set active Maintenance Mode button
                 service_origin = $(this).html();
-                $(this).css({'text-decoration':'blink'}).html(const_serv_active); // blink FF only - ToDo: do this by ui-animation or similar
+                // blink button active maintenance mode
+                $(this).css({'color':'red'}).html(const_serv_active).unbind('change').on('change', blink(this));
             } else { 
                 if(typeof service_origin === 'undefined') service_origin = const_serv_origin;
-                $(this).removeAttr('style').html( service_origin );
+                // As of jQuery 1.7, stopping a toggled animation prematurely with .stop() will trigger jQuery's internal effects tracking.
+                $(this).unbind('change').stop().removeAttr('style').html( service_origin ); // stop looping animate in function blink
             }
             $url = pathname + 'plugin/modemaintence/';
-                
+
             // Post the set/unset via external_plugin to Plugins config storage - pass POST booleans as (set?1:0)
             response = $.ajax({
                 url: $url,
@@ -740,15 +767,6 @@ jQuery(document).ready(function($) {
 
     });
   
-    /**
-     * Debug elements used
-     * 
-     * count how much selectors used - faster access, the more less - .length = count 
-     * use with ('*') all selectors, or selector tagNames, idNames, classNames etc.
-     **/
-    $(function(){
-        // console.log( $('*').length );
-    });
 }); // close jQuery document ready
 
 /**

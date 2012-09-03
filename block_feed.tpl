@@ -1,10 +1,10 @@
-{*** block_feed.tpl - last modified 2012-08-14 ***}
+{*** block_feed.tpl - last modified 2012-08-31 ***}
 
 {if $showElementFeed}
   <div id="feed" class="block-infos block-box">
     <div class="flip" title="{$CONST.PLUGIN_DASHBOARD_FLIPNOTE}"><br></div>
     <h3 class="flipbox"><span>{$feed_header}</span></h3>
-    <div id="sort_{$feed_block_id}" class="dashboard dashboard_feed">
+    <div id="sort_{$feed_block_id}" class="block-content block-content-feed">
             {foreach from=$s9yblogfeed item=feed name='rssblogfeed'}
             
             <div id="feed_{$smarty.foreach.rssblogfeed.iteration}">

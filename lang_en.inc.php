@@ -1,5 +1,5 @@
 <?php
-/* last modified - 2012-08-27 */
+/* last modified - 2012-09-02 */
 
 /* propbag config only */
 @define('PLUGIN_DASHBOARD_DESC', 'Shows some summary information on the backend frontpage');
@@ -78,6 +78,7 @@
 @define('PLUGIN_DASHBOARD_DELETE_SELECTED', 'Delete selected');
 @define('PLUGIN_DASHBOARD_MODERATE_SELECTED', 'Approve selected');
 @define('READ_ONLY', 'Inactive');
+@define('NAV_SELECT', 'Select');
 
 /* Dashboard notifications */
 @define('PLUGIN_DASHBOARD_ERROR_URL', 'Error when trying to check for new Serendipity Version. Could not open URL');

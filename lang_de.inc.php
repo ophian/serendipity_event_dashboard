@@ -1,5 +1,5 @@
 <?php
-/* last modified - 2012-08-27 */
+/* last modified - 2012-09-02 */
 
 /* propbag config only */
 @define('PLUGIN_DASHBOARD_DESC', 'Zeigt ausgewählte Informationen auf der Startseite der Verwaltungsoberfläche als Übersicht');
@@ -77,7 +77,8 @@
 @define('PLUGIN_DASHBOARD_FLIPNOTE', 'Zum Umschalten klicken');
 @define('PLUGIN_DASHBOARD_DELETE_SELECTED', 'Lösche Auswahl');
 @define('PLUGIN_DASHBOARD_MODERATE_SELECTED', 'Genehmige Auswahl');
-@define('READ_ONLY', 'Inactive');
+@define('READ_ONLY', 'Inaktiv');
+@define('NAV_SELECT', 'Auswahl');
 
 /* Dashboard notifications */
 @define('PLUGIN_DASHBOARD_ERROR_URL', 'Fehler beim Überprüfen der Verfügbarkeit einer neueren Serendipity Version.');

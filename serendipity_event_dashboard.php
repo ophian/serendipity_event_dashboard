@@ -1,6 +1,6 @@
 <?php # $Id$
 
-// - last modified 2012-08-29
+// - last modified 2012-09-03
 
 if (IN_serendipity !== true) {
     die ("Don't hack!");
@@ -73,7 +73,7 @@ if(!defined('AUTOUPDATE_INSTALLED')) {
             'php'         => '5.2.6'
         ));
 
-        $propbag->add('version',       '0.9.7');
+        $propbag->add('version',       '0.9.8');
         $propbag->add('author',        'Garvin Hicking, Ian');
         $propbag->add('stackable',     false);
         $propbag->add('configuration', array('read_only', 'path', 'limit_comments_pending', 'limit_comments', 'limit_draft', 'limit_future', 'limit_feed', 'sequence', 'feed_url', 'feed_title', 'feed_content', 'feed_author', 'feed_conum', 'dependencynote', 'maintenance', 'maintenancenote', 'update', 'clean'));
@@ -558,13 +558,20 @@ if(!defined('AUTOUPDATE_INSTALLED')) {
         if($set && !isset($serendipity['COOKIE']['author_information'])) {
             // set a global var to remember automatic autologin
             $serendipity['dashboard']['autologin'] = true;
-            serendipity_setCookie('dashboard_autologin', '1');
-            serendipity_issueAutologin(
-                array('username' => $serendipity['user'],
-                      'password' => $serendipity['pass']
-                )
-            );
-            echo 'true'; // console post answer
+            serendipity_setCookie('dashboard_autologin', 'true');
+            // This for now works until the browser is closed, while in maintenance mode.
+            // Then you can log-in back at least w/o being referenced to the maintenance mode 503 page!
+            // ToDo: make this same stable as normal remember-me cookie, which still lives after browser closed
+            if( serendipity_authenticate_author($serendipity['user'], $serendipity['pass'], false, true) ) {
+                if($_SESSION['serendipityAuthedUser'] === true) {
+                    serendipity_issueAutologin(
+                        array('username' => $serendipity['user'],
+                              'password' => $serendipity['pass']
+                        )
+                    );
+                    echo 'true'; // console post answer
+                }
+            }
         }
         if (!$set && ($serendipity['dashboard']['autologin'] || isset($serendipity['COOKIE']['dashboard_autologin'])) ) {
             // automatic autologin logout
@@ -688,20 +695,41 @@ if(!defined('AUTOUPDATE_INSTALLED')) {
     private static function showElementInfolist() {
         global $serendipity;
 
-        $infolist['total_count']      = serendipity_db_query("SELECT count(id) FROM {$serendipity['dbPrefix']}entries", true);
-        $infolist['draft_count']      = serendipity_db_query("SELECT count(id) FROM {$serendipity['dbPrefix']}entries WHERE isdraft = 'true'", true);
-        $infolist['publish_count']    = serendipity_db_query("SELECT count(id) FROM {$serendipity['dbPrefix']}entries WHERE isdraft = 'false'", true);
-        $infolist['category_count']   = serendipity_db_query("SELECT count(categoryid) FROM {$serendipity['dbPrefix']}category", true);
-        $infolist['image_count']      = serendipity_db_query("SELECT count(id) FROM {$serendipity['dbPrefix']}images", true);
-        $infolist['comment_ct_all']   = serendipity_db_query("SELECT count(id) FROM {$serendipity['dbPrefix']}comments WHERE type = 'NORMAL'", true);
-        $infolist['comment_ct_app']   = serendipity_db_query("SELECT count(id) FROM {$serendipity['dbPrefix']}comments WHERE type = 'NORMAL' AND status = 'approved'", true);
-        $infolist['comment_ct_pen']   = serendipity_db_query("SELECT count(id) FROM {$serendipity['dbPrefix']}comments WHERE type = 'NORMAL' AND status = 'pending'", true);
-        if (defined('BAYES_INSTALLED')) {
-            $infolist['total_spam']       = serendipity_db_query("SELECT count(id) FROM {$serendipity['dbPrefix']}spamblock_bayes_recycler", true, 'num');
-        }
-        if (defined('FREETAG_INSTALLED')) {
-            $infolist['total_tags']       = count(serendipity_db_query("SELECT DISTINCT tag FROM {$serendipity['dbPrefix']}entrytags", false, 'num'));
-            $serendipity['smarty']->assign('is_freetag_installed', true);
+        if (!serendipity_checkPermission('adminUsers')) {
+            $thisauthorid   = (int)$serendipity['authorid'];
+            $entryauthors   = "FROM {$serendipity['dbPrefix']}entries e 
+                               LEFT JOIN {$serendipity['dbPrefix']}authors a ON (e.authorid = a.authorid)";
+            $commentauthors = "FROM {$serendipity['dbPrefix']}comments c 
+                               LEFT JOIN {$serendipity['dbPrefix']}entries e ON (e.id = c.entry_id) 
+                               LEFT JOIN {$serendipity['dbPrefix']}authors a ON (e.authorid = a.authorid)";
+            $currentauthor  = "AND e.authorid = " . $thisauthorid;
+
+            $infolist['total_count']      = serendipity_db_query("SELECT count(e.id) $entryauthors WHERE e.authorid = $thisauthorid", true);
+            $infolist['draft_count']      = serendipity_db_query("SELECT count(e.id) {$entryauthors} WHERE e.isdraft = 'true' $currentauthor", true);
+            $infolist['publish_count']    = serendipity_db_query("SELECT count(e.id) {$entryauthors} WHERE e.isdraft = 'false' $currentauthor", true);
+            $infolist['category_count']   = serendipity_db_query("SELECT count(categoryid) FROM {$serendipity['dbPrefix']}category WHERE authorid = $thisauthorid OR authorid = 0", true);
+            // being strict to user and do not check for 'ALL' permissions, is easier here.
+            $infolist['image_count']      = serendipity_db_query("SELECT count(id) FROM {$serendipity['dbPrefix']}images WHERE authorid = $thisauthorid OR authorid = 0", true);
+            $infolist['comment_ct_all']   = serendipity_db_query("SELECT count(c.id) {$commentauthors} WHERE type = 'NORMAL' $currentauthor", true);
+            $infolist['comment_ct_app']   = serendipity_db_query("SELECT count(c.id) {$commentauthors} WHERE type = 'NORMAL' $currentauthor AND c.status = 'approved'", true);
+            $infolist['comment_ct_pen']   = serendipity_db_query("SELECT count(c.id) {$commentauthors} WHERE type = 'NORMAL' $currentauthor AND c.status = 'pending'", true);
+        } else {
+            // restrict count(all) informations to adminUsers only
+            $infolist['total_count']      = serendipity_db_query("SELECT count(id) FROM {$serendipity['dbPrefix']}entries", true);
+            $infolist['draft_count']      = serendipity_db_query("SELECT count(id) FROM {$serendipity['dbPrefix']}entries WHERE isdraft = 'true'", true);
+            $infolist['publish_count']    = serendipity_db_query("SELECT count(id) FROM {$serendipity['dbPrefix']}entries WHERE isdraft = 'false'", true);
+            $infolist['category_count']   = serendipity_db_query("SELECT count(categoryid) FROM {$serendipity['dbPrefix']}category", true);
+            $infolist['image_count']      = serendipity_db_query("SELECT count(id) FROM {$serendipity['dbPrefix']}images", true);
+            $infolist['comment_ct_all']   = serendipity_db_query("SELECT count(id) FROM {$serendipity['dbPrefix']}comments WHERE type = 'NORMAL'", true);
+            $infolist['comment_ct_app']   = serendipity_db_query("SELECT count(id) FROM {$serendipity['dbPrefix']}comments WHERE type = 'NORMAL' AND status = 'approved'", true);
+            $infolist['comment_ct_pen']   = serendipity_db_query("SELECT count(id) FROM {$serendipity['dbPrefix']}comments WHERE type = 'NORMAL' AND status = 'pending'", true);
+            if (defined('BAYES_INSTALLED')) {
+                $infolist['total_spam']   = serendipity_db_query("SELECT count(id) FROM {$serendipity['dbPrefix']}spamblock_bayes_recycler", true, 'num');
+            }
+            if (defined('FREETAG_INSTALLED')) {
+                $infolist['total_tags']   = count(serendipity_db_query("SELECT DISTINCT tag FROM {$serendipity['dbPrefix']}entrytags", false, 'num'));
+                $serendipity['smarty']->assign('is_freetag_installed', true);
+            }
         }
         return $infolist;
     }
@@ -1148,13 +1176,23 @@ if(!defined('AUTOUPDATE_INSTALLED')) {
                 case 'frontend_configure':
                     serendipity_header('X-Debug1: hook-frontend_configure'); // Used for debugging detection
                     serendipity_header('X-Debug2: set-moma '.$serendipity['maintenance'].'');
-                    // This will stop serendipity immediately throwing a 503 Service Temporarily Unavailable maintenance message,
-                    // if var is set to true and user is not logged into admin users.
-                    // Do not log-off while in maintenace mode, else you can not access your blog again!
-                    // We have to be strict here. This var is stored in serendipity_config_local.inc file!
-                    if ( !serendipity_checkPermission('adminUsers') && serendipity_db_bool($serendipity['maintenance']) ) {
+
+                    // If the Browser was closed without unset maintenance mode,
+                    // check dashboards autologin cookie to be able to return to login page at least w/o the 503 unavailable mode page
+                    if (isset($serendipity['COOKIE']['dashboard_autologin'])) {
+                        $superuser = true;
+                    } else {
+                        $superuser = false;
+                    }
+
+                    // This will stop serendipity immediately throwing a '503 Service Temporarily Unavailable' maintenance message,
+                    // if var is set to true and user is not authenticated and logged into admin users.
+                    // Do not log-off while in maintenance mode, else you can not access your blog again!
+                    // We have to be strict here. This $serendipity['maintenance'] var is stored in serendipity_config_local.inc file!
+                    if (!$superuser && !serendipity_checkPermission('adminUsers') && serendipity_db_bool($serendipity['maintenance']) ) {
                         $this->service_mode();
                     }
+
                     break;
 
                 case 'backend_configure':
@@ -1210,7 +1248,7 @@ if(!defined('AUTOUPDATE_INSTALLED')) {
                     echo '        <!--[if lte IE 9]> <script src="' . DASHBOARD_PLUGINPATH . '/inc/json2.js" type="text/javascript"></script> <![endif]-->'."\n";
                     // IE referencing end
                     echo '        <script src="' . DASHBOARD_PLUGINPATH . '/inc/modernizr-2.6.1.min.js" defer></script>'."\n";
-                    echo '        <script src="' . DASHBOARD_PLUGINPATH . '/inc/jquery-1.8.0.min.js" defer></script>'."\n";
+                    echo '        <script src="' . DASHBOARD_PLUGINPATH . '/inc/jquery-1.8.1.min.js" defer></script>'."\n";
                     echo '        <script src="' . DASHBOARD_PLUGINPATH . '/inc/jquery-ui-1.8.23.custom.min.js" defer></script>'."\n";
                     echo '        <script src="' . DASHBOARD_PLUGINPATH . '/inc/jquery.cookie.min.js" defer></script>'."\n";
                     echo '        <script src="' . DASHBOARD_PLUGINPATH . '/inc/jquery.mb.containerPlus.js" defer></script>'."\n\n";

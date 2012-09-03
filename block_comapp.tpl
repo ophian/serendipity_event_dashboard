@@ -1,10 +1,10 @@
-{*** block_comapp.tpl - last modified 2012-08-27 ***}
+{*** block_comapp.tpl - last modified 2012-08-31 ***}
 
 {if $showElementComments}
   <div id="comapp" class="block-comments block-box">
     <div class="flip" title="{$CONST.PLUGIN_DASHBOARD_FLIPNOTE}"><br></div>
     <h3 class="flipbox"><span>{$CONST.COMMENTS_FILTER_APPROVED_ONLY} {$CONST.COMMENTS} [ <span class="num">{$entry_Commentlist|@count}</span> ]</span></h3>
-    <div id="sort_{$comments_block_id}" class="dashboard dashboard_comments">
+    <div id="sort_{$comments_block_id}" class="block-content block-content-comments">
 
         {if is_array($entry_Commentlist)}
         

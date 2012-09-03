@@ -1,3 +1,14 @@
+0.9.8
+-----
+Update to jquery-1.8.1.min.js
+Added CSS body max-width: 1280px;
+Fixed PHP browser close, while in maintenance mode, did not allow to log-in again
+Fixed CSS font size issue in normal backend pages and did some selector renaming
+Fixed JS issue after drag&drop and tooltip by first element, hovering scrollbar flip until reload
+Added all browser non-noisy animation to button maintenance mode, if set to true
+Fixed Chrome browser select/option function - this entails the navigation selects to have an empty start option field ...
+The Info Box now shows a count(all) to adminUsers only, else the count is strict done by userid
+
 0.9.7
 -----
 Fixing Cookies back to flat array string[], as Chrome and IE9 denied supporting multidimensional array cookies

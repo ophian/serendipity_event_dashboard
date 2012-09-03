@@ -1,10 +1,10 @@
-{*** block_future.tpl - last modified 2012-08-14 ***}
+{*** block_future.tpl - last modified 2012-08-31 ***}
 
 {if $showElementFuture}
   <div id="future" class="block-entries block-box">
     <div class="flip" title="{$CONST.PLUGIN_DASHBOARD_FLIPNOTE}"><br></div>
     <h3 class="flipbox"><span>{$CONST.PLUGIN_DASHBOARD_FUTURE} [ <span class="num">{$entry_future|@count}</span> ]</span></h3>
-    <div id="sort_{$future_block_id}" class="dashboard dashboard_future">
+    <div id="sort_{$future_block_id}" class="block-content block-content-future">
 
         {foreach from=$entry_future item=efuture name='future'}
 

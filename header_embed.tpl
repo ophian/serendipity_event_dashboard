@@ -1,14 +1,14 @@
-{*** header_embed.tpl - last modified 2012-08-27 ***}
+{*** header_embed.tpl - last modified 2012-09-01 ***}
 
     <header role="banner">
-        <div class="clearfix">
-            <nav id="user-menu-user-welcome" role="navigation">
+        <div class="dashboard_header">
+            <nav id="nav-welcome" role="navigation">
                 <h2><span><img src="{$thispath}/img/s9y4.png" alt="logo">{$s9yheader.0.welcome}</span></h2>
 
                 <div id="boxed_autoupdate" class="visuallyhidden"><p><img class="attention" src="{serendipity_getFile file='admin/img/admin_msg_note.png'}" alt="" /> {$CONST.PLUGIN_DASHBOARD_AUTOUPDATE_NOTE}</p></div>
             </nav>
 
-            <nav id="user-menu-user-embed-iconset" role="navigation">
+            <nav id="nav-embed-iconset" role="navigation">
                 <ul class="clearfix">
                     <li><a id="menu-logoff" href="serendipity_admin.php?serendipity[adminModule]=logout"><img src="{$thispath}/img/exitoctogone.png" width="36" height="36" alt="[LO]" title="{$CONST.LOGOUT}" /></a></li>
                     <li><a id="menu-perset" href="serendipity_admin.php?serendipity[adminModule]=personal"><img src="{$thispath}/img/user.png" alt="[PS]" title="{$CONST.PERSONAL_SETTINGS}" /></a></li>
@@ -23,7 +23,7 @@
                 
             </nav>
 
-            <nav id="user-menu-user-embed-switch" role="navigation">
+            <nav id="nav-embed-switch" role="navigation">
                  <ul class="clearfix">
                 {if $dpdc_plugin_av && $showElementUpdate && $show_dpdc_note}
                    <li><span id="menu-autoupdate" class="text-icon text-icon-notifications" alt="[U]" title=" &#187; click: Important Info! &#171; "></span></li>
@@ -32,9 +32,9 @@
                 </ul>
             </nav>
 
-            <nav id="user-menu-user-navigation-select" class="visuallyhidden" role="navigation">
+            <nav id="nav-navigation-select" class="visuallyhidden" role="navigation">
 
-                <form method="post" action="" id="select-form-navigation" class="select-navigation">
+                <form method="post" action="{$serendipityBaseURL}" id="select-form-navigation" class="select-navigation">
                     <ul id="indent-navigation">
 
                         <li>

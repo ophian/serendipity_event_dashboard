@@ -1,10 +1,13 @@
 /*
    dashboard css file
-   last modified: 2012-08-27
+   last modified: 2012-09-02
 */
 
 html, body {
     width: 100%;
+}
+body {
+    max-width: 1280px;
 }
 
 /* BP5 take over, if in sidebar mode */
@@ -16,13 +19,13 @@ button, input {
     line-height: normal;
 }
 
-button, input, select, textarea {
+#dashboard button, #dashboard input, #dashboard select, #dashboard textarea {
     font-size: 100%;
     margin: 0;
     vertical-align: baseline;
 }
 
-html, button, input, select, textarea {
+#dashboard button, #dashboard input, #dashboard select, #dashboard textarea {
     color: #222222;
     font-family: sans-serif;
 }
@@ -31,7 +34,10 @@ article, aside, details, figcaption, figure, footer, header, hgroup, nav, sectio
     display: block;
     margin: 0;
 }
-
+.serendipityAdminContent *:not(div) {
+    /* some undefined setting set the backend but not the sidebar in some cases very small, therefor we push it up here to show nearly as it was before */
+    font-size: 102%;
+}
 /* Contain floats: h5bp.com/q */ 
 .clearfix:before, .clearfix:after { content: ""; display: table; }
 .clearfix:after { clear: both; }
@@ -79,6 +85,8 @@ td.serendipityAdminContentDashboard {
 }
 #dashboard.maincontent {
     display: block;
+    font-size: 90%; /* ... and back in the dashboard to its near old value... could also 90% */
+    line-height: normal;
     margin: 0;
     max-width: 1208px;
     padding: 0;
@@ -128,8 +136,7 @@ td.serendipityAdminContentDashboard {
     margin: 0 0 4px;
     max-width: 1208px;
 }
-#dashboard header > #user-menu-user-navigation-select, 
-#dashboard #user-menu-user-navigation-select {
+#dashboard #nav-navigation-select {
     border: 1px solid #BBBBBB;
     clear: both;
     display: inline-block;
@@ -147,8 +154,7 @@ td.serendipityAdminContentDashboard {
 #dashboard #select-form-navigation.select-navigation {
     display: block;
 }
-#dashboard header > #user-menu-user-embed-iconset, 
-#dashboard #user-menu-user-embed-iconset {
+#dashboard #nav-embed-iconset {
     background: rgb(255,255,255); /* Old browsers */
     background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPHJhZGlhbEdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgY3g9IjUwJSIgY3k9IjUwJSIgcj0iNzUlIj4KICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNmZmZmZmYiIHN0b3Atb3BhY2l0eT0iMSIvPgogICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjZGRkZGRkIiBzdG9wLW9wYWNpdHk9IjEiLz4KICA8L3JhZGlhbEdyYWRpZW50PgogIDxyZWN0IHg9Ii01MCIgeT0iLTUwIiB3aWR0aD0iMTAxIiBoZWlnaHQ9IjEwMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
     background: -moz-radial-gradient(center, ellipse cover,  rgba(255,255,255,1) 0%, rgba(221,221,221,1) 100%); /* FF3.6+ */
@@ -171,31 +177,31 @@ td.serendipityAdminContentDashboard {
     margin: 0.8em 0 0 0.8em; /* Small tablet portrait (600x800) needs left-margin auto indent */
     padding: 0 1em;
 }
-#dashboard #user-menu-user-embed-iconset a:hover,
-#dashboard #user-menu-user-embed-iconset a:focus,
-#dashboard #user-menu-user-embed-iconset a:visited {
+#dashboard #nav-embed-iconset a:hover,
+#dashboard #nav-embed-iconset a:focus,
+#dashboard #nav-embed-iconset a:visited {
     background: none repeat scroll 0 0 transparent; 
     color: transparent;
 }
-#dashboard #user-menu-user-embed-iconset ul li {
+#dashboard #nav-embed-iconset ul li {
     margin: 0.5em 0 0;
 }
-#dashboard #user-menu-user-embed-iconset img {
+#dashboard #nav-embed-iconset img {
     vertical-align: middle;
 }
-#dashboard #user-menu-user-embed-switch {
+#dashboard #nav-embed-switch {
     display: inline-block;
     float: right;
     text-align: end;
 }
-#dashboard #user-menu-user-embed-switch ul li:first-child {
+#dashboard #nav-embed-switch ul li:first-child {
     padding-top: 8px;
 }
-#dashboard #user-menu-user-embed-switch ul li:last-child {
+#dashboard #nav-embed-switch ul li:last-child {
     float: right;
     padding: 2px 6px;
 }
-#dashboard #user-menu-user-navigation-select .main-help {
+#dashboard #nav-navigation-select .main-help {
     margin: 1em 0.7em 1em 0;
     text-align: right; /* IE + Opera and old Moz and Safari fallback */
     text-align: end;
@@ -324,8 +330,8 @@ td.serendipityAdminContentDashboard {
     margin: 0;
     padding: 0;
 }
-
 #dashboard ul.comment_fields {
+    font-size: 90%;
     margin: 10px 0 0;
     width: 96%;
 }
@@ -462,25 +468,25 @@ td.serendipityAdminContentDashboard {
     margin: 6px 0 2px;
     padding: 0;
 }
-#dashboard .dashboard {
+#dashboard .block-content {
     margin: 0 auto;
     padding: 5px;
     width: auto;
 }
-#dashboard .dashboard h3 {
+#dashboard .block-content h3 {
     font-size: inherit;
 }
-#dashboard .dashboard h3.approved {
+#dashboard .block-content h3.approved {
     margin: 4px 0 0 4px;
 }
-#dashboard .dashboard_comments_pending form>span {
+#dashboard .block-content-comments-pending form>span {
     color: #333333 !important; /* must overwrite .serendipityAdminContent span */
 }
 #dashboard form#formMultiDeletePen,
 #dashboard form#formMultiDeleteApp {
     margin: 0;
 }
-#dashboard .dashboard_start {
+#dashboard .block-content-start {
     clear: both;
 }
 #dashboard #notifier {
@@ -523,7 +529,7 @@ td.serendipityAdminContentDashboard {
     width: 96%;
 }
 #dashboard header > div {
-    padding-top: 0;
+    padding: 0 0 10px;
 }
 #dashboard header > div #head, #dashboard footer > div h1 {
     color: Gainsboro;
@@ -550,21 +556,21 @@ td.serendipityAdminContentDashboard {
 #dashboard footer h1 {
     margin: 0;
 }
-#dashboard #user-menu-user-welcome {
+#dashboard #nav-welcome {
     float: left;
     min-width: 50%;
     max-width: 63%;
 }
-#dashboard #user-menu-user-welcome ul li {
+#dashboard #nav-welcome ul li {
     border: 1px solid #BBBBBB;
     display: inline-block;
     margin: 0.2em 0.2em 0.2em 0.5em;
     width: 46%;
 }
-#dashboard #user-menu-user-welcome h2 {
+#dashboard #nav-welcome h2 {
     margin: 0.5em 0.5em 0.8em;
 }
-#dashboard #user-menu-user-welcome h2 span img{
+#dashboard #nav-welcome h2 span img{
     vertical-align: top;
 }
 
@@ -576,26 +582,26 @@ td.serendipityAdminContentDashboard {
     margin: -0.7em 0 0.3em;
     padding: 0.1em 0 0 0.1em;
 }
-#dashboard #user-menu-user-navigation {
+#dashboard #nav-navigation {
     border: 1px solid #BBBBBB;
     float: left;
     margin: 0.7%;
     width: 63.6%;
 }
-#dashboard #user-menu-user-navigation ul li, #dashboard #user-menu-user-navigation span {
+#dashboard #nav-navigation ul li, #dashboard #nav-navigation span {
     border: 1px solid #BBBBBB;
     display: inline-block;
     margin: 0.2em 0.2em 0.2em 0.5em;
     width: 46%;
 }
-#dashboard #user-menu-user-navigation span {
+#dashboard #nav-navigation span {
     border: 1px solid transparent;
 }
-#dashboard #user-menu-user-navigation li.serendipitySideBarMenuLink { 
+#dashboard #nav-navigation li.serendipitySideBarMenuLink { 
     margin: 0.4% 0;
     width: 95.4%;
 }
-#dashboard #user-menu-user-navigation button{
+#dashboard #nav-navigation button{
     font-size: 120%;
     padding: 4px;
     display: inline-block;
@@ -603,11 +609,11 @@ td.serendipityAdminContentDashboard {
     background-color: #eee;
     margin: 0 4px 4px 2px;
 }
-#dashboard #user-menu-user-navigation  button:focus{
+#dashboard #nav-navigation  button:focus{
     color: #666;
     background-color: YellowGreen;
 }
-#dashboard #user-menu-user-navigation #iopen {
+#dashboard #nav-navigation #iopen {
     background: none repeat scroll 0 0 PaleVioletRed;
     float: right;
     margin-top: 2px;
@@ -616,43 +622,49 @@ td.serendipityAdminContentDashboard {
     -o-box-shadow: 0.1em 0.1em 0.2em #333333;
     box-shadow: 0.1em 0.1em 0.2em #333333;
 }
-#dashboard #user-menu-user-navigation #iopen.navi {
+#dashboard #nav-navigation #iopen.navi {
     width: 14%;
 }
-#dashboard #user-menu-user-navigation #iopen span.inline {
+#dashboard #nav-navigation #iopen span.inline {
     border: 0 none;
     display: inline;
     margin: 0;
     padding: 0;
 }
-#dashboard #user-menu-user-navigation #iopen.help {
+#dashboard #nav-navigation #iopen.help {
     height: auto;
     padding: 0;
     width: auto;
 }
-#dashboard #user-menu-user-navigation #iopen.help img {
+#dashboard #nav-navigation #iopen.help img {
     width: 26px;
     height: 26px;
 }
-#dashboard #user-menu-user-navigation #navbar {
+#dashboard #navbar select {
+    background-color: rgb(239, 243, 247); /*#EFF3F7*/
+}
+#dashboard #navbar select > option[value=""] {
+    background: none repeat scroll 0 0 inactivecaption;
+}
+#dashboard #nav-navigation #navbar {
     background: none repeat scroll 0 0 SteelBlue;
     width: 84%;
 }
-#dashboard #user-menu-user-navigation #navbar ul li {
+#dashboard #nav-navigation #navbar ul li {
     background: none repeat scroll 0 0 inactivecaption;
     margin: 0.1% 0.33% 0.5%;
 }
-#dashboard #user-menu-user-navigation  button:hover,
-#dashboard #user-menu-user-navigation #navbar a:hover {
+#dashboard #nav-navigation  button:hover,
+#dashboard #nav-navigation #navbar a:hover {
     background: none repeat scroll 0 0 PaleVioletRed;
     color: #666666;
     width: 100%;
 }
-#dashboard #user-menu-user-navigation ul.onebox li {
+#dashboard #nav-navigation ul.onebox li {
     display: block; 
     float: none;
 }
-#dashboard #user-menu-user-navigation span.small {
+#dashboard #nav-navigation span.small {
     border: 0 none;
     color: graytext;
     display: inline;
@@ -661,26 +673,26 @@ td.serendipityAdminContentDashboard {
     width: auto;
 }
 
-#dashboard #user-menu-user-linkbox, #user-menu-user-linkbox ul li {
+#dashboard #nav-linkbox, #nav-linkbox ul li {
     border: 1px solid #BBBBBB;
     display: inline-block;
     margin: 0 0 0.5%;
     padding: 4px;
     width: 33.3%;
 }
-#dashboard #user-menu-user-linkbox h4 {
+#dashboard #nav-linkbox h4 {
     margin: 1% 0 2%;
     padding: 0;
     font-size: 90%;
 }
-#dashboard #user-menu-user-welcome ul li, #dashboard #user-menu-user-navigation ul li, #dashboard #user-menu-user-linkbox ul li {
+#dashboard #nav-welcome ul li, #dashboard #nav-navigation ul li, #dashboard #nav-linkbox ul li {
     background: none repeat scroll 0 0 inactivecaption;
 }
-#dashboard #user-menu-user-linkbox ul li {
+#dashboard #nav-linkbox ul li {
     margin: 0 1% 1% 0;
     width: 45.4%;
 }
-#dashboard #user-menu-user-linkbox ul.s9yheader li {
+#dashboard #nav-linkbox ul.s9yheader li {
     background: none repeat scroll 0 0 transparent;
     font-size: 76%;
 }
@@ -695,9 +707,9 @@ td.serendipityAdminContentDashboard {
     vertical-align: middle;
 }
 /* overwrite welcome */
-#dashboard #user-menu-user-welcome, 
-#dashboard #user-menu-user-navigation, 
-#dashboard #user-menu-user-linkbox {
+#dashboard #nav-welcome, 
+#dashboard #nav-navigation, 
+#dashboard #nav-linkbox {
     background: none repeat scroll 0 0 transparent;
 }
 #dashboard > .empty_notice { 
@@ -707,21 +719,21 @@ td.serendipityAdminContentDashboard {
 }
 #dashboard sup.note { color: Tan; }
 
-#dashboard #user-menu-user-navigation div a img,
+#dashboard #nav-navigation div a img,
 #dashboard > section .block-entries div a img {
     border: 0px none; 
     vertical-align: bottom;
 }
 
-#dashboard .dashboard_update p {
+#dashboard .block-content-update p {
     margin: 0;
     padding: 2px;
 }
-#dashboard .dashboard_plugup  {
+#dashboard .block-content-plugup  {
     display: block;
     width: 100%;
 }
-#dashboard .dashboard_plugup #upgrade_notice {
+#dashboard .block-content-plugup #upgrade_notice {
     background: none repeat scroll 0 0 #EEEEEE;
     border: 1px solid #72878A;
     color: inherit;
@@ -732,15 +744,15 @@ td.serendipityAdminContentDashboard {
     text-align: left;
     width: 100%;
 }
-#dashboard .dashboard_plugup #upgrade_notice a {
+#dashboard .block-content-plugup #upgrade_notice a {
     display: block;
     margin: 0;
     padding: 0;
     width: 100%;
 }
 
-#dashboard .dashboard_future ul li,
-#dashboard .dashboard_draft ul li {
+#dashboard .block-content-future ul li,
+#dashboard .block-content-draft ul li {
     padding: 0;
 }
 
@@ -766,7 +778,7 @@ td.serendipityAdminContentDashboard {
 }
 
 #dashboard #compen li.mod_bayes li {
-    margin: 0 0.1em 0 0;
+    margin: 0.5em 0.1em 0 0;
 }
 #dashboard #compen li.mod_bayes ul li {
     padding: 0 0.2em;
@@ -910,48 +922,52 @@ td.serendipityAdminContentDashboard {
     color: #464646;
     padding-left: 0.5em;
 }
-#dashboard .dashboard_info { width: 98.3%; }
-#dashboard .dashboard_info a { color: #21759B; }
-#dashboard .dashboard_info a:visited { color: #21759B; }
-#dashboard .dashboard_info a:hover { color: #06e; }
-#dashboard .dashboard_info a:focus { outline: thin dotted; color: #ffffff; background: none repeat scroll 0 0 inactivecaption; }
-#dashboard .dashboard_info a:hover, #dashboard .dashboard_info a:active { outline: 0; }
-#dashboard .dashboard_info a.approved {
+#dashboard .block-content-info { width: 98.3%; }
+#dashboard .block-content-info a { color: #21759B; }
+#dashboard .block-content-info a:visited { color: #21759B; }
+#dashboard .block-content-info a:hover { color: #06e; }
+#dashboard .block-content-info a:focus { outline: thin dotted; color: #ffffff; background: none repeat scroll 0 0 inactivecaption; }
+#dashboard .block-content-info a:hover, #dashboard .block-content-info a:active { outline: 0; }
+#dashboard .block-content-info a.approved {
     color: green;
 }
-#dashboard .dashboard_info a.waiting {
+#dashboard .block-content-info a.waiting {
     color: #E66F00;
 }
-#dashboard .dashboard_info a.spam {
+#dashboard .block-content-info a.spam {
     color: red;
 }
-#dashboard .dashboard_info .table {
+#dashboard .block-content-info .table {
     margin: 0;
     padding: 0;
     position: relative;
 }
-#dashboard .dashboard_info .table span {
+#dashboard .block-content-info .table span {
     float: right;
     text-align: right;
 }
-#dashboard .dashboard_info .table_content {
+#dashboard .block-content-info .table_content {
     border-top: 1px solid #ECECEC;
     float: left;
     width: 45%;
     padding: 0 10px 12px;
 }
-#dashboard .dashboard_info .table_discussion {
+#dashboard .block-content-info .table_discussion {
     border-top: 1px solid #ECECEC;
     float: right;
     width: 40%;
     padding: 0 10px 12px;
 }
+#dashboard .block-content-info .t {
+    padding-top: 4px;
+    vertical-align: middle;
+}
 #dashboard label.num,
 #dashboard .block-box h3.flipbox span.num,
-#dashboard .dashboard_info td.b a {
+#dashboard .block-content-info td.b a {
     font-family: Georgia,"Times New Roman","Bitstream Charter",Times,serif;
 }
-#dashboard .dashboard_info td.b a {
+#dashboard .block-content-info td.b a {
     font-size: 18px;
 }
 #dashboard .feed_title {
@@ -996,10 +1012,10 @@ td.serendipityAdminContentDashboard {
     vertical-align: inherit;
 }
 
-#dashboard .dashboard_info p.sub, #dashboard .dashboard_info .table, #dashboard .dashboard_info .versions {
+#dashboard .block-content-info p.sub, #dashboard .block-content-info .table, #dashboard .block-content-info .versions {
     margin: 3px;
 }
-#dashboard .dashboard_info .versions {
+#dashboard .block-content-info .versions {
     clear: both;
 }
 
@@ -1153,7 +1169,7 @@ td.serendipityAdminContentDashboard {
     background: -ms-linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(229,229,229,1) 100%); /* IE10+ */
     background: linear-gradient(to bottom,  rgba(255,255,255,1) 0%,rgba(229,229,229,1) 100%); /* W3C */
 }
-.mbc_container{
+.mbc_container {
     -webkit-border-radius: 0.8em 0.8em 0.8em 0.8em;
     -moz-border-radius: 0.8em 0.8em 0.8em 0.8em;
     -o-border-radius: 0.8em 0.8em 0.8em 0.8em;
@@ -1170,13 +1186,13 @@ td.serendipityAdminContentDashboard {
     overflow: hidden;
 }
 
-.mbc_container *{
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
+.mbc_container * {
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
 }
 
-.mbc_container.dragging{
-  box-shadow: 0 0 20px 3px rgba(0,0,0,0.5);
+.mbc_container.dragging {
+    box-shadow: 0 0 20px 3px rgba(0,0,0,0.5);
 }
 
 .mbc_container > .mbc_header {
@@ -1195,42 +1211,42 @@ td.serendipityAdminContentDashboard {
     top: 0;
     width: 100%;
 }
-.mbc_container > .mbc_header h2{
-  width: 80%;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  margin: 0;
-  padding: 10px;
-  font-size: 18px;
-  font-weight: normal;
+.mbc_container > .mbc_header h2 {
+    width: 80%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    margin: 0;
+    padding: 10px;
+    font-size: 18px;
+    font-weight: normal;
 }
 
-.mbc_container.draggable > .mbc_header{
-  cursor: move
+.mbc_container.draggable > .mbc_header {
+    cursor: move
 }
 
-.mbc_container > .mbc_buttonBar{
-  position: absolute;
-  top:8px;
-  right: 8px;
+.mbc_container > .mbc_buttonBar {
+    position: absolute;
+    top:8px;
+    right: 8px;
 }
 
-.mbc_container > .mbc_buttonBar div{
+.mbc_container > .mbc_buttonBar div {
     -webkit-border-radius: 1em 1em 1em 1em;
     -moz-border-radius: 1em 1em 1em 1em;
     -o-border-radius: 1em 1em 1em 1em;
     border-radius: 1em 1em 1em 1em;
-  padding: 7px;
-  display: inline-block;
-  margin: 3px;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  background: #d4d4d4;
+    padding: 7px;
+    display: inline-block;
+    margin: 3px;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    background: #d4d4d4;
 }
 
 
-.mbc_container > .mbc_header > .mbc_toolBar{
+.mbc_container > .mbc_header > .mbc_toolBar {
     border-top: 1px solid #D4D4D4;
     cursor: move;
     font-weight: normal;
@@ -1240,31 +1256,31 @@ td.serendipityAdminContentDashboard {
     width: 100%;
 }
 
-.mbc_container > .mbc_header > .mbc_toolBar > button.mbc_button{
-  position: relative;
-  color: #5e5e5e;
-  border: none;
-  border-left: 1px solid rgba(0,0,0,.1);
-  border-right: 1px solid rgba(99, 99, 99, 0.20);
-  padding: 3px;
-  margin: 0;
+.mbc_container > .mbc_header > .mbc_toolBar > button.mbc_button {
+    position: relative;
+    color: #5e5e5e;
+    border: none;
+    border-left: 1px solid rgba(0,0,0,.1);
+    border-right: 1px solid rgba(99, 99, 99, 0.20);
+    padding: 3px;
+    margin: 0;
     -webkit-border-radius: 0;
     -moz-border-radius: 0;
     -o-border-radius: 0;
     border-radius: 0;
-  background: transparent;
+    background: transparent;
 }
-.mbc_container > .mbc_header > .mbc_toolBar > button.mbc_button:hover{
-  background: rgba(0,0,0,.1);
+.mbc_container > .mbc_header > .mbc_toolBar > button.mbc_button:hover {
+    background: rgba(0,0,0,.1);
 }
 
 .mbc_container > .mbc_content {
-  position: relative;
-  padding: 20px 20px 40px;
-  height: 100%;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  overflow: auto;
+    position: relative;
+    padding: 20px 20px 40px;
+    height: 100%;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    overflow: auto;
 }
 .mbc_container > .mbc_footer {
     -moz-box-sizing: border-box;
@@ -1289,7 +1305,7 @@ td.serendipityAdminContentDashboard {
     background: -ms-linear-gradient(top,  rgba(69,72,77,1) 0%,rgba(0,0,0,1) 100%); /* IE10+ */
     background: linear-gradient(to bottom,  rgba(69,72,77,1) 0%,rgba(0,0,0,1) 100%); /* W3C */
 }
-.mbc_container.black{
+.mbc_container.black {
     -webkit-border-radius: 0;
     -moz-border-radius: 0;
     -o-border-radius: 0;
@@ -1297,10 +1313,10 @@ td.serendipityAdminContentDashboard {
 }
 
 .mbc_container.black > .mbc_header {
-  position: absolute;
-  top:0;
-  width: 100%;
-  border-bottom: 1px solid #3b3b3a;
+    position: absolute;
+    top:0;
+    width: 100%;
+    border-bottom: 1px solid #3b3b3a;
     -webkit-border-radius: 0;
     -moz-border-radius: 0;
     -o-border-radius: 0;
@@ -1310,93 +1326,93 @@ td.serendipityAdminContentDashboard {
     -o-box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.4);
     box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.4);
 }
-.mbc_container.black > .mbc_header h2{
-  width: 80%;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  margin: 0;
-  padding: 10px;
-  font-size: 18px;
-  color:white;
-  font-weight: normal;
-  cursor: move;
+.mbc_container.black > .mbc_header h2 {
+    width: 80%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    margin: 0;
+    padding: 10px;
+    font-size: 18px;
+    color:white;
+    font-weight: normal;
+    cursor: move;
 }
 
-.mbc_container.black > .mbc_buttonBar{
-  position: absolute;
-  top:8px;
-  right: 8px;
+.mbc_container.black > .mbc_buttonBar {
+    position: absolute;
+    top:8px;
+    right: 8px;
 }
 
-.mbc_container.black > .mbc_buttonBar div{
+.mbc_container.black > .mbc_buttonBar div {
     -webkit-border-radius: 1em 1em 1em 1em;
     -moz-border-radius: 1em 1em 1em 1em;
     -o-border-radius: 1em 1em 1em 1em;
     border-radius: 1em 1em 1em 1em;
-  padding: 7px;
-  display: inline-block;
-  margin: 3px;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  background: #d4d4d4;
+    padding: 7px;
+    display: inline-block;
+    margin: 3px;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    background: #d4d4d4;
 }
 
 .mbc_container.black > .mbc_content {
-  position: relative;
-  padding: 20px 20px 40px;
-  height: 100%;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  overflow: auto;
-  color: white;
+    position: relative;
+    padding: 20px 20px 40px;
+    height: 100%;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    overflow: auto;
+    color: white;
 }
-.mbc_container.black > .mbc_header > .mbc_toolBar{
-  border-top: 1px solid #525252;
+.mbc_container.black > .mbc_header > .mbc_toolBar {
+    border-top: 1px solid #525252;
 }
 
-.mbc_container.black > .mbc_header > .mbc_toolBar > button.mbc_button{
-  background: none repeat scroll 0 0 transparent;
-  position: relative;
-  color: #999999;
-  border: 0 none;
-  border-left: 1px solid rgba(69, 69, 69, 0.54);
-  border-right: 1px solid rgba(0,0,0,.7);
-  padding: 3px;
-  margin: 0;
+.mbc_container.black > .mbc_header > .mbc_toolBar > button.mbc_button {
+    background: none repeat scroll 0 0 transparent;
+    position: relative;
+    color: #999999 !important;
+    border: 0 none;
+    border-left: 1px solid rgba(69, 69, 69, 0.54);
+    border-right: 1px solid rgba(0,0,0,.7);
+    padding: 3px;
+    margin: 0;
     -webkit-border-radius: 0;
     -moz-border-radius: 0;
     -o-border-radius: 0;
     border-radius: 0;
 }
 
-.mbc_container.black > .mbc_header > .mbc_toolBar > button.mbc_button:hover{
-  background: rgba(0,0,0,.5);
+.mbc_container.black > .mbc_header > .mbc_toolBar > button.mbc_button:hover {
+    background: rgba(0,0,0,.5);
 }
 
 .mbc_container.black > .mbc_footer {
-  background: none repeat scroll 0 0 #13171c;
-  position: absolute;
-  height: 20px;
-  width: 100%;
-  bottom: 0;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  border-top: 1px solid #3b3b3a;
+    background: none repeat scroll 0 0 #13171c;
+    position: absolute;
+    height: 20px;
+    width: 100%;
+    bottom: 0;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    border-top: 1px solid #3b3b3a;
 }
 
 /* MBC DEFAULT END */
 
 /* MBC DASHBOARD MAIN START */
 #mbc_wrapper {
-  position: absolut;
-  width: 100%;
-  height: 100%;
-  background: #444e57;
+    position: absolut;
+    width: 100%;
+    height: 100%;
+    background: #444e57;
 }
-.container{
-  width: 450px;
-  height: auto;
+.container {
+    width: 450px;
+    height: auto;
 }
 .mbc_container > .mbc_content,
 .mbc_container.black > .mbc_content {
@@ -1410,45 +1426,45 @@ td.serendipityAdminContentDashboard {
 .mbc_container.black > .mbc_content {
     background: inherit;
 }
-.container .mbc_content button{
-  border: 1px solid gray;
+.container .mbc_content button {
+    border: 1px solid gray;
     -webkit-border-radius: 8px 8px 8px 8px;
     -moz-border-radius: 8px 8px 8px 8px;
     -o-border-radius: 8px 8px 8px 8px;
     border-radius: 8px 8px 8px 8px;
-  background: #3a3a3a;
-  color: white;
-  padding: 8px;
-  margin-bottom: 15px;
+    background: #3a3a3a;
+    color: white;
+    padding: 8px;
+    margin-bottom: 15px;
 }
-.black.containerIcon{
-  padding: 10px;
-  height: 20px;
-  background: #000;
-  box-shadow: 0 0 3px rgba(255,255,255,0.4);
-  color: white;
+.black.containerIcon {
+    padding: 10px;
+    height: 20px;
+    background: #000;
+    box-shadow: 0 0 3px rgba(255,255,255,0.4);
+    color: white;
 }
-.containerIcon:hover .mbc_title{
-  display: block;
-  cursor: pointer;
+.containerIcon:hover .mbc_title {
+    display: block;
+    cursor: pointer;
 }
-.containerIcon .mbc_title{
-  display: none;
+.containerIcon .mbc_title {
+    display: none;
 }
 #dock {
-  position: fixed;
-  top: 0;
-  width: 100%;
-  background: rgba(0,0,0,0.5);
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background: rgba(0,0,0,0.5);
 }
-.containerDocked{
-  display: inline-block;
-  color: white;
-  cursor: pointer;
-  padding: 15px;
+.containerDocked {
+    display: inline-block;
+    color: white;
+    cursor: pointer;
+    padding: 15px;
 }
-.containerDocked span{
-  color: white !important; /*overrule s9y span*/
+.containerDocked span {
+    color: white !important; /*overrule s9y span*/
 }
 #dock .icon { background: rgba(0,0,0,0.5); }
 
@@ -1526,6 +1542,7 @@ td.serendipityAdminContentDashboard {
 #dashboard .spamblockBayesRating img {
     vertical-align: middle;
 }
+
 /*----------------------------------------------
    Responsive Design
    The SelectBar Mode works w/o horizontal scrollbar in Small tablet portrait Mode (600x800) and up
@@ -1536,8 +1553,18 @@ td.serendipityAdminContentDashboard {
  -----------------------------------------------*/
 /* designed for Mobile portrait (320x480) */
 @media screen and (max-width: 568px) {
-
+    body {
+        margin: 0;
+    }
+    /*
+    #dashboard header, #dashboard section {
+        display: -webkit-box;
+        display: -moz-box;
+        display: -o-box;
+        display: box;
+    }*/
     #serendipityAdminInfopane {
+        border: 0 none;
         text-align: center;
     }
     #serendipityAdminBanner {
@@ -1561,13 +1588,12 @@ td.serendipityAdminContentDashboard {
         float: inherit;
         min-width: inherit;
     }
-    #dashboard #user-menu-user-welcome {
+    #dashboard #nav-welcome {
         display: none;
         visibility: hidden;
         width: inherit;
     }
-    #dashboard header > #user-menu-user-embed-iconset, 
-    #dashboard #user-menu-user-embed-iconset {
+    #dashboard #nav-embed-iconset {
         background: inherit;
         border: 0 none;
         -webkit-border-radius: 0 0 0 0;
@@ -1578,18 +1604,24 @@ td.serendipityAdminContentDashboard {
         -moz-box-shadow: 0 0 0 transparent;
         -0-box-shadow: 0 0 0 transparent;
         box-shadow: 0 0 0 transparent;
-        margin: 0 20%; /* mobile landscape only */
+        margin: 0 11%; /* mobile landscape only */
+        -webkit-flex-box: 1;
+        -moz-flex-box: 1;
+        -o-flex-box: 1;
+        flex-box: 1;
     }
-    #dashboard #user-menu-user-embed-switch {
+    #dashboard #nav-embed-iconset ul li {
+        margin: 0;
+    }
+    #dashboard #nav-embed-switch {
         display: none;
         float: inherit;
         text-align: inherit;
     }
-    #dashboard header > #user-menu-user-navigation-select, 
-    #dashboard #user-menu-user-navigation-select {
+    #dashboard #nav-navigation-select {
         width: 93.4%;
     }
-    #dashboard #user-menu-user-navigation-select #navbar    {
+    #dashboard #nav-navigation-select #navbar    {
         display: table-caption;
     }
     #dashboard #layout .meta-box {
@@ -1621,20 +1653,19 @@ td.serendipityAdminContentDashboard {
 }
 /* mobile portrait only */
 @media (max-width: 450px) {
-    #dashboard header > #user-menu-user-embed-iconset, 
-    #dashboard #user-menu-user-embed-iconset {
-        margin: 0 5%;
-    }
+    #dashboard #nav-embed-iconset {
+        margin: 0 10%;
+    }/**/
 }
 /* screen only */
 @media (min-width: 1024px) {
-    #dashboard #user-menu-user-welcome {
+    #dashboard #nav-welcome {
         width: 54%;
     }
 }
 /* screen only */
 @media (min-width: 1200px) {
-    #dashboard #user-menu-user-welcome {
+    #dashboard #nav-welcome {
         width: 63%;
     }
 }

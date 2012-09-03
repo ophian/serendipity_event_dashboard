@@ -1,7 +1,7 @@
-{*** plugin_dashboard.tpl - last modified 2012-08-28 ***}
+{*** plugin_dashboard.tpl - last modified 2012-09-03 ***}
 {*** debug ***}
 
-<div id="dashboard" class="clearfix maincontent">
+<div id="dashboard" class="maincontent">
 
 {include file="$fullpath/header_embed.tpl" title="Dashboard Embedded Header"}
 
@@ -177,25 +177,33 @@
         <li class="checked">Fixing Cookies back to flat array string[], as Chrome and IE9 denied supporting multidimensional array cookies </li>
         <li class="checked">Some more Chrome and small IE9 fixes </li>
         <li class="checked">Better secured Maintenance Mode and animated Button blink, if set true (FF only to now) </li>
-        <li class="checked">Update to jquery-ui-1.8.23.custom.min.js </li>
+        <li class="checked">Update to jquery-ui-1.8.23.custom.min.js and jquery-1.8.1.min.js </li>
+        <li class="checked">Added CSS body max-width: 1280px; </li>
+        <li class="checked">Fixed PHP browser close, while in maintenance mode, did not allow to log-in again </li>
+        <li class="checked">Fixed CSS font size issue in normal backend pages and did some selector renaming </li>
+        <li class="checked">Fixed JS issue after drag&drop and tooltip by first element, hovering scrollbar flip until reload </li>
+        <li class="checked">Added all browser non-noisy animation to button maintenance mode, if set to true </li>
+        <li class="checked">Fixed Chrome browser select/option function - this entails the navigation selects to have an empty start option field ... </li>
+        <li class="checked">The Info Box now shows a count(all) to adminUsers only, else the count is strict done by userid </li>
         <li></li>
         <li>Add some more maintenance, like size of spamblock log, or hint to install DBClean plugin (?) </li>
-        <li>Bind select navigation to JQuery-UI - (js-navigation, ui-customizable, flexible) (?) </li>
-        <li>Shall the overview box only show information amounts by user (?) </li>
-        <li>Add flexible hook-in box (event hook) ability by Plugins! </li>
-        <li class="discard">Include old link and bookmark box content to select box, when opening selectbox navigation (?) </li>
-        <li>Move help box button into embed mode design bar (?) </li>
+        <li>Move help box button into embed mode navigation bar or design box (?) </li>
         <li>Build poping up multiple help screens to different help content, or one big main, seperated by columns (?) </li>
         <li>Write help screen(s) content! </li>
+        <li class="discard">Shall the overview box only show information amounts by user (?) </li>
+        <li class="discard">Include old link and bookmark box content to select box, when opening selectbox navigation (?) </li>
         <li class="discard">Move Meta-Box-Left Boxes to Mobile-1-Column Layout via JQuery (?) </li>
         <li class="discard">Add Multi Browser support. At the moment this is designed with current FF only... </li>
         <li></li>
-        <li>ToDo: Bind autoupdate plugin to dashboard and write a install GUI (?) </li>
+        <li>ToDo: Add flexible hook-in box (event hook) ability by Plugins! </li>
+        <li>ToDo: Set remember-me cookie while in maintenance mode to be kept over browser close, as the original function does! </li>
         <li>ToDo: Rewrite for Smarty3 and S9y 1.7! </li>
+        <li>ToDo: Bind select navigation to JQuery-UI - (js-navigation, ui-customizable, flexible) (?) </li>
+        <li>ToDo: Bind autoupdate plugin to dashboard and write a install GUI if possible (?) </li>
         <li>ToDo: Hold feed cached for one day... (?) </li>
-        <li>ToDo: next release, open (some) "edit-entry-links" inside the dashboard via modalContainer... (?) </li>
-        <li>ToDo: next release, make dashboard css color customizing navbar tool ... (?) </li>
-        <li>ToDo: rewrite with new backend smartification </li>
+        <li>ToDo: Open (some) "common edit-entry-links" inside the dashboard via modalContainer... (?) </li>
+        <li>ToDo: Make a dashboard css color customizing navbar tool ... (?) </li>
+        <li>ToDo: Rewrite with new backend (2.0) smartification (some day) </li>
     </ul>
 
     <p>Maybe use div {ldelim} column-width: 26em; column-gap: 1.6em; column-rule: thin dotted black; {rdelim} ... to have multiple Infos ordered in cells ...</p>
