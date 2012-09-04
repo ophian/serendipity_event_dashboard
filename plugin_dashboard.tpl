@@ -1,4 +1,4 @@
-{*** plugin_dashboard.tpl - last modified 2012-09-03 ***}
+{*** plugin_dashboard.tpl - last modified 2012-09-04 ***}
 {*** debug ***}
 
 <div id="dashboard" class="maincontent">
@@ -197,6 +197,7 @@
         <li></li>
         <li>ToDo: Add flexible hook-in box (event hook) ability by Plugins! </li>
         <li>ToDo: Set remember-me cookie while in maintenance mode to be kept over browser close, as the original function does! </li>
+        <li>ToDo: Ask Spartacus Plugup functions, if there is an upgrade plugin array available and not empty...! </li>
         <li>ToDo: Rewrite for Smarty3 and S9y 1.7! </li>
         <li>ToDo: Bind select navigation to JQuery-UI - (js-navigation, ui-customizable, flexible) (?) </li>
         <li>ToDo: Bind autoupdate plugin to dashboard and write a install GUI if possible (?) </li>

@@ -7,7 +7,7 @@ window.log = function f(){ log.history = log.history || []; log.history.push(arg
 (function(){try{console.log();return window.console;}catch(a){return (window.console={});}}());
 // Attention: do not use paulirish log() method, as making our events behave different
 
-// jquery-dashboard.js - last-modified: 2012-09-03
+// jquery-dashboard.js - last-modified: 2012-09-04
 
 /**
  * Start main functions on document.ready = load in DOM
@@ -327,6 +327,9 @@ jQuery(document).ready(function($) {
      * Start up some essential init functions
      **/
     $(function() {
+        // attract a title to the help gazette before running tooltip
+        $('#iopen.help').attr('title', 'The Gazette!');
+
         /*
          * Initialize tooltip on DOM ready
          */

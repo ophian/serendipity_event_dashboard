@@ -1,6 +1,6 @@
 <?php # $Id$
 
-// - last modified 2012-09-03
+// - last modified 2012-09-04
 
 if (IN_serendipity !== true) {
     die ("Don't hack!");
@@ -1174,8 +1174,8 @@ if(!defined('AUTOUPDATE_INSTALLED')) {
         if (isset($hooks[$event])) {
             switch($event) {
                 case 'frontend_configure':
-                    serendipity_header('X-Debug1: hook-frontend_configure'); // Used for debugging detection
-                    serendipity_header('X-Debug2: set-moma '.$serendipity['maintenance'].'');
+                    // serendipity_header('X-Debug1: hook-frontend_configure'); // Used for debugging detection
+                    // serendipity_header('X-Debug2: set-moma '.$serendipity['maintenance'].'');
 
                     // If the Browser was closed without unset maintenance mode,
                     // check dashboards autologin cookie to be able to return to login page at least w/o the 503 unavailable mode page
@@ -1209,7 +1209,7 @@ if(!defined('AUTOUPDATE_INSTALLED')) {
                     }*/
 
                     echo '<!DOCTYPE html>'."\n";
-                    serendipity_header('X-Debug3: hook-backend_configure'); // Used for debugging detection
+                    // serendipity_header('X-Debug3: hook-backend_configure'); // Used for debugging detection
 
                     if (!is_object($serendipity['smarty'])) {
                         serendipity_smarty_init(); // if not set, start Smarty templating to avoid member function assign() on a non-object error
@@ -1244,7 +1244,7 @@ if(!defined('AUTOUPDATE_INSTALLED')) {
                     echo "\n\n";
                     // Trying to reference JQUERY and JSON for IE Browsers and even more the CSS is a hassle!
                     // I hate things like that and do not really want to support this!
-                    echo '        <!--[if lte IE 9]> <script src="' . DASHBOARD_PLUGINPATH . '/inc/jquery-1.8.0.min.js" type="text/javascript"></script> <![endif]-->'."\n";
+                    echo '        <!--[if lte IE 9]> <script src="' . DASHBOARD_PLUGINPATH . '/inc/jquery-1.8.1.min.js" type="text/javascript"></script> <![endif]-->'."\n";
                     echo '        <!--[if lte IE 9]> <script src="' . DASHBOARD_PLUGINPATH . '/inc/json2.js" type="text/javascript"></script> <![endif]-->'."\n";
                     // IE referencing end
                     echo '        <script src="' . DASHBOARD_PLUGINPATH . '/inc/modernizr-2.6.1.min.js" defer></script>'."\n";
