@@ -1,3 +1,7 @@
+0.9.9
+-----
+Fixed Maintenance Mode Super-Cookie to survive a browser close
+
 0.9.8
 -----
 Update to jquery-1.8.1.min.js

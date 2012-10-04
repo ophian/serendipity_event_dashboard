@@ -1,11 +1,12 @@
-v.0.9.8 | 2012-09-03
+v.0.9.9 | 2012-10-04
 ===
 
 ## Name: serendipity_event_dashboard
 
 * The Serendipity Dashboard [Proof of Concept] for version 1.x.
+  PLEASE NOTE: This version 0.9.9 will be the **last** version supporting Serendipity < 1.7!!
 
-* This has testing status, as long as there won't be some more testers!
+* Although running stable enought as is, this plugin has testing status, as long as there won't be some more testers and some more feedback!
 
 * Please test the functions and the general behaviour. Live with it for a while.
 

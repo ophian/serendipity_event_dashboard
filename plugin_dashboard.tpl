@@ -1,4 +1,4 @@
-{*** plugin_dashboard.tpl - last modified 2012-09-04 ***}
+{*** plugin_dashboard.tpl - last modified 2012-10-04 ***}
 {*** debug ***}
 
 <div id="dashboard" class="maincontent">
@@ -185,6 +185,7 @@
         <li class="checked">Added all browser non-noisy animation to button maintenance mode, if set to true </li>
         <li class="checked">Fixed Chrome browser select/option function - this entails the navigation selects to have an empty start option field ... </li>
         <li class="checked">The Info Box now shows a count(all) to adminUsers only, else the count is strict done by userid </li>
+        <li class="checked">Fixed Maintenance Mode Super-Cookie to survive a browser close </li>
         <li></li>
         <li>Add some more maintenance, like size of spamblock log, or hint to install DBClean plugin (?) </li>
         <li>Move help box button into embed mode navigation bar or design box (?) </li>

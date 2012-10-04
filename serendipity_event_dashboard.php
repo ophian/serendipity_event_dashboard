@@ -1,6 +1,6 @@
 <?php # $Id$
 
-// - last modified 2012-09-04
+// - last modified 2012-10-04
 
 if (IN_serendipity !== true) {
     die ("Don't hack!");
@@ -73,7 +73,7 @@ if(!defined('AUTOUPDATE_INSTALLED')) {
             'php'         => '5.2.6'
         ));
 
-        $propbag->add('version',       '0.9.8');
+        $propbag->add('version',       '0.9.9');
         $propbag->add('author',        'Garvin Hicking, Ian');
         $propbag->add('stackable',     false);
         $propbag->add('configuration', array('read_only', 'path', 'limit_comments_pending', 'limit_comments', 'limit_draft', 'limit_future', 'limit_feed', 'sequence', 'feed_url', 'feed_title', 'feed_content', 'feed_author', 'feed_conum', 'dependencynote', 'maintenance', 'maintenancenote', 'update', 'clean'));
@@ -559,17 +559,15 @@ if(!defined('AUTOUPDATE_INSTALLED')) {
             // set a global var to remember automatic autologin
             $serendipity['dashboard']['autologin'] = true;
             serendipity_setCookie('dashboard_autologin', 'true');
-            // This for now works until the browser is closed, while in maintenance mode.
-            // Then you can log-in back at least w/o being referenced to the maintenance mode 503 page!
-            // ToDo: make this same stable as normal remember-me cookie, which still lives after browser closed
-            if( serendipity_authenticate_author($serendipity['user'], $serendipity['pass'], false, true) ) {
-                if($_SESSION['serendipityAuthedUser'] === true) {
+            // Set super-remember-me cookie while in maintenance mode.
+            if( serendipity_authenticate_author($_SESSION['serendipityUser'], $_SESSION['serendipityPassword'], false, true) ) {
+                if($_SESSION['serendipityAuthedUser'] == true) {
                     serendipity_issueAutologin(
-                        array('username' => $serendipity['user'],
-                              'password' => $serendipity['pass']
+                        array('username' => $_SESSION['serendipityUser'],
+                              'password' => $_SESSION['serendipityPassword']
                         )
                     );
-                    echo 'true'; // console post answer
+                    echo 'true'; // console or ajax post answer 
                 }
             }
         }
@@ -579,7 +577,7 @@ if(!defined('AUTOUPDATE_INSTALLED')) {
             serendipity_deleteCookie('dashboard_autologin');
             serendipity_deleteCookie('author_information');
             serendipity_deleteCookie('author_information_iv');
-            echo 'false'; // console post answer
+            echo 'false'; // console or ajax post answer 
         }
     }
 
@@ -1187,8 +1185,7 @@ if(!defined('AUTOUPDATE_INSTALLED')) {
 
                     // This will stop serendipity immediately throwing a '503 Service Temporarily Unavailable' maintenance message,
                     // if var is set to true and user is not authenticated and logged into admin users.
-                    // Do not log-off while in maintenance mode, else you can not access your blog again!
-                    // We have to be strict here. This $serendipity['maintenance'] var is stored in serendipity_config_local.inc file!
+                    // This $serendipity['maintenance'] var is stored in serendipity_config_local.inc file!
                     if (!$superuser && !serendipity_checkPermission('adminUsers') && serendipity_db_bool($serendipity['maintenance']) ) {
                         $this->service_mode();
                     }
@@ -1226,7 +1223,7 @@ if(!defined('AUTOUPDATE_INSTALLED')) {
                 case 'backend_header':
                     $servicehook = NULL;
                     // read already set $serendipity['maintenance']
-                    if (isset($serendipity['maintenance']) && !empty($serendipity['maintenance'])) $servicehook = $serendipity['maintenance'];
+                    if (isset($serendipity['maintenance']) && !empty($serendipity['maintenance'])) $servicehook = $serendipity['maintenance']; // [booleanize!]
 
                     // here we go and and add or restruct the backend header ;-)
                     echo "\n\n";
@@ -1269,13 +1266,13 @@ if (defined('BAYES_INSTALLED')) { echo '
             var bayesDone          = \'' . DONE . '\';
             var bayesHelpTitle     = \'' . PLUGIN_EVENT_SPAMBLOCK_BAYES_RATING_EXPLANATION . '\';';
 } 
-if ($this->get_config('maintenance')) { echo '
+if (serendipity_db_bool($this->get_config('maintenance'))) { echo '
             var const_service      = \'' . PLUGIN_DASHBOARD_MAINTENANCE_MODE_DESC . '\';
             var const_serv_active  = \'' . PLUGIN_DASHBOARD_MAINTENANCE_MODE_ACTIVE . '\';
             var const_serv_origin  = \'' . PLUGIN_DASHBOARD_MAINTENANCE_MODE . '\';';
 }
-if ($this->get_config('maintenance') && !empty($servicehook)) { echo '
-            var servicehook        = ' . $servicehook . ';'; // set as boolean
+if (serendipity_db_bool($this->get_config('maintenance')) && !is_null($servicehook)) { echo '
+            var servicehook        = ' . ((serendipity_db_bool($this->get_config('maintenance')) && serendipity_db_bool($servicehook)) ? 'true' : 'false') . ';';
 }
 echo "\n        </script>\n\n";
 
@@ -1289,6 +1286,7 @@ echo "\n        </script>\n\n";
                     if($db['jspost'][0] == 'modemaintence') {
                         $setmoma = isset($_POST['setmoma']) ? serendipity_db_bool($_POST['setmoma']) : false;
                         $this->s9y_maintenance_mode($setmoma);
+                        unset($setmoma);
                     }
 
                     // [0]=dbjsonsort; [1]=json [array];
@@ -1319,14 +1317,14 @@ echo "\n        </script>\n\n";
 
                         // give back the answer string to json jQuery.post
                         $postAnswer = 'metaset, ' . $setConfStr; // eg. metaset, meta-box-right|elem_4;feed, elem_5;comapp, elem_6;update, elem_7;plugup, elem_2;future, elem_3;draft, elem_1;compen
-                        echo $postAnswer; // console post answer
+                        echo $postAnswer; // console or ajax post answer
+                        // free all temporary used arrays and vars
+                        unset($pix);
+                        unset($emt);
+                        unset($setConfStr);
+                        unset($name);
                     }
-                    // free all temporary used arrays and vars
                     unset($db);
-                    unset($pix);
-                    unset($emt);
-                    unset($setConfStr);
-                    unset($name);
 
                     break;
 
@@ -1375,11 +1373,10 @@ echo "\n        </script>\n\n";
                         unset($mixarr);
                     }
                     // check dependency plugin availability
-                    $dpdc_plugin_av = (!defined('AUTOUPDATE_INSTALLED') ? true : false);
+                    $dpdc_plugin_av = !defined('AUTOUPDATE_INSTALLED') ? true : false;
 
                     $sysinfo = array();
                     /* we already have these infos - but will keep them here for future purposes */
-                    #$is_logged_in = serendipity_userLoggedIn();
                     if (serendipity_userLoggedIn()) {
                         $sysinfo['self_info'] = sprintf(USER_SELF_INFO, htmlspecialchars($serendipity['serendipityUser']), $serendipity['permissionLevels'][$serendipity['serendipityUserlevel']]);
                     } else {
