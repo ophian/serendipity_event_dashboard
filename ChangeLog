@@ -1,3 +1,7 @@
+0.9.9.1
+-------
+Fixed Smarty3 missing token in clean compiled nav link
+
 0.9.9
 -----
 Fixed Maintenance Mode Super-Cookie to survive a browser close
