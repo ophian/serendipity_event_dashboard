@@ -1034,6 +1034,7 @@ if(!defined('AUTOUPDATE_INSTALLED')) {
         $serendipity['smarty']->assign(
                 array( 'showCleanupSmarty' => true,
                        'cleanup_block_id'  => $sort_id,
+                       'urltoken'          => serendipity_setFormToken('url'),
                        'plugininstance'    => $this->instance
                      )
                 );
