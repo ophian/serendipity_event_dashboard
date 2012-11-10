@@ -73,7 +73,7 @@ if(!defined('AUTOUPDATE_INSTALLED')) {
             'php'         => '5.2.6'
         ));
 
-        $propbag->add('version',       '0.9.9.1');
+        $propbag->add('version',       '0.9.9.2');
         $propbag->add('author',        'Garvin Hicking, Ian');
         $propbag->add('stackable',     false);
         $propbag->add('configuration', array('read_only', 'path', 'limit_comments_pending', 'limit_comments', 'limit_draft', 'limit_future', 'limit_feed', 'sequence', 'feed_url', 'feed_title', 'feed_content', 'feed_author', 'feed_conum', 'dependencynote', 'maintenance', 'maintenancenote', 'update', 'clean'));
@@ -462,8 +462,11 @@ if(!defined('AUTOUPDATE_INSTALLED')) {
 
         // error_reporting
         try { $xmlData = @new SimpleXMLElement($content); } catch (Exception $e) {
+            global $serendipity;
             //error handling in here 
             $articles[0]['content'] = 'There was an error fetching the Serendipity Blog RSS Feed. Try again later.';
+            $serendipity['smarty']->assign('errormsg', $articles[0]['content']);
+            return;
         }
 
         // step 1: get the feed (we already have that by function get_url_contents($url))

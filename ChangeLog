@@ -1,3 +1,7 @@
+0.9.9.2
+-------
+Fixed XML Feed error note
+
 0.9.9.1
 -------
 Fixed Smarty3 missing token in clean compiled nav link
