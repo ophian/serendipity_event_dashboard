@@ -1021,13 +1021,13 @@ define(DASHBOARD_PRESET_MOMATXT, sprintf(PLUGIN_DASHBOARD_MAINTENANCE_TEXT, $ser
         foreach ($entries as $ey) {
             // Find out if the entry has been modified later than 30 minutes after creation
             if ($ey['timestamp'] <= ($ey['last_modified'] - 60*30)) {
-                $lm = LAST_UPDATED . ': ' . serendipity_formatTime(DATE_FORMAT_SHORT, $ey['last_modified']);//'<a href="#" title="' . LAST_UPDATED . ': ' . serendipity_formatTime(DATE_FORMAT_SHORT, $ey['last_modified']) . '"><img src="'. serendipity_getTemplateFile('admin/img/clock.png') .'" alt="*" /></a>';
+                $lm = LAST_UPDATED . ': ' . serendipity_formatTime(DATE_FORMAT_SHORT, $ey['last_modified']);
             } else {
                 $lm = '';
             }
 
             if (!$serendipity['showFutureEntries'] && $ey['timestamp'] >= serendipity_serverOffsetHour()) {
-                $entry_pre = ENTRY_PUBLISHED_FUTURE;//'<a href="#" title="' . ENTRY_PUBLISHED_FUTURE . '"><img src="'. serendipity_getTemplateFile('admin/img/clock_future.png') .'" alt="*" /></a> ';
+                $entry_pre = ENTRY_PUBLISHED_FUTURE;
             } else {
                 $entry_pre = '';
             }
