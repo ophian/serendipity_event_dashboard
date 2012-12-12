@@ -1,4 +1,4 @@
-{*** block_update.tpl - last modified 2012-08-31 ***}
+{*** block_update.tpl - last modified 2012-12-12 ***}
 
 {if $showElementUpdate}
   <div id="update" class="block-updates block-box">

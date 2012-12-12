@@ -7,7 +7,71 @@ window.log = function f(){ log.history = log.history || []; log.history.push(arg
 (function(){try{console.log();return window.console;}catch(a){return (window.console={});}}());
 // Attention: do not use paulirish log() method, as making our events behave different
 
-// jquery-dashboard.js - last-modified: 2012-09-04
+// jquery-dashboard.js - last-modified: 2012-12-11
+
+/**
+ *  This is a simple prototype plugin which converts 'a,form,select,button' targets dynamically into AJAX requests
+ **/
+$.fn.ajax_submit = function(degurl) {
+    var callback  = $(this).attr('data-callback'); // = rebuildContainer
+    var $thisscope = $('#cont2 .mbc_content'); // not 'this' or 'document.body' - $thisscope can't be a global var, as it its build on load later on
+    // create the url
+    var url = $(this).attr('action') || $(this).attr('href') || degurl;
+    var url = url +(url.search.length ? '&' : '?')+'serendipity[noHeading]=true'; // reduced as the rest is done in dashboards backend_configure hook
+    var url = url.replace('.php&','.php?');
+    var url = url.replace('?&','?');
+    // create the method
+    var method = "" + $(this).attr('method'); // fasted method to stringify is ""+
+    var method = (method.toUpperCase() == 'POST') ? 'POST' : 'GET';
+    // append submit button value to query string, which is left out by default $(this).serialize()
+    if ($(this).attr('action')) {
+        var $itsu  = $(this).find('input[type="submit"]');
+        var $itim  = $(this).find('input[type="image"]');
+        var name   = $itsu.attr('name');
+        var value  = $itsu.attr('value'); 
+        if (typeof name === 'undefined') {
+            var name   = 'submit['+$(this).closest('[id]').attr('id')+']'; // some submits don't have a name attribute
+        }
+        if (typeof value === 'undefined' && $itim.length) { 
+            var x = ($itim.attr('value') ? $itim.attr('value') : 8); // fake mouse coords to also send input type=image request i.e. $_POST[change_selected]
+            $itim.after('<input type="hidden" name="'+$itim.attr('name')+'" value="'+x+'" />'); 
+            var value = 'clicked';
+        }
+        var appmit = '&' + name + '=' + value; // could be written analog to itim.after
+    }
+    // we can not use plain encodeURIComponent(appmit) here as it encodes = and &, but not !
+    var appmit = appmit ? encodeURIComponent(appmit).replace(/[!'()*]/g, escape).replace('%26','&').replace('%3D','=') : '';
+
+    // ToDo workaround this bad button w/ context behaviour, or disable ajax like: if request page has scripts goto location.href else use ajax and container
+    $.ajax({
+        data: $(this).serialize() + appmit,
+        type: method,
+        dataType: 'html',
+        url: url,
+        async: false,
+        context: $thisscope,
+        success: function(data, status, xhr) {
+            // return cut data from/to into container; cut is starting in front of expression.
+            resultdata = containersCut('<div id="content" class="clearfix">', '</div>', data); /* new backend */
+            if (callback) {
+                if (typeof callback == 'function') { // make sure the callback is a function
+                    callback.call(this, resultdata, url); // brings the scope to the callback
+                } else {
+                    rebuildContainer.call(this, resultdata, url); // if callback is not willing to be a function, try with our real function name
+                }
+            }            
+        },
+        error: function(xhr, status, error) {
+            console.log(error);
+        }
+   });
+};
+
+$.fn.autoAjax = function(delegatedUrl) {
+    $(this).ajax_submit(delegatedUrl); // and then?
+    return false;
+};
+
 
 /**
  * Start main functions on document.ready = load in DOM
@@ -23,10 +87,11 @@ jQuery(document).ready(function($) {
     var c_text     = ['#info, #draft, #future, #update, #plugup'];
     var t_text     = ['#comapp, #compen, #feed'];
     var t_form     = ['#formMultiDeleteApp, #formMultiDeletePen'];
+    var c_blocks   = ['#draft, #future, #plugup, #comapp, #compen, #info'];
 
     // start object selectors
     var $button    = $('#menu-fadenav');
-    var $sidebar   = $('#serendipitySideBar');
+    var $sidebar   = $('#main_menu'); /*newbackend*/
     var $selectbar = $('#nav-navigation-select');
 
     // storage containers
@@ -45,17 +110,17 @@ jQuery(document).ready(function($) {
     var ratingPath         = protocol + '//' + hostname + pathname + 'index.php?/plugin/getRating';
     var bayesHelpImage     = pathname + 'templates/default/admin/img/admin_msg_note.png';
     var bayesLoadIndicator = pathname + 'img/spamblock_bayes.load.gif';
+    var result             = '';
     var logoff_text        = "Gotcha!\n" + 
                              "I remember me saying: 'Do not log off while Maintenance Mode'!\n" + 
                              "Note: There is no return if you proceed!\n\n" + 
                              "Do you really want to log off now?\n\n" +
-                             "Then please unset maintenance mode first!";
+                             "Then please unset maintenance mode first!"; /* scare user! ;-) Actually the origin problem with maintenance supercookie should be solved by now...*/
 
     // check to see if cookies exist for the flip box toggle state
     var flipcookie = $.cookie('serendipity[dashboard_cookie_flipped]');
     var fliparray  = flipcookie ? flipcookie.split("|").getUnique() : [];
 
-    // var functions
     /**
      * Function Expression runBlockSort(storageobject) [OK]
      * 
@@ -119,10 +184,9 @@ jQuery(document).ready(function($) {
         var $metaArr = [$metaid];
         $metaobj.find('.flipbox').attr("id", function (index) { 
             var $bid = $(this).closest('div[id].block-box').attr('id').toString();
-            // stick to array and do not use objects here, as objects key can not be $var, returns "$bid"
-            $metaArr.push([$bid, 'sort_'+index]);
+            $metaArr.push([$bid, 'sort_'+index]); // stick to array and do not use objects here, as objects key can not be $var, returns "$bid"
             // do not return new flipbox h3 title ID, if that was done by function runBlockSort
-            if( isRunBlocksort === false ) return $metaid+"-sort_" + index;
+            if( isRunBlocksort === false ) return $metaid+"-sort_" + index; //else return $bid;
         });
         if( isRunBlocksort === false) {
             // set the sort_X ID to the new dragged value, if that was not! done by function runBlockSort
@@ -151,6 +215,7 @@ jQuery(document).ready(function($) {
 
         function addTooltip() {
             var $metaid = this.id;
+            // arr[$metaid] = [];
             var $thisobj = $(this); // = [ul#meta-box-left.boxed-left] + [ul#meta-box-right.boxed-right]
             // set dragged and sorted blocks into Storage
             setStorageArray($metaid, $thisobj);
@@ -163,9 +228,66 @@ jQuery(document).ready(function($) {
     });
 
     /**
+     * Function Expression containersCut() [OK]
+     */
+    containersCut = (function(start, end, datastring) {
+        var s = datastring.lastIndexOf(start);
+        var e = datastring.lastIndexOf(end);
+        var d = datastring.substring(s,e);
+        var n = d.replace('<div id="content" class="clearfix">', '<div id="mdc_content" class="clearfix">'); /* new backend */
+        return n;
+    });
+
+    /**
+     * Function Expression convert all click and submit targets into ajaxified POST container requests [OK]
+     */
+    contLinksToAjax = (function (tag, url) {
+        // append data-remote="auto-ajax" data-callback="rebuildContainer" to all anchor elements in our new container class
+        $(tag).each( function() {
+            var $this = $(this).not('[onclick]').not('[target="_blank"]').not('[href*="mailto:"]'); // if tag a has no attribute onclick and is not a target _blank or href mailto
+            var $that = $(this).is('form') && $(this).not('[action]'); // if tag is a form element with no action attribute, returning to self in document environments
+            if($that[0]) {
+                $that.attr({'action':url, 'data-remote':'auto-ajax', 'data-callback':'rebuildContainer'});
+            } else {
+                // dont use for abort buttons, as in do sync media library
+                $this.not('[href="serendipity_admin.php"]').attr({'data-remote':'auto-ajax', 'data-callback':'rebuildContainer'});
+            }
+        });
+    });
+
+    /**
+     * Function Expression callback update container with prefetched ajax [OK]
+     */
+    rebuildContainer = (function(result, delegatedUrl) {
+        if(result.length) {
+            var $item = $('#cont2 .mbc_content > div');
+            // clean up previous data in container, if any
+            $item.empty().remove(); // they say its faster to empty before remove ...
+            // append data to backend container
+            $('<div class="backend_entry_container">' + result + '</div>').appendTo($('#cont2 .mbc_content'));
+            $('footer#colophon').empty().remove(); /* new backend entered some unwanted siblings of */
+            // what does configs extend to Container var say? Are we allowed to follow containerized backend content?
+            if( extend2Cont === true ) {
+                // add ajaxification attributes to all anchor links already placed in DOM - ajaxifies a, form, select, button elements
+                var $container = "#cont2 .mbc_content > .backend_entry_container";
+                contLinksToAjax($container+' a[href]');
+                contLinksToAjax($container+' form[action]');
+                contLinksToAjax($container+' form:not([action])', delegatedUrl);
+                /*contLinksToAjax($container+' select option[value]'); // do we really need this (automatic option selects) anywhere?*/
+                contLinksToAjax($container+' button[value]');
+                // remove 100px inline style in plugin configurations submit spacer
+                $plugconf = $('#cont2 #configuration_footer');
+                if ($plugconf) $plugconf.removeAttr('style');
+            }
+        } else { console.log('fct rebuildContainer: An ajax result error occured'); }
+    });
+
+    /**
      * Function Expression setContainersHeight() [OK]
      * 
      * Sets the #layout containers height on demand
+     * Neither Function Expressions, nor Function Declarations 
+     * work with IE9 loading on window load, which always throws undefined
      **/
     setContainersHeight = (function() {
         var newLayout = $("#meta-box-left").height();
@@ -188,7 +310,7 @@ jQuery(document).ready(function($) {
      * Function Expression smooth element blink() [OK]
      */
     blink = (function(el) {
-        if (!el) { el = this; } // console.log(el);
+        if (!el) { el = this; }
         $(el).animate({ opacity: 0.5 }, 1200, 'linear', function() {
             $(this).animate({ opacity: 1 }, 1200, blink );
         });
@@ -213,12 +335,12 @@ jQuery(document).ready(function($) {
      **/
     watchLogOff = (function(set) {
         if (set) {
-            $('#nav-embed-iconset li:nth-child(1)').on('click', 'a', (function(e) {
+            $('#user_menu li:nth-child(6)').on('click', 'a#menu-logoff', (function(e) {/*new backend*/
                 e.preventDefault(); // Cancel a link's default action using the preventDefault method
                 alert(logoff_text);
             }));
         } else {
-            $('#nav-embed-iconset li:nth-child(1)').unbind('click');
+            $('#user_menu li:nth-child(6)').unbind('click');/*new backend*/
         }
     });
 
@@ -299,13 +421,19 @@ jQuery(document).ready(function($) {
     });
 
     /**
-     * Remember flipped box content that was hidden
+     * Check Cookie for flip.ped box content that was hidden
      **/
     $(function() {
+        $.each( $(meta.join(', ')).find('.flip'), function(){
+            // new backend awesome font use - on load, set all boxes to open state imgage arrow
+            $(this).addClass('flipclose');
+        });
         $.each( fliparray, function(){
             var blocktohide = $('#' + this).find('div[id].block-content').attr('id');
             // hide all sort_ID boxes which appear in fliparray
             $('#' + blocktohide).hide(); // do we need to setContainersHeight() ?
+            // new backend awesome font use - unset open state imgage arrow to closed boxes
+            $('#' + blocktohide).siblings('.flip').removeClass('flipclose');
         });
     });
 
@@ -317,6 +445,7 @@ jQuery(document).ready(function($) {
             // Retrieve the object from storage
             var blocksort = JSON.parse(localStorage.getItem('sortid'));
             if ( blocksort !== null ) {
+
                 // hand over the parsed array to be truly readable
                 runBlockSort(blocksort); // meta-box-left,[object Object], etc 
             }
@@ -324,12 +453,77 @@ jQuery(document).ready(function($) {
     });
 
     /**
-     * Start up some essential init functions
+     * Some selectors Startup Manipulations on DOM ready
      **/
     $(function() {
+        // remove overview.inc's echo drop-in, if set
+        $('h3.serendipityWelcomeBack').addClass('visuallyhidden');
+
+        // set .serendipityAdminContent left padding class on default
+        //$('td.serendipityAdminContent').addClass('serendipityAdminContentDashboard clearfix'); /*newbackend*/
+
+        // add missing class to #serendipitySideBar
+        $sidebar.addClass('no-class');
+
+        // rename sidebar Button 'Startpage' to 'Dashboard'
+        //$sidebar.find('li.serendipitySideBarMenuMainFrontpage a').html('Dashboard'); /*newbackend*/
+
         // attract a title to the help gazette before running tooltip
         $('#iopen.help').attr('title', 'The Gazette!');
 
+        if( $.type(extend2Cont) === 'boolean') {
+            // attract ajaxified data calls to personal settings button
+            $('#menu-perset').attr({'data-remote':'auto-ajax', 'data-callback':'rebuildContainer'});
+            // attract ajaxified data calls to plugin config button
+            $('#menu-plugco').attr({'data-remote':'auto-ajax', 'data-callback':'rebuildContainer'});
+            function linkToBox() {
+                var $this = $(this);
+
+                // add ajaxification attributes to all anchor links already placed in DOM - ajaxifies a, form, select, button elements
+                contLinksToAjax($this.find('a[href]'));
+            }
+            var $cbk = $(c_blocks.join(', ')).each(linkToBox);
+        }
+    });
+
+    /**
+     * Some Event Delegation Listeners on DOM ready
+     **/
+    $(function() {
+        if( $.type(extend2Cont) !== 'null') {
+            // containerized auto-ajax event listeners
+            $('#cont2').on('submit', 'form[data-remote="auto-ajax"]', function(e) {
+                e.preventDefault();
+                return $(this).autoAjax();
+            });
+            $('#menu-perset[data-remote="auto-ajax"], #menu-plugco[data-remote="auto-ajax"]').on('click', function(e) {
+                e.preventDefault();
+                // if container is closed, open it (this is the case, if we follow containable links outside a container, like this opening personal settings in navbar)
+                if($('#cont2').get(0).isClosed) $("#cont2").containerize("open",500); // open new modal container / fs = .containerize("fullScreen")
+                emac = e.delegatedTarget;
+                return $(this).autoAjax(emac);
+            });
+            $(c_blocks.join(', ')).on('click', 'a[data-remote="auto-ajax"], button[data-remote="auto-ajax"]', function(e) {
+                e.preventDefault();
+                // if container is closed, open it (this is the case, if we follow containable links outside a container, or plugbox container links)
+                if($('#cont2').get(0).isClosed) $("#cont2").containerize("open",500); // open new modal container / fs = .containerize("fullScreen")
+                return $(this).autoAjax();
+            });
+            $('#cont2').on('click', 'a[data-remote="auto-ajax"], button[data-remote="auto-ajax"]', function(e) {
+                e.preventDefault();
+                return $(this).autoAjax();
+            });
+            $('#cont2').on('change', 'select[data-remote="auto-ajax"]', function(e) {
+                e.preventDefault();
+                return $(this).autoAjax();
+            });
+        }
+    });
+
+    /**
+     * Start up some essential init functions
+     **/
+    $(function() {
         /*
          * Initialize tooltip on DOM ready
          */
@@ -352,24 +546,8 @@ jQuery(document).ready(function($) {
         setContainersHeight(); // set to height of highest meta-box-xxx
     });
 
-    /**
-     * Some selectors Startup Manipulations on DOM ready
-     **/
-    $(function() {
-        // remove overview.inc's echo drop-in, if set
-        $('h3.serendipityWelcomeBack').addClass('visuallyhidden');
 
-        // set .serendipityAdminContent left padding class on default
-        $('td.serendipityAdminContent').addClass('serendipityAdminContentDashboard clearfix');
-
-        // add missing class to #serendipitySideBar
-        $sidebar.addClass('no-class');
-
-        // Rename sidebar Button 'Startpage' to 'Dashboard'
-        $sidebar.find('li.serendipitySideBarMenuMainFrontpage a').html('Dashboard');
-    });
-
-    /**
+   /**
      * Toggle the comments view more block on click
      **/
     $(function() {
@@ -410,23 +588,21 @@ jQuery(document).ready(function($) {
     });
 
     /**
-     * Toggle the feed/comments text block and change view/hide constant on event [OK]
+     * Toggle the feed/comments text block and change view/hide constant on event
      **/
     $(function() {
         $(t_text.join(', ')).find('.fulltxt').addClass('visuallyhidden');
         $(t_text.join(', ')).find('.text').toggle( 
             function (event) { 
-                $(event.target).html(const_hide);
                 $(this).closest('.serendipity_admin_list_item').children('.comment_text').children().toggleClass('visuallyhidden');
-                $(this).find('img').attr({src:"templates/default/admin/img/downarrow.png"});
+                $(this).addClass('icon-zoom-out'); /*new backend*/
                 unsetUIHightlight($(this));
                 // set new id#layout height on toggle inside 
                 setContainersHeight();
             }, 
             function (event) { 
-                $(event.target).html(const_view);
                 $(this).closest('.serendipity_admin_list_item').children('.comment_text').children().toggleClass('visuallyhidden');
-                $(this).find('img').attr({src:"templates/default/admin/img/uparrow.png"});
+                $(this).removeClass('icon-zoom-out'); /*new backend*/
                 unsetUIHightlight($(this));
                 // set new id#layout height on toggle inside 
                 setContainersHeight();
@@ -450,6 +626,8 @@ jQuery(document).ready(function($) {
      **/
     $(function() {
         $(meta.join(', ')).find('.flip').click(function() {
+            // new backend awesome font use - on click toggle state box open/close icon
+            $(this).toggleClass('flipclose');
             $(this).each(addNSet);
 
             function updateCookie(block, el) {
@@ -511,12 +689,14 @@ jQuery(document).ready(function($) {
             // .is(":visible") - Checks for display:[none|block], ignores visible:[true|false]
             if ($sidebar.is(':visible')) {
                 $sidebar.fadeOut();
+                $("#content").addClass('no-sidebar'); /*newbackend*/
                 // ugly workaround for chrome and ie browser, which denied local hostnames set as domain: hostname
                 if( !$.cookie('serendipity[dashboard_cookie_sidebar]', 'isSelectBar', { expires: 180, path: pathname, domain: hostname }) ) {
                     $.cookie('serendipity[dashboard_cookie_sidebar]', 'isSelectBar', { expires: 180, path: pathname });//, domain: hostname
                 }
             } else {
                 $sidebar.fadeIn();
+                $("#content").removeClass('no-sidebar'); /*newbackend*/
                 // ugly workaround for chrome and ie browser, which denied local hostnames set as domain: hostname
                 if( !$.cookie('serendipity[dashboard_cookie_sidebar]', 'isSideBar', { expires: 180, path: pathname, domain: hostname }) ) {
                     $.cookie('serendipity[dashboard_cookie_sidebar]', 'isSideBar', { expires: 180, path: pathname });//, domain: hostname
@@ -529,15 +709,17 @@ jQuery(document).ready(function($) {
         var cookie_sidebar = $.cookie('serendipity[dashboard_cookie_sidebar]');
         if(cookie_sidebar == 'isSelectBar') { 
             $sidebar.fadeOut();
+            $("#content").addClass('no-sidebar'); /*newbackend*/
             $selectbar.toggleClass('visuallyhidden');
         } else {
             $sidebar.fadeIn();
+             $("#content").removeClass('no-sidebar'); /*newbackend*/
         }
 
         // make sure everything outside dashboard context has the normal 'isSideBar' Layout!
         if ( !$('#dashboard').children().length > 0 ) { 
             $sidebar.fadeIn();
-            $('td.serendipityAdminContent').removeClass('serendipityAdminContentDashboard');
+            $("#content").removeClass('no-sidebar'); /*newbackend*/
         }
     });
 
@@ -553,16 +735,48 @@ jQuery(document).ready(function($) {
             'ul.serendipitySideBarMenuUserManagement'
         ];
 
-        // In FF this is a click event and we can just use 'select' tag w/o selectors here, as this is strictly based to base id only
+        // In FF this is a click event and we can just use 'select' tag w/o selectors here, as this is strictly based to base id only, like
         // $(base).on('change click', 'select > option', function(e) { 
-        // but Chrome denied to fire the event at all.... possibly because using dummy element option directly
+        // but Chrome denied to fire the event at all.... possibly because using dummy 'option' element directly
         $(base).on('click', '#navbar > ul > li > select', function(e) { 
             var $so = $(this).children("option:selected").stop();
             var val = $so.val();
             e.stopImmediatePropagation();
             $(this).prop('selectedIndex',0); // set selected index back to the first empty element for debug or error cases
             if (val.length) {
-                location.href = val;
+                if( $.type(extend2Cont) === 'null') {
+                    location.href = val; // never allow containerized backend location
+                } else {
+                    e.preventDefault(); /* prevents the link from opening the href link */
+                    var $thisscope = $('#cont2 .mbc_content'); // $thisscope can't be a global var, as it its build on load later on
+                    val = val+'&serendipity[noHeading]=true';
+                    $.ajax({
+                        url: val,
+                        type: 'POST',
+                        dataType: 'html',
+                        async: false,
+                        context: $thisscope,
+                        success: function(data) {
+                            // remove everything else from fetched page than block *.*
+                            // return cut data from/to into container
+                            result = containersCut('<div id="content" class="clearfix">', '</div>', data); /* new backend */
+                        },
+                        error: function(){
+                            alert('Work in Backend respond failure!');
+                        }
+                    }).done(function() {
+                        if(result.length) {
+                            // store result data as cache into localStorage container, to emulate a browsers back button later on
+                            var basecache = new Cache( localStorage, JSON );
+                            basecache.removeItem( "icache" ); // clear old cached data
+                            var basestore = { value: result, url: val }; // create the object
+                            basecache.setItem( "icache", basestore );
+                            // cleanup old and handle new result set into container
+                            rebuildContainer(result, val);
+                            $("#cont2").containerize("open",500); // open new modal container / fs = .containerize("fullScreen")
+                        }
+                    });
+                }
             }
         }).find(selectors.join(', ')).each(linksToSelect); // trigger the event with .change() on load, if we ever want to
 
@@ -582,7 +796,6 @@ jQuery(document).ready(function($) {
             $this.replaceWith($select);
         }
     });
-
 
     /**
      * The metabox drag and drop funtion via jquery-ui framework [OK]
@@ -632,6 +845,9 @@ jQuery(document).ready(function($) {
         });
 
         $(meta.join(', ')).sortable().droppable({
+            containment: '#layout',
+            helper: 'clone', 
+            revert: 'invalid',
             drop: function(e, ui) {
                 $('.' + selectedClass).appendTo($(this)).add(ui.draggable) // ui.draggable is appended by the script, so add it after
                 .removeClass(selectedClass).css({
@@ -652,6 +868,7 @@ jQuery(document).ready(function($) {
                 var $postMetaArr = [$(this.id).selector]; // eg. meta-box-right (chrome needs strict selector match, else pushing circular structure to JSON errors)
 
                 sobj.attr("id", function (index) { 
+                    // this = li.flipflop
                     var $dropid = $(this).attr('id').toString(); // collect li#ID name as string
                     var $blockid = $(this).find('div.block-box');
                     var $blid = $blockid.attr('id');
@@ -696,6 +913,7 @@ jQuery(document).ready(function($) {
                 success: function(response){
                     // async false is needed to really know what has been set
                     response = (response === 'true') ? true : false;
+                    // alert(response);
                 },
                 error: function(){
                     alert('MoMa respond set failure!');
@@ -712,7 +930,29 @@ jQuery(document).ready(function($) {
      * JQuery.mb.containerPlus help
      **/
     $(function(){
-        // custom method added to the component
+        /*
+         * custom method to add ajaxified content
+         **/
+
+        $.containerize.addMethod("getdata",function(){
+            var el = this;
+            $.ajax({
+                url: dashpath + 'dashboard_gazette.html',
+                type: 'GET',
+                dataType: 'html',
+                success: function(data) {
+                    result = data;
+                },
+                error: function(){
+                    alert('Fetching help page failure!');
+                }
+            }).done(function() {
+                if(result.length) {
+                    el.content.prepend(result);
+                }
+            });
+        });
+
         $.containerize.addMethod("modal",function(){
             var el = this;
 
@@ -745,6 +985,18 @@ jQuery(document).ready(function($) {
         $(".container").containerize();
 
         // custom Buttons for the toolbar
+        var backBtn = $("<button/>").addClass("mbc_button").html("back").click(function(e){
+            var el = $(this).parents(".mbc_container");
+            el.containerize("back");
+            var returncache = new Cache( localStorage, JSON );
+            // catch the back emulator event
+            result = returncache.getItem( "icache" ).value;
+            val    = returncache.getItem( "icache" ).url;
+            rebuildContainer(result, val);
+            e.stopPropagation();
+            e.preventDefault();
+        });
+
         var changeSkinBtn = $("<button/>").addClass("mbc_button").html("change skin").click(function(e){
             var el = $(this).parents(".mbc_container");
             if(!el.hasClass('black')) el.containerize('skin','black'); else el.containerize('skin');
@@ -759,6 +1011,20 @@ jQuery(document).ready(function($) {
             e.preventDefault();
         });
 
+        var iconizeBtn = $("<button/>").addClass("mbc_button").html("iconize").click(function(e){
+            var el = $(this).parents(".mbc_container");
+            el.containerize("iconize");
+            e.stopPropagation();
+            e.preventDefault();
+        });
+
+        var dockBtn = $("<button/>").addClass("mbc_button").html("dock").click(function(e){
+            var el = $(this).parents(".mbc_container");
+            el.containerize("iconize","dock");
+            e.stopPropagation();
+            e.preventDefault();
+        });
+        
         var closeBtn = $("<button/>").addClass("mbc_button").html("close").click(function(e){
             var el = $(this).parents(".mbc_container");
             el.containerize("close");
@@ -766,10 +1032,22 @@ jQuery(document).ready(function($) {
             e.preventDefault();
         });
 
-        $("#cont1").containerize("addtotoolbar", [fullScreenBtn,changeSkinBtn,closeBtn]);
-
+        $("#cont1").containerize("addtotoolbar", [fullScreenBtn,iconizeBtn,changeSkinBtn,dockBtn,closeBtn]); // the help box fullScreenBtn,changeSkinBtn,closeBtn
+        $("#cont2 .mbc_footer").empty(); // empty debug notes, if any
+        $("#cont2").containerize("addtotoolbar", [backBtn, fullScreenBtn,iconizeBtn,changeSkinBtn,dockBtn,closeBtn]); // the containerized backend!
     });
-  
+
+    /**
+     * Debug elements used
+     * 
+     * count how much selectors used - faster access, the more less - .length = count 
+     * use with ('*') all selectors, or selector tagNames, idNames, classNames etc.
+     **/
+    $(function(){
+        // as of now = 827 elements! ie. we there have 282 li, 45 ul, 162 div elements, etc.
+        // console.log( $('*').length );
+    });
+
 }); // close jQuery document ready
 
 /**

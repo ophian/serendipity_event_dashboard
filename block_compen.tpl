@@ -1,10 +1,10 @@
-{*** block_compen.tpl - last modified 2012-08-31 ***}
+{*** block_compen.tpl - last modified 2012-12-12 ***}
 
 {if $showElementComPend}
   <div id="compen" class="block-comments block-box">
     <div class="flip" title="{$CONST.PLUGIN_DASHBOARD_FLIPNOTE}"><br></div>
     <h3 class="flipbox"><span>{$CONST.COMMENTS_FILTER_NEED_APPROVAL} {$CONST.COMMENTS} [ <span class="num">{$entry_Compendlist|@count}</span> ]</span></h3>
-    <div id="sort_{$commpen_block_id}" class="block-content block-content-comments-pending">
+    <div id="sort_{$compen_block_id}" class="block-content block-content-comments-pending">
 
         {if is_array($entry_Compendlist)}
         
@@ -21,9 +21,9 @@
                         <input id="multi-select-comment-{$eclpen.id}" class="input_checkbox" type="checkbox" name="serendipity[delete][{$eclpen.id}]" value="{$eclpen.entry_id}" onclick="toggle_checkbox('ckbx_{$eclpen.id}', this.checked)" tabindex="{$smarty.foreach.bar.iteration}" />
                         <div class="comment_titel">
                             <label for="multi-select-comment-{$eclpen.id}" class="num">{$CONST.PLUGIN_DASHBOARD_COMMENT_SELECTION_SHORT|@sprintf:$eclpen.id}</label> - 
-                            <label for="multi-select-comment-{$eclpen.id}">{$CONST.IN_REPLY_TO}: <a href="{$eclpen.entry_url}" title="{$eclpen.title}">{$eclpen.title|truncate:48:"&hellip;"}</a>, <time datetime="{$eclpen.pubdate}" pubdate>{$CONST.ON} <img alt="*" src="{serendipity_getFile file='admin/img/clock.png'}" title="{$eclpen.timestamp|@formatTime:'%A, %e. %B %Y'}" /></time></label>
+                            <label for="multi-select-comment-{$eclpen.id}">{$CONST.IN_REPLY_TO}: <a href="{$eclpen.entry_url}" title="{$eclpen.title}">{$eclpen.title|truncate:48:"&hellip;"}</a>, <time datetime="{$eclpen.pubdate}" pubdate>{$CONST.ON} <span class="icon-clock" title="{$eclpen.timestamp|@formatTime:'%A, %e. %B %Y'}"></span><span class="visuallyhidden"> {$eclpen.timestamp|@formatTime:'%A, %e. %B %Y'}</span>{* <img alt="[]" src="{serendipity_getFile file='admin/img/clock.png'}" title="{$eclpen.timestamp|@formatTime:'%A, %e. %B %Y'}" /> *}</time></label>
                         </div>
-                        <div class="box-right"> <a href="#cl_{$eclpen.id}" class="button"><img src="{serendipity_getFile file='img/plus.png'}" id="option_{$smarty.foreach.bar.iteration}" class="wizard-img" alt="+/-" title="{$CONST.TOGGLE_OPTION}" /> </a> </div>
+                        <div class="box-right"> <span id="#cl_{$eclpen.id}" class="button"><img src="{serendipity_getFile file='img/plus.png'}" id="option_{$smarty.foreach.bar.iteration}" class="wizard-img" alt="+/-" title="{$CONST.TOGGLE_OPTION}" /> </span> </div>
                     </div>
 
                     <div id="cpt_{$eclpen.id}" class="comment_text eclpen_text">
@@ -44,50 +44,50 @@
                         <ul class="comment_admin">
                             <li class="mod_appmod">
                             {if ($eclpen.status == 'pending' || $eclpen.status == 'confirm') && !$read_only}
-                                <a href="?serendipity[action]=admin&amp;serendipity[adminModule]=comments&amp;serendipity[adminAction]=approve&amp;serendipity[id]={$eclpen.id}&amp;{$urltoken}" class="serendipityIconLink" title="{$CONST.APPROVE}"><span id="text_{$eclpen.id}" class="admin-mini-icon"><img src="{serendipity_getFile file='admin/img/accept.png'}" title="{$CONST.APPROVE}" alt="[approve]" /></span></a>
+                                <a class="icon_link" href="?serendipity[action]=admin&amp;serendipity[adminModule]=comments&amp;serendipity[adminAction]=approve&amp;serendipity[id]={$eclpen.id}&amp;{$urltoken}" title="{$CONST.APPROVE}"><span id="text_mod_{$eclpen.id}" class="admin-mini-icon icon-ok"></span><span class="visuallyhidden"> {$CONST.APPROVE}</span></a>
                             {elseif $eclpen.status == 'approved' && !$read_only}
-                                <a href="?serendipity[action]=admin&amp;serendipity[adminModule]=comments&amp;serendipity[adminAction]=pending&amp;serendipity[id]={$eclpen.id}&amp;{$urltoken}" class="serendipityIconLink" title="{$CONST.SET_TO_MODERATED}"><span id="text_{$eclpen.id}" class="admin-mini-icon"><img src="{serendipity_getFile file='admin/img/clock.png'}" title="{$CONST.SET_TO_MODERATED}" alt="[set2moderate]" /></span></a>
+                                <a class="icon_link" href="?serendipity[action]=admin&amp;serendipity[adminModule]=comments&amp;serendipity[adminAction]=pending&amp;serendipity[id]={$eclpen.id}&amp;{$urltoken}" title="{$CONST.SET_TO_MODERATED}"><span id="text_mod_{$eclpen.id}" class="admin-mini-icon icon-cancel"></span><span class="visuallyhidden"> {$CONST.SET_TO_MODERATED}</span></a>
                             {else}
-                                <a href="#read_only" class="serendipityIconLink" title="{$CONST.READ_ONLY}"><span id="text_{$eclpen.id}" class="admin-mini-icon"><img src="{$thispath}/img/readonly.png" title="{$CONST.READ_ONLY}" alt="[readonly]" /></span></a>
+                                <a class="icon_link" href="#read_only" title="{$CONST.READ_ONLY}"><span id="text_mod_{$eclpen.id}" class="admin-mini-icon icon-file"></span><span class="visuallyhidden"> {$CONST.READ_ONLY}</span></a>
                             {/if}
                             </li>
                             {if $eclpen.excerpt}
                             <li class="mod_zoom">
-                                <a href="#c{$eclpen.id}" title="{$CONST.VIEW}" class="serendipityIconLink toggle_text"><span id="text_{$eclpen.id}" class="text toggle-icon"><img src="{serendipity_getFile file='admin/img/uparrow.png'}" title="{$CONST.TOGGLE_OPTION}" alt="[Zoom]" /></span></a>
+                                <a class="icon_link toggle_text" href="#c{$eclpen.id}" title="{$CONST.PREVIEW}"><span id="text_zoom_{$eclpen.id}" class="text toggle-icon icon-zoom-in"></span><span class="visuallyhidden"> {$CONST.TOGGLE_OPTION}</span></a>
                             </li>
                             {/if}
                             <li class="mod_view">
-                                <a target="_blank" href="{$eclpen.entrylink}" title="{$CONST.VIEW}" class="serendipityIconLink"><span id="text_{$eclpen.id}" class="admin-mini-icon"><img src="{serendipity_getFile file='admin/img/zoom.png'}" title="{$CONST.VIEW}" alt="[view]" /></span></a>
+                                <a class="icon_link" target="_blank" href="{$eclpen.entrylink}" title="{$CONST.VIEW}"><span id="text_view_{$eclpen.id}" class="admin-mini-icon icon-eye"></span><span class="visuallyhidden"> {$CONST.VIEW}</span></a>
                             </li>
                             <li class="mod_edit">
-                                <a href="?serendipity[action]=admin&amp;serendipity[adminModule]=comments&amp;serendipity[adminAction]=edit&amp;serendipity[id]={$eclpen.id}&amp;serendipity[entry_id]={$eclpen.entry_id}&amp;{$urltoken}" title="{$CONST.EDIT}" class="serendipityIconLink"><span id="text_{$eclpen.id}" class="admin-mini-icon"><img src="{serendipity_getFile file='admin/img/edit.png'}" title="{$CONST.EDIT}" alt="[edit]" /></span></a>
+                                <a class="icon_link" href="?serendipity[action]=admin&amp;serendipity[adminModule]=comments&amp;serendipity[adminAction]=edit&amp;serendipity[id]={$eclpen.id}&amp;serendipity[entry_id]={$eclpen.entry_id}&amp;{$urltoken}" title="{$CONST.EDIT}"><span id="text_edit_{$eclpen.id}" class="admin-mini-icon icon-edit"></span><span class="visuallyhidden"> {$CONST.EDIT}</span></a>
                             </li>
-                            <li class="mod_delete">
                             {if !$read_only}
-                                <a href="?serendipity[action]=admin&amp;serendipity[adminModule]=comments&amp;serendipity[adminAction]=delete&amp;serendipity[id]={$eclpen.id}&amp;serendipity[entry_id]={$eclpen.entry_id}&amp;{$urltoken}" onclick='return confirm("{$eclpen.delete_id}")' title="{$CONST.DELETE}" class="serendipityIconLink"><span id="text_{$eclpen.id}" class="admin-mini-icon"><img src="{serendipity_getFile file='admin/img/delete.png'}" title="{$CONST.DELETE}" alt="[delete]" /></span></a>
-                            {/if}
+                            <li class="mod_delete">
+                                <a class="icon_link" href="?serendipity[action]=admin&amp;serendipity[adminModule]=comments&amp;serendipity[adminAction]=delete&amp;serendipity[id]={$eclpen.id}&amp;serendipity[entry_id]={$eclpen.entry_id}&amp;{$urltoken}" onclick='return confirm("{$eclpen.delete_id}")' title="{$CONST.DELETE}"><span id="text_trash_{$eclpen.id}" class="admin-mini-icon icon-trash"></span><span class="visuallyhidden"> {$CONST.DELETE}</span></a>
                             </li>
+                            {/if}
                             <li class="mod_reply">
-                                <a target="_blank" onclick="cf=window.open(this.href, 'CommentForm', 'width=800,height=600,toolbar=no,scrollbars=1,scrollbars,resize=1,resizable=1'); cf.focus(); return false;" href="?serendipity[action]=admin&amp;serendipity[adminModule]=comments&amp;serendipity[adminAction]=reply&amp;serendipity[id]={$eclpen.id}&amp;serendipity[entry_id]={$eclpen.entry_id}&amp;serendipity[noBanner]=true&amp;serendipity[noSidebar]=true&amp;{$urltoken}" title="{$CONST.REPLY}" class="serendipityIconLink"><span id="text_{$eclpen.id}" class="admin-mini-icon"><img src="{serendipity_getFile file='admin/img/user_editor.png'}" title="{$CONST.REPLY}" alt="[reply]" /></span></a>
+                                <a class="icon_link" target="_blank" onclick="cf=window.open(this.href, 'CommentForm', 'width=800,height=600,toolbar=no,scrollbars=1,scrollbars,resize=1,resizable=1'); cf.focus(); return false;" href="?serendipity[action]=admin&amp;serendipity[adminModule]=comments&amp;serendipity[adminAction]=reply&amp;serendipity[id]={$eclpen.id}&amp;serendipity[entry_id]={$eclpen.entry_id}&amp;serendipity[noBanner]=true&amp;serendipity[noSidebar]=true&amp;{$urltoken}" title="{$CONST.REPLY}"><span id="text_reply_{$eclpen.id}" class="admin-mini-icon icon-chat-empty"></span><span class="visuallyhidden"> {$CONST.REPLY}</span></a>
                             </li>
                             {if $spamblockbayes_hookin}
                             <li class="mod_bayes">
                                 <ul>
                                     <li class="mod_ham" title="{$CONST.PLUGIN_EVENT_SPAMBLOCK_BAYES_NAME}: {$CONST.PLUGIN_EVENT_SPAMBLOCK_BAYES_HAM}">
-                                        <a id="ham{$eclpen.id}" class="serendipityIconLink spamblockBayesControls" onclick="return ham({$eclpen.id})" href="{$serendipityBaseURL}index.php?/plugin/learnAction&amp;action=approve&amp;category=ham&amp;id={$eclpen.id}&amp;entry_id={$eclpen.entry_id}">
+                                        <a id="ham{$eclpen.id}" class="icon_link spamblockBayesControls" onclick="return ham({$eclpen.id})" href="{$serendipityBaseURL}index.php?/plugin/learnAction&amp;action=approve&amp;category=ham&amp;id={$eclpen.id}&amp;entry_id={$eclpen.entry_id}">
                                             <img src="{serendipity_getFile file='admin/img/accept.png'}" alt="" />
                                             {$CONST.PLUGIN_EVENT_SPAMBLOCK_BAYES_HAM}
                                         </a> 
                                     </li>
                                     <li class="mod_spam" title="{$CONST.PLUGIN_EVENT_SPAMBLOCK_BAYES_NAME}: {$CONST.PLUGIN_EVENT_SPAMBLOCK_BAYES_SPAM}">
-                                        <a id="spam{$eclpen.id}" class="serendipityIconLink spamblockBayesControls" onclick="return spam({$eclpen.id})" href="{$serendipityBaseURL}index.php?/plugin/learnAction&amp;action=delete&amp;category=spam&amp;id={$eclpen.id}&amp;entry_id={$eclpen.entry_id}">
+                                        <a id="spam{$eclpen.id}" class="icon_link spamblockBayesControls" onclick="return spam({$eclpen.id})" href="{$serendipityBaseURL}index.php?/plugin/learnAction&amp;action=delete&amp;category=spam&amp;id={$eclpen.id}&amp;entry_id={$eclpen.entry_id}">
                                             <img src="{$thispath}/img/spamblock_bayes.spam.png" alt="" />
                                             {$CONST.PLUGIN_EVENT_SPAMBLOCK_BAYES_SPAM}
                                         </a>
                                     </li>
                                     <li class="mod_rating">
                                         <span class="spamblockBayesRating" title="{$CONST.PLUGIN_EVENT_SPAMBLOCK_BAYES_RATING_EXPLANATION}">
-                                            <a href="?serendipity[adminModule]=event_display&amp;serendipity[adminAction]=spamblock_bayes&amp;serendipity[comments][{$eclpen.id}]">
+                                            <a href="?serendipity[adminModule]=event_display&amp;serendipity[adminAction]=spamblock_bayes&amp;serendipity[subpage]=4&amp;serendipity[comments][{$eclpen.id}]">
                                                 <span id="{$eclpen.id}_rating">{$eclpen.cID}%</span>
                                             </a>
                                             <img src="{serendipity_getFile file='admin/img/admin_msg_note.png'}" alt="[rating]" />
@@ -105,9 +105,9 @@
             {/foreach}
 
             <div class="input-boxed">
-                <span class="inputtype"><img src="{$thispath}/img/invert.png" alt="" /><input type="button" name="toggle" value="{$CONST.INVERT_SELECTIONS}" onclick="invertSelectionPen()" class="none" /></span>
-                <span class="inputtype"><img src="{$thispath}/img/remove.png" alt="" /><input type="submit" name="toggle" value="{$CONST.PLUGIN_DASHBOARD_DELETE_SELECTED}" onclick="return confirm('{$CONST.COMMENTS_DELETE_CONFIRM}')" class="none" /></span>
-                <span class="inputtype"><img src="{$thispath}/img/approve.png" alt="" /><input type="submit" name="serendipity[togglemoderate]" value="{$CONST.PLUGIN_DASHBOARD_MODERATE_SELECTED}" class="none" /></span>
+                <button id="cp-inv" type="button" name="toggle" onclick="invertSelectionPen()" class="none" title="{$CONST.INVERT_SELECTIONS}"><span class="icon-shuffle"></span><span class="visuallyhidden"> {$CONST.INVERT_SELECTIONS}</span></button>
+                <button id="cp-del" type="submit" name="toggle" onclick="return confirm('{$CONST.COMMENTS_DELETE_CONFIRM}')" class="none" title="{$CONST.DELETE_SELECTED_COMMENTS}"><span class="icon-trash"></span><span class="visuallyhidden"> {$CONST.DELETE_SELECTED_COMMENTS}</span></button>
+                <button id="cp-ok" type="submit" name="serendipity[togglemoderate]" class="none" title="{$CONST.PLUGIN_DASHBOARD_MODERATE_SELECTED}"><span class="icon-ok"></span><span class="visuallyhidden"> {$CONST.PLUGIN_DASHBOARD_MODERATE_SELECTED}</span></button>
             </div>
 
             {if $spamblockbayes_hookin}

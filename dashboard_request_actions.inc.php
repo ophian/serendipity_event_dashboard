@@ -1,5 +1,5 @@
 <?php # $Id$
-// dashboard_actions.inc.php - last modified 2012-10-04
+// dashboard_requests_actions.inc.php - last modified 2012-10-23
 // some POST & GET actions copied from head of comments.inc.php to get included, as also used for the dashboard plugin
 
 if (IN_serendipity !== true) {

@@ -1,4 +1,4 @@
-{*** block_feed.tpl - last modified 2012-08-31 ***}
+{*** block_feed.tpl - last modified 2012-12-12 ***}
 
 {if $showElementFeed}
   <div id="feed" class="block-infos block-box">
@@ -27,7 +27,7 @@
                         <ul class="feed_fields">
 						    {if $show_feedcontent}
                             <li class="mod_zoom">
-                                <a href="#f{$smarty.foreach.rssblogfeed.iteration}" title="{$CONST.VIEW}" class="serendipityIconLink toggle_text"><span id="text_{$smarty.foreach.rssblogfeed.iteration}" class="text toggle-icon"><img src="{serendipity_getFile file='admin/img/uparrow.png'}" title="{$CONST.TOGGLE_OPTION}" alt="[Zoom]" /></span></a>
+                                <a href="#f{$smarty.foreach.rssblogfeed.iteration}" title="{$CONST.VIEW}" class="icon_link toggle_text"><span id="text_{$smarty.foreach.rssblogfeed.iteration}" class="text toggle-icon icon-zoom-in"></span><span class="visuallyhidden"> {$CONST.TOGGLE_OPTION}</span></a>
                             </li>
 							{/if}
 							{if $show_feedauthor}

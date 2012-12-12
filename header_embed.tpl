@@ -1,4 +1,4 @@
-{*** header_embed.tpl - last modified 2012-09-01 ***}
+{*** header_embed.tpl - last modified 2012-12-12 ***}
 
     <header role="banner">
         <div class="dashboard_header">
@@ -6,21 +6,6 @@
                 <h2><span><img src="{$thispath}/img/s9y4.png" alt="logo">{$s9yheader.0.welcome}</span></h2>
 
                 <div id="boxed_autoupdate" class="visuallyhidden"><p><img class="attention" src="{serendipity_getFile file='admin/img/admin_msg_note.png'}" alt="" /> {$CONST.PLUGIN_DASHBOARD_AUTOUPDATE_NOTE}</p></div>
-            </nav>
-
-            <nav id="nav-embed-iconset" role="navigation">
-                <ul class="clearfix">
-                    <li><a id="menu-logoff" href="serendipity_admin.php?serendipity[adminModule]=logout"><img src="{$thispath}/img/exitoctogone.png" width="36" height="36" alt="[LO]" title="{$CONST.LOGOUT}" /></a></li>
-                    <li><a id="menu-perset" href="serendipity_admin.php?serendipity[adminModule]=personal"><img src="{$thispath}/img/user.png" alt="[PS]" title="{$CONST.PERSONAL_SETTINGS}" /></a></li>
-                    {if $showCleanupSmarty}
-                    <li><a id="menu-cleanup" href="?serendipity[action]=admin&amp;serendipity[dashboard_event]=capct&amp;{$urltoken}" onclick="return confirm('{$CONST.PLUGIN_DASHBOARD_CLEANUP_CONFIRM}')"><img src="{$thispath}/img/cleanup128.png" width="32" height="32" alt="[CP]" title="{$CONST.PLUGIN_DASHBOARD_CLEANSMARTY} [{$CONST.PATH_SMARTY_COMPILE}]" /></a></li>
-                    {/if}
-                    {if 'adminPlugins'|checkPermission}
-                    <li><a id="menu-plugco" href="?serendipity[adminModule]=plugins&amp;serendipity[plugin_to_conf]={$plugininstance}" class="pluginmanager_configure"><img src="{$thispath}/img/dsbcon128.png" width="32" height="32" alt="[C]" title="{$sysinfo.title} Plugin [{$sysinfo.this_v}]" /></a></li>
-                    {/if}
-                    <li><a id="menu-back2b" href="{$serendipityBaseURL}"><img src="{$thispath}/img/b2b128.png" width="32" height="32" alt="[B2B]" title="{$CONST.BACK_TO_BLOG}" /></a></li>
-                </ul>
-                
             </nav>
 
             <nav id="nav-embed-switch" role="navigation">

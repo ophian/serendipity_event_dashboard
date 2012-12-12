@@ -4,7 +4,7 @@ v.2.0.2 | 2012-12-12 | Branch 2.0
 ## Name: serendipity_event_dashboard
 
 * The Serendipity Dashboard [Proof of Concept] for S9y version 2.0
-  PLEASE NOTE: This version 2.x branch will only work with Serendipity 2.0 dev!
+  PLEASE NOTE: This version 2.x branch will only work with a current Serendipity 2.0 dev!
 
 * Although running stable enough as is, this plugin is still announced to have testing status, as long as there won't be some more testers and feedback!
 

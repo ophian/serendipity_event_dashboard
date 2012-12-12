@@ -1,10 +1,26 @@
+2.0.2
+-----
+Started work on 2.0 branch - based to 2k11 as default template and the new backend work - This is work in progress!
+Removed Dashboard nav-menu to new backend #user_menu
+Changed some classes, scripts, markup to fit to new backend markup
+Added a Browser Back Button emulator in modal view (caches and falls back to first popup page content - this is still unfinished, as currently working via selectbar only)
+Set the experimental container view (yes) as default - block links are converted on the fly (mostly done)
+Update to query-ui-1.9.2 (disabled as buggy with toogle to FullScreen mode with ContainerPlus!)
+Added change to font awesome icons (still unfinished)
+
+1.0.0
+-----
+branched master to fit to upcoming Serendipity 1.7
+branched 1.6 as bugfix branch for Serendipity 1.6 versions
+branched 2.0 to make this work with the new smartified backend (and 2k11 as default template)
+
 0.9.9.2
--------
-Fixed XML Feed error note
+-----
+Fixed XML Feed error note 
 
 0.9.9.1
--------
-Fixed Smarty3 missing token in clean compiled nav link
+-----
+Added missing token to nav clean compiled template link
 
 0.9.9
 -----
