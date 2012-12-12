@@ -3,8 +3,8 @@ v.0.9.9.2 | 2012-11-10 | Branch 1.6
 
 ## Name: serendipity_event_dashboard
 
-* The Serendipity Dashboard [Proof of Concept] for version 1.x.
-  PLEASE NOTE: This version 0.9.9 will be the last version supporting Serendipity < 1.7!
+* The Serendipity Dashboard [Proof of Concept] for S9y version <= 1.6.x.
+  PLEASE NOTE: This branch 1.6 holds the current state for Serendipity versions < 1.7! It will only get bugfixes.
 
 * Although running stable enough as is, this plugin is still announced to have testing status, as long as there won't be some more testers and feedback!
 
