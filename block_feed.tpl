@@ -25,17 +25,17 @@
                     <div class="feed_boxed">
 
                         <ul class="feed_fields">
-						    {if $show_feedcontent}
+                            {if $show_feedcontent}
                             <li class="mod_zoom">
                                 <a href="#f{$smarty.foreach.rssblogfeed.iteration}" title="{$CONST.VIEW}" class="icon_link toggle_text"><span id="text_{$smarty.foreach.rssblogfeed.iteration}" class="text toggle-icon icon-zoom-in"></span><span class="visuallyhidden"> {$CONST.TOGGLE_OPTION}</span></a>
                             </li>
-							{/if}
-							{if $show_feedauthor}
+                            {/if}
+                            {if $show_feedauthor}
                             <li class="mod_author"><b>{$CONST.AUTHOR}:</b> {$feed.author|truncate:30:"&hellip;"} {$feed.action_author} </li>
-							{/if}
-							{if $show_feedconum}
+                            {/if}
+                            {if $show_feedconum}
                             <li class="mod_comments"><b>{$CONST.COMMENTS}: [ <span class="num">{$feed.countcomments}</span> ]</b> {if $feed.comments}<a href="{$feed.comments}" title="{$feed.comments|truncate:60:"&hellip;"}">Link</a>{else}N/A{/if} </li>
-							{/if}
+                            {/if}
                         </ul>
                 
                     </div><!-- class feed_boxed end -->

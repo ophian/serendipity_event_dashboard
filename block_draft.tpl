@@ -27,7 +27,7 @@
                     <li class="mod_view"><a id="efv{$edraft.id}" class="icon_link" href="{$edraft.link}" title="{$CONST.VIEW} #{$edraft.id}" target="_blank"><button id="xopen"><span class="text icon-zoom-in"></span><span class="visuallyhidden"> {$CONST.VIEW}</span></button></a></li>
                     {/if}
                     <li class="mod_edit"><a id="efe{$edraft.id}" class="icon_link" href="?serendipity[action]=admin&amp;serendipity[adminModule]=entries&amp;serendipity[adminAction]=edit&amp;serendipity[id]={$edraft.id}" title="{$CONST.EDIT} #{$edraft.id}"><button id="xopen"><span class="icon-edit"></span><span class="visuallyhidden"> {$CONST.EDIT}</span></button></a></li>
-					<li class="mod_delete"><a id="efd{$edraft.id}" class="icon_link" title="{$CONST.DELETE} #{$edraft.id}" href="?serendipity[action]=admin&amp;serendipity[adminModule]=entries&amp;serendipity[adminAction]=delete&amp;{$urltoken}&amp;serendipity[id]={$edraft.id}"><button id="xopen"><span class="icon-trash"></span><span class="visuallyhidden"> {$CONST.DELETE}</span></button></a></li>
+                    <li class="mod_delete"><a id="efd{$edraft.id}" class="icon_link" title="{$CONST.DELETE} #{$edraft.id}" href="?serendipity[action]=admin&amp;serendipity[adminModule]=entries&amp;serendipity[adminAction]=delete&amp;{$urltoken}&amp;serendipity[id]={$edraft.id}"><button id="xopen"><span class="icon-trash"></span><span class="visuallyhidden"> {$CONST.DELETE}</span></button></a></li>
                 </ul>
             </div>
 
