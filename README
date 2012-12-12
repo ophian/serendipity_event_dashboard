@@ -4,7 +4,7 @@ v.2.0.2 | 2012-12-12 | Branch 2.0
 ## Name: serendipity_event_dashboard
 
 * The Serendipity Dashboard [Proof of Concept] for S9y version 2.0
-  PLEASE NOTE: This version 2.x branch will only work with a current Serendipity 2.0 dev!
+  PLEASE NOTE: This version 2.x branch will **only** work with a current Serendipity **2.0** dev!
 
 * Although running stable enough as is, this plugin is still announced to have testing status, as long as there won't be some more testers and feedback!
 
@@ -16,4 +16,4 @@ v.2.0.2 | 2012-12-12 | Branch 2.0
 
 * The current help screen is my development gazette, noting ideas and fixed issues to this P.o.C.
 
-* This Dashboard-Concept is strictly based to the default Backend as used in /templates/default/admin/* and /templates/bulletproof/admin/*.
+* This Dashboard-Concept is strictly based to the new backend files as used in /templates/2k11/admin/* and some in default.
