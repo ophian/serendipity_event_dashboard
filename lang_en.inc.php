@@ -1,5 +1,5 @@
 <?php
-/* last modified - 2012-09-02 */
+/* last modified - 2012-10-04 */
 
 /* propbag config only */
 @define('PLUGIN_DASHBOARD_DESC', 'Shows some summary information on the backend frontpage');
@@ -7,6 +7,9 @@
 @define('PLUGIN_DASHBOARD_SEQUENCE_DESC', 'Here you can arrange how the different types of information shall be arranged.<p>Further positions may be made in succession in the Dashboard UI itself!</p>');
 @define('PLUGIN_DASHBOARD_READONLY', 'Read-only Dashboard?');
 @define('PLUGIN_DASHBOARD_READONLY_DESC', 'If enabled, the dashboard will not be able to perform actual actions on its output, so that you cannot accidentally perform an action like deleting or approving comments.');
+@define('PLUGIN_DASHBOARD_EXTEND_NOTE', 'Extend to use Backend Container (experimental!)');
+@define('PLUGIN_DASHBOARD_EXTEND_NOTE_DESC', 'If enabled (yes or no), the dashboard will try to open initial-tier (no) and inner-follow links, forms and buttons (yes) into the modal Backend Container.');
+@define('PLUGIN_DASHBOARD_EXTEND_NEVER', 'never');
 @define('PLUGIN_DASHBOARD_DEPENDENCY_NOTE', 'Enable Plugin-Dependency note in Dashboard header?');
 @define('PLUGIN_DASHBOARD_DEPENDENCY_NOTE_DESC', '');
 @define('PLUGIN_DASHBOARD_UPDATE', 'Check for Serendipity Update');

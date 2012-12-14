@@ -1,10 +1,10 @@
-v.1.0.0 | 2012-12-12 | Branch master
+v.1.0.1 | 2012-12-14 | Branch master
 ===
 
 ## Name: serendipity_event_dashboard
 
 * The Serendipity Dashboard [Proof of Concept] for version 1.7.
-  PLEASE NOTE: This version 1.x will only work with Serendipity 1.7! S9y 2.0 has its own branch.
+  PLEASE NOTE: This version 1.x will only work with Serendipity 1.7! S9y-2.0 has its own branch.
 
 * Although running stable enough as is, this plugin is still announced to have testing status, as long as there won't be some more testers and feedback!
 

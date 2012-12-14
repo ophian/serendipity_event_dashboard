@@ -1,6 +1,6 @@
 <?php # $Id$
 
-// - last modified 2012-10-31
+// - last modified 2012-12-12
 
 if (IN_serendipity !== true) {
     die ("Don't hack!");
@@ -39,6 +39,12 @@ if(!defined('AUTOUPDATE_INSTALLED')) {
         @define('AUTOUPDATE_INSTALLED', true);
     }
 }
+ /**
+  * Class member instance attribute values
+  * Members must be initialized with a constant expression (like a string constant, numeric literal, etc), not a dynamic expression!
+  **/
+define(DASHBOARD_PRESET_REMOTE_ADDR, $_SERVER['PHP_SELF']);
+define(DASHBOARD_PRESET_MOMATXT, sprintf(PLUGIN_DASHBOARD_MAINTENANCE_TEXT, $serendipity['blogTitle']));
 
 
 /**
@@ -49,8 +55,225 @@ if(!defined('AUTOUPDATE_INSTALLED')) {
  */
  class serendipity_event_dashboard extends serendipity_event {
 
-    var $debug;
-    var $bayes_plugin;
+    /**
+     * Declaration of the propery debug
+     * @var boolean
+     */
+    protected $debug;
+
+    /**
+     * Declaration of the propery bayes_plugin to find Spamblock-bayes plugin
+     * @var boolean
+     */
+    protected $bayes_plugin;
+
+    /**
+     * Access property title
+     * As already used in class serendipity_event extends serendipity_plugin this needs to be public
+     * @access public
+     * @var string
+     */
+    public $title = PLUGIN_DASHBOARD_TITLE;
+
+    /**
+     * Access property autoupdateExistNote
+     * Enable navigation button to show plugin dependency note
+     * @var boolean
+     */
+    protected $autoupdateExistNote = true;
+
+     /**
+     * Access property autoupdateText
+     * Set dependency autoupdate update element text
+     * @var string (not in this plugins introspect_config_item!) - needs to be empty string, not null
+     */
+    protected $autoupdateText = '';
+
+    /**
+     * Access property blockFeedAuthor
+     * Enable feed to show entry author
+     * @var boolean
+     */
+    protected $blockFeedAuthor = true;
+
+    /**
+     * Access property blockFeedComments
+     * Enable feed to show entry comments
+     * @var boolean
+     */
+    protected $blockFeedComments = true;
+
+    /**
+     * Access property blockFeedContent
+     * Enable feed to show entry content
+     * @var boolean
+     */
+    protected $blockFeedContent = true;
+
+    /**
+     * Access property blockFeedTitle
+     * Set S9y Blog Feed title
+     * @var string
+     */
+    protected $blockFeedTitle = PLUGIN_DASHBOARD_FEED;
+
+    /**
+     * Access property blockFeedUrl
+     * Set S9y Blog Feed RSS url
+     * @var string
+     */
+    protected $blockFeedUrl = 'http://blog.s9y.org/feeds/index.rss2';
+
+    /**
+     * Access property blockLimitComments
+     * Set show limit of approved comment entries
+     * @var int
+     */
+    protected $blockLimitComments = 5;
+
+    /**
+     * Access property blockLimitCompen
+     * Set show limit of pending comment entries
+     * @var int
+     */
+    protected $blockLimitCompen = 5;
+
+    /**
+     * Access property blockLimitDraft
+     * Set show limit of draft entries
+     * @var int
+     */
+    protected $blockLimitDraft = 5;
+
+    /**
+     * Access property blockLimitFeed
+     * Set show limit of S9y-Blog feed entries
+     * @var int
+     */
+    protected $blockLimitFeed = 3;
+
+    /**
+     * Access property blockLimitFuture
+     * Set show limit of future entries
+     * @var int
+     */
+    protected $blockLimitFuture = 5;
+
+    /**
+     * Access property blockMaintenance
+     * Enable Dashboard-UI maintenance mode button in update element
+     * @var boolean
+     */
+    protected $blockMaintenance = false;
+
+    /**
+     * Access property cookieMetaset
+     * Cookie element order string via Dashboard-UI
+     * @var string (not in this plugins introspect_config_item!)
+     */
+    protected $cookieMetaset = null;
+
+    /**
+     * Access property defaultOrderString
+     * Set sequence element order string via Dashboard config
+     * @var string
+     */
+    protected $defaultOrderString = 'info,compen,future,draft,feed,comapp,update,plugup';
+
+   /**
+     * Access property extendToContainer
+     * Enable containerized backend views
+     * @var boolean (true = always, false = initial-tier, null = never)
+     */
+    protected $extendToContainer = false;
+
+    /**
+     * Access property lastUpdateDate
+     * Set dependency autoupdate version date
+     * @var string (not in this plugins introspect_config_item!)
+     */
+    protected $lastUpdateDate = null;
+
+    /**
+     * Access property lastVersionNumber
+     * Set dependency autoupdate last version number
+     * @var string (not in this plugins introspect_config_item!)
+     */
+    protected $lastVersionNumber = null;
+
+    /**
+     * Access property maintenanceText
+     * Set Frontend maintenance mode text (set to pre-defined constant, as not allowed to use dynamic Serendipity array var)
+     * @var string
+     */
+    protected $maintenanceText = DASHBOARD_PRESET_MOMATXT;
+
+    /**
+     * Access property pluginDashboardPath
+     * Set this plugins plugin path (set to pre-defined constant, as not allowed to use dynamic Serendipity array var)
+     * @var string
+     */
+    protected $pluginDashboardPath = DASHBOARD_PRESET_REMOTE_ADDR;
+
+    /**
+     * Access property readOnlyDashboard
+     * Enable a read only Dashboard
+     * @var boolean
+     */
+    protected $readOnlyDashboard = false;
+
+    /**
+     * Access property searchUpdateTree
+     * Set dependency autoupdate update get github string
+     * @var string
+     */
+    protected $searchUpdateTree = 'stable';
+
+     /**
+     * Access property smartyCleanCompDir
+     * Enable navigation button to clean smarty template_c
+     * @var boolean
+     */
+    protected $smartyCleanCompDir = true;
+
+   /**
+     * PHP5 Constructor. Initialize class variables from configuration
+     * Set class members instance variables memory slots
+     * @return void
+     */
+    public function __construct($instance) {
+        global $serendipity;
+
+        $this->instance             = $instance; // public var in class serendipity_event
+
+        // initilize with this plugins db config settings, lastely stored in $serendipity[$name]
+        $this->autoupdateExistNote  = serendipity_db_bool($this->get_config('dependencynote', 'true'));
+        $this->autoupdateText       = (string) $this->get_config('update_text', '');  // AUTOUPDATE PLUGIN str (not in this plugins introspect_config_item!)
+        $this->blockFeedAuthor      = serendipity_db_bool($this->get_config('feed_author', 'true'));
+        $this->blockFeedComments    = serendipity_db_bool($this->get_config('feed_conum', 'true'));
+        $this->blockFeedContent     = serendipity_db_bool($this->get_config('feed_content', 'true'));
+        $this->blockFeedTitle       = (string) $this->get_config('feed_title', PLUGIN_DASHBOARD_FEED);
+        $this->blockFeedUrl         = (string) $this->get_config('feed_url', 'http://blog.s9y.org/feeds/index.rss2');
+        $this->blockLimitComments   = (int) $this->get_config('limit_comments', 5);
+        $this->blockLimitCompen     = (int) $this->get_config('limit_compen', 5);
+        $this->blockLimitDraft      = (int) $this->get_config('limit_draft', 5);
+        $this->blockLimitFeed       = (int) $this->get_config('limit_feed', 3);
+        $this->blockLimitFuture     = (int) $this->get_config('limit_future', 5);
+        $this->blockMaintenance     = serendipity_db_bool($this->get_config('maintenance', 'false'));
+        $this->cookieMetaset        = (string) $this->get_config('metaset', null); // (not in this plugins introspect_config_item!)
+        $this->defaultOrderString   = (string) $this->get_config('sequence', 'info,compen,future,draft,feed,comapp,update,plugup');
+        // do not type-cast extendToContainer since using 'boolean like' string values null false true
+        $this->extendToContainer    = (string) $this->get_config('extend', 'false');
+        $this->lastUpdateDate       = (string) $this->get_config('last_update', null);  // AUTOUPDATE PLUGIN str date (not in this plugins introspect_config_item!)
+        $this->lastVersionNumber    = (string) $this->get_config('last_version', null); // AUTOUPDATE PLUGIN str (not in this plugins introspect_config_item!)
+        $this->maintenanceText      = (string) $this->get_config('maintenancenote', sprintf(PLUGIN_DASHBOARD_MAINTENANCE_TEXT, $serendipity['blogTitle']));
+        // do not name to 'pluginPath', since this is already used in class serendipity_event extends serendipity_plugin, which would override a set here
+        $this->pluginDashboardPath  = (string) $this->get_config('path', $serendipity['serendipityHTTPPath'] . 'plugins/serendipity_event_dashboard');
+        $this->readOnlyDashboard    = serendipity_db_bool($this->get_config('read_only', 'false'));
+        $this->searchUpdateTree     = (string) $this->get_config('update', 'stable');
+        $this->smartyCleanCompDir   = serendipity_db_bool($this->get_config('clean', 'true'));
+
+    }
 
     /**
      * The introspection function to setup properties
@@ -68,15 +291,15 @@ if(!defined('AUTOUPDATE_INSTALLED')) {
         $propbag->add('name',          PLUGIN_DASHBOARD_TITLE);
         $propbag->add('description',   PLUGIN_DASHBOARD_DESC);
         $propbag->add('requirements',  array(
-            'serendipity' => '1.6',
-            'smarty'      => '2.6.7',
+            'serendipity' => '1.6.9',
+            'smarty'      => '3.1.0',
             'php'         => '5.2.6'
         ));
 
-        $propbag->add('version',       '0.9.9.2');
+        $propbag->add('version',       '1.0.1');
         $propbag->add('author',        'Garvin Hicking, Ian');
         $propbag->add('stackable',     false);
-        $propbag->add('configuration', array('read_only', 'path', 'limit_comments_pending', 'limit_comments', 'limit_draft', 'limit_future', 'limit_feed', 'sequence', 'feed_url', 'feed_title', 'feed_content', 'feed_author', 'feed_conum', 'dependencynote', 'maintenance', 'maintenancenote', 'update', 'clean'));
+        $propbag->add('configuration', array('read_only', 'path', 'limit_compen', 'limit_comments', 'limit_draft', 'limit_future', 'limit_feed', 'sequence', 'feed_url', 'feed_title', 'feed_content', 'feed_author', 'feed_conum', 'extend', 'dependencynote', 'maintenance', 'maintenancenote', 'update', 'clean'));
         $propbag->add('event_hooks',   array(
                                             'frontend_configure'            => true,
                                             'backend_configure'             => true,
@@ -87,9 +310,9 @@ if(!defined('AUTOUPDATE_INSTALLED')) {
         );
         $propbag->add('groups', array('BACKEND_FEATURES'));
         $propbag->add('config_groups', array(
-            DASHBOARD_MAIN    => array('read_only', 'path', 'dependencynote', 'clean'),
+            DASHBOARD_MAIN    => array('read_only', 'path', 'extend', 'dependencynote', 'clean'),
             DASHBOARD_LAYOUT  => array('sequence'),
-            DASHBOARD_LIMITS  => array('limit_comments_pending', 'limit_comments', 'limit_draft', 'limit_future', 'limit_feed'),
+            DASHBOARD_LIMITS  => array('limit_compen', 'limit_comments', 'limit_draft', 'limit_future', 'limit_feed'),
             DASHBOARD_FEED    => array('feed_url', 'feed_title', 'feed_content', 'feed_author', 'feed_conum'),
             DASHBOARD_UPDATE  => array('maintenance', 'maintenancenote', 'update')
         ));
@@ -123,7 +346,7 @@ if(!defined('AUTOUPDATE_INSTALLED')) {
                 $propbag->add('default',     $serendipity['serendipityHTTPPath'] . 'plugins/serendipity_event_dashboard');
                 break;
 
-            case 'limit_comments_pending':
+            case 'limit_compen':
                 $propbag->add('type',        'string');
                 $propbag->add('name',        PLUGIN_DASHBOARD_LIMIT_COMMENTS_PENDING);
                 $propbag->add('description', '');
@@ -156,6 +379,17 @@ if(!defined('AUTOUPDATE_INSTALLED')) {
                 $propbag->add('name',        PLUGIN_DASHBOARD_LIMIT_FEED);
                 $propbag->add('description', '');
                 $propbag->add('default',     '3');
+                break;
+
+            case 'extend':
+                $propbag->add('type',        'radio');
+                $propbag->add('name',        PLUGIN_DASHBOARD_EXTEND_NOTE);
+                $propbag->add('description', PLUGIN_DASHBOARD_EXTEND_NOTE_DESC);
+                $propbag->add('default',     'false');
+                $propbag->add('radio', array(
+                    'value' => array('true', 'false', 'null'),
+                    'desc'  => array(YES, NO, PLUGIN_DASHBOARD_EXTEND_NEVER)
+                ));
                 break;
 
             case 'dependencynote':
@@ -298,11 +532,13 @@ if(!defined('AUTOUPDATE_INSTALLED')) {
 
             $plugin_found = null;
 
-            foreach($plugins as $plugin) {
-                // load instance
-                $plugin_found = serendipity_plugin_api::load_plugin($plugin['name']);
-                break;
-            }
+            if (is_array($plugins) && !empty($plugins)) { 
+                foreach($plugins as $plugin) {
+                    // load instance
+                    $plugin_found = serendipity_plugin_api::load_plugin($plugin['name']);
+                    break;
+                }
+		    }
 
             $this->bayes_plugin = $plugin_found;
         }
@@ -384,7 +620,7 @@ if(!defined('AUTOUPDATE_INSTALLED')) {
         serendipity_header( 'X-S9y-Maintenance: true' ); // Used for debugging detection
         serendipity_header( 'Content-Type: text/html; charset=utf-8' );
         serendipity_header( "Retry-After: $retry" );
-        serendipity_die(nl2br("<h2>503 - SERENDIPITY SERVICE MODE</h2>\n".$this->get_config('maintenancenote')));
+        serendipity_die(nl2br("<h2>503 - SERENDIPITY SERVICE MODE</h2>\n".$this->maintenanceText));
         exit; // actually no need, but for secure reasons left alive
     }
 
@@ -680,7 +916,7 @@ if(!defined('AUTOUPDATE_INSTALLED')) {
         #serendipity_plugin_api::hook_event('backend_view_comment', $comment, '&amp;serendipity[page]='. $page . $searchString);
 
         $serendipity['smarty']->assign(
-                        array(  'read_only' => serendipity_db_bool($this->get_config('read_only')),
+                        array(  'read_only' => $this->readOnlyDashboard,
                                 'urltoken'  => serendipity_setFormToken('url'),
                                 'formtoken' => serendipity_setFormToken()
                             ));
@@ -743,12 +979,10 @@ if(!defined('AUTOUPDATE_INSTALLED')) {
      * @return    string     XML-feed
      */
     private function showElementInfoFeed() {
-        $blogurl     = $this->get_config('feed_url');
-        $blognum     = $this->get_config('limit_feed');
         // read blog rss
-        $s9yfeed = $this->get_url_contents($blogurl); // ToDo: cache this for a day.., see updater
+        $s9yfeed = $this->get_url_contents($this->blockFeedUrl); // ToDo: cache this for a day.., see updater
         // select elements as array by limit
-        $s9yblog = $this->select_simple_xml($s9yfeed, $blognum);
+        $s9yblog = $this->select_simple_xml($s9yfeed, $this->blockLimitFeed);
 
         return $s9yblog;
     }
@@ -838,7 +1072,7 @@ if(!defined('AUTOUPDATE_INSTALLED')) {
     private function CheckUpdate() {
         global $serendipity;
 
-        if (!serendipity_checkPermission('adminUsers') || $this->get_config('update') == 'none') {
+        if (!serendipity_checkPermission('adminUsers') || $this->searchUpdateTree == 'none') {
             return;
         }
 
@@ -850,7 +1084,7 @@ if(!defined('AUTOUPDATE_INSTALLED')) {
             return;
         }
 
-        $version = $this->get_config('update');
+        $version = $this->searchUpdateTree;
 
         while(!feof($file)){
             $line = fgets($file);
@@ -883,12 +1117,11 @@ if(!defined('AUTOUPDATE_INSTALLED')) {
     private function showElementDraft($sort_id) {
         global $serendipity;
 
-        $lim = $this->get_config('limit_draft');
-        if ($lim < 1) return;
+        if ($this->blockLimitDraft < 1) return;
 
         $serendipity['smarty']->assign('showElementDraft', true);
         $serendipity['smarty']->assign('draft_block_id', $sort_id);
-        $serendipity['smarty']->assign('draft_Entrylist', $this->showElementEntrylist(array("e.isdraft = 'true'"), $lim));
+        $serendipity['smarty']->assign('draft_Entrylist', $this->showElementEntrylist(array("e.isdraft = 'true'"), $this->blockLimitDraft));
     }
 
     /**
@@ -900,12 +1133,11 @@ if(!defined('AUTOUPDATE_INSTALLED')) {
     private function showElementComments($sort_id) {
         global $serendipity;
 
-        $lim = $this->get_config('limit_comments');
-        if ($lim < 1) return;
+        if ($this->blockLimitComments < 1) return;
 
         $serendipity['smarty']->assign('showElementComments', true);
         $serendipity['smarty']->assign('comments_block_id', $sort_id);
-        $serendipity['smarty']->assign('entry_Commentlist', $this->showElementCommentlist("AND status = 'approved'", $lim));
+        $serendipity['smarty']->assign('entry_Commentlist', $this->showElementCommentlist("AND status = 'approved'", $this->blockLimitComments));
     }
 
     /**
@@ -919,13 +1151,12 @@ if(!defined('AUTOUPDATE_INSTALLED')) {
 
         static $hookin = null;
 
-        $lim = $this->get_config('limit_comments_pending');
-        if ($lim < 1) return;
+        if ($this->blockLimitCompen < 1) return;
 
         if (defined('BAYES_INSTALLED')) { $hookin = 'antispam'; }
         $serendipity['smarty']->assign('showElementComPend', true);
-        $serendipity['smarty']->assign('commpen_block_id', $sort_id);
-        $serendipity['smarty']->assign('entry_Compendlist', $this->showElementCommentlist("AND status IN ('pending','confirm')", $lim, $hookin));
+        $serendipity['smarty']->assign('compen_block_id', $sort_id);
+        $serendipity['smarty']->assign('entry_Compendlist', $this->showElementCommentlist("AND status IN ('pending','confirm')", $this->blockLimitCompen, $hookin));
     }
 
     /**
@@ -968,33 +1199,31 @@ if(!defined('AUTOUPDATE_INSTALLED')) {
     private function showUpdateNotifier($sort_id) {
         global $serendipity;
 
-        if (!serendipity_checkPermission('adminUsers') || $this->get_config('update') == 'none') {
+        if (!serendipity_checkPermission('adminUsers') || $this->searchUpdateTree == 'none') {
             return;
         }
 
         // If we didn't check today, do it now and remember, that we did.
-        if (($this->get_config('last_update') != date('Ymd'))){
+        if (($this->lastUpdateDate != date('Ymd'))){
             $this->set_config('last_update', date('Ymd'));
             $this->CheckUpdate(); // this will fill all needed config values
         }
 
-        $update_text = '';
         $update_form = '';
-        $newVersion  = $this->get_config('last_version');
-        $momabutton  = serendipity_db_bool($this->get_config('maintenance')) ? '<button id="moma" class="button">' . PLUGIN_DASHBOARD_MAINTENANCE_MODE . '</button>' : '';
+        $newVersion  = $this->lastVersionNumber;
+        $momabutton  = $this->blockMaintenance ? '<button id="moma" class="button">' . PLUGIN_DASHBOARD_MAINTENANCE_MODE . '</button>' : '';
 
         // Compare last found update version to current Serendipity version
         if ( version_compare($newVersion, $serendipity['version'], '>') ) {
             $eventData = '';
             serendipity_plugin_api::hook_event('plugin_dashboard_updater', $eventData, $newVersion);
-            $update_text = $this->get_config('update_text');
             $eventData   = str_replace('Update now automatically', PLUGIN_DASHBOARD_UPDATE_BUTTON_TEXT, $eventData);
             $update_form = $eventData;
         }
         $serendipity['smarty']->assign(
                         array( 'update_block_id'   => $sort_id,
                                'showElementUpdate' => true,
-                               'update_text'       => $update_text,
+                               'update_text'       => $this->autoupdateText,
                                'update_form'       => $update_form,
                                'service_mode'      => $momabutton )
                         );
@@ -1009,12 +1238,11 @@ if(!defined('AUTOUPDATE_INSTALLED')) {
     private function showElementFuture($sort_id) {
         global $serendipity;
 
-        $lim = $this->get_config('limit_future');
-        if ($lim < 1) return;
+        if ($this->blockLimitFuture < 1) return;
 
         $serendipity['smarty']->assign('showElementFuture', true);
         $serendipity['smarty']->assign('future_block_id', $sort_id);
-        $serendipity['smarty']->assign('entry_future', $this->showElementEntrylist(array("e.isdraft != 'true' AND e.timestamp >= " . serendipity_serverOffsetHour()), $lim));
+        $serendipity['smarty']->assign('entry_future', $this->showElementEntrylist(array("e.isdraft != 'true' AND e.timestamp >= " . serendipity_serverOffsetHour()), $this->blockLimitFuture));
     }
 
     /**
@@ -1092,10 +1320,10 @@ if(!defined('AUTOUPDATE_INSTALLED')) {
                     array(
                         'feed_block_id'     => $sort_id,
                         's9yblogfeed'       => $s9yblog,
-                        'feed_header'       => $this->get_config('feed_title'),
-                        'show_feedcontent'  => serendipity_db_bool($this->get_config('feed_content')),
-                        'show_feedauthor'   => serendipity_db_bool($this->get_config('feed_author')),
-                        'show_feedconum'    => serendipity_db_bool($this->get_config('feed_conum'))
+                        'feed_header'       => $this->blockFeedTitle,
+                        'show_feedcontent'  => $this->blockFeedContent,
+                        'show_feedauthor'   => $this->blockFeedAuthor,
+                        'show_feedconum'    => $this->blockFeedComments
                     )
             );
         }
@@ -1167,18 +1395,15 @@ if(!defined('AUTOUPDATE_INSTALLED')) {
 
         /* set global plugin path setting, to avoid different pluginpath '/plugins/', while some people use symlinked plugins dirs */
         if (!defined('DASHBOARD_PLUGINPATH')) {
-            @define('DASHBOARD_PLUGINPATH',  $this->get_config('path'));
+            @define('DASHBOARD_PLUGINPATH',  $this->pluginDashboardPath);
         }
         if (defined('BAYES_INSTALLED') && !defined('BAYES_PLUGINPATH')) {
-            @define('BAYES_PLUGINPATH',  str_replace('/serendipity_event_dashboard', '/serendipity_event_spamblock_bayes', $this->get_config('path')));
+            @define('BAYES_PLUGINPATH',  str_replace('/serendipity_event_dashboard', '/serendipity_event_spamblock_bayes', $this->pluginDashboardPath));
         }
 
         if (isset($hooks[$event])) {
             switch($event) {
                 case 'frontend_configure':
-                    // serendipity_header('X-Debug1: hook-frontend_configure'); // Used for debugging detection
-                    // serendipity_header('X-Debug2: set-moma '.$serendipity['maintenance'].'');
-
                     // If the Browser was closed without unset maintenance mode,
                     // check dashboards autologin cookie to be able to return to login page at least w/o the 503 unavailable mode page
                     if (isset($serendipity['COOKIE']['dashboard_autologin'])) {
@@ -1197,88 +1422,68 @@ if(!defined('AUTOUPDATE_INSTALLED')) {
                     break;
 
                 case 'backend_configure':
-                    // here we go and overwrite the backend structure - maybe ;-)
-                    // keep for future purposes
-                    /*if( ( isset($serendipity['GET']['noSidebar']) || isset($serendipity['POST']['noSidebar']) ) 
-                     ||  !isset($serendipity['GET']['adminAction']) 
-                     || ( empty($serendipity['GET']['adminAction']) && !isset($serendipity['GET']['adminModule']) ) 
-                     ) {
+                    // here we go and overwrite the fetch backend structure on demand
+                    if( $serendipity['GET']['noHeading'] ) {
                         $serendipity['POST']['noSidebar']  = true;
                         $serendipity['POST']['noBanner']   = true;
                         $serendipity['POST']['noFooter']   = true;
-                        $serendipity['POST']['h5bp-style'] = true;
-                    }*/
-
-                    echo '<!DOCTYPE html>'."\n";
-                    // serendipity_header('X-Debug3: hook-backend_configure'); // Used for debugging detection
-
+                    }
                     if (!is_object($serendipity['smarty'])) {
                         serendipity_smarty_init(); // if not set, start Smarty templating to avoid member function assign() on a non-object error
                     }
-                    // Disable the use of Serendipity JQuery in Backend - remember if having it disabled in template....
-                    // also either make sure this dashboard is for 1.6 up only or construct a fallback to google 
-                    $serendipity['capabilities']['jquery'] = false;
 
-                    /* get the dashboard admin index template file */
-                    #echo $this->parseTemplate('admin_index.tpl'); // we cannot do this, as long we don not clone large parts of serendipity_admin.php
+                    /* get the dashboard default admin index template file */
+                    $servicehook = NULL;
+
+                    // read already set $serendipity['maintenance'], stored in serendipity_config_local.inc file
+                    if (isset($serendipity['maintenance']) && !empty($serendipity['maintenance'])) $servicehook = $serendipity['maintenance']; // [booleanize!]
+
+                    // containerized backend calls send an ajax noHeading request which passes all smarty and web request into cloned default template
+                    if ( ( ( !isset($serendipity['GET']['adminModule']) || empty($serendipity['GET']['adminModule']) ) &&
+                           ( !isset($serendipity['POST']['adminModule']) || empty($serendipity['POST']['adminModule']) )
+                         ) || $serendipity['GET']['noHeading']) {
+
+                        // Disable the use of Serendipity JQuery in Dashboard Backend views - remember if having it disabled in template....
+                        $serendipity['capabilities']['jquery'] = false;
+
+                        $serendipity['smarty']->security = false;
+                        $serendipity['templatePath'] = 'plugins/';
+                        $serendipity['template'] = 'serendipity_event_dashboard/default';
+
+                        // assign some head vars to smarty and the new index.tpl file 
+                        // - is maintenance mode allowed
+                        // - is set servicehook 
+                        // - allow the use of containerized backend views null = never, false = initial-tier (mainly via nav- & selectbar), true = follow links, forms, etc.
+                        $serendipity['smarty']->assign(
+                            array(
+                                'head_maintenance' => $this->blockMaintenance,
+                                'head_servicehook' => ($this->blockMaintenance && serendipity_db_bool($servicehook)) ? 'true' : 'false',
+                                'head_extend2Cont' => $this->extendToContainer === 'null' ? 'null' : (serendipity_db_bool($this->extendToContainer) ? 'true' : 'false'),
+                                'smarty_dashpath'  => DASHBOARD_PLUGINPATH.'/'
+                            )
+                        );
+                    }
 
                     break;
 
                 case 'backend_header':
-                    $servicehook = NULL;
-                    // read already set $serendipity['maintenance']
-                    if (isset($serendipity['maintenance']) && !empty($serendipity['maintenance'])) $servicehook = $serendipity['maintenance']; // [booleanize!]
+                    // Set backend_header hook content to be appended to head of standard templates/default/admin/index.tpl in sidebar mode backend views
+                    // In case of sidebar serendipty_admin.php startpage is dashboard and dasboard full view, we take our own default admin template
+                    if ( ( ( isset($serendipity['GET']['adminModule']) && !empty($serendipity['GET']['adminModule']) ) ||
+                           ( isset($serendipity['POST']['adminModule']) && !empty($serendipity['POST']['adminModule']) )
+                         ) && !$serendipity['GET']['noHeading']) {
 
-                    // here we go and and add or restruct the backend header ;-)
-                    echo "\n\n";
-                    // I have done everything I could find, to force IE9 into standard mode only, without success! See doctype above!
-                    // http://msdn.microsoft.com/en-us/library/cc288325%28v=vs.85%29.aspx (maybe its just a local phenomenon...)
-                    // For now, there will at least be a javascript alert to the user to change it manually!
-                    #echo '        <!--[if IE 9]> <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/> <![endif]-->'."\n";
-                    echo '        <!--[if IE 9]> <meta http-equiv="X-UA-Compatible" content="IE=9,chrome=1"/> <![endif]-->'."\n";
-                    echo '        <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0"/> '."\n\n";
-                    if($serendipity['POST']['h5bp-style']) {
-                        echo '        <link rel="stylesheet" href="' . DASHBOARD_PLUGINPATH . '/css/style.css" type="text/css" media="screen"/>'."\n";
-                    }
-                    echo '        <link rel="stylesheet" href="' . DASHBOARD_PLUGINPATH . '/css/dashboard.css" type="text/css" media="screen"/>'."\n\n";
-                    echo '        <!--[if gte IE 9]> <style type="text/css"> .gradient { filter: none; } </style> <![endif]-->';
-                    echo "\n\n";
-                    // Trying to reference JQUERY and JSON for IE Browsers and even more the CSS is a hassle!
-                    // I hate things like that and do not really want to support this!
-                    echo '        <!--[if lte IE 9]> <script src="' . DASHBOARD_PLUGINPATH . '/inc/jquery-1.8.1.min.js" type="text/javascript"></script> <![endif]-->'."\n";
-                    echo '        <!--[if lte IE 9]> <script src="' . DASHBOARD_PLUGINPATH . '/inc/json2.js" type="text/javascript"></script> <![endif]-->'."\n";
-                    // IE referencing end
-                    echo '        <script src="' . DASHBOARD_PLUGINPATH . '/inc/modernizr-2.6.1.min.js" defer></script>'."\n";
-                    echo '        <script src="' . DASHBOARD_PLUGINPATH . '/inc/jquery-1.8.1.min.js" defer></script>'."\n";
-                    echo '        <script src="' . DASHBOARD_PLUGINPATH . '/inc/jquery-ui-1.8.23.custom.min.js" defer></script>'."\n";
-                    echo '        <script src="' . DASHBOARD_PLUGINPATH . '/inc/jquery.cookie.min.js" defer></script>'."\n";
-                    echo '        <script src="' . DASHBOARD_PLUGINPATH . '/inc/jquery.mb.containerPlus.js" defer></script>'."\n\n";
-                    #echo '       <script type="text/javascript"> jQuery.noConflict(); </script>'."\n";
-                    echo '        <script src="' . DASHBOARD_PLUGINPATH . '/inc/ajax-dashboard.js" defer></script>'."\n";
-                    echo '        <script src="' . DASHBOARD_PLUGINPATH . '/inc/jquery-dashboard.js" defer></script>'."\n";
-                    // include spamblock_bayes js file - see bayes constant on top
-                    if (defined('BAYES_INSTALLED')) {
-                        echo '        <script type="text/javascript" src="' . BAYES_PLUGINPATH . '/bayes_commentlist.js"></script>'."\n";
-                    }
-                    // set some JS vars
-                    echo '        <script type="text/javascript">
-            var const_view         = \'' . VIEW_FULL . '\';
-            var const_hide         = \'' . HIDE . '\';
-            var dashpath           = \'' . DASHBOARD_PLUGINPATH . '/\';';
-if (defined('BAYES_INSTALLED')) { echo '
-            var bayesCharset       = \'' . LANG_CHARSET . '\';
-            var bayesDone          = \'' . DONE . '\';
-            var bayesHelpTitle     = \'' . PLUGIN_EVENT_SPAMBLOCK_BAYES_RATING_EXPLANATION . '\';';
-} 
-if (serendipity_db_bool($this->get_config('maintenance'))) { echo '
-            var const_service      = \'' . PLUGIN_DASHBOARD_MAINTENANCE_MODE_DESC . '\';
-            var const_serv_active  = \'' . PLUGIN_DASHBOARD_MAINTENANCE_MODE_ACTIVE . '\';
-            var const_serv_origin  = \'' . PLUGIN_DASHBOARD_MAINTENANCE_MODE . '\';';
-}
-if (serendipity_db_bool($this->get_config('maintenance')) && !is_null($servicehook)) { echo '
-            var servicehook        = ' . ((serendipity_db_bool($this->get_config('maintenance')) && serendipity_db_bool($servicehook)) ? 'true' : 'false') . ';';
-}
-echo "\n        </script>\n\n";
+                        // here we go and and add or restruct the backend header ;-)
+                        echo "\n\n";
+                        if($serendipity['POST']['h5bp-style']) {
+                            echo '        <link rel="stylesheet" href="' . DASHBOARD_PLUGINPATH . '/css/style.css" type="text/css" media="screen"/>'."\n";
+                        }
+                        echo '        <link rel="stylesheet" href="' . DASHBOARD_PLUGINPATH . '/css/dashboard.css" type="text/css" media="screen"/>'."\n\n";
+                        echo '        <!--[if gte IE 9]> <style type="text/css"> .gradient { filter: none; } </style> <![endif]-->';
+                        echo "\n\n";
+                        echo '        <script type="text/javascript"> var dashpath = \'' . DASHBOARD_PLUGINPATH . '/\'; </script>'."\n\n";
+
+                    } // view un-containerized end
 
                     break;
 
@@ -1321,13 +1526,14 @@ echo "\n        </script>\n\n";
 
                         // give back the answer string to json jQuery.post
                         $postAnswer = 'metaset, ' . $setConfStr; // eg. metaset, meta-box-right|elem_4;feed, elem_5;comapp, elem_6;update, elem_7;plugup, elem_2;future, elem_3;draft, elem_1;compen
-                        echo $postAnswer; // console or ajax post answer
+                        echo $postAnswer; // console or ajax post answer 
                         // free all temporary used arrays and vars
                         unset($pix);
                         unset($emt);
                         unset($setConfStr);
                         unset($name);
                     }
+
                     unset($db);
 
                     break;
@@ -1337,7 +1543,7 @@ echo "\n        </script>\n\n";
                     $this->checkBrowser();
 
                     $elements = array();
-                    $elements = explode(',', $this->get_config('sequence'));
+                    $elements = explode(',', $this->defaultOrderString);
                     if(!empty($elements)) {
                         $countmainelements = count(array_values($elements));
                         if (in_array("clean", $elements)) { $countmainelements = ($countmainelements-1); }
@@ -1351,7 +1557,7 @@ echo "\n        </script>\n\n";
                         $metaset = false;
                     }
 
-                    $conf_metaset = $this->get_config('metaset');
+                    $conf_metaset = $this->cookieMetaset;
 
                     // temporary bugfix while there may be a possible cookie and storing missmatch from 0.9.6.(1) to 0.9.7 in $metaset and $conf_metaset
                     if ($metaset == '|') $metaset = false;
@@ -1392,12 +1598,17 @@ echo "\n        </script>\n\n";
                     } else {
                         $sysinfo['version_info'] = sprintf(ADMIN_FOOTER_POWERED_BY, '', '');
                     }
+                    // return to real template name in case of containerized changed template path
+                    if( $serendipity['template'] == 'serendipity_event_dashboard/default' ) {
+                        $template_array = serendipity_db_query("SELECT value FROM {$serendipity['dbPrefix']}config WHERE `name` = 'template' AND (authorid = {$serendipity['authorid']} OR authorid = 0) LIMIT 1", true);
+                    }
+
                     $sysinfo['intitle']  = ADMIN_FRONTPAGE;
                     $sysinfo['this_v']   = $serendipity['plugin_dashboard_version'];
                     $sysinfo['title']    = PLUGIN_DASHBOARD_TITLE;
                     $sysinfo['user']     = htmlspecialchars($serendipity['serendipityUser']);
                     $sysinfo['perm']     = $serendipity['permissionLevels'][$serendipity['serendipityUserlevel']];
-                    $sysinfo['theme']    = $serendipity['template'];
+                    $sysinfo['theme']    = is_array($template_array) ? $template_array['value'] : $serendipity['template'];
                     $sysinfo['widgets']  = $this->count_plugins(explode('|','hide|event|eventh'), true);
 
                     ob_start();
@@ -1408,20 +1619,20 @@ echo "\n        </script>\n\n";
                                                 array(  'start'          => $serendipity['GET']['adminModule'] == 'start' ? true : false,
                                                         'errormsg'       => $errormsg,
                                                         'dpdc_plugin_av' => $dpdc_plugin_av,
-                                                        'show_dpdc_note' => $this->get_config('dependencynote'),
+                                                        'show_dpdc_note' => $this->autoupdateExistNote,
                                                         'elements'       => $elements,
                                                         'countelements'  => ($countmainelements / 2),
                                                         'block_elements' => $block_elements,
                                                         'metaset'        => $metaset,
-                                                        'secgroupempty'  => ($this->get_config('sequence') ? false : true),
-                                                        'moma'           => serendipity_db_bool($this->get_config('maintenance')),
+                                                        'secgroupempty'  => ($this->defaultOrderString ? false : true),
+                                                        'moma'           => $this->blockMaintenance,
                                                         'plugininstance' => $this->instance,
                                                         'thispath'       => DASHBOARD_PLUGINPATH,
                                                         'fullpath'       => dirname(__FILE__),
                                                         'antispam_hook'  => '',
                                                         'sysinfo'        => $sysinfo,
                                                         's9yheader'      => array($eventData),
-                                                        'version'        => 'Serendipity ' . $serendipity['version'] . ' ['.$this->get_config('update').']'
+                                                        'version'        => 'Serendipity ' . $serendipity['version'] . ' ['.$this->searchUpdateTree.']'
                                                     )
                                                 );
 
@@ -1429,12 +1640,11 @@ echo "\n        </script>\n\n";
 
                     #serendipity_plugin_api::hook_event('backend_comments_top', $comments);
 
-                    // gather the data
+                    // gather the elements block data
                     if (is_array($elements) && !empty($elements) ) {
                         // include header 'clean'element, if set
-                        if(serendipity_db_bool($this->get_config('clean'))) $elements[] = 'clean';
+                        if ( $this->smartyCleanCompDir ) $elements[] = 'clean';
                         foreach($elements AS $key => $e) {
-                            //echo "$this->showElement($e, $key);";
                             $this->showElement($e, $key);
                         }
                     }
