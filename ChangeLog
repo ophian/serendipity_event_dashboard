@@ -8,12 +8,11 @@ Changed to work with Serendipity 1.7-dev branch and up only.
 This implied various changes to the default admin template use and the way the dashboard creates its pages in fullview.
 The 1.7 Serendipity branch (master) provides better posibilities to hook in and/or change the markup containers.
 - Added new config option to allow extended backend view in a modal container
-- Allow Backend Modal Container views by select-navigation (1-tier), or super extended views, or none (default is via selectbar 1-tier view: yes)
+- Allow Backend Modal Container views by select-navigation (1-tier), or super extended views, or none (default is via selectbar 1-tier view)
 - Update to some scripts
-- Changed Dasboard font to Google Webfonts 'Open Sans'
+- Changed Dashboard font to Google Webfonts 'Open Sans'
 - Excluded Gazette's help/changelog content from plugin_dashboard.tpl to be fetched via GET $.ajax call
 - code optimizing, cleanups, etc.
-- backported the changes to font awesome icons
 
 0.9.9.2
 -----
