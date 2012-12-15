@@ -1,29 +1,27 @@
 {*** block_compen.tpl - last modified 2012-12-12 ***}
 
 {if $showElementComPend}
-  <div id="compen" class="block-comments block-box">
-    <div class="flip" title="{$CONST.PLUGIN_DASHBOARD_FLIPNOTE}"><br></div>
-    <h3 class="flipbox"><span>{$CONST.COMMENTS_FILTER_NEED_APPROVAL} {$CONST.COMMENTS} [ <span class="num">{$entry_Compendlist|@count}</span> ]</span></h3>
-    <div id="sort_{$compen_block_id}" class="block-content block-content-comments-pending">
+<div id="compen" class="block-comments block-box">
+    <div class="flip" title="{$CONST.PLUGIN_DASHBOARD_FLIPNOTE}"><span class="visuallyhidden">{$CONST.PLUGIN_DASHBOARD_FLIPNOTE}</span><br></div>
 
-        {if is_array($entry_Compendlist)}
-        
+    <h3 class="flipbox"><span>{$CONST.COMMENTS_FILTER_NEED_APPROVAL} {$CONST.COMMENTS} [ <span class="num">{$entry_Compendlist|@count}</span> ]</span></h3>
+
+    <div id="sort_{$compen_block_id}" class="block-content block-content-comments-pending">
+    {if is_array($entry_Compendlist)}    
         <form id="formMultiDeletePen" action="#" method="POST" name="formMultiDeletePen">
             {$formtoken}
-            <input type="hidden" name="serendipity[formAction]" value="multiDelete" />
-
+            <input type="hidden" name="serendipity[formAction]" value="multiDelete">
             {foreach from=$entry_Compendlist item=eclpen name='bar'}
-
             <div id="comment_{$eclpen.id}">
-                
                 <div id="cpl_{$eclpen.id}" class="serendipity_admin_list_item serendipity_admin_list_item_{cycle values="even,uneven"}{if $eclpen.status == 'pending' || $eclpen.status == 'confirm'} serendipity_admin_comment_pending{/if}">
                     <div id="comments_header_{$eclpen.id}" class="comments_header">
                         <input id="multi-select-comment-{$eclpen.id}" class="input_checkbox" type="checkbox" name="serendipity[delete][{$eclpen.id}]" value="{$eclpen.entry_id}" onclick="toggle_checkbox('ckbx_{$eclpen.id}', this.checked)" tabindex="{$smarty.foreach.bar.iteration}" />
                         <div class="comment_titel">
-                            <label for="multi-select-comment-{$eclpen.id}" class="num">{$CONST.PLUGIN_DASHBOARD_COMMENT_SELECTION_SHORT|@sprintf:$eclpen.id}</label> - 
-                            <label for="multi-select-comment-{$eclpen.id}">{$CONST.IN_REPLY_TO}: <a href="{$eclpen.entry_url}" title="{$eclpen.title}">{$eclpen.title|truncate:48:"&hellip;"}</a>, <time datetime="{$eclpen.pubdate}" pubdate>{$CONST.ON} <span class="icon-clock" title="{$eclpen.timestamp|@formatTime:'%A, %e. %B %Y'}"></span><span class="visuallyhidden"> {$eclpen.timestamp|@formatTime:'%A, %e. %B %Y'}</span></time></label>
+                            <label for="multi-select-comment-{$eclpen.id}" class="num">{$CONST.PLUGIN_DASHBOARD_COMMENT_SELECTION_SHORT|@sprintf:$eclpen.id} - 
+                            {$CONST.IN_REPLY_TO}: <a href="{$eclpen.entry_url}" title="{$eclpen.title}">{$eclpen.title|truncate:48:"&hellip;"}</a></label>, <time datetime="{$eclpen.pubdate}" pubdate>{$CONST.ON} <span class="icon-clock" title="{$eclpen.timestamp|@formatTime:'%A, %e. %B %Y'}"></span><span class="visuallyhidden"> {$eclpen.timestamp|@formatTime:'%A, %e. %B %Y'}</span></time>
                         </div>
-                        <div class="box-right"> <span id="#cl_{$eclpen.id}" class="button"><img src="{serendipity_getFile file='img/plus.png'}" id="option_{$smarty.foreach.bar.iteration}" class="wizard-img" alt="+/-" title="{$CONST.TOGGLE_OPTION}" /> </span> </div>
+
+                        <div class="box-right"> <span id="#cl_{$eclpen.id}" class="button"><img src="{serendipity_getFile file='img/plus.png'}" id="option_{$smarty.foreach.bar.iteration}" class="wizard-img" alt="+/-" title="{$CONST.TOGGLE_OPTION}"> </span> </div>
                     </div>
 
                     <div id="cpt_{$eclpen.id}" class="comment_text eclpen_text">
@@ -32,13 +30,12 @@
                     </div>
                 
                     <div class="comment_boxed">
-
                         <ul class="comment_fields">
-                            <li class="mod_author"><b>{$CONST.AUTHOR}:</b> {$eclpen.author|truncate:30:"&hellip;"} {$eclpen.action_author} </li>
-                            <li class="mod_email"><b>{$CONST.EMAIL}:</b> {if $eclpen.email}<a href="mailto:{$eclpen.email}">{$eclpen.email|truncate:30:"&hellip;"}</a>{else}N/A{/if} </li>
+                            <li class="mod_author"><b>{$CONST.AUTHOR}:</b> {$eclpen.author|truncate:30:"&hellip;"} {$eclpen.action_author}</li>
+                            <li class="mod_email"><b>{$CONST.EMAIL}:</b> {if $eclpen.email}<a href="mailto:{$eclpen.email}">{$eclpen.email|truncate:30:"&hellip;"}</a>{else}N/A{/if}</li>
                             <li class="mod_ip"><b>{$CONST.IP}:</b> {$eclpen.ip|default:'0.0.0.0'}</li>
-                            <li class="mod_url"><b>{$CONST.URL}:</b> {if $eclpen.url}<a href="{$eclpen.url}">{$eclpen.url|truncate:30:"&hellip;"}</a>{else}N/A{/if} </li>
-                            <li class="mod_referer"><b>{$CONST.REFERER}:</b> {if $eclpen.referer}<a href="{$eclpen.referer}">{$eclpen.referer|truncate:30:"&hellip;"}</a>{else}N/A{/if} </li>
+                            <li class="mod_url"><b>{$CONST.URL}:</b> {if $eclpen.url}<a href="{$eclpen.url}">{$eclpen.url|truncate:30:"&hellip;"}</a>{else}N/A{/if}</li>
+                            <li class="mod_referer"><b>{$CONST.REFERER}:</b> {if $eclpen.referer}<a href="{$eclpen.referer}">{$eclpen.referer|truncate:30:"&hellip;"}</a>{else}N/A{/if}</li>
                         </ul>
                 
                         <ul class="comment_admin">
@@ -98,10 +95,8 @@
                             {/if}
                         </ul>
                     </div><!-- class comment_boxed end -->
-                    
                 </div><!-- class serendipity_admin_list_item end -->
             </div><!-- // #comment_{$eclpen.id} end -->
-            
             {/foreach}
 
             <div class="input-boxed">
@@ -109,19 +104,15 @@
                 <button id="cp-del" type="submit" name="toggle" onclick="return confirm('{$CONST.COMMENTS_DELETE_CONFIRM}')" class="none" title="{$CONST.DELETE_SELECTED_COMMENTS}"><span class="icon-trash"></span><span class="visuallyhidden"> {$CONST.DELETE_SELECTED_COMMENTS}</span></button>
                 <button id="cp-ok" type="submit" name="serendipity[togglemoderate]" class="none" title="{$CONST.PLUGIN_DASHBOARD_MODERATE_SELECTED}"><span class="icon-ok"></span><span class="visuallyhidden"> {$CONST.PLUGIN_DASHBOARD_MODERATE_SELECTED}</span></button>
             </div>
-
-            {if $spamblockbayes_hookin}
+        {if $spamblockbayes_hookin}
             <div><span>Spamschutz (Bayes): </span></div>
             <div class="bayes-boxed">
                 <span class="inputtype"><img src="{serendipity_getFile file='admin/img/accept.png'}" alt="" /><input type="button" onclick="markAllHam()" name="toggle" value="{$CONST.PLUGIN_EVENT_SPAMBLOCK_BAYES_HAMBUTTON}" class="none" /></span>
                 <span class="inputtype"><img src="{$thispath}/img/spamblock_bayes.spam.png" alt="" /><input type="button" onclick="markAllSpam()" name="toggle" value="{$CONST.PLUGIN_EVENT_SPAMBLOCK_BAYES_SPAMBUTTON}" class="none" /></span>
             </div>
-            {/if}
-        </form>
-        
         {/if}
-        
-   </div>
-  </div>
+        </form>    
+    {/if}    
+    </div>
+</div>
 {/if}
-
