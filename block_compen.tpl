@@ -52,10 +52,10 @@
                             <li class="mod_zoom">
                                 <a class="icon_link toggle_text" href="#c{$eclpen.id}" title="{$CONST.PREVIEW}"><span id="text_zoom_{$eclpen.id}" class="text toggle-icon icon-zoom-in"></span><span class="visuallyhidden"> {$CONST.TOGGLE_OPTION}</span></a>
                             </li>
-                            {/if}
+                            {/if}{* this is useless, since pointing to the frontend where it is shown!
                             <li class="mod_view">
                                 <a class="icon_link" target="_blank" href="{$eclpen.entrylink}" title="{$CONST.VIEW}"><span id="text_view_{$eclpen.id}" class="admin-mini-icon icon-eye"></span><span class="visuallyhidden"> {$CONST.VIEW}</span></a>
-                            </li>
+                            </li> *}
                             <li class="mod_edit">
                                 <a class="icon_link" href="?serendipity[action]=admin&amp;serendipity[adminModule]=comments&amp;serendipity[adminAction]=edit&amp;serendipity[id]={$eclpen.id}&amp;serendipity[entry_id]={$eclpen.entry_id}&amp;{$urltoken}" title="{$CONST.EDIT}"><span id="text_edit_{$eclpen.id}" class="admin-mini-icon icon-edit"></span><span class="visuallyhidden"> {$CONST.EDIT}</span></a>
                             </li>
