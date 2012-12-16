@@ -338,7 +338,7 @@ td.serendipityAdminContentDashboard {
 #dashboard > section ul {
     display: inline-block; 
 }
-#dashboard ul li { 
+#dashboard .horizontal li { 
     float: left; 
     padding: 2px 6px; 
 }
@@ -980,15 +980,15 @@ td.serendipityAdminContentDashboard {
     padding: 0;
     position: relative;
 }
-#dashboard .block-content-info .table span {
+/*#dashboard .block-content-info .table span {
     float: right;
     text-align: right;
-}
+}*/
 #dashboard .block-content-info .table_content {
-    border-top: 1px solid #ECECEC;
+    /*border-top: 1px solid #ECECEC;*/
     float: left;
     width: 45%;
-    padding: 0 10px 12px;
+    /*padding: 0 10px 12px;*/
 }
 #dashboard .block-content-info .table_discussion {
     border-top: 1px solid #ECECEC;
@@ -1063,9 +1063,9 @@ td.serendipityAdminContentDashboard {
 #dashboard #feed .text.toggle-icon.icon-zoom-in {
     font-size: 112%;
 }
-#dashboard .block-content-info p.sub, #dashboard .block-content-info .table, #dashboard .block-content-info .versions {
+/*#dashboard .block-content-info p.sub, #dashboard .block-content-info .table, #dashboard .block-content-info .versions {
     margin: 3px;
-}
+}*/
 #dashboard .block-content-info .versions {
     clear: both;
 }

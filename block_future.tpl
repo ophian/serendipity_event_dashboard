@@ -1,7 +1,7 @@
 {*** block_future.tpl - last modified 2012-12-12 ***}
 
 {if $showElementFuture}
-<div id="future" class="block-entries block-box">
+<div id="future" class="block-entries block-box clearfix">
     <div class="flip" title="{$CONST.PLUGIN_DASHBOARD_FLIPNOTE}"><span class="visuallyhidden">{$CONST.PLUGIN_DASHBOARD_FLIPNOTE}</span><br></div>
 
     <h3 class="flipbox"><span>{$CONST.PLUGIN_DASHBOARD_FUTURE} [ <span class="num">{$entry_future|@count}</span> ]</span></h3>
@@ -17,7 +17,7 @@
             <div id="cell_right" class="txtrht">
                 <div><span>{$CONST.POSTED_BY} {$efuture.author} {if count($efuture.cats)}{$CONST.IN} {foreach from=$efuture.cats item=cats}{$cats}{/foreach}{/if}</span></div>
 
-                <ul>
+                <ul class="horizontal">
                 {if $efuture.draft_pre}
                     <li class="mod_view"><a class="icon_link" href="?serendipity[action]=admin&amp;serendipity[adminModule]=entries&amp;serendipity[adminAction]=preview&amp;{$urltoken}&amp;serendipity[id]={$efuture.id}" title="{$CONST.PREVIEW} #{$efuture.id}"><button id="xopen"><span class="icon-eye" title="{$CONST.PREVIEW}"></span><span class="visuallyhidden"> {$CONST.PREVIEW}</span></button></a></li>
                 {else}

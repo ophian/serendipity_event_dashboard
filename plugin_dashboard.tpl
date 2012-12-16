@@ -1,6 +1,6 @@
 {*** plugin_dashboard.tpl - last modified 2012-09-21 ***}
 {*** debug ***}
-<article id="dashboard" class="maincontent">
+<article id="dashboard" class="maincontent clearfix">
     {include file="$fullpath/header_embed.tpl" title="Dashboard Embedded Header"}
 
 {if !empty($errormsg)}

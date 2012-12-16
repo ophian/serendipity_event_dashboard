@@ -1,7 +1,7 @@
 {*** block_compen.tpl - last modified 2012-12-12 ***}
 
 {if $showElementComPend}
-<div id="compen" class="block-comments block-box">
+<div id="compen" class="block-comments block-box clearfix">
     <div class="flip" title="{$CONST.PLUGIN_DASHBOARD_FLIPNOTE}"><span class="visuallyhidden">{$CONST.PLUGIN_DASHBOARD_FLIPNOTE}</span><br></div>
 
     <h3 class="flipbox"><span>{$CONST.COMMENTS_FILTER_NEED_APPROVAL} {$CONST.COMMENTS} [ <span class="num">{$entry_Compendlist|@count}</span> ]</span></h3>
@@ -30,7 +30,7 @@
                     </div>
                 
                     <div class="comment_boxed">
-                        <ul class="comment_fields">
+                        <ul class="comment_fields horizontal">
                             <li class="mod_author"><b>{$CONST.AUTHOR}:</b> {$eclpen.author|truncate:30:"&hellip;"} {$eclpen.action_author}</li>
                             <li class="mod_email"><b>{$CONST.EMAIL}:</b> {if $eclpen.email}<a href="mailto:{$eclpen.email}">{$eclpen.email|truncate:30:"&hellip;"}</a>{else}N/A{/if}</li>
                             <li class="mod_ip"><b>{$CONST.IP}:</b> {$eclpen.ip|default:'0.0.0.0'}</li>
@@ -38,7 +38,7 @@
                             <li class="mod_referer"><b>{$CONST.REFERER}:</b> {if $eclpen.referer}<a href="{$eclpen.referer}">{$eclpen.referer|truncate:30:"&hellip;"}</a>{else}N/A{/if}</li>
                         </ul>
                 
-                        <ul class="comment_admin">
+                        <ul class="comment_admin horizontal">
                             <li class="mod_appmod">
                             {if ($eclpen.status == 'pending' || $eclpen.status == 'confirm') && !$read_only}
                                 <a class="icon_link" href="?serendipity[action]=admin&amp;serendipity[adminModule]=comments&amp;serendipity[adminAction]=approve&amp;serendipity[id]={$eclpen.id}&amp;{$urltoken}" title="{$CONST.APPROVE}"><span id="text_mod_{$eclpen.id}" class="admin-mini-icon icon-ok"></span><span class="visuallyhidden"> {$CONST.APPROVE}</span></a>
@@ -69,7 +69,7 @@
                             </li>
                             {if $spamblockbayes_hookin}
                             <li class="mod_bayes">
-                                <ul>
+                                <ul class="horizontal">
                                     <li class="mod_ham" title="{$CONST.PLUGIN_EVENT_SPAMBLOCK_BAYES_NAME}: {$CONST.PLUGIN_EVENT_SPAMBLOCK_BAYES_HAM}">
                                         <a id="ham{$eclpen.id}" class="icon_link spamblockBayesControls" onclick="return ham({$eclpen.id})" href="{$serendipityBaseURL}index.php?/plugin/learnAction&amp;action=approve&amp;category=ham&amp;id={$eclpen.id}&amp;entry_id={$eclpen.entry_id}">
                                             <img src="{serendipity_getFile file='admin/img/accept.png'}" alt="" />
