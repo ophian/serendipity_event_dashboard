@@ -1,7 +1,7 @@
 {*** block_update.tpl - last modified 2012-12-12 ***}
 
 {if $showElementUpdate}
-<div id="update" class="block-updates block-box">
+<div id="update" class="block-updates block-box clearfix">
     <div class="flip" title="{$CONST.PLUGIN_DASHBOARD_FLIPNOTE}"><span class="visuallyhidden">{$CONST.PLUGIN_DASHBOARD_FLIPNOTE}</span><br></div>
 
     <h3 class="flipbox"><span>{$CONST.PLUGIN_DASHBOARD_UPDATE_TITLE} ?</span></h3>

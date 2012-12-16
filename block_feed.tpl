@@ -1,7 +1,7 @@
 {*** block_feed.tpl - last modified 2012-12-12 ***}
 
 {if $showElementFeed}
-<div id="feed" class="block-infos block-box">
+<div id="feed" class="block-infos block-box clearfix">
     <div class="flip" title="{$CONST.PLUGIN_DASHBOARD_FLIPNOTE}"><span class="visuallyhidden">{$CONST.PLUGIN_DASHBOARD_FLIPNOTE}</span><br></div>
 
     <h3 class="flipbox"><span>{$feed_header}</span></h3>
@@ -22,7 +22,7 @@
                 </div>
             {/if}
                 <div class="feed_boxed">
-                    <ul class="feed_fields">
+                    <ul class="feed_fields horizontal">
                     {if $show_feedcontent}
                         <li class="mod_zoom">
                             <a href="#f{$smarty.foreach.rssblogfeed.iteration}" title="{$CONST.VIEW}" class="icon_link toggle_text"><span id="text_{$smarty.foreach.rssblogfeed.iteration}" class="text toggle-icon icon-zoom-in"></span><span class="visuallyhidden"> {$CONST.TOGGLE_OPTION}</span></a>

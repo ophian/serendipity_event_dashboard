@@ -10,7 +10,7 @@
             </div><!-- //#id: nav-welcome end -->
 
             <div id="nav-embed-switch">
-                <ul class="clearfix">
+                <ul class="clearfix horizontal">
                 {if $dpdc_plugin_av && $showElementUpdate && $show_dpdc_note}
                     <li><span id="menu-autoupdate" class="text-icon text-icon-notifications" alt="[U]" title=" &#187; click: Important Info! &#171; "></span></li>
                 {/if}

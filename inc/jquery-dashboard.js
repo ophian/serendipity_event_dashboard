@@ -668,12 +668,12 @@ jQuery(document).ready(function($) {
     $(function() {
         $("#menu-autoupdate").toggle( 
             function (event) { 
-                $(this).parents().siblings('#nav-welcome').find('span').hide();
-                $('#boxed_autoupdate').toggleClass('visuallyhidden');
+                // $(this).parents().siblings('#nav-welcome').find('span').hide();
+                $('#boxed_autoupdate').toggleClass('visuallyhidden').find('span').show();
             }, 
             function (event) { 
-                $(this).parents().siblings('#nav-welcome').find('span').show();
-                $('#boxed_autoupdate').toggleClass('visuallyhidden');
+                // $(this).parents().siblings('#nav-welcome').find('span').show();
+                $('#boxed_autoupdate').toggleClass('visuallyhidden').find('span').hide();
             }
         );
     });
