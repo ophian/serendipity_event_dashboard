@@ -1,7 +1,7 @@
 {*** block_info.tpl - last modified 2012-12-12 ***}
 
 {if $showElementInfo}
-<div id="info" class="block-infos block-box">
+<div id="info" class="block-infos block-box clearfix">
     <div class="flip" title="{$CONST.PLUGIN_DASHBOARD_FLIPNOTE}"><span class="visuallyhidden">{$CONST.PLUGIN_DASHBOARD_FLIPNOTE}</span><br></div>
 
     <h3 class="flipbox"><span>{$CONST.PLUGIN_DASHBOARD_INFO_HEADER}</span></h3>

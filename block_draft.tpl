@@ -1,7 +1,7 @@
 {*** block_draft.tpl - last modified 2012-12-12 ***}
 
 {if $showElementDraft}
-<div id="draft" class="block-entries block-box">
+<div id="draft" class="block-entries block-box clearfix">
     <div class="flip" title="{$CONST.PLUGIN_DASHBOARD_FLIPNOTE}"><span class="visuallyhidden">{$CONST.PLUGIN_DASHBOARD_FLIPNOTE}</span><br></div>
 
     <h3 class="flipbox"><span>{$CONST.DRAFT} [ <span class="num">{$draft_Entrylist|@count}</span> ]</span></h3>
@@ -17,7 +17,7 @@
             <div id="cell_right" class="txtrht">
                 <div><span>{$CONST.POSTED_BY} {$edraft.author} {if count($edraft.cats)}{$CONST.IN} {foreach from=$edraft.cats item=cats}{$cats}{/foreach}{/if}</span></div>
 
-                <ul>
+                <ul class="horizontal">
                     {if $edraft.draft_pre}
                     <li class="mod_preview"><a id="efp{$edraft.id}" class="icon_link" href="?serendipity[action]=admin&amp;serendipity[adminModule]=entries&amp;serendipity[adminAction]=preview&amp;{$urltoken}&amp;serendipity[id]={$edraft.id}" title="{$CONST.PREVIEW} #{$edraft.id}" title="{$CONST.PREVIEW} #{$edraft.id}"><button id="xopen"><span class="icon-eye"></span><span class="visuallyhidden"> {$CONST.PREVIEW}</span></button></a></li>
                     {else}

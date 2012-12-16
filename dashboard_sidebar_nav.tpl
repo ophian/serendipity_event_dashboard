@@ -4,7 +4,7 @@
         <div id="navbar" class="dashboard_navbar">
             <h2 class="visuallyhidden">Navigation</h2>
 
-            <ul class="clearfix">
+            <ul class="clearfix horizontal">
                 <li>
                 {*** ENTRY LINKS START ***}
                 {if 'adminEntries'|checkPermission OR 'adminEntriesPlugins'|checkPermission}

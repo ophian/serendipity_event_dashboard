@@ -1,7 +1,7 @@
 {*** block_comapp.tpl - last modified 2012-12-12 ***}
 
 {if $showElementComments}
-<div id="comapp" class="block-comments block-box">
+<div id="comapp" class="block-comments block-box clearfix">
     <div class="flip" title="{$CONST.PLUGIN_DASHBOARD_FLIPNOTE}"><span class="visuallyhidden">{$CONST.PLUGIN_DASHBOARD_FLIPNOTE}</span><br></div>
 
     <h3 class="flipbox"><span>{$CONST.COMMENTS_FILTER_APPROVED_ONLY} {$CONST.COMMENTS} [ <span class="num">{$entry_Commentlist|@count}</span> ]</span></h3>
@@ -32,7 +32,7 @@
                     </div>
                 
                     <div class="comment_boxed">
-                        <ul class="comment_fields">
+                        <ul class="comment_fields horizontal">
                             <li class="mod_author"><b>{$CONST.AUTHOR}:</b> {$eclap.author|truncate:30:"&hellip;"} {$eclap.action_author}</li>
                             <li class="mod_email"><b>{$CONST.EMAIL}:</b> {if $eclap.email}<a href="mailto:{$eclap.email}">{$eclap.email|truncate:30:"&hellip;"}</a>{else}N/A{/if}</li>
                             <li class="mod_ip"><b>{$CONST.IP}:</b> {$eclap.ip|default:'0.0.0.0'}</li>
@@ -40,7 +40,7 @@
                             <li class="mod_referer"><b>{$CONST.REFERER}:</b> {if $eclap.referer}<a href="{$eclap.referer}">{$eclap.referer|truncate:30:"&hellip;"}</a>{else}N/A{/if}</li>
                         </ul>
                 
-                        <ul class="comment_admin">
+                        <ul class="comment_admin horizontal">
                             <li class="mod_appmod">
                             {if ($eclap.status == 'pending' || $eclap.status == 'confirm') && !$read_only}
                                 <a class="icon_link" href="?serendipity[action]=admin&amp;serendipity[adminModule]=comments&amp;serendipity[adminAction]=approve&amp;serendipity[id]={$eclap.id}&amp;{$urltoken}" title="{$CONST.APPROVE}"><span id="text_mod_{$eclap.id}" class="admin-mini-icon icon-ok"></span><span class="visuallyhidden"> {$CONST.APPROVE}</span></a>
