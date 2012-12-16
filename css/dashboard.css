@@ -18,6 +18,11 @@
 #dashboard [class*=" icon-"]:before {
   color: #000;
 }
+#dashboard #nav-info [class^="icon-"]:before, 
+#dashboard #nav-info [class*=" icon-"]:before {
+    color: grey;
+    font-size: large;
+}
 
 
 /*
