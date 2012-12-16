@@ -1,6 +1,6 @@
 <?php # $Id$
 
-// - last modified 2012-12-12
+// - last modified 2012-12-16
 
 if (IN_serendipity !== true) {
     die ("Don't hack!");
@@ -701,8 +701,8 @@ define(DASHBOARD_PRESET_MOMATXT, sprintf(PLUGIN_DASHBOARD_MAINTENANCE_TEXT, $ser
             global $serendipity;
             //error handling in here 
             $articles[0]['content'] = 'There was an error fetching the Serendipity Blog RSS Feed. Try again later.';
-            $serendipity['smarty']->assign('errormsg', $articles[0]['content']);
-            return;
+            //$serendipity['smarty']->assign('errormsg', $articles[0]['content']);
+            return $articles;
         }
 
         // step 1: get the feed (we already have that by function get_url_contents($url))
