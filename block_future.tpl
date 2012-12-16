@@ -1,4 +1,4 @@
-{*** block_future.tpl - last modified 2012-12-12 ***}
+{*** block_future.tpl - last modified 2012-12-16 ***}
 
 {if $showElementFuture}
 <div id="future" class="block-entries block-box clearfix">

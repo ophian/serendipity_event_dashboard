@@ -1,4 +1,4 @@
-{*** block_draft.tpl - last modified 2012-12-12 ***}
+{*** block_draft.tpl - last modified 2012-12-16 ***}
 
 {if $showElementDraft}
 <div id="draft" class="block-entries block-box clearfix">

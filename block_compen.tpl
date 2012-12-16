@@ -1,4 +1,4 @@
-{*** block_compen.tpl - last modified 2012-12-12 ***}
+{*** block_compen.tpl - last modified 2012-12-16 ***}
 
 {if $showElementComPend}
 <div id="compen" class="block-comments block-box clearfix">

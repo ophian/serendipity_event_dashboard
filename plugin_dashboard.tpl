@@ -1,4 +1,4 @@
-{*** plugin_dashboard.tpl - last modified 2012-09-21 ***}
+{*** plugin_dashboard.tpl - last modified 2012-12-16 ***}
 {*** debug ***}
 <article id="dashboard" class="maincontent clearfix">
     {include file="$fullpath/header_embed.tpl" title="Dashboard Embedded Header"}
@@ -6,7 +6,7 @@
 {if !empty($errormsg)}
     <div id="s9y-error">
         <div class="dashboard dashboard_error">
-            <span class="msg_notice"><img class="attention" src="{serendipity_getFile file='admin/img/admin_msg_note.png'}" alt=""> {$errormsg}</span>
+            <span class="msg_notice icon-attention-circle"> {$errormsg}</span>
         </div>
     </div>
 {/if}
@@ -83,19 +83,19 @@
 {if $secgroupempty}
     <div id="s9y-error">
         <div class="dashboard dashboard_error">
-            <span class="serendipity_backend_msg_notice">{$CONST.PLUGIN_DASHBOARD_MARK}</span>
+            <span class="dashboard_msg_notice">{$CONST.PLUGIN_DASHBOARD_MARK}</span>
         </div>
     </div>
 {/if}
     <div id="mbc_wrapper" class="helpwrapper">
         <div id="cont1" class="container" style="top: 240px; left: 240px; width: 800px; height: 400px;" data-collapse=true data-close=true data-containment="document" data-modal=true data-getdata=true>
             <h2><img class="icon" src="{$thispath}/img/s9y4.png"> Serendipity Dashboard [v.{$sysinfo.this_v}] Development Gazette!</h2>
-        </div> <!-- //#id: cont1 end -->
+        </div>
 
         <div id="cont2" class="container" style="top: 240px; left: 240px; width: 800px; height: 600px;" data-collapse=true data-close=true data-containment="document" data-modal=true>
             <h2><img class="icon" src="{$thispath}/img/s9y4.png"> Serendipity Dashboard [v.{$sysinfo.this_v}] Development - Backend Container!</h2>
-        </div> <!-- //#id: cont2 end -->
+        </div>
 
         <div id="dock"></div>
-    </div> <!-- //#id: mbc_wrapper end -->
+    </div>
 </article> <!-- //#id: dashboard end -->

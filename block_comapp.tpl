@@ -1,4 +1,4 @@
-{*** block_comapp.tpl - last modified 2012-12-12 ***}
+{*** block_comapp.tpl - last modified 2012-12-16 ***}
 
 {if $showElementComments}
 <div id="comapp" class="block-comments block-box clearfix">

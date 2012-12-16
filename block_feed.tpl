@@ -1,4 +1,4 @@
-{*** block_feed.tpl - last modified 2012-12-12 ***}
+{*** block_feed.tpl - last modified 2012-12-16 ***}
 
 {if $showElementFeed}
 <div id="feed" class="block-infos block-box clearfix">

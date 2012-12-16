@@ -1,4 +1,4 @@
-{*** block_plugup.tpl - last modified 2012-12-12 ***}
+{*** block_plugup.tpl - last modified 2012-12-16 ***}
 
 {if $showElementPlugup}
 <div id="plugup" class="block-updates block-box clearfix">

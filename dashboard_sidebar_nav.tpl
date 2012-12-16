@@ -1,4 +1,4 @@
-{*** dashboard_sidebar_nav.tpl - last modified: 2012-09-03 ***}
+{*** dashboard_sidebar_nav.tpl - last modified: 2012-12-16 ***}
 {*** NAVIGATION-MENU START ***}
 
         <div id="navbar" class="dashboard_navbar">
