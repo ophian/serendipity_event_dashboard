@@ -52,7 +52,7 @@ $.fn.ajax_submit = function(degurl) {
         context: $thisscope,
         success: function(data, status, xhr) {
             // return cut data from/to into container; cut is starting in front of expression.
-            resultdata = containersCut('<div id="content" class="clearfix">', '</div>', data); /* new backend */
+            resultdata = containersCut('<div id="content" class="clearfix">', '</div>', data);
             if (callback) {
                 if (typeof callback == 'function') { // make sure the callback is a function
                     callback.call(this, resultdata, url); // brings the scope to the callback
@@ -91,7 +91,7 @@ jQuery(document).ready(function($) {
 
     // start object selectors
     var $button    = $('#menu-fadenav');
-    var $sidebar   = $('#main_menu'); /*newbackend*/
+    var $sidebar   = $('#main_menu');
     var $selectbar = $('#nav-navigation-select');
 
     // storage containers
@@ -139,7 +139,7 @@ jQuery(document).ready(function($) {
                     var newid         = 'LS-'+storedMeta+'-'+storedSortId; // if storedMeta not set global, this will be the obj of changing key instead, eg 's9y-plugup,sort_3' and the -sort_3-new
                     var $sortthis     = $('#'+storedBlockId); // even faster as singulary node, no need for add #layout
 
-                    // replace the sort id by newsortid, which must depend on '#layout > li.flipflop' count, do not use LS- prefix while using toggle cookie return info
+                    // replace the sort id by newsortid, which must depend on '#layout > section.flipflop' count, do not use LS- prefix while using toggle cookie return info
                     $sortthis.find('div.block-content').attr("id", 'sort_'+newsortid);
 
                     // also add new id to flipbox h3 title
@@ -216,11 +216,11 @@ jQuery(document).ready(function($) {
         function addTooltip() {
             var $metaid = this.id;
             // arr[$metaid] = [];
-            var $thisobj = $(this); // = [ul#meta-box-left.boxed-left] + [ul#meta-box-right.boxed-right]
+            var $thisobj = $(this); // = [div#meta-box-left.boxed-left] + [div#meta-box-right.boxed-right]
             // set dragged and sorted blocks into Storage
             setStorageArray($metaid, $thisobj);
             // set new first blocks title
-            $thisobj.children("li:first").find(".flipbox").attr('title', fstBHead);
+            $thisobj.children("section:first").find(".flipbox").attr('title', fstBHead);
         }
 
         // lastly put the returned array/object into storage
@@ -234,7 +234,7 @@ jQuery(document).ready(function($) {
         var s = datastring.lastIndexOf(start);
         var e = datastring.lastIndexOf(end);
         var d = datastring.substring(s,e);
-        var n = d.replace('<div id="content" class="clearfix">', '<div id="mdc_content" class="clearfix">'); /* new backend */
+        var n = d.replace('<div id="content" class="clearfix">', '<div id="mdc_content" class="clearfix">');
         return n;
     });
 
@@ -300,10 +300,10 @@ jQuery(document).ready(function($) {
     /**
      * Function Expression unsetUIHightlight(object) [OK]
      * 
-     * Removes this selectors upper li class ui-state-highlight on click flip and toggle buttons
+     * Removes this selectors upper section class ui-state-highlight on click flip and toggle buttons
      **/
     unsetUIHightlight = (function(obj) {
-        obj.closest('li.flipflop').removeClass('ui-state-highlight');
+        obj.closest('section.flipflop').removeClass('ui-state-highlight');
     });
 
     /**
@@ -335,12 +335,12 @@ jQuery(document).ready(function($) {
      **/
     watchLogOff = (function(set) {
         if (set) {
-            $('#user_menu li:nth-child(6)').on('click', 'a#menu-logoff', (function(e) {/*new backend*/
+            $('#user_menu li:nth-child(6)').on('click', 'a#menu-logoff', (function(e) {
                 e.preventDefault(); // Cancel a link's default action using the preventDefault method
                 alert(logoff_text);
             }));
         } else {
-            $('#user_menu li:nth-child(6)').unbind('click');/*new backend*/
+            $('#user_menu li:nth-child(6)').unbind('click');
         }
     });
 
@@ -460,13 +460,13 @@ jQuery(document).ready(function($) {
         $('h3.serendipityWelcomeBack').addClass('visuallyhidden');
 
         // set .serendipityAdminContent left padding class on default
-        //$('td.serendipityAdminContent').addClass('serendipityAdminContentDashboard clearfix'); /*newbackend*/
+        //$('td.serendipityAdminContent').addClass('serendipityAdminContentDashboard clearfix');
 
         // add missing class to #serendipitySideBar
         $sidebar.addClass('no-class');
 
         // rename sidebar Button 'Startpage' to 'Dashboard'
-        //$sidebar.find('li.serendipitySideBarMenuMainFrontpage a').html('Dashboard'); /*newbackend*/
+        //$sidebar.find('li.serendipitySideBarMenuMainFrontpage a').html('Dashboard');
 
         // attract a title to the help gazette before running tooltip
         $('#iopen.help').attr('title', 'The Gazette!');
@@ -595,14 +595,14 @@ jQuery(document).ready(function($) {
         $(t_text.join(', ')).find('.text').toggle( 
             function (event) { 
                 $(this).closest('.serendipity_admin_list_item').children('.comment_text').children().toggleClass('visuallyhidden');
-                $(this).addClass('icon-zoom-out'); /*new backend*/
+                $(this).addClass('icon-zoom-out');
                 unsetUIHightlight($(this));
                 // set new id#layout height on toggle inside 
                 setContainersHeight();
             }, 
             function (event) { 
                 $(this).closest('.serendipity_admin_list_item').children('.comment_text').children().toggleClass('visuallyhidden');
-                $(this).removeClass('icon-zoom-out'); /*new backend*/
+                $(this).removeClass('icon-zoom-out');
                 unsetUIHightlight($(this));
                 // set new id#layout height on toggle inside 
                 setContainersHeight();
@@ -651,12 +651,12 @@ jQuery(document).ready(function($) {
                 $(this).siblings('div').toggle('slow', function() {
                     // set new id#layout height on flip, as flip is a single event only
                     setContainersHeight();
-                    // get closest parent li element object as this is unique only in both metas
-                    var parliobj = $(this).closest('li');
+                    // get closest parent section element object as this is unique only in both metas
+                    var parsec = $(this).closest('section');
                     // set cookie to hold the blocks hidden state
-                    updateCookie( $(this), parliobj ); // elem_ID is the static number we want, use this for the cookie!
+                    updateCookie( $(this), parsec ); // elem_ID is the static number we want, use this for the cookie!
                 });
-                // unsets this parents li .flipflop class ui-state-highlight, if active
+                // unsets this parents section.flipflop class ui-state-highlight, if active
                 unsetUIHightlight($(this));
             }
         });
@@ -668,12 +668,12 @@ jQuery(document).ready(function($) {
     $(function() {
         $("#menu-autoupdate").toggle( 
             function (event) { 
-                // $(this).parents().siblings('#nav-welcome').find('span').hide();
-                $('#boxed_autoupdate').toggleClass('visuallyhidden').find('span').show();
+                $('#nav-welcome h2').hide();
+                $('#nav-info').toggleClass('visuallyhidden');
             }, 
             function (event) { 
-                // $(this).parents().siblings('#nav-welcome').find('span').show();
-                $('#boxed_autoupdate').toggleClass('visuallyhidden').find('span').hide();
+                $('#nav-welcome h2').show();
+                $('#nav-info').toggleClass('visuallyhidden');
             }
         );
     });
@@ -689,14 +689,14 @@ jQuery(document).ready(function($) {
             // .is(":visible") - Checks for display:[none|block], ignores visible:[true|false]
             if ($sidebar.is(':visible')) {
                 $sidebar.fadeOut();
-                $("#content").addClass('no-sidebar'); /*newbackend*/
+                $("#content").addClass('no-sidebar');
                 // ugly workaround for chrome and ie browser, which denied local hostnames set as domain: hostname
                 if( !$.cookie('serendipity[dashboard_cookie_sidebar]', 'isSelectBar', { expires: 180, path: pathname, domain: hostname }) ) {
                     $.cookie('serendipity[dashboard_cookie_sidebar]', 'isSelectBar', { expires: 180, path: pathname });//, domain: hostname
                 }
             } else {
                 $sidebar.fadeIn();
-                $("#content").removeClass('no-sidebar'); /*newbackend*/
+                $("#content").removeClass('no-sidebar');
                 // ugly workaround for chrome and ie browser, which denied local hostnames set as domain: hostname
                 if( !$.cookie('serendipity[dashboard_cookie_sidebar]', 'isSideBar', { expires: 180, path: pathname, domain: hostname }) ) {
                     $.cookie('serendipity[dashboard_cookie_sidebar]', 'isSideBar', { expires: 180, path: pathname });//, domain: hostname
@@ -709,17 +709,17 @@ jQuery(document).ready(function($) {
         var cookie_sidebar = $.cookie('serendipity[dashboard_cookie_sidebar]');
         if(cookie_sidebar == 'isSelectBar') { 
             $sidebar.fadeOut();
-            $("#content").addClass('no-sidebar'); /*newbackend*/
+            $("#content").addClass('no-sidebar');
             $selectbar.toggleClass('visuallyhidden');
         } else {
             $sidebar.fadeIn();
-             $("#content").removeClass('no-sidebar'); /*newbackend*/
+             $("#content").removeClass('no-sidebar');
         }
 
         // make sure everything outside dashboard context has the normal 'isSideBar' Layout!
         if ( !$('#dashboard').children().length > 0 ) { 
             $sidebar.fadeIn();
-            $("#content").removeClass('no-sidebar'); /*newbackend*/
+            $("#content").removeClass('no-sidebar');
         }
     });
 
@@ -759,7 +759,7 @@ jQuery(document).ready(function($) {
                         success: function(data) {
                             // remove everything else from fetched page than block *.*
                             // return cut data from/to into container
-                            result = containersCut('<div id="content" class="clearfix">', '</div>', data); /* new backend */
+                            result = containersCut('<div id="content" class="clearfix">', '</div>', data);
                         },
                         error: function(){
                             alert('Work in Backend respond failure!');
@@ -807,7 +807,7 @@ jQuery(document).ready(function($) {
             lastClick, diffClick; // timestamps
 
         // set to flipflop class only! 
-        $("#layout li.flipflop")
+        $("#layout section.flipflop")
         // Script to deferentiate a click from a mousedown for drag event
         .bind('mousedown mouseup', function(e) {
             if (e.type == "mousedown") {
@@ -864,12 +864,11 @@ jQuery(document).ready(function($) {
                 // keep upgrading localStorage
                 setLocalStorage(arr);
 
-                var sobj = $('#'+this.id).find('li[id].flipflop');
+                var sobj = $('#'+this.id).find('section[id].flipflop');
                 var $postMetaArr = [$(this.id).selector]; // eg. meta-box-right (chrome needs strict selector match, else pushing circular structure to JSON errors)
 
                 sobj.attr("id", function (index) { 
-                    // this = li.flipflop
-                    var $dropid = $(this).attr('id').toString(); // collect li#ID name as string
+                    var $dropid = $(this).attr('id').toString(); // collect section#ID name as string
                     var $blockid = $(this).find('div.block-box');
                     var $blid = $blockid.attr('id');
                     $postMetaArr.push([$dropid, $blid]); // stick to array and do not use objects here
