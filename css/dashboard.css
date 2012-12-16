@@ -473,13 +473,11 @@ td.serendipityAdminContentDashboard {
     text-align: right;
 }
 #dashboard .box-right { 
-    background: none repeat scroll 0 0 buttonface;
-    border-bottom: 1px solid transparent;
-    border-left: 1px solid #999999;
+    border: 1px solid #DFDFDF;
     float: right;
-    text-align: right;
-    margin-right: 0;
+    margin: -1px 0 0;
     padding: 0 0.28em;
+    text-align: right;
 }
 #dashboard #cell_left, #dashboard #cell_right {
     display: table-cell;
@@ -609,7 +607,7 @@ td.serendipityAdminContentDashboard {
 }
 #dashboard #nav-info > span.msg_notice {
     margin: 0;
-	padding: 0;
+    padding: 0;
 }
 #dashboard #nav-navigation {
     border: 1px solid #BBBBBB;
@@ -846,9 +844,10 @@ td.serendipityAdminContentDashboard {
     padding: 0;
 }
 #dashboard .comment_boxed,
+#dashboard #feed .feed_text,
 #dashboard #comapp .comment_text,
 #dashboard #compen .comment_text {
-    margin-right: 2px;
+    margin-left: -1px;
     opacity: 0.7;
 }
 #dashboard #compen .comment_text {
@@ -977,8 +976,10 @@ td.serendipityAdminContentDashboard {
     margin: 0 0 1em;
 }
 #dashboard .block-content-info .table_content {
+    border-top: 1px solid #ECECEC;
     float: left;
     width: 45%;
+    padding: 0 10px 12px;
 }
 #dashboard .block-content-info .table_discussion {
     border-top: 1px solid #ECECEC;
@@ -986,17 +987,21 @@ td.serendipityAdminContentDashboard {
     width: 40%;
     padding: 0 10px 12px;
 }
+#dashboard #info .versions.plainList {
+    line-height: 2;
+    margin-top: 1em;
+}
 #dashboard .block-content-info .t {
-    padding-top: 4px;
-    vertical-align: middle;
+    line-height: 2;
 }
 #dashboard label.num,
 #dashboard .block-box h3.flipbox span.num,
-#dashboard .block-content-info td.b a {
+#dashboard .block-content-info span.b a {
     font-family: Georgia,"Times New Roman","Bitstream Charter",Times,serif;
 }
-#dashboard .block-content-info td.b a {
+#dashboard .block-content-info span.b a {
     font-size: 18px;
+    text-decoration: none;
 }
 #dashboard .feed_title {
     display: inline-block;
@@ -1709,7 +1714,7 @@ td.serendipityAdminContentDashboard {
     color: inherit;
 }
 #cont2.black .msg_notice, #cont2.black .msg_dialogue  {
-	color: #C70000 !important;
+    color: #C70000 !important;
 }
 
 
@@ -1745,7 +1750,7 @@ td.serendipityAdminContentDashboard {
 }
 #cont2 #serendipityStaticpagesNav ul li a {
     border: 0 none;
-	color: black;
+    color: black;
 }
 #cont2.mbc_container .default_staticpage .sect_basic, 
 #cont2.mbc_container .default_staticpage .sect_struct,
@@ -1782,13 +1787,13 @@ td.serendipityAdminContentDashboard {
 #cont2.black div.backend_guestbook_menu,
 #cont2.black div.backend_guestbook_head,
 #cont2.black div.backend_guestbook_nav {
-	background: none repeat scroll 0 0 transparent;
+    background: none repeat scroll 0 0 transparent;
 }
 #cont2.black #backend_guestbook_wrapper .guestbook_entrytop {
     background: none repeat scroll 0 0 #2B3844;
 }
 #cont2.black #backend_verify_wrapper div.backend_verify_menu, #cont2.black #backend_verify_wrapper div.backend_verify_nav {
-	background-color: inherit;
+    background-color: inherit;
 }
 
 /* Freetag Plugins styles */
