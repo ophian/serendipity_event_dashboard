@@ -22,7 +22,7 @@
 
 /*
    dashboard css file
-   last modified: 2012-12-12
+   last modified: 2012-12-16
 */
 
 html, body {
@@ -114,12 +114,12 @@ td.serendipityAdminContentDashboard {
     display: block;
     font-size: 90%; /* ... and back in the dashboard to its near old value... could also 90% */
     line-height: normal;
-    margin: 0 0 2em;/*new backend */
+    margin: 0 0 2em;
     max-width: 1208px;
     padding: 0;
     width: 100%;
 }
-#dashboard .serendipity_backend_msg_notice { 
+#dashboard .dashboard_msg_notice { 
     /* radial */
     background: rgb(248,255,232); /* Old browsers */
     background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPHJhZGlhbEdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgY3g9IjUwJSIgY3k9IjUwJSIgcj0iNzUlIj4KICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNmOGZmZTgiIHN0b3Atb3BhY2l0eT0iMSIvPgogICAgPHN0b3Agb2Zmc2V0PSIzMyUiIHN0b3AtY29sb3I9IiNlM2Y1YWIiIHN0b3Atb3BhY2l0eT0iMSIvPgogICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjYjdkZjJkIiBzdG9wLW9wYWNpdHk9IjEiLz4KICA8L3JhZGlhbEdyYWRpZW50PgogIDxyZWN0IHg9Ii01MCIgeT0iLTUwIiB3aWR0aD0iMTAxIiBoZWlnaHQ9IjEwMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
@@ -157,7 +157,7 @@ td.serendipityAdminContentDashboard {
     margin: 0 0 1em;
 }
 
-#dashboard header, #dashboard  section  {
+#dashboard header, #dashboard #layout, #dashboard #s9y-error {
     background: none repeat scroll 0 0 #F9F9F9;
     border: 1px solid #AAAAAA;
     margin: 0 0 4px;
@@ -332,13 +332,13 @@ td.serendipityAdminContentDashboard {
     margin: 0; 
     padding: 0; 
 }
-#dashboard nav ul, #dashboard nav ol { 
+#dashboard header ul, #dashboard header ol { 
     display: inline; 
 }
-#dashboard > section ul {
+#dashboard #layout ul {
     display: inline-block; 
 }
-#dashboard .horizontal li { 
+#dashboard .horizontal li {
     float: left; 
     padding: 2px 6px; 
 }
@@ -350,14 +350,14 @@ td.serendipityAdminContentDashboard {
     /* avoid box-shadow in here for IE9 compat issues */
     border-color: #BBBBBB;
     border-style: solid;
-    border-width: 1px;/*new backend */
+    border-width: 1px;
     margin-bottom: 5px;
     padding: 10px;
-    width: 100.2%/*new backend*/
+    width: 100.2%;
 }
 
 #dashboard #comapp .comment_text { 
-    background: none repeat scroll 0 0 infobackground;/*new backend */
+    background: none repeat scroll 0 0 infobackground;
     color: DarkSlateGrey;
 }
 #dashboard #compen li.mod_ham,
@@ -434,7 +434,7 @@ td.serendipityAdminContentDashboard {
     border: 0 none; 
     border-bottom: 2px solid #FF0000; 
 }
-#dashboard .serendipityAdminMsgNote {
+#dashboard .msg_dialogue {
     margin: -13px 0 10px;
 }
 #dashboard .serendipity_admin_list_item {}
@@ -450,13 +450,13 @@ td.serendipityAdminContentDashboard {
 #dashboard .visuallyhidden { 
     border: 0 none !important;
     clip: rect(0px, 0px, 0px, 0px);
-    display: none !important; /*added with new backend*/
+    display: none !important;
     height: 0 !important;
     margin: 0 !important;
     overflow: hidden;
     padding: 0 !important;
     position: absolute;
-    visibility: hidden !important; /*added with new backend*/
+    visibility: hidden !important;
     width: 0 !important;
 }}
 
@@ -479,7 +479,7 @@ td.serendipityAdminContentDashboard {
     float: right;
     text-align: right;
     margin-right: 0;
-    padding: 0 0.28em; /*new backend*/
+    padding: 0 0.28em;
 }
 #dashboard #cell_left, #dashboard #cell_right {
     display: table-cell;
@@ -607,14 +607,9 @@ td.serendipityAdminContentDashboard {
 #dashboard #nav-welcome h2 span img{
     vertical-align: top;
 }
-
-#dashboard #boxed_autoupdate {
-    background: none repeat scroll 0 0 ivory;
-    border: 1px solid red;
-    display: table;
-    font-size: 89%;
-    margin: -0.7em 0 0.3em;
-    padding: 0.1em 0 0 0.1em;
+#dashboard #nav-info > span.msg_notice {
+    margin: 0;
+	padding: 0;
 }
 #dashboard #nav-navigation {
     border: 1px solid #BBBBBB;
@@ -857,7 +852,7 @@ td.serendipityAdminContentDashboard {
     opacity: 0.7;
 }
 #dashboard #compen .comment_text {
-    background: none repeat scroll 0 0 infobackground;/*new backend */
+    background: none repeat scroll 0 0 infobackground;
     color: DimGrey;
 }
 #dashboard .text-icon {
@@ -882,9 +877,6 @@ td.serendipityAdminContentDashboard {
 }
 #dashboard .text-icon-notifications:before {
     content: "!";
-}
-#dashboard #boxed_autoupdate {
-    margin: 0.2em 0.8em;
 }
 #dashboard > section .block-box {
     background: none repeat scroll 0 0 #F9F9F9;
@@ -935,21 +927,21 @@ td.serendipityAdminContentDashboard {
     margin: 0;
     padding: 3px 0;
 }
-#dashboard #layout li.flipflop {
+#dashboard #layout section.flipflop {
     display: inline-block;
     margin: 0;
     padding: 0;
     width: 100%;
 }
-#dashboard #layout li.flipflop,
+#dashboard #layout section.flipflop,
 #dashboard #layout .block-box .flipbox {
     top: 0;
     left: 0;
 }
-#dashboard #layout li.flipflop:nth-of-type(1) {
+#dashboard #layout section.flipflop:nth-of-type(1) {
     margin: 4px 0 0;
 }
-#dashboard #layout li.ui-state-highlight .block-box {
+#dashboard #layout section.ui-state-highlight .block-box {
     margin-left: 1.5px;
 }
 
@@ -980,15 +972,13 @@ td.serendipityAdminContentDashboard {
     padding: 0;
     position: relative;
 }
-/*#dashboard .block-content-info .table span {
-    float: right;
-    text-align: right;
-}*/
+#dashboard .block-content-info .table_content > ul.plainlist {
+    font-size: 1em;
+    margin: 0 0 1em;
+}
 #dashboard .block-content-info .table_content {
-    /*border-top: 1px solid #ECECEC;*/
     float: left;
     width: 45%;
-    /*padding: 0 10px 12px;*/
 }
 #dashboard .block-content-info .table_discussion {
     border-top: 1px solid #ECECEC;
@@ -1063,9 +1053,9 @@ td.serendipityAdminContentDashboard {
 #dashboard #feed .text.toggle-icon.icon-zoom-in {
     font-size: 112%;
 }
-/*#dashboard .block-content-info p.sub, #dashboard .block-content-info .table, #dashboard .block-content-info .versions {
+#dashboard .block-content-info h4.sub, #dashboard .block-content-info .table, #dashboard .block-content-info .versions {
     margin: 3px;
-}*/
+}
 #dashboard .block-content-info .versions {
     clear: both;
 }
@@ -1116,7 +1106,7 @@ td.serendipityAdminContentDashboard {
 /*----------------------------------*/
 
 /* JQUERY-UI_MODS in here */
-#dashboard  section#layout .ui-layout-main {position: relative; height: 100%; overflow: hidden; margin: 0; padding: 0; border: medium none; cursor: auto;}
+#dashboard  #layout .ui-layout-main {position: relative; height: 100%; overflow: hidden; margin: 0; padding: 0; border: medium none; cursor: auto;}
 
 /*
  * The :nth-child() and :nth-of-type() pseudo-classes allow to select elements with a formula. *: for all elements.
@@ -1124,36 +1114,41 @@ td.serendipityAdminContentDashboard {
  * div:nth-of-type() works the same, except that it only considers element of the given type (<div> in the example).
  * :first-of-type == :first-child and :last-of-type == :last-child and :only-of-type means an element which is the only child of its parent.
  */
-#dashboard #layout li.ui-state-highlight:nth-of-type(n+1) {
-    margin: 3px 2px;
+#dashboard #layout section.ui-state-highlight:nth-of-type(n+1) {
     padding: 0.25em;
-    width: 98.8%;      /* adjust block width as of l/r intent */
 }
-#dashboard #layout li.ui-state-highlight:nth-of-type(1) {
+#dashboard #layout section.ui-state-highlight:nth-of-type(1) {
     margin: 4px 0 3px 2px;
 }
-#dashboard #layout li.ui-state-highlight:nth-of-type(n+1) .block-box {
+#dashboard #layout section.ui-state-highlight:nth-of-type(n+1) .block-box {
     margin: 0;
     width: 100%;
 }
-#dashboard #layout li.ui-state-highlight:nth-of-type(1) .block-box {
+#dashboard #layout section.ui-state-highlight:nth-of-type(1) .block-box {
     margin: 0;
     width: 100%;
 }
 /*------------------------------------*/
 
-#dashboard #layout ul li.widget {
+#dashboard #layout div section.widget {
     clear: both;
     width: 97%;
 }
 #dashboard #layout .block-box {
     min-height: 0; /* flipping boxes need this better here, as in jquery toggle() */
     position: relative;
-    width: 99%;
+    margin: 0 auto 0.4em;
+    background: none repeat scroll 0 0 #F9F9F9;
+    border: 1px solid #DFDFDF;
+}
+#dashboard #meta-box-right .block-box {
+    margin-left: 0.2em;
 }
 #dashboard #meta-box-left .block-box {
     left: 0;
     top: 0;
+    margin-left: 0.1em;
+    margin-right: 0.2em;
 }
 #dashboard #layout .block-box h3 > span {
     font-family: Georgia,"Times New Roman","Bitstream Charter",Times,serif;
@@ -1657,15 +1652,15 @@ td.serendipityAdminContentDashboard {
 #cont2.mbc_container input, #cont2.mbc_container select, #cont2.mbc_container form fieldset, #cont2.mbc_container a.serendipityPrettyButton {
     font-size: 84%;
 }
-#cont2.black .serendipityAdminMsgError, #cont2.black .serendipityAdminMsgNotice, #cont2.black .serendipityAdminMsgNote,
-#cont2 .mbc_content > .backend_entry_container .serendipityAdminMsgSuccess {
+#cont2.black .msg_error, #cont2.black .msg_notice, #cont2.black .msg_dialogue,
+#cont2 .mbc_content > .backend_entry_container .msg_success {
     border: 1px solid #A0A0A0;
     display: inline-block;
     background: none repeat scroll 0 0 #CDD;
     padding: 0.5em;
 }
-#cont2.black .serendipityAdminMsgError a, #cont2.black .serendipityAdminMsgNotice a, #cont2.black .serendipityAdminMsgNote a,
-#cont2 .mbc_content > .backend_entry_container .serendipityAdminMsgSuccess a {
+#cont2.black .msg_error a, #cont2.black .msg_notice a, #cont2.black .msg_dialogue a,
+#cont2 .mbc_content > .backend_entry_container .msg_success a {
     color: blue;
 }
 /* administration -> configuration */
@@ -1713,7 +1708,7 @@ td.serendipityAdminContentDashboard {
 #cont2.black #dashboard #upgrade_notice a:visited, #cont2.black #dashboard #cell_left h3 a:visited, #cont2.black #dashboard .comments_header label a:visited {
     color: inherit;
 }
-#cont2.black .serendipityAdminMsgNotice, #cont2.black .serendipityAdminMsgNote {
+#cont2.black .msg_notice, #cont2.black .msg_dialogue  {
 	color: #C70000 !important;
 }
 
@@ -1756,7 +1751,7 @@ td.serendipityAdminContentDashboard {
 #cont2.mbc_container .default_staticpage .sect_struct,
 #cont2.mbc_container .default_staticpage .sect_meta,
 #cont2.mbc_container .default_staticpage .sect_opt {
-    font-size: 100%; /*new backend */
+    font-size: 100%;
 }
 #cont2.mbc_container #backend_sp_simple nobr {
     display: inline-block;
