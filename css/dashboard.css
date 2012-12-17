@@ -246,7 +246,7 @@ td.serendipityAdminContentDashboard {
 }
 
 #dashboard #nav-navigation-select .main-help {
-    margin: -4em 0.7em 1em 0;
+    padding: 0 0.7em 1em 0; /* one-liner (temporary workaround) in chrome ok - in mozilla breaks line - why */
     text-align: right; /* IE + Opera and old Moz and Safari fallback */
     text-align: end;
 }
