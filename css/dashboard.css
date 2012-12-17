@@ -1628,6 +1628,12 @@ td.serendipityAdminContentDashboard {
     display: inline-block;
     float: none;
 }
+/* disable #cont2 ul li rule, while in new backend */
+#cont2 .pluginmanager_container ul li  {
+    display: inherit;
+    float: inherit;
+}
+
 #cont2 table span {
     color: inherit !important;
     font-size: 8.7pt !important;
@@ -1826,14 +1832,9 @@ td.serendipityAdminContentDashboard {
 #cont2 ol.pluginmanager_container  li > h5 {
     display: inline-block;
 }
-/* temporary test new backend pluginmanager block headers */
-#pluginlist_sidebar li > .pluginmanager_grablet, #pluginlist_sidebar li > .form_check, #pluginlist_sidebar li > .pluginmanager_configure, #pluginlist_sidebar li > h5,
-#event_col li > .pluginmanager_grablet, #event_col li > .form_check, #event_col li > .pluginmanager_configure, #event_col li > h5 {
-    display: inline-block;
-}
 #pluginlist_sidebar li h5, #event_col li > h5 {
     float: right;
-    margin: 0.6em 0 0 auto;
+    padding: 0.8em 0.5em 0 0;
 }
 
 /*----------------------------------------------
