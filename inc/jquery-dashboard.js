@@ -511,40 +511,6 @@ jQuery(document).ready(function($) {
     });
 
     /**
-     * Some Event Delegation Listeners on DOM ready
-     **/
-    $(function() {
-        if( $.type(extend2Cont) !== 'null') {
-            // containerized auto-ajax event listeners
-            $('#cont2').on('submit', 'form[data-remote="auto-ajax"]', function(e) {
-                e.preventDefault();
-                return $(this).autoAjax();
-            });
-            $('#menu-perset[data-remote="auto-ajax"], #menu-plugco[data-remote="auto-ajax"]').on('click', function(e) {
-                e.preventDefault();
-                // if container is closed, open it (this is the case, if we follow containable links outside a container, like this opening personal settings in navbar)
-                if($('#cont2').get(0).isClosed) $("#cont2").containerize("open",500); // open new modal container / fs = .containerize("fullScreen")
-                emac = e.delegatedTarget;
-                return $(this).autoAjax(emac);
-            });
-            $(c_blocks.join(', ')).on('click', 'a[data-remote="auto-ajax"], button[data-remote="auto-ajax"]', function(e) {
-                e.preventDefault();
-                // if container is closed, open it (this is the case, if we follow containable links outside a container, or plugbox container links)
-                if($('#cont2').get(0).isClosed) $("#cont2").containerize("open",500); // open new modal container / fs = .containerize("fullScreen")
-                return $(this).autoAjax();
-            });
-            $('#cont2').on('click', 'a[data-remote="auto-ajax"], button[data-remote="auto-ajax"]', function(e) {
-                e.preventDefault();
-                return $(this).autoAjax();
-            });
-            $('#cont2').on('change', 'select[data-remote="auto-ajax"]', function(e) {
-                e.preventDefault();
-                return $(this).autoAjax();
-            });
-        }
-    });
-
-    /**
      * Start up some essential init functions
      **/
     $(function() {
@@ -749,6 +715,40 @@ jQuery(document).ready(function($) {
                 ajaxify(false);  // reset ajaxified block container links
                 $("#content").removeClass('no-sidebar');
             }
+        }
+    });
+
+    /**
+     * Some Event Delegation Listeners on DOM ready [need to be settled here, after the ajaxify call has been done, else it listens on something set later (at least in the nav)]
+     **/
+    $(function() {
+        if( $.type(extend2Cont) !== 'null') {
+            // containerized auto-ajax event listeners
+            $('#cont2').on('submit', 'form[data-remote="auto-ajax"]', function(e) {
+                e.preventDefault();
+                return $(this).autoAjax();
+            });
+            $('#menu-perset[data-remote="auto-ajax"], #menu-plugco[data-remote="auto-ajax"]').on('click', function(e) {
+                e.preventDefault();
+                // if container is closed, open it (this is the case, if we follow containable links outside a container, like this opening personal settings in navbar)
+                if($('#cont2').get(0).isClosed) $("#cont2").containerize("open",500); // open new modal container / fs = .containerize("fullScreen")
+                emac = e.delegatedTarget;
+                return $(this).autoAjax(emac);
+            });
+            $(c_blocks.join(', ')).on('click', 'a[data-remote="auto-ajax"], button[data-remote="auto-ajax"]', function(e) {
+                e.preventDefault();
+                // if container is closed, open it (this is the case, if we follow containable links outside a container, or plugbox container links)
+                if($('#cont2').get(0).isClosed) $("#cont2").containerize("open",500); // open new modal container / fs = .containerize("fullScreen")
+                return $(this).autoAjax();
+            });
+            $('#cont2').on('click', 'a[data-remote="auto-ajax"], button[data-remote="auto-ajax"]', function(e) {
+                e.preventDefault();
+                return $(this).autoAjax();
+            });
+            $('#cont2').on('change', 'select[data-remote="auto-ajax"]', function(e) {
+                e.preventDefault();
+                return $(this).autoAjax();
+            });
         }
     });
 
