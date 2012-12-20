@@ -1,4 +1,4 @@
-{*** block_compen.tpl - last modified 2012-12-16 ***}
+{*** block_compen.tpl - last modified 2012-12-20 ***}
 
 {if $showElementComPend}
 <div id="compen" class="block-comments block-box clearfix">
@@ -18,7 +18,7 @@
                         <input id="multi-select-comment-{$eclpen.id}" class="input_checkbox" type="checkbox" name="serendipity[delete][{$eclpen.id}]" value="{$eclpen.entry_id}" onclick="toggle_checkbox('ckbx_{$eclpen.id}', this.checked)" tabindex="{$smarty.foreach.bar.iteration}" />
                         <div class="comment_titel">
                             <label for="multi-select-comment-{$eclpen.id}" class="num">{$CONST.PLUGIN_DASHBOARD_COMMENT_SELECTION_SHORT|@sprintf:$eclpen.id} - 
-                            {$CONST.IN_REPLY_TO}: <a href="{$eclpen.entry_url}" title="{$eclpen.title}">{$eclpen.title|truncate:48:"&hellip;"}</a></label>, <time datetime="{$eclpen.pubdate}" pubdate>{$CONST.ON} <span class="icon-clock" title="{$eclpen.timestamp|@formatTime:'%A, %e. %B %Y'}"></span><span class="visuallyhidden"> {$eclpen.timestamp|@formatTime:'%A, %e. %B %Y'}</span></time>
+                            {$CONST.IN_REPLY_TO}: <a href="{$eclpen.entry_url}" title="{$eclpen.title}">{$eclpen.title|truncate:48:"&hellip;"}</a>, {$CONST.ON} </label><time datetime="{$eclpen.pubdate}" pubdate><span class="icon-clock" title="{$eclpen.timestamp|@formatTime:'%A, %e. %B %Y'}"></span><span class="visuallyhidden"> {$eclpen.timestamp|@formatTime:'%A, %e. %B %Y'}</span></time>
                         </div>
 
                         <div class="box-right"> <span id="#cl_{$eclpen.id}" class="button"><img src="{serendipity_getFile file='img/plus.png'}" id="option_{$smarty.foreach.bar.iteration}" class="wizard-img" alt="+/-" title="{$CONST.TOGGLE_OPTION}"> </span> </div>

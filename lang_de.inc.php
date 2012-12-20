@@ -1,5 +1,5 @@
 <?php
-/* last modified - 2012-09-02 */
+/* last modified - 2012-12-20 */
 
 /* propbag config only */
 @define('PLUGIN_DASHBOARD_DESC', 'Zeigt ausgewählte Informationen auf der Startseite der Verwaltungsoberfläche als Übersicht');
@@ -53,7 +53,7 @@
 
 /* UI-Blocks both comments */
 @define('PLUGIN_DASHBOARD_COMMENTS_PENDING', 'zu bewilligende Kommentare');
-@define('PLUGIN_DASHBOARD_COMMENT_SELECTION_SHORT', '#%s');
+@define('PLUGIN_DASHBOARD_COMMENT_SELECTION_SHORT', '<span>#%s</span>');
 
 /* UI-Block info */
 @define('PLUGIN_DASHBOARD_INFO_HEADER', 'Auf einen Blick');

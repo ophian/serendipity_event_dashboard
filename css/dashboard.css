@@ -1001,9 +1001,10 @@ td.serendipityAdminContentDashboard {
 #dashboard .block-content-info .t {
     line-height: 2;
 }
-#dashboard label.num,
+#dashboard label.num span,
 #dashboard .block-box h3.flipbox span.num,
-#dashboard .block-content-info span.b a {
+#dashboard .block-content-info span.b a span {
+    display: inline;
     font-family: Georgia,"Times New Roman","Bitstream Charter",Times,serif;
 }
 #dashboard .block-content-info span.b a {
@@ -1048,7 +1049,9 @@ td.serendipityAdminContentDashboard {
 
 #dashboard label.num {
     font-size: 12px;
-    vertical-align: text-top;
+}
+#dashboard label.num  a {
+    text-decoration: none;
 }
 #dashboard #feed span.num,
 #dashboard .block-box h3.flipbox span.num {

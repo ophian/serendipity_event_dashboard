@@ -1,5 +1,5 @@
 <?php
-/* last modified - 2012-10-04 */
+/* last modified - 2012-12-20 */
 
 /* propbag config only */
 @define('PLUGIN_DASHBOARD_DESC', 'Shows some summary information on the backend frontpage');
@@ -56,7 +56,7 @@
 
 /* UI-Blocks both comments */
 @define('PLUGIN_DASHBOARD_COMMENTS_PENDING', 'Pending comments');
-@define('PLUGIN_DASHBOARD_COMMENT_SELECTION_SHORT', '#%s');
+@define('PLUGIN_DASHBOARD_COMMENT_SELECTION_SHORT', '<span>#%s</span>');
 
 /* UI-Block info */
 @define('PLUGIN_DASHBOARD_INFO_HEADER', 'Overview');
