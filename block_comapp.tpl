@@ -52,7 +52,7 @@
                             </li>
                             {if $eclap.excerpt}
                             <li class="mod_zoom">
-                                <a class="icon_link toggle_text" href="#c{$eclap.id}" title="{$CONST.PREVIEW}"><span id="text_zoom_{$eclap.id}" class="text icon-zoom-in"></span><span class="visuallyhidden"> {$CONST.TOGGLE_OPTION}</span></a>
+                                <a class="icon_link toggle_text" href="#c{$eclap.id}" title="{$CONST.PREVIEW}"><span id="text_zoom_{$eclap.id}" class="text toggle-icon icon-zoom-in"></span><span class="visuallyhidden"> {$CONST.TOGGLE_OPTION}</span></a>
                             </li>
                             {/if}
                             <li class="mod_view">
