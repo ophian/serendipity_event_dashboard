@@ -99,6 +99,8 @@ article, aside, details, figcaption, figure, footer, header, hgroup, nav, sectio
 #dashboard a:hover, #dashboard a:active { outline: 0; }
 #dashboard a img { border: 1px solid transparent; } /* IE need! */
 
+#dashboard * { font-family: 'Open Sans', sans-serif; }
+
 /* corrects BP3.0 for Dashboard */
 #dashboard input[type="checkbox"], #dashboard input[type="radio"] {
     margin: 3px 3px 0;
