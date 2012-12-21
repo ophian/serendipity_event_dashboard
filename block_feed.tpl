@@ -25,7 +25,7 @@
                     <ul class="feed_fields horizontal">
                     {if $show_feedcontent}
                         <li class="mod_zoom">
-                            <a href="#f{$smarty.foreach.rssblogfeed.iteration}" title="{$CONST.VIEW}" class="icon_link toggle_text"><span id="text_{$smarty.foreach.rssblogfeed.iteration}" class="text toggle-icon icon-zoom-in"></span><span class="visuallyhidden"> {$CONST.TOGGLE_OPTION}</span></a>
+                            <a class="icon_link toggle_text" href="#f{$smarty.foreach.rssblogfeed.iteration}" title="{$CONST.VIEW}"><span id="text_{$smarty.foreach.rssblogfeed.iteration}" class="text toggle-icon icon-zoom-in"></span><span class="visuallyhidden"> {$CONST.TOGGLE_OPTION}</span></a>
                         </li>
                     {/if}
                     {if $show_feedauthor}

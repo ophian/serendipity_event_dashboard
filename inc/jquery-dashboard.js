@@ -7,7 +7,7 @@ window.log = function f(){ log.history = log.history || []; log.history.push(arg
 (function(){try{console.log();return window.console;}catch(a){return (window.console={});}}());
 // Attention: do not use paulirish log() method, as making our events behave different
 
-// jquery-dashboard.js - last-modified: 2012-12-11
+// jquery-dashboard.js - last-modified: 2012-12-20
 
 /**
  *  This is a simple prototype plugin which converts 'a,form,select,button' targets dynamically into AJAX requests
@@ -244,14 +244,25 @@ jQuery(document).ready(function($) {
     contLinksToAjax = (function (tag, url) {
         // append data-remote="auto-ajax" data-callback="rebuildContainer" to all anchor elements in our new container class
         $(tag).each( function() {
-            var $this = $(this).not('[onclick]').not('[target="_blank"]').not('[href*="mailto:"]'); // if tag a has no attribute onclick and is not a target _blank or href mailto
+            var $this = $(this).not('[onclick]').not('[target="_blank"]').not('[href*="mailto:"]').not('.toggle_text'); // if tag a has no attribute onclick and is not a target _blank or href mailto or has class toggle_text
             var $that = $(this).is('form') && $(this).not('[action]'); // if tag is a form element with no action attribute, returning to self in document environments
             if($that[0]) {
                 $that.attr({'action':url, 'data-remote':'auto-ajax', 'data-callback':'rebuildContainer'});
             } else {
-                // dont use for abort buttons, as in do sync media library
+                // don't use for abort buttons, as in do sync media library
                 $this.not('[href="serendipity_admin.php"]').attr({'data-remote':'auto-ajax', 'data-callback':'rebuildContainer'});
             }
+        });
+    });
+
+    /**
+     * Function Expression reset all ajaxified link anchors [OK]
+     */
+    resetContLinksToAjax = (function (tag, url) {
+        // reset data-remote="auto-ajax" data-callback="rebuildContainer" from all anchor elements in our new container class
+        $(tag).each( function() {
+            var $this = $(this); // take them all to reset
+            $this.not('[href="serendipity_admin.php"]').removeAttr('data-remote data-callback');
         });
     });
 
@@ -261,6 +272,7 @@ jQuery(document).ready(function($) {
     rebuildContainer = (function(result, delegatedUrl) {
         if(result.length) {
             var $item = $('#cont2 .mbc_content > div');
+            var url   = '';
             // clean up previous data in container, if any
             $item.empty().remove(); // they say its faster to empty before remove ...
             // append data to backend container
@@ -270,16 +282,45 @@ jQuery(document).ready(function($) {
             if( extend2Cont === true ) {
                 // add ajaxification attributes to all anchor links already placed in DOM - ajaxifies a, form, select, button elements
                 var $container = "#cont2 .mbc_content > .backend_entry_container";
-                contLinksToAjax($container+' a[href]');
-                contLinksToAjax($container+' form[action]');
+                contLinksToAjax($container+' a[href]', url);
+                contLinksToAjax($container+' form[action]', url);
                 contLinksToAjax($container+' form:not([action])', delegatedUrl);
-                /*contLinksToAjax($container+' select option[value]'); // do we really need this (automatic option selects) anywhere?*/
-                contLinksToAjax($container+' button[value]');
+                /*contLinksToAjax($container+' select option[value]', url); // do we really need this (automatic option selects) anywhere?*/
+                contLinksToAjax($container+' button[value]', url);
                 // remove 100px inline style in plugin configurations submit spacer
                 $plugconf = $('#cont2 #configuration_footer');
                 if ($plugconf) $plugconf.removeAttr('style');
             }
-        } else { console.log('fct rebuildContainer: An ajax result error occured'); }
+        } else { console.log('fcn rebuildContainer: An ajax result error occured'); }
+    });
+
+    /**
+     * Function Expression check for ajaxification call [OK]
+     **/
+    ajaxify = (function(set) {
+        // react on dashboards config setting (true, false, 'never')
+        if( $.type(extend2Cont) === 'boolean' ) {
+            // attract ajaxified data calls to personal settings button
+            $('#menu-perset').attr({'data-remote':'auto-ajax', 'data-callback':'rebuildContainer'});
+            // attract ajaxified data calls to plugin config button
+            $('#menu-plugco').attr({'data-remote':'auto-ajax', 'data-callback':'rebuildContainer'});
+
+            // the selectbar ajaxification is done somewhere else
+            // if sidebar slide button or read cookie declares a dashboard fullview, ajaxify all other links
+            $(c_blocks.join(', ')).each(linkToBox);
+        }
+
+        function linkToBox() {
+            var $this = $(this);
+            var url   = '';
+            if ( set === true ) {
+                // add ajaxification attributes to all boxed anchor links already placed in DOM - ajaxifies a(, form, select, button) elements
+                contLinksToAjax($this.find('a[href]'), url);
+            } else {
+                // reset already added attributes 
+                resetContLinksToAjax($this.find('a[href]'), url);
+            }
+        }
     });
 
     /**
@@ -459,9 +500,6 @@ jQuery(document).ready(function($) {
         // remove overview.inc's echo drop-in, if set
         $('h3.serendipityWelcomeBack').addClass('visuallyhidden');
 
-        // set .serendipityAdminContent left padding class on default
-        //$('td.serendipityAdminContent').addClass('serendipityAdminContentDashboard clearfix');
-
         // add missing class to #serendipitySideBar
         $sidebar.addClass('no-class');
 
@@ -470,54 +508,6 @@ jQuery(document).ready(function($) {
 
         // attract a title to the help gazette before running tooltip
         $('#iopen.help').attr('title', 'The Gazette!');
-
-        if( $.type(extend2Cont) === 'boolean') {
-            // attract ajaxified data calls to personal settings button
-            $('#menu-perset').attr({'data-remote':'auto-ajax', 'data-callback':'rebuildContainer'});
-            // attract ajaxified data calls to plugin config button
-            $('#menu-plugco').attr({'data-remote':'auto-ajax', 'data-callback':'rebuildContainer'});
-            function linkToBox() {
-                var $this = $(this);
-
-                // add ajaxification attributes to all anchor links already placed in DOM - ajaxifies a, form, select, button elements
-                contLinksToAjax($this.find('a[href]'));
-            }
-            var $cbk = $(c_blocks.join(', ')).each(linkToBox);
-        }
-    });
-
-    /**
-     * Some Event Delegation Listeners on DOM ready
-     **/
-    $(function() {
-        if( $.type(extend2Cont) !== 'null') {
-            // containerized auto-ajax event listeners
-            $('#cont2').on('submit', 'form[data-remote="auto-ajax"]', function(e) {
-                e.preventDefault();
-                return $(this).autoAjax();
-            });
-            $('#menu-perset[data-remote="auto-ajax"], #menu-plugco[data-remote="auto-ajax"]').on('click', function(e) {
-                e.preventDefault();
-                // if container is closed, open it (this is the case, if we follow containable links outside a container, like this opening personal settings in navbar)
-                if($('#cont2').get(0).isClosed) $("#cont2").containerize("open",500); // open new modal container / fs = .containerize("fullScreen")
-                emac = e.delegatedTarget;
-                return $(this).autoAjax(emac);
-            });
-            $(c_blocks.join(', ')).on('click', 'a[data-remote="auto-ajax"], button[data-remote="auto-ajax"]', function(e) {
-                e.preventDefault();
-                // if container is closed, open it (this is the case, if we follow containable links outside a container, or plugbox container links)
-                if($('#cont2').get(0).isClosed) $("#cont2").containerize("open",500); // open new modal container / fs = .containerize("fullScreen")
-                return $(this).autoAjax();
-            });
-            $('#cont2').on('click', 'a[data-remote="auto-ajax"], button[data-remote="auto-ajax"]', function(e) {
-                e.preventDefault();
-                return $(this).autoAjax();
-            });
-            $('#cont2').on('change', 'select[data-remote="auto-ajax"]', function(e) {
-                e.preventDefault();
-                return $(this).autoAjax();
-            });
-        }
     });
 
     /**
@@ -588,24 +578,21 @@ jQuery(document).ready(function($) {
     });
 
     /**
-     * Toggle the feed/comments text block and change view/hide constant on event
+     * Toggle the feed/comments text blocks and change view/hide constant on event
      **/
     $(function() {
-        $(t_text.join(', ')).find('.fulltxt').addClass('visuallyhidden');
-        $(t_text.join(', ')).find('.text').toggle( 
+        $(t_text.join(', ')).find('.toggle_text').toggle( 
             function (event) { 
                 $(this).closest('.serendipity_admin_list_item').children('.comment_text').children().toggleClass('visuallyhidden');
-                $(this).addClass('icon-zoom-out');
+                $(this).find('span:first-of-type').removeClass().addClass('text toggle-icon icon-zoom-out'); /*new backend and chrome needed to switch to a.toggle_text */
                 unsetUIHightlight($(this));
-                // set new id#layout height on toggle inside 
-                setContainersHeight();
+                setContainersHeight(); // set new id#layout height on toggle inside 
             }, 
             function (event) { 
                 $(this).closest('.serendipity_admin_list_item').children('.comment_text').children().toggleClass('visuallyhidden');
-                $(this).removeClass('icon-zoom-out');
+                $(this).find('span:first-of-type').removeClass().addClass('text toggle-icon icon-zoom-in'); /*new backend and chrome needed to switch to a.toggle_text */
                 unsetUIHightlight($(this));
-                // set new id#layout height on toggle inside 
-                setContainersHeight();
+                setContainersHeight(); // set new id#layout height on toggle inside 
             }
         );
     });
@@ -690,6 +677,7 @@ jQuery(document).ready(function($) {
             if ($sidebar.is(':visible')) {
                 $sidebar.fadeOut();
                 $("#content").addClass('no-sidebar');
+                extendLinks = true; // containerize links
                 // ugly workaround for chrome and ie browser, which denied local hostnames set as domain: hostname
                 if( !$.cookie('serendipity[dashboard_cookie_sidebar]', 'isSelectBar', { expires: 180, path: pathname, domain: hostname }) ) {
                     $.cookie('serendipity[dashboard_cookie_sidebar]', 'isSelectBar', { expires: 180, path: pathname });//, domain: hostname
@@ -697,29 +685,70 @@ jQuery(document).ready(function($) {
             } else {
                 $sidebar.fadeIn();
                 $("#content").removeClass('no-sidebar');
+                extendLinks = false; // uncontainerize links
                 // ugly workaround for chrome and ie browser, which denied local hostnames set as domain: hostname
                 if( !$.cookie('serendipity[dashboard_cookie_sidebar]', 'isSideBar', { expires: 180, path: pathname, domain: hostname }) ) {
                     $.cookie('serendipity[dashboard_cookie_sidebar]', 'isSideBar', { expires: 180, path: pathname });//, domain: hostname
                 }
             }
             $selectbar.toggleClass('visuallyhidden');
+            ajaxify(extendLinks); // set/reset ajaxified block container links
         });
 
-        // check to see if a cookie exists for the app state
-        var cookie_sidebar = $.cookie('serendipity[dashboard_cookie_sidebar]');
-        if(cookie_sidebar == 'isSelectBar') { 
-            $sidebar.fadeOut();
-            $("#content").addClass('no-sidebar');
-            $selectbar.toggleClass('visuallyhidden');
-        } else {
-            $sidebar.fadeIn();
-             $("#content").removeClass('no-sidebar');
-        }
+        if( typeof extendLinks === 'undefined' ) {
+            // check to see if a cookie exists for the app state
+            var cookie_sidebar = $.cookie('serendipity[dashboard_cookie_sidebar]');
+            if(cookie_sidebar == 'isSelectBar') { 
+                $sidebar.fadeOut();
+                $("#content").addClass('no-sidebar');
+                ajaxify(true); // also ajaxify block container links
+                $selectbar.toggleClass('visuallyhidden');
+            } else {
+                $sidebar.fadeIn();
+                ajaxify(false);  // reset ajaxified block container links
+                $("#content").removeClass('no-sidebar');
+            }
 
-        // make sure everything outside dashboard context has the normal 'isSideBar' Layout!
-        if ( !$('#dashboard').children().length > 0 ) { 
-            $sidebar.fadeIn();
-            $("#content").removeClass('no-sidebar');
+            // make sure everything outside dashboard context has the normal 'isSideBar' Layout!
+            if ( !$('#dashboard').children().length > 0 ) { 
+                $sidebar.fadeIn();
+                ajaxify(false);  // reset ajaxified block container links
+                $("#content").removeClass('no-sidebar');
+            }
+        }
+    });
+
+    /**
+     * Some Event Delegation Listeners on DOM ready [need to be settled here, after the ajaxify call has been done, else it listens on something set later (at least in the nav)]
+     **/
+    $(function() {
+        if( $.type(extend2Cont) !== 'null') {
+            // containerized auto-ajax event listeners
+            $('#cont2').on('submit', 'form[data-remote="auto-ajax"]', function(e) {
+                e.preventDefault();
+                return $(this).autoAjax();
+            });
+            $('#menu-perset[data-remote="auto-ajax"], #menu-plugco[data-remote="auto-ajax"]').on('click', function(e) {
+                e.preventDefault();
+                // if container is closed, open it (this is the case, if we follow containable links outside a container, like this opening personal settings in navbar)
+                if($('#cont2').get(0).isClosed) $("#cont2").containerize("open",500); // open new modal container / fs = .containerize("fullScreen")
+                emac = e.delegatedTarget;
+                return $(this).autoAjax(emac);
+            });
+            $(c_blocks.join(', ')).on('click', 'a[data-remote="auto-ajax"], button[data-remote="auto-ajax"]', function(e) {
+                e.preventDefault();
+                // if container is closed, open it (this is the case, if we follow containable links outside a container, or plugbox container links)
+                if($('#cont2').get(0).isClosed) $("#cont2").containerize("open",500); // open new modal container / fs = .containerize("fullScreen")
+                return $(this).autoAjax();
+            });
+            $('#cont2').on('click', 'a[data-remote="auto-ajax"], button[data-remote="auto-ajax"]', function(e) {
+                e.preventDefault();
+                return $(this).autoAjax();
+            });
+            $('#cont2').on('change', 'select[data-remote="auto-ajax"]', function(e) {
+                e.preventDefault();
+                return $(this).autoAjax();
+            });
         }
     });
 
@@ -1031,9 +1060,9 @@ jQuery(document).ready(function($) {
             e.preventDefault();
         });
 
-        $("#cont1").containerize("addtotoolbar", [fullScreenBtn,iconizeBtn,changeSkinBtn,dockBtn,closeBtn]); // the help box fullScreenBtn,changeSkinBtn,closeBtn
-        $("#cont2 .mbc_footer").empty(); // empty debug notes, if any
-        $("#cont2").containerize("addtotoolbar", [backBtn, fullScreenBtn,iconizeBtn,changeSkinBtn,dockBtn,closeBtn]); // the containerized backend!
+        $("#cont1").containerize("addtotoolbar", [fullScreenBtn,iconizeBtn,changeSkinBtn,dockBtn,closeBtn]); // the help box
+        //$("#cont2 .mbc_footer").empty(); // empty debug notes, if any
+        $("#cont2").containerize("addtotoolbar", [backBtn, fullScreenBtn,iconizeBtn,changeSkinBtn,dockBtn,closeBtn]); // the modal container backend!
     });
 
     /**
@@ -1043,7 +1072,7 @@ jQuery(document).ready(function($) {
      * use with ('*') all selectors, or selector tagNames, idNames, classNames etc.
      **/
     $(function(){
-        // as of now = 827 elements! ie. we there have 282 li, 45 ul, 162 div elements, etc.
+        // as of now = 818FF/819CH ??? elements!
         // console.log( $('*').length );
     });
 

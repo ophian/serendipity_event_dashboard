@@ -42,6 +42,8 @@ input {
     box-sizing: border-box;
 }
 
+#dashboard * { font-family: 'Open Sans', sans-serif; }
+
 /* corrects BP3.0 for Dashboard */
 #dashboard input[type="checkbox"], #dashboard input[type="radio"] {
     margin: 3px 3px 0;
@@ -777,7 +779,20 @@ td.serendipityAdminContentDashboard { padding: 3px 3px 10px; }
 #dashboard .block-content-info .t {
     line-height: 2;
 }
+<<<<<<< HEAD
 
+=======
+#dashboard label.num span,
+#dashboard .block-box h3.flipbox span.num,
+#dashboard .block-content-info span.b a span {
+    display: inline;
+    font-family: Georgia,"Times New Roman","Bitstream Charter",Times,serif;
+}
+#dashboard .block-content-info span.b a {
+    font-size: 18px;
+    text-decoration: none;
+}
+>>>>>>> upstream/2.0
 #dashboard .feed_title {
     display: inline-block;
     margin: 1.75px;
@@ -798,10 +813,23 @@ td.serendipityAdminContentDashboard { padding: 3px 3px 10px; }
 /*added with new backend */
 #dashboard label { font-weight: normal; }
 
+<<<<<<< HEAD
 #dashboard .num { vertical-align: text-top; }
 
 #dashboard #feed .num,
 #dashboard .block-box .flipbox .num {
+=======
+#dashboard label.num {
+    font-size: 12px;
+}
+#dashboard label.num  a {
+    text-decoration: none;
+}
+#dashboard #feed span.num,
+#dashboard .block-box h3.flipbox span.num {
+    color: Red !important; /* must overwrite .serendipityAdminContent span */
+    font-size: 12px;
+>>>>>>> upstream/2.0
     padding: 0;
     vertical-align: text-top;
 }

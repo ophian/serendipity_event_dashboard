@@ -1,4 +1,4 @@
-{*** block_comapp.tpl - last modified 2012-12-16 ***}
+{*** block_comapp.tpl - last modified 2012-12-20 ***}
 
 {if $showElementComments}
 <div id="comapp" class="block-comments block-box clearfix">
@@ -19,8 +19,8 @@
 
                         <div class="comment_titel">
                             <label for="multi-select-comment-{$eclap.id}" class="num">{$CONST.PLUGIN_DASHBOARD_COMMENT_SELECTION_SHORT|@sprintf:$eclap.id} - 
-                            {$CONST.IN_REPLY_TO}: <a href="{$eclap.entry_url}" title="{$eclap.title}">{$eclap.title|truncate:48:"&hellip;"}</a></label>, 
-                            <time datetime="{$eclap.pubdate}" pubdate>{$CONST.ON} <span class="icon-clock" title="{$eclap.timestamp|@formatTime:'%A, %e. %B %Y'}"></span><span class="visuallyhidden"> {$eclap.timestamp|@formatTime:'%A, %e. %B %Y'}</span></time>
+                            {$CONST.IN_REPLY_TO}: <a href="{$eclap.entry_url}" title="{$eclap.title}">{$eclap.title|truncate:48:"&hellip;"}</a>, {$CONST.ON} </label>, 
+                            <time datetime="{$eclap.pubdate}" pubdate><span class="icon-clock" title="{$eclap.timestamp|@formatTime:'%A, %e. %B %Y'}"></span><span class="visuallyhidden"> {$eclap.timestamp|@formatTime:'%A, %e. %B %Y'}</span></time>
                         </div>
 
                         <div class="box-right"> <span id="#cl_{$eclap.id}" class="button"><img src="{serendipity_getFile file='img/plus.png'}" id="option_{$smarty.foreach.foo.iteration}" class="wizard-img" alt="+/-" title="{$CONST.TOGGLE_OPTION}"></span></div>
@@ -52,7 +52,7 @@
                             </li>
                             {if $eclap.excerpt}
                             <li class="mod_zoom">
-                                <a class="icon_link toggle_text" href="#c{$eclap.id}" title="{$CONST.PREVIEW}"><span id="text_zoom_{$eclap.id}" class="text icon-zoom-in"></span><span class="visuallyhidden"> {$CONST.TOGGLE_OPTION}</span></a>
+                                <a class="icon_link toggle_text" href="#c{$eclap.id}" title="{$CONST.PREVIEW}"><span id="text_zoom_{$eclap.id}" class="text toggle-icon icon-zoom-in"></span><span class="visuallyhidden"> {$CONST.TOGGLE_OPTION}</span></a>
                             </li>
                             {/if}
                             <li class="mod_view">

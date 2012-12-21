@@ -1,3 +1,12 @@
+
+#AddType application/vnd.ms-fontobject .eot
+#AddType application/octet-stream .otf .ttf
+
+AddType application/vnd.ms-fontobject .eot
+AddType font/ttf .ttf
+AddType font/otf .otf
+AddType application/x-font-woff .woff
+
 #
 # Tell serendipity to not redirect plugin documentation files
 #
