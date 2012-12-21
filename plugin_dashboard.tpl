@@ -83,7 +83,7 @@
 {if $secgroupempty}
     <div id="s9y-error">
         <div class="dashboard dashboard_error">
-            <span class="dashboard_msg_notice">{$CONST.PLUGIN_DASHBOARD_MARK}</span>
+            <span class="msg_error"><span class="icon-attention"></span> {$CONST.PLUGIN_DASHBOARD_MARK}</span>
         </div>
     </div>
 {/if}
