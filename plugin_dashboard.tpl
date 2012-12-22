@@ -6,14 +6,14 @@
 {if !empty($errormsg)}
     <div id="s9y-error">
         <div class="dashboard dashboard_error">
-            <span class="msg_notice icon-attention-circle"> {$errormsg}</span>
+            <span class="msg_notice"><span class="icon-attention"></span> {$errormsg}</span>
         </div>
     </div>
 {/if}
 
 {if !$secgroupempty}
-    <div id="layout" class="overlay">
-        <div id="meta-box-left" class="boxed-left meta-box">
+    <div id="layout" class="overlay clearfix">
+        <div id="meta-box-left" class="boxed-left meta-box clearfix">
         {* show UI-preset values in meta-box-left, else show rest elements compared to block-right *}
     {if $metaset[0] == 'meta-box-left'}
         {foreach from=$metaset[1] key=keyle item="lelem" name="metaset_left"}
@@ -21,7 +21,7 @@
             {if ($key === 0)}{assign var="element" value=$val}{/if}
             {if ($key === 1)}{assign var="blockname" value=$val}{/if}
             {if $smarty.foreach.block_element_left.last && !empty($blockname)}
-            <section id="{$element}" class="flipflop">
+            <section id="{$element}" class="flipflop clearfix">
             {include file="$fullpath/block_$blockname.tpl" title="Dashboard $blockname Notifier"}
             </section>
             {/if}
@@ -29,7 +29,7 @@
         {/foreach}
     {else}
         {foreach from=$block_elements key=lkey item=lvalue name=block_elements_left}
-            <section id="elem_{$lkey}" class="flipflop php-left-sort_{$lkey}">
+            <section id="elem_{$lkey}" class="flipflop php-left-sort_{$lkey} clearfix">
             {include file="$fullpath/block_$lvalue.tpl" title="Dashboard $lvalue Notifier"}
             </section>
         {/foreach}
@@ -38,7 +38,7 @@
     {if !is_array($metaset) || empty($metaset)}
         {foreach from=$elements key=lkey item=lvalue name=elements_left}
             {if $lkey < $countelements}
-            <section id="elem_{$lkey}" class="flipflop php-element-sort_{$lkey}">
+            <section id="elem_{$lkey}" class="flipflop php-element-sort_{$lkey} clearfix">
             {include file="$fullpath/block_$lvalue.tpl" title="Dashboard $lvalue Notifier"}
             </section>
             {/if}
@@ -46,7 +46,7 @@
     {/if}
         </div><!-- //#id: meta-box-left end -->
 
-        <div id="meta-box-right" class="boxed-right meta-box">
+        <div id="meta-box-right" class="boxed-right meta-box clearfix">
         {* show UI-preset values in meta-box-right, else show rest elements compared to block-leftt *}
     {if $metaset[0] == 'meta-box-right'}
         {foreach from=$metaset[1] key=keyre item="relem" name="metaset_right"}
@@ -54,7 +54,7 @@
             {if ($key === 0)}{assign var="element" value=$val}{/if}
             {if ($key === 1)}{assign var="blockname" value=$val}{/if}
             {if $smarty.foreach.block_element_right.last && !empty($blockname)}
-            <section id="{$element}" class="flipflop">
+            <section id="{$element}" class="flipflop clearfix">
             {include file="$fullpath/block_$blockname.tpl" title="Dashboard $blockname Notifier"}
             </section>
             {/if}
@@ -62,7 +62,7 @@
         {/foreach}
     {else}
         {foreach from=$block_elements key=rkey item=rvalue name=block_elements_right}
-            <section id="elem_{$rkey}" class="flipflop php-right-sort_{$rkey}">
+            <section id="elem_{$rkey}" class="flipflop php-right-sort_{$rkey} clearfix">
             {include file="$fullpath/block_$rvalue.tpl" title="Dashboard $rvalue Notifier"}
             </section>
         {/foreach}
@@ -71,7 +71,7 @@
     {if !is_array($metaset) || empty($metaset)}
         {foreach from=$elements key=rkey item=rvalue name=elements_right}
             {if $rkey >= $countelements}
-            <section id="elem_{$rkey}" class="flipflop php-element-sort_{$rkey}">
+            <section id="elem_{$rkey}" class="flipflop php-element-sort_{$rkey} clearfix">
             {include file="$fullpath/block_$rvalue.tpl" title="Dashboard $rvalue Notifier"}
             </section>
             {/if}
@@ -83,7 +83,7 @@
 {if $secgroupempty}
     <div id="s9y-error">
         <div class="dashboard dashboard_error">
-            <span class="dashboard_msg_notice">{$CONST.PLUGIN_DASHBOARD_MARK}</span>
+            <span class="msg_error"><span class="icon-attention"></span> {$CONST.PLUGIN_DASHBOARD_MARK}</span>
         </div>
     </div>
 {/if}
