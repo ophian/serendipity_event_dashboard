@@ -7,7 +7,7 @@ window.log = function f(){ log.history = log.history || []; log.history.push(arg
 (function(){try{console.log();return window.console;}catch(a){return (window.console={});}}());
 // Attention: do not use paulirish log() method, as making our events behave different
 
-// jquery-dashboard.js - last-modified: 2012-12-20
+// jquery-dashboard.js - last-modified: 2012-12-22
 
 /**
  *  This is a simple prototype plugin which converts 'a,form,select,button' targets dynamically into AJAX requests
@@ -244,7 +244,7 @@ jQuery(document).ready(function($) {
     contLinksToAjax = (function (tag, url) {
         // append data-remote="auto-ajax" data-callback="rebuildContainer" to all anchor elements in our new container class
         $(tag).each( function() {
-            var $this = $(this).not('[onclick]').not('[target="_blank"]').not('[href*="mailto:"]').not('.toggle_text'); // if tag a has no attribute onclick and is not a target _blank or href mailto or has class toggle_text
+            var $this = $(this).not('[onclick]').not('[target="_blank"]').not('[href*="mailto:"]').not('.toggle_text'); /*.not('.opens_window')*/ // if tag a has no attribute onclick and is not a target _blank or href mailto or has class toggle_text
             var $that = $(this).is('form') && $(this).not('[action]'); // if tag is a form element with no action attribute, returning to self in document environments
             if($that[0]) {
                 $that.attr({'action':url, 'data-remote':'auto-ajax', 'data-callback':'rebuildContainer'});
@@ -317,7 +317,7 @@ jQuery(document).ready(function($) {
                 // add ajaxification attributes to all boxed anchor links already placed in DOM - ajaxifies a(, form, select, button) elements
                 contLinksToAjax($this.find('a[href]'), url);
             } else {
-                // reset already added attributes 
+                // reset already added data attributes 
                 resetContLinksToAjax($this.find('a[href]'), url);
             }
         }

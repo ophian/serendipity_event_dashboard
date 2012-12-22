@@ -1,5 +1,5 @@
 <?php
-/* last modified - 2012-12-20 */
+/* last modified - 2012-12-22 */
 
 /* propbag config only */
 @define('PLUGIN_DASHBOARD_DESC', 'Zeigt ausgewählte Informationen auf der Startseite der Verwaltungsoberfläche als Übersicht');
@@ -85,7 +85,7 @@
 @define('PLUGIN_DASHBOARD_UPDATE_NOTIFIER', '<strong>Eine neue Serendipity Version ist verfügbar.</strong><br>Diese Version kann hier manuell heruntergeladen werden: v.%s');
 @define('PLUGIN_DASHBOARD_CLEANUP_CONFIRM', 'Sollen die kompilierten Smarty Template Dateien (außer denen des Dashboards) wirklich gelöscht werden? Normalerweise ist dies nicht erforderlich, solange alles gut funktioniert!');
 @define('PLUGIN_DASHBOARD_MARK', 'Bitte nicht alle Dashboard-Elemente auf einmal außer Kraft setzen! Gehe zurück zur Config!');
-@define('PLUGIN_DASHBOARD_AUTOUPDATE_NOTE', 'Dieses Dashboard kann ein verfügbares Tochter-Plugin nutzen: \'serendipity_event_autoupdate\'!<br />Um ein angekündigtes Serendipity Core-Update ohne weitere manuelle Bearbeitung ausführen, installieren Sie zunächst bitte dieses Plugin zusätzlich über Spartacus.');
+@define('PLUGIN_DASHBOARD_AUTOUPDATE_NOTE', 'Dieses Dashboard kann ein verfügbares Tochter-Plugin nutzen: \'serendipity_event_autoupdate\'!<br />Um ein angekündigtes Serendipity Core-Update ohne weitere manuelle Bearbeitung auszuführen, installieren Sie zunächst bitte dieses Plugin zusätzlich über Spartacus.');
 
 /* keep for future purposes - deprecated constants */
 @define('PLUGIN_DASHBOARD_UNSTABLE', 'beta');
