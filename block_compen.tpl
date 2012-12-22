@@ -21,7 +21,7 @@
                             {$CONST.IN_REPLY_TO}: <a href="{$eclpen.entry_url}" title="{$eclpen.title}">{$eclpen.title|truncate:48:"&hellip;"}</a>, {$CONST.ON} </label><time datetime="{$eclpen.pubdate}" pubdate><span class="icon-clock" title="{$eclpen.timestamp|@formatTime:'%A, %e. %B %Y'}"></span><span class="visuallyhidden"> {$eclpen.timestamp|@formatTime:'%A, %e. %B %Y'}</span></time>
                         </div>
 
-                        <div class="box-right"> <span id="#cl_{$eclpen.id}" class="button"><img src="{serendipity_getFile file='img/plus.png'}" id="option_{$smarty.foreach.bar.iteration}" class="wizard-img" alt="+/-" title="{$CONST.TOGGLE_OPTION}"> </span> </div>
+                        <div class="box-right"><span id="#cl_{$eclpen.id}" class="button"><img src="{serendipity_getFile file='img/plus.png'}" id="option_{$smarty.foreach.bar.iteration}" class="wizard-img" alt="+/-" title="{$CONST.TOGGLE_OPTION}"></span></div>
                     </div>
 
                     <div id="cpt_{$eclpen.id}" class="comment_text eclpen_text">
@@ -41,9 +41,9 @@
                         <ul class="comment_admin horizontal">
                             <li class="mod_appmod">
                             {if ($eclpen.status == 'pending' || $eclpen.status == 'confirm') && !$read_only}
-                                <a class="icon_link" href="?serendipity[action]=admin&amp;serendipity[adminModule]=comments&amp;serendipity[adminAction]=approve&amp;serendipity[id]={$eclpen.id}&amp;{$urltoken}" title="{$CONST.APPROVE}"><span id="text_mod_{$eclpen.id}" class="admin-mini-icon icon-ok"></span><span class="visuallyhidden"> {$CONST.APPROVE}</span></a>
+                                <a class="icon_link" href="?serendipity[action]=admin&amp;serendipity[adminModule]=comments&amp;serendipity[adminAction]=approve&amp;serendipity[id]={$eclpen.id}&amp;{$urltoken}" title="{$CONST.APPROVE}"><span id="text_mod_{$eclpen.id}" class="admin-mini-icon icon-ok-circle"></span><span class="visuallyhidden"> {$CONST.APPROVE}</span></a>
                             {elseif $eclpen.status == 'approved' && !$read_only}
-                                <a class="icon_link" href="?serendipity[action]=admin&amp;serendipity[adminModule]=comments&amp;serendipity[adminAction]=pending&amp;serendipity[id]={$eclpen.id}&amp;{$urltoken}" title="{$CONST.SET_TO_MODERATED}"><span id="text_mod_{$eclpen.id}" class="admin-mini-icon icon-cancel"></span><span class="visuallyhidden"> {$CONST.SET_TO_MODERATED}</span></a>
+                                <a class="icon_link" href="?serendipity[action]=admin&amp;serendipity[adminModule]=comments&amp;serendipity[adminAction]=pending&amp;serendipity[id]={$eclpen.id}&amp;{$urltoken}" title="{$CONST.SET_TO_MODERATED}"><span id="text_mod_{$eclpen.id}" class="admin-mini-icon icon-cancel-circle"></span><span class="visuallyhidden"> {$CONST.SET_TO_MODERATED}</span></a>
                             {else}
                                 <a class="icon_link" href="#read_only" title="{$CONST.READ_ONLY}"><span id="text_mod_{$eclpen.id}" class="admin-mini-icon icon-file"></span><span class="visuallyhidden"> {$CONST.READ_ONLY}</span></a>
                             {/if}
@@ -65,7 +65,7 @@
                             </li>
                             {/if}
                             <li class="mod_reply">
-                                <a class="icon_link" target="_blank" onclick="cf=window.open(this.href, 'CommentForm', 'width=800,height=600,toolbar=no,scrollbars=1,scrollbars,resize=1,resizable=1'); cf.focus(); return false;" href="?serendipity[action]=admin&amp;serendipity[adminModule]=comments&amp;serendipity[adminAction]=reply&amp;serendipity[id]={$eclpen.id}&amp;serendipity[entry_id]={$eclpen.entry_id}&amp;serendipity[noBanner]=true&amp;serendipity[noSidebar]=true&amp;{$urltoken}" title="{$CONST.REPLY}"><span id="text_reply_{$eclpen.id}" class="admin-mini-icon icon-chat-empty"></span><span class="visuallyhidden"> {$CONST.REPLY}</span></a>
+                                <a class="icon_link" target="_blank" onclick="cf=window.open(this.href, 'CommentForm', 'width=800,height=600,toolbar=no,scrollbars=1,scrollbars,resize=1,resizable=1'); cf.focus(); return false;" href="?serendipity[action]=admin&amp;serendipity[adminModule]=comments&amp;serendipity[adminAction]=reply&amp;serendipity[id]={$eclpen.id}&amp;serendipity[entry_id]={$eclpen.entry_id}&amp;serendipity[noBanner]=true&amp;serendipity[noSidebar]=true&amp;{$urltoken}" title="{$CONST.REPLY}"><span id="text_reply_{$eclpen.id}" class="admin-mini-icon icon-chat"></span><span class="visuallyhidden"> {$CONST.REPLY}</span></a>
                             </li>
                             {if $spamblockbayes_hookin}
                             <li class="mod_bayes">
@@ -102,7 +102,7 @@
             <div class="input-boxed">
                 <button id="cp-inv" type="button" name="toggle" onclick="invertSelectionPen()" class="none" title="{$CONST.INVERT_SELECTIONS}"><span class="icon-shuffle"></span><span class="visuallyhidden"> {$CONST.INVERT_SELECTIONS}</span></button>
                 <button id="cp-del" type="submit" name="toggle" onclick="return confirm('{$CONST.COMMENTS_DELETE_CONFIRM}')" class="none" title="{$CONST.DELETE_SELECTED_COMMENTS}"><span class="icon-trash"></span><span class="visuallyhidden"> {$CONST.DELETE_SELECTED_COMMENTS}</span></button>
-                <button id="cp-ok" type="submit" name="serendipity[togglemoderate]" class="none" title="{$CONST.PLUGIN_DASHBOARD_MODERATE_SELECTED}"><span class="icon-ok"></span><span class="visuallyhidden"> {$CONST.PLUGIN_DASHBOARD_MODERATE_SELECTED}</span></button>
+                <button id="cp-ok" type="submit" name="serendipity[togglemoderate]" class="none" title="{$CONST.PLUGIN_DASHBOARD_MODERATE_SELECTED}"><span class="icon-ok-circle"></span><span class="visuallyhidden"> {$CONST.PLUGIN_DASHBOARD_MODERATE_SELECTED}</span></button>
             </div>
         {if $spamblockbayes_hookin}
             <div><span>Spamschutz (Bayes): </span></div>

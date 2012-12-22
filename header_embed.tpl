@@ -1,6 +1,6 @@
 {*** header_embed.tpl - last modified 2012-12-16 ***}
     <header>
-        <div class="dashboard_header">
+        <div class="dashboard_header clearfix">
             <div id="nav-welcome">
                 <h2><span><img src="{$thispath}/img/s9y4.png" alt="s9y">{$s9yheader.0.welcome}</span></h2>
 

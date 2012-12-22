@@ -42,7 +42,7 @@ input {
     box-sizing: border-box;
 }
 
-#dashboard * { font-family: 'Open Sans', sans-serif; }
+/*#dashboard * { font-family: 'Open Sans', sans-serif; }*/
 
 /* corrects BP3.0 for Dashboard */
 #dashboard input[type="checkbox"], #dashboard input[type="radio"] {
@@ -53,10 +53,10 @@ input {
 
 .serendipityAdminContentnoSb { padding: 3px; }
 
-td.noSidebar { padding: 3px 3px 10px; }
+.noSidebar { padding: 3px 3px 10px; }
 
 /* overrules later .serendipityAdminContentDashboard class and is set/reset by jquery-dashboard.js */
-td.serendipityAdminContentDashboard { padding: 3px 3px 10px; }
+.serendipityAdminContentDashboard { padding: 3px 3px 10px; }
 
 .maincontent {
     display: block;
@@ -84,10 +84,10 @@ td.serendipityAdminContentDashboard { padding: 3px 3px 10px; }
     width: 98.4%;
 }
 
-#dashboard #indent-navigation select.serendipitySideBarMenuEntry,
-#dashboard #indent-navigation select.serendipitySideBarMenuMedia,
-#dashboard #indent-navigation select.serendipitySideBarMenuAppearance,
-#dashboard #indent-navigation select.serendipitySideBarMenuUserManagement {
+#dashboard #indent-navigation .serendipitySideBarMenuEntry,
+#dashboard #indent-navigation .serendipitySideBarMenuMedia,
+#dashboard #indent-navigation .serendipitySideBarMenuAppearance,
+#dashboard #indent-navigation .serendipitySideBarMenuUserManagement {
     display: inline;
     width: 16em;
 }
@@ -131,7 +131,9 @@ td.serendipityAdminContentDashboard { padding: 3px 3px 10px; }
     margin-bottom: 4px; /* added with new backend */
 }
 /* reset our normal browsers input type (button) behaviour by CSS */
-#dashboard input.none[type="button"], #dashboard input.none[type="reset"], #dashboard input.none[type="submit"] {
+#dashboard input.none[type="button"],
+#dashboard input.none[type="reset"],
+#dashboard input.none[type="submit"] {
     background: transparent;
     border: 1px solid transparent;
     color: #333;
@@ -142,7 +144,7 @@ td.serendipityAdminContentDashboard { padding: 3px 3px 10px; }
 }
 /* try to rebuild the browser input type (button) behaviour with included image */
 /* YES, I know they normally look different on different OS and different Browsers */
-#dashboard span.inputtype {
+#dashboard .inputtype {
     background: rgb(255,255,255); /* Old browsers */
     background: -moz-radial-gradient(center, ellipse cover,  rgba(255,255,255,1) 0%, rgba(221,221,221,1) 100%); /* FF3.6+ */
     background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,rgba(255,255,255,1)), color-stop(100%,rgba(221,221,221,1))); /* Chrome,Safari4+ */
@@ -168,8 +170,8 @@ td.serendipityAdminContentDashboard { padding: 3px 3px 10px; }
     width: auto;
 }
 /* trying to rebuild mozilla button hover */
-#dashboard span.inputtype:hover,
-#dashboard span.inputtype:focus {
+#dashboard .inputtype:hover,
+#dashboard .inputtype:focus {
     background: rgb(254,255,255); /* Old browsers */
     background: -moz-linear-gradient(top,  rgba(254,255,255,1) 0%, rgba(221,241,249,1) 35%, rgba(160,216,239,1) 100%); /* FF3.6+ */
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(254,255,255,1)), color-stop(35%,rgba(221,241,249,1)), color-stop(100%,rgba(160,216,239,1))); /* Chrome,Safari4+ */
@@ -183,11 +185,13 @@ td.serendipityAdminContentDashboard { padding: 3px 3px 10px; }
     box-shadow: 0 1px 3px rgba(0,0,0,.2);
     cursor: default;
 }
-#dashboard input.none[type="button"]:hover, #dashboard input.none[type="button"]:focus,
-#dashboard input.none[type="submit"]:hover, #dashboard input.none[type="submit"]:focus {
+#dashboard input.none[type="button"]:hover,
+#dashboard input.none[type="button"]:focus,
+#dashboard input.none[type="submit"]:hover,
+#dashboard input.none[type="submit"]:focus {
     color: #911;
 }
-#dashboard span.inputtype>img {
+#dashboard .inputtype>img {
     vertical-align: middle;
 }
 #dashboard #btb { 
@@ -351,8 +355,8 @@ td.serendipityAdminContentDashboard { padding: 3px 3px 10px; }
     margin: 4px 0 0 4px;
 }
 
-#dashboard form#formMultiDeletePen,
-#dashboard form#formMultiDeleteApp {
+#dashboard #formMultiDeletePen,
+#dashboard #formMultiDeleteApp {
     margin: 0;
 }
 #dashboard .block-content-start {
@@ -437,7 +441,7 @@ td.serendipityAdminContentDashboard { padding: 3px 3px 10px; }
 #dashboard #nav-welcome h2 span img{
     vertical-align: top;
 }
-#dashboard #nav-info > span.msg_notice {
+#dashboard #nav-info > .msg_notice {
     margin: 0;
     padding: 0;
 }
@@ -481,7 +485,7 @@ td.serendipityAdminContentDashboard { padding: 3px 3px 10px; }
 #dashboard #nav-navigation #iopen.navi {
     width: 14%;
 }
-#dashboard #nav-navigation #iopen span.inline {
+#dashboard #nav-navigation #iopen .inline {
     border: 0 none;
     display: inline;
     margin: 0;
@@ -513,7 +517,7 @@ td.serendipityAdminContentDashboard { padding: 3px 3px 10px; }
 #dashboard #nav-navigation  button:hover,
 #dashboard #nav-navigation #navbar a:hover { width: 100%; }
 
-#dashboard #nav-navigation ul.onebox li {
+#dashboard #nav-navigation .onebox li {
     display: block; 
     float: none;
 }
@@ -525,7 +529,8 @@ td.serendipityAdminContentDashboard { padding: 3px 3px 10px; }
     width: auto;
 }
 
-#dashboard #nav-linkbox, #nav-linkbox ul li {
+#dashboard #nav-linkbox,
+#nav-linkbox ul li {
     border: 1px solid #bbb;
     display: inline-block;
     margin: 0 0 0.5%;
@@ -536,7 +541,9 @@ td.serendipityAdminContentDashboard { padding: 3px 3px 10px; }
     margin: 1% 0 2%;
     padding: 0;
 }
-#dashboard #nav-welcome ul li, #dashboard #nav-navigation ul li, #dashboard #nav-linkbox ul li {
+#dashboard #nav-welcome ul li,
+#dashboard #nav-navigation ul li,
+#dashboard #nav-linkbox ul li {
     background: inactivecaption;
 }
 #dashboard #nav-linkbox ul li {
@@ -635,8 +642,8 @@ td.serendipityAdminContentDashboard { padding: 3px 3px 10px; }
 #dashboard #cell_left.clmore { 
     width: 56%; 
 }
-#dashboard #compen li.mod_bayes li,
-#dashboard ul.comment_admin li,
+#dashboard #compen .mod_bayes li,
+#dashboard .comment_admin li,
 #nav-embed-switch .text-icon,
 #dashboard .feed_header,
 #dashboard #comapp .comments_header,
@@ -727,28 +734,28 @@ td.serendipityAdminContentDashboard { padding: 3px 3px 10px; }
     margin: 0;
     padding: 3px 0;
 }
-#dashboard #layout section.flipflop {
+#dashboard #layout .flipflop {
     display: inline-block;
     margin: 0;
     padding: 0;
     width: 100%;
 }
-#dashboard #layout section.flipflop,
+#dashboard #layout .flipflop,
 #dashboard #layout .block-box .flipbox {
     top: 0;
     left: 0;
 }
-#dashboard #layout section.flipflop:nth-of-type(1) {
+#dashboard #layout .flipflop:nth-of-type(1) {
     margin: 4px 0 0;
 }
-#dashboard #layout section.ui-state-highlight .block-box {
+#dashboard #layout .ui-state-highlight .block-box {
     margin-left: 1.5px;
 }
 
 #dashboard .block-box h3>span {
     color: #222 !important; /* must overwrite .serendipityAdminContent span */
 }
-#dashboard .block-box h3.flipbox span { padding-left: 0.5em; }
+#dashboard .block-box .flipbox span { padding-left: 0.5em; }
 
 #dashboard .block-content-info { width: 98.3%; }
 
@@ -779,20 +786,18 @@ td.serendipityAdminContentDashboard { padding: 3px 3px 10px; }
 #dashboard .block-content-info .t {
     line-height: 2;
 }
-<<<<<<< HEAD
 
-=======
-#dashboard label.num span,
-#dashboard .block-box h3.flipbox span.num,
-#dashboard .block-content-info span.b a span {
+#dashboard .num span,
+#dashboard .block-box .flipbox .num,
+#dashboard .block-content-info .b a span {
     display: inline;
-    font-family: Georgia,"Times New Roman","Bitstream Charter",Times,serif;
+    /*font-family: Georgia,"Times New Roman","Bitstream Charter",Times,serif;*/
 }
-#dashboard .block-content-info span.b a {
+#dashboard .block-content-info .b a {
     font-size: 18px;
     text-decoration: none;
 }
->>>>>>> upstream/2.0
+
 #dashboard .feed_title {
     display: inline-block;
     margin: 1.75px;
@@ -813,12 +818,8 @@ td.serendipityAdminContentDashboard { padding: 3px 3px 10px; }
 /*added with new backend */
 #dashboard label { font-weight: normal; }
 
-<<<<<<< HEAD
 #dashboard .num { vertical-align: text-top; }
 
-#dashboard #feed .num,
-#dashboard .block-box .flipbox .num {
-=======
 #dashboard label.num {
     font-size: 12px;
 }
@@ -829,7 +830,6 @@ td.serendipityAdminContentDashboard { padding: 3px 3px 10px; }
 #dashboard .block-box h3.flipbox span.num {
     color: Red !important; /* must overwrite .serendipityAdminContent span */
     font-size: 12px;
->>>>>>> upstream/2.0
     padding: 0;
     vertical-align: text-top;
 }
@@ -1715,9 +1715,3 @@ td.serendipityAdminContentDashboard { padding: 3px 3px 10px; }
         width: 63%;
     }
 }
-
-/*
-@media (min-width: 450px) and (max-width: 950px) {
-    Netbooks  
-} 
-*/ 
