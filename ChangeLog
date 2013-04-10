@@ -1,18 +1,32 @@
-1.0.0
+1.0.4
+1.0.3
+optomize, update etc.
+
+1.0.2
 -----
-"branched" Dashboard master to fit to upcoming Serendipity 1.7
-branched Dashboard 1.6 as bugfix branch for Serendipity 1.6 versions
-branched Dashboard 2.0 to make this work with the new smartified backend (and 2k11 as the default template)
+bump version to keep track with 2.0 branch
+
+1.0.1
+-----
+Development changes merging 2.0 branch UI markup changes partitially into master
+
+1.0.0 - 2.0.0
+-----
+branched master to fit to upcoming Serendipity 1.7
+branched 1.6 as bugfix branch for Serendipity 1.6 versions
+branched 2.0 to make this work with the new smartified backend (and 2k11 as default template)
+lots of changes, fixes, movements, updates etc - see gazette for a better log
 - - -
 Changed to work with Serendipity 1.7-dev branch and up only.
 This implied various changes to the default admin template use and the way the dashboard creates its pages in fullview.
 The 1.7 Serendipity branch (master) provides better posibilities to hook in and/or change the markup containers.
 - Added new config option to allow extended backend view in a modal container
-- Allow Backend Modal Container views by select-navigation (1-tier), or super extended views, or none (default is via selectbar 1-tier view)
+- Allow Backend Modal Container views by select-navigation (1-tier), or super extended views, or none (default is via selectbar 1-tier view: yes)
 - Update to some scripts
-- Changed Dashboard font to Google Webfonts 'Open Sans'
+- Changed Dasboard font to Google Webfonts 'Open Sans'
 - Excluded Gazette's help/changelog content from plugin_dashboard.tpl to be fetched via GET $.ajax call
 - code optimizing, cleanups, etc.
+- backported the changes to font awesome icons
 
 0.9.9.2
 -----

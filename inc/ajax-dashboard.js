@@ -87,7 +87,7 @@ if (window.navigator.appName == "Microsoft Internet Explorer")
    // the engine variable now contains the document compatibility mode.
    if (engine == 5) engine = 'Quirks';
 
-   if (engine != 9 && engine !== null) {
+   if (engine < 9 && engine !== null) {
       alert("ALERT:\nThis Dashboard needs your Internet Explorer 9, to render the page in its highest available combatibility mode!\n\n" + 
       'Please reset your IE "Document Compatibility" mode: "'+engine+'" to "Internet Explorer Standard" mode! [use Keyboard F12]');
    }

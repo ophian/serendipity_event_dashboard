@@ -1,8 +1,58 @@
 
-    <p>This is a "<em>proof of concept</em>" Dashboard screen for your Serendipity blog backend section. All editable links, as of now, are passed to their original target, as long as this is just a an experimental welcome and information screen. Please pass your suggestions and experiences to the <a href="http://board.s9y.org/viewtopic.php?f=4&t=18863" target="_blank">serendipity forum</a>.</p>
-    <p class="note">Note: If you ever experience weired screen layout issues or discover some other unwanted scripting behaviour, do a [Shift] + [Strg] + [r] or [Strg] + [F5] first, to avoid caching or loading issues.
-
-    <ul><strong>ToDo: </strong>
+    <p>This is a "<em>proof of concept</em>" Dashboard screen for your Serendipity blog backend section. Please pass your suggestions and experiences to the <a href="http://board.s9y.org/viewtopic.php?f=4&t=18863" target="_blank">serendipity forum</a>.</p>
+    <p>Its main goal over the time was to get as independent as possible from the old backend view, to be responsive and highly configurable. This is why I forced it to work mainly in full - non-sidebar - screen mode and loading the blogs backend workspace into a modal container. 
+    This still has some minor remaining issues (see <a href="#issues">notes</a>, the <a href="#uril">unresolved issue list</a>, the <a href="#clog">changelog</a>, or the <a href="#todo">todo list</a>) - so you can switch to the old backend whenever you want or need to (please read box notes).</p>
+    <div class="content-box guide">
+        <h2 align="center"><u>A ruff guide to your new dashboard screen!</u></h2>
+        <p>&nbsp;&nbsp;<u>The</u> Dashboard itself has 3 main parts, which are the <strong>header</strong> and two <strong>meta-boxes</strong>, one to the left, the other to the right. </p>
+        <p>&nbsp;&nbsp;<u>If</u> you hover around with your mouse, you will notice a fine <strong>dashed border</strong> appear arround a slightly changed background color, which marks the height and width of these meta boxes. </p>
+        <p>&nbsp;&nbsp;<u>Inside</u> these meta-boxes, the Dashboard uses <strong>draggable content boxes</strong> (like general info, pending comments, draft entries, etc).  </p>
+        <p>&nbsp;&nbsp;<u>If</u> you click an elements boxed title bar, partly <strong>every</strong> place of an element box, where there is no text and is left blank, the box itself will get <strong>marked</strong> with a highlighted golden background. 
+            Another <strong>click</strong> will right undo it, if you accidently or by fun clicked the highlight event element box.
+            You can <strong>drag</strong> this element to the other metabox and <strong>drop</strong> it there. 
+            If you highlight several elements of the same metabox and drag one of them, they will all follow into the <strong>dropzone</strong> and append to the very end.
+            This drop <strong>triggers</strong> a cookie and page <strong>event</strong> to <strong>hold</strong> you settings until next change. 
+            To <strong>sort</strong> content elements of the <u>same</u> meta-box, just drag and drop them to <strong>itself</strong>.</p>
+        <p>&nbsp;&nbsp;<u>Now</u>, each content-box has the flip-capability to show or hide its content by clicking the small <strong>triangle arrow</strong> on the right of the boxed title bar. 
+            This triggers another event to also be kept and remembered by <strong>cookie</strong>. </p>
+        <p>&nbsp;&nbsp;<u>So</u>, when you <strong>return</strong> to your start page (the dashboard screen), it will reload the last state of opened or closed content boxes, as well as which was dropped into the meta box zone.</p>
+        <p>&nbsp;&nbsp;<u>Some</u> content element boxes, like comments, have another icons to <strong>show<span class="icon-plus"></span> or hide<span class="icon-minus"></span></strong> some additional content features and even some provide a zoom <span class="icon-zoom-in"></span> icon, to show truncated content. </p>
+        <p>&nbsp;&nbsp;<u>In</u> case you do not want to work with modal containers, push the big blue <strong>sliding</strong> button to show the sidebar. In this mode, backend links open as they did in old backend mode before.</p>
+        <p>&nbsp;&nbsp;<u>And</u>, btw., the <strong>state</strong> of the sidebar push button will be remembered, as we have seen for the drag&drop boxes and the boxbar-flip event, too.</p>
+        <p>&nbsp;&nbsp;<u>In</u> case you need to <strong>configure</strong> these or other settings by default, you have to click to the dashboard config button <span class="icon-cog"></span>, which is in the upper blue header.<!-- and looks like a single <strong>cogwheel</strong>. -->
+            This opens the plugins configuration where you can finetune the default settings of this plugin.</p>
+        <p><strong>Have fun!</strong></p>
+    </div>
+    <p>&nbsp;</p>
+    <div class="content-box"><a name="issues"></a>
+        <h2 align="center"><u>Issue notes!</u></h2>
+        <p>&nbsp;&nbsp;<u>When</u> the dashboard page is used in full screen mode (i.e. no sidebar - see push button) and with option set "<em>extended views</em>" to <strong>yes</strong> in this plugins config, 
+            all possible internal backend links get opened in a modal container box like this help screen. This behaviour is still "<em>experimental</em>", since there are some minor issues pending to get closed, 
+            which do not behave like in old backend page access.</p>
+        <p>&nbsp;&nbsp;<u>This</u> Dashboard revision is a closeup look, mixing new 2.0 development views with a current S9y-1.7 release.</p>
+        <p>&nbsp;&nbsp;<u>When</u> using the modal container view by default, the underlying basic dashboard page will not reload its possibly changed values automatically, as of now. 
+            If you want to see your changed values, please reload the page by the headers home button, keyboards F5, or your browsers reload button.
+            If you don't want this modal container view in general, you can turn it off in the config options, or leave it in sidebar mode only, 
+            which will prevent dashboard boxed buttons & links to open in a modal view container.</p>
+        <p class="note"><u>Note</u>: If you ever experience weired screen layout issues or discover some other unwanted scripting behaviour on the main dashboard page, 
+            do a [Shift] + [Strg/Ctrl] + [r] or [Strg/Ctrl] + [F5] first, to avoid caching or loading issues.</p>
+        <p class="note"><u>Note</u>: Upon open, the modal window box sometimes (rarely) does not calculate the correct inner-size between container head and foot. Then press the fullview button twice to get the correct size.</p>
+    </div>
+    <p class="note">Unresolved issues in **<strong>modal container</strong>** views only!
+      <ul><strong>Known issues: </strong><a name="uril"></a>
+        <li>Do not use in conjunction with the WYSIWYG-Editor [JS]. Please use non-container mode to do this.</li>
+        <li>The upload of Media Files fails to work [JS]. Please use non-container mode to do this.</li>
+        <li>Minors: Some redirects do not happen how they should to be [JS], causing blank screens, no messages, a.s.o.</li>
+        <li>The template switch to bulletproof does not properly reload the new config by proper css, due to a Serendipity caching bug [PHP]. To get around, close and re-open the modal container once. </li>
+        <li class="discard">The drag&drop sequence-box javascript fails to work via $ajax calls (in plugins overview page and the dashboard config view) [JS] We need to get rid of addLoadEvent(functionName) in core and help us with jQuery(function ($) { functionName(); }); ! </li>
+        <li class="discard">The core delivered local templates - except the one in use - are somehow missing in Template List [JS ?]. Please use non-container mode to do this.</li>
+        <li class="discard">The template path redirection into the dashboard, affects the templates name in your style (template) config set [PHP]. Please use non-container mode to do this. </li>
+        <li class="discard">The entry form javascript automatic toggle on load failed [JS] </li>
+        <!--<li class="discard">The template path redirection into the dashboard, affects the templates name in your style (template) config set (and possibly in the db option table, when the form submits), which is not intended to happen [PHP]. Please use non-container mode to do this. </li>-->
+      </ul>
+    </p>
+    <p>
+    <ul><strong>Changelog:</strong> (old to new)<a name="clog"></a>
         <li class="checked">nav button with plus/minus img! </li>
         <li class="checked">Check $admin_vars to be readable by dashboards side-navbar! This is necessary in different perms! </li>
         <li class="checked">Check dashboard elements show up by permission only! </li>
@@ -91,34 +141,47 @@
         <li class="checked">Excluded Gazette's content from plugin_dashboard.tpl to be fetched via GET $.ajax call </li>
         <li class="checked">Internal change to use PHP5 Class members instance variables memory slots </li>
         <li class="checked">Update to jquery-1.8.3.min.js </li>
-        <li></li>
-        <li>FIX dragdrop sequence javascript magical disappearence in modal view plugin!! I'm sure I already did this before... Grrrr! </li>
-        <li>Add some more maintenance, like size of spamblock log, or hint to install DBClean plugin (?) </li>
+        <li class="checked">Ported Dashboard 2.0.2 into 1.0.2. Various changes, like icon-font buttons, using some Serendipity 2.0 backend elements etc. </li>
+        <li class="checked">Fixed MD view: drag&drop sequence-box javascript failed to work </li>
+        <li class="checked">Fixed MD view: template path redirect affected current style name in styles section </li>
+        <li class="checked">Fixed MD view: template load did not catch origin template andtemplatePath via load serendipity_fetchTemplates() while using template dashboard redirect vars </li>
+        <li class="checked">Fixed MD view: entry form javascript toggle events </li>
+        <li class="checked">Fixed MD view: some better responsive screen modes </li>
+        <li class="checked">Added MD view: loading spinner while fetching page </li>
+        <li class="checked">Changed help box Gazette content </li>
+        <li class="checked">Update to jquery-1.9.0.min.js & jquery-ui-1.10.0.custom.min.js </li>
+        <li class="checked">Added query-migrate-git.min.js to avoid toggle errors with 1.9.0 deprecated methods </li>
+        <li class="checked">Added jquery.simplemodal.1.4.4.min.js </li>
+        <li class="checked">Added info help box </li>
+        <li class="checked">Fixed containerPlus FullScreen toggle error while using jquery-ui version > 1.8.23 </li>
+        <li class="checked">Update to jquery-1.9.1.min.js & jquery-ui-1.10.2.min.js </li>
+        <li class="checked">Added missing styles for the comment answer popup window form side-/selectbar mode </li>
+        <li class="checked">Fixed MSIE 10.0 request issue </li>
+        <li class="checked">Disabled include of bayes plugin hooked function buttons into dashboard comment boxes for now, as this did not work good enough </li>
+        <li class="checked">Navbar added dashboard options will now react on side-/selectbar mode also - dynamic linking via data attributes </li>
+        <li class="checked"></li>
+	</ul>
+    <ul><strong>ToDo:</strong><a name="todo"></a>
+        <li>Add some more maintenance tasks, like: <ul style="margin-left: 1em;list-style: none outside none;"><li>size of spamblock log,</li><li>hint to install DBClean plugin</li><li>cleanup comment subscribers</li><li> (?)</li></ul> </li>
         <li>Move help box button into embed mode navigation bar or design box (?) </li>
         <li>Build poping up multiple help screens to different help content, or one big main, seperated by columns (?) </li>
-        <li>Write help screen(s) content! </li>
+        <li>Write some more help screen(s) content! Add lang... </li>
+        <li class="discard">FIX javascript drag&drop sequence box magical disappearence in modal container views! </li>
         <li class="discard">Shall the overview box only show information amounts by user (?) </li>
         <li class="discard">Include old link and bookmark box content to select box, when opening selectbox navigation (?) </li>
         <li class="discard">Move Meta-Box-Left Boxes to Mobile-1-Column Layout via JQuery (?) </li>
         <li class="discard">Add Multi Browser support. At the moment this is designed with current FF only... </li>
         <li></li>
         <li>ToDo: Add flexible hook-in box (event hook) ability by Plugins! </li>
-        <li class="discard">ToDo: Set remember-me cookie while in maintenance mode to be kept over browser close, as the original function does! </li>
         <li>ToDo: Ask Spartacus Plugup functions, if there is an upgrade plugin array available and not empty...! </li>
-        <li>ToDo: Rewrite for Smarty3 and S9y 1.7! </li>
         <li>ToDo: Bind select navigation to JQuery-UI - (js-navigation, ui-customizable, flexible) (?) </li>
         <li>ToDo: Bind autoupdate plugin to dashboard and write a install GUI if possible (?) </li>
         <li>ToDo: Hold feed cached for one day... (?) </li>
+        <li class="discard">ToDo: Rewrite for Smarty3 and S9y 1.7! </li>
+        <li class="discard">ToDo: Set remember-me cookie while in maintenance mode to be kept over browser close, as the original function does! </li>
+        <li class="discard">ToDo: Rewrite jquery-dashboard.js deprecated functions to use jquery 1.9 and up! </li>
         <li class="discard">ToDo: Open (some) "common edit-entry-links" inside the dashboard via modalContainer... (?) </li>
-        <li>ToDo: Make a dashboard css color customizing navbar tool ... (?) </li>
+        <li class="discard">ToDo: Make a dashboard css color customizing navbar tool ... (?) </li>
         <li class="discard">ToDo: Rewrite with new backend (2.0) smartification (some day) </li>
     </ul>
-
-    <p>Maybe use div {ldelim} column-width: 26em; column-gap: 1.6em; column-rule: thin dotted black; {rdelim} ... to have multiple Infos ordered in cells ...</p>
-    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Cras metus. Maecenas justo elit, lacinia sit amet, cursus ut, sagittis sed, eros. Suspendisse potenti. Maecenas nec nisi. Donec vestibulum sollicitudin tellus. Sed consequat pellentesque ante. Vestibulum turpis quam, vulputate nec, nonummy convallis, ultrices congue, ligula. Ut rutrum leo et orci. Proin pharetra. Nam non sem ut eros fringilla ornare. In ullamcorper lorem eget ipsum. Suspendisse semper enim in arcu cursus consectetuer. Suspendisse potenti. Proin libero eros, adipiscing quis, volutpat in, ultrices ut, lacus.</p>
-    <p>Nulla facilisi. Vestibulum vel magna in ante lobortis semper. Integer posuere justo et urna. Vestibulum sit amet sapien ut quam tempor fringilla. Fusce a neque a enim mattis dapibus. Ends with a paragraph element!</p>
-
-    <p>Maecenas faucibus mollis interdum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed diam eget risus varius blandit sit amet non magna. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. </p>
-    <p>Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Aenean lacinia bibendum nulla sed consectetur. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Donec ullamcorper nulla non metus auctor fringilla. Nulla vitae elit libero, a pharetra augue. </p>
-    <p>Maecenas sed diam eget risus varius blandit sit amet non magna. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Cras mattis consectetur purus sit amet fermentum. Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. </p>
-
+    </p>

@@ -1,156 +1,163 @@
-<!--- DASHBOARD MEDIA_ITEMS START -->
-{foreach from=$media.files item="file" name="mediafiles" key="mediakey"}
-    {if $media.enclose}
-    <td nowrap="nowrap" align="center" valign="{if $media.manage}top{else}middle{/if}" width="{$media.lineBreakP}%" class="serendipity_admin_list_item serendipity_admin_list_item_even">
-    {/if}
+{* HTML5: Yes  *}
+{* jQuery: No *}
 
+{foreach from=$media.files item="file" name="mediafiles" key="mediakey"}
     {if NOT $media.manage}
-        {$file.preview}{if $file.orderkey != ''}: {$file.orderkey|@escape}{/if}
+        <div class="media_file_preview">
+            {$file.preview}
+        {if $file.orderkey != ''}
+            <span>{$file.orderkey|@escape}</span>
+        {/if}
+        </div>
     {else}
-        <table width="100%" border="0" cellspacing="0" cellpadding="3">
-            <tr>
-                <td valign="top" width="16" rowspan="3">
-                {if $file.is_editable}
-                    <img class="serendipityImageButton" title="{$CONST.MEDIA_FULLSIZE}" alt="{$CONST.MEDIA_FULLSIZE}" src="{$media.zoomIMG}"   border="0" onclick="F1 = window.open('{if $file.hotlink}{$file.path}{else}{$file.full_file}{/if}', 'Zoom', 'height={$file.popupHeight},width={$file.popupWidth},top='+ (screen.height-{$file.popupHeight})/2 +',left='+ (screen.width-{$file.popupWidth})/2 +',toolbar=no,menubar=no,location=no,resize=1,resizable=1{if NOT $file.is_image},scrollbars=yes{/if}');" /><br />
-                    <img class="serendipityImageButton" title="{$CONST.MEDIA_RENAME}"   alt="{$CONST.MEDIA_RENAME}"   src="{$media.renameIMG}" border="0" onclick="rename('{$file.id}', '{$file.name|escape:javascript}')" /><br />
-                    {if $file.is_image AND NOT $file.hotlink}<img class="serendipityImageButton" title="{$CONST.IMAGE_RESIZE}"   alt="{$CONST.IMAGE_RESIZE}" src="{$media.resizeIMG}" border="0" onclick="location.href='?serendipity[adminModule]=images&amp;serendipity[adminAction]=scaleSelect&amp;serendipity[fid]={$file.id}';" /><br />{/if}
-                    {if $file.is_image AND NOT $file.hotlink}<a href="?serendipity[adminModule]=images&amp;serendipity[adminAction]=rotateCCW&amp;serendipity[fid]={$file.id}"><img class="serendipityImageButton" title="{$CONST.IMAGE_ROTATE_LEFT}"  alt="{$CONST.IMAGE_ROTATE_LEFT}"  src="{$media.rotateccwIMG}" border="0" /></a><br />{/if}
-                    {if $file.is_image AND NOT $file.hotlink}<a href="?serendipity[adminModule]=images&amp;serendipity[adminAction]=rotateCW&amp;serendipity[fid]={$file.id}"><img  class="serendipityImageButton" title="{$CONST.IMAGE_ROTATE_RIGHT}" alt="{$CONST.IMAGE_ROTATE_RIGHT}" src="{$media.rotatecwIMG}" border="0" /></a><br />{/if}
-                    <a href="?serendipity[adminModule]=images&amp;serendipity[adminAction]=properties&amp;serendipity[fid]={$file.id}"><img class="serendipityImageButton" title="{$CONST.MEDIA_PROP}" alt="{$CONST.MEDIA_PROP}"    src="{$media.configureIMG}" border="0" /></a><br />
-                    <a href="?serendipity[adminModule]=images&amp;serendipity[adminAction]=delete&amp;serendipity[fid]={$file.id}"><img class="serendipityImageButton" title="{$CONST.MEDIA_DELETE}"   alt="{$CONST.MEDIA_DELETE}"  src="{$media.deleteIMG}"    border="0" /></a><br />
-                {/if}
-                </td>
-                <td colspan="2">
-                    <div class="serendipity_media_filename" style="font-weight: bold; font-size: 8pt">{$file.realname}{if $file.orderkey != ''}: {$file.orderkey|@escape}{/if}</div>
-                    <div class="serendipity_media_author"   style="font-size: 8pt">{if $file.authorid != 0}{$file.authorname}{else}<br />{/if}</div>
-                </td>
-            </tr>
-            <tr>
-                <td align="center" colspan="2">
-                    {$file.preview}
-                </td>
-            </tr>
-            <tr>
-                <td colspan="2" height="10" align="center" style="font-size: 8pt">
+        <article class="media_file {cycle values="odd,even"}">
+            <header class="clearfix">
+                <div class="form_check">
+                    <input id="multidelete_image{$file.id}" name="serendipity[multiDelete][]" type="checkbox" value="{$file.id}"><label for="multidelete_image{$file.id}" class="visuallyhidden">Select for multidelete</label> {* i18n *}
+                </div>
+                <h3>{$file.realname|truncate:30:"&hellip;"}{if $file.orderkey != ''}: {$file.orderkey|@escape}{/if}</h3>
+                {if $file.authorid != 0}<span class="author block_level">{$file.authorname}</span>{/if}
+            </header>
+
+            <div class="clearfix">
+                <div class="media_file_preview">
+                {$file.preview}
+                </div>
+
+                <footer>
+                    <ul class="media_file_meta plainList">
                 {if $file.hotlink}
-                    {$file.nice_hotlink}
+                        <li>{$file.nice_hotlink}</li>
                 {else}
                     {if $file.is_image}
-                    {$CONST.ORIGINAL_SHORT}: {$file.dimensions_width}x{$file.dimensions_height},
-                    {$CONST.THUMBNAIL_SHORT}: {$file.dim.0}x{$file.dim.1}<br />
+                        <li><b>{$CONST.ORIGINAL_SHORT}:</b> {$file.dimensions_width}x{$file.dimensions_height}</li>
+                        <li><b>{$CONST.THUMBNAIL_SHORT}:</b> {$file.dim.0}x{$file.dim.1}</li>
                     {/if}
-                    {$file.nice_size}kb {if $file.realname != $file.diskname} [{$file.diskname}]{/if}
-
+                        <li><b>{$CONST.SIZE_SHORT}:</b> {$file.nice_size} KB</li>
+                    {if $file.realname != $file.diskname}
+                        <li>{$file.diskname}</li>
+                    {/if}
                 {/if}
-                </td>
-            </tr>
-        </table>
-    {/if}
-
-    {if $media.enclose}
-    </td>
+                    </ul>
+                </footer>
+            </div>
+        {if $file.is_editable}
+            <ul class="media_file_actions actions plainList clearfix">
+                <li><a id="media_fullsize" class="button_link" href="#" title="{$CONST.MEDIA_FULLSIZE}" onclick="F1 = window.open('{if $file.hotlink}{$file.path}{else}{$file.full_file}{/if}', 'Zoom', 'height={$file.popupHeight},width={$file.popupWidth},top='+ (screen.height-{$file.popupHeight})/2 +',left='+ (screen.width-{$file.popupWidth})/2 +',toolbar=no,menubar=no,location=no,resize=1,resizable=1{if NOT $file.is_image},scrollbars=yes{/if}');"><span class="icon-resize-full-alt"></span><span class="visuallyhidden"> {$CONST.MEDIA_FULLSIZE}</span></a></li>
+                <li><a id="media_rename" class="button_link" href="#" title="{$CONST.MEDIA_RENAME}" onclick="rename('{$file.id}', '{$file.name|escape:javascript}')"><span class="icon-edit"></span><span class="visuallyhidden"> {$CONST.MEDIA_RENAME}</span></a></li>
+            {if $file.is_image AND NOT $file.hotlink}
+                <li><a id="media_resize" class="button_link icon_link opens_window" title="{$CONST.IMAGE_RESIZE}" onclick="iz=window.open(this.href, 'ImageResize', 'width=800,height=600,toolbar=no,scrollbars=1,scrollbars,resize=1,resizable=1'); iz.focus(); return false;" href="?serendipity[adminModule]=images&amp;serendipity[adminAction]=scaleSelect&amp;serendipity[fid]={$file.id}&amp;serendipity[noBanner]=true&amp;serendipity[noSidebar]=true"><span class="icon-resize-full"></span><span class="visuallyhidden"> {$CONST.IMAGE_RESIZE}</span></a></li>
+				{* <li><a id="media_resize" class="button_link" href="#" title="{$CONST.IMAGE_RESIZE}" onclick="location.href='?serendipity[adminModule]=images&amp;serendipity[adminAction]=scaleSelect&amp;serendipity[fid]={$file.id}';"><span class="icon-resize-full"></span><span class="visuallyhidden"> {$CONST.IMAGE_RESIZE}</span></a></li> *}
+            {/if}
+            {if $file.is_image AND NOT $file.hotlink}
+                <li><a id="media_rotate_left" class="button_link" href="?serendipity[adminModule]=images&amp;serendipity[adminAction]=rotateCCW&amp;serendipity[fid]={$file.id}" title="{$CONST.IMAGE_ROTATE_LEFT}"><span class="icon-ccw"></span><span class="visuallyhidden"> {$CONST.IMAGE_ROTATE_LEFT}</span></a></li>
+            {/if}
+            {if $file.is_image AND NOT $file.hotlink}
+                <li><a id="media_rotate_right" class="button_link" href="?serendipity[adminModule]=images&amp;serendipity[adminAction]=rotateCW&amp;serendipity[fid]={$file.id}" title="{$CONST.IMAGE_ROTATE_RIGHT}"><span class="icon-cw"></span><span class="visuallyhidden">{$CONST.IMAGE_ROTATE_RIGHT}</span></a></li>
+            {/if}
+                <li><a id="media_prop" class="button_link" href="?serendipity[adminModule]=images&amp;serendipity[adminAction]=properties&amp;serendipity[fid]={$file.id}" title="{$CONST.MEDIA_PROP}"><span class="icon-picture"></span><span class="visuallyhidden"> {$CONST.MEDIA_PROP}</span></a></li>
+                <li><a id="media_delete" class="button_link" href="?serendipity[adminModule]=images&amp;serendipity[adminAction]=delete&amp;serendipity[fid]={$file.id}" title="{$CONST.MEDIA_DELETE}"><span class="icon-trash"></span><span class="visuallyhidden"> {$CONST.MEDIA_DELETE}</span></a></li>
+            </ul>
+        {/if}
+        </article>
     {/if}
 
     {if NOT $media.enclose}
-        <h3>{$file.realname} [<em>{$file.mime}</em>{if $file.realname != $file.diskname}, {$file.diskname}{/if}]</h3>
-        <div>
-            {if $file.authorid != 0}{$CONST.POSTED_BY} {$file.authorname}{/if} {$CONST.ON} {$file.date|@formatTime:DATE_FORMAT_SHORT}.
-            {if $file.hotlink}
-                {$file.nice_hotlink}
-            {elseif $file.is_image}
-                {$CONST.ORIGINAL_SHORT}: {$file.dimensions_width}x{$file.dimensions_height},
-                {$CONST.THUMBNAIL_SHORT}: {$file.dim.0}x{$file.dim.1}
-            {/if}
-             ({$file.nice_size}kb)
-        </div>
+        <article class="media_file media_enclose_no">
+            <header>
+                <h3>{$file.realname}</h3>
+                <span class="block_level"><b>{$CONST.SORT_ORDER_EXTENSION}:</b> {$file.mime}{if $file.realname != $file.diskname}, {$file.diskname}{/if}</span>
+            </header>
 
-        <input type="hidden" name="serendipity[mediaProperties][{$mediakey}][image_id]" value="{$file.image_id}" />
-        <h3>{$CONST.MEDIA_PROP}</h3>
-        <div>
-        {foreach from=$file.base_property key="prop_fieldname" item="prop_content"}
-            <label for="mediaProperty{$prop_fieldname}">{$prop_content.label}</label><br />
-            <div>
-            {if $prop_content.type == 'textarea'}
-                <textarea cols="80" rows="5" id="mediaProperty{$prop_fieldname}" name="serendipity[mediaProperties][{$mediakey}][{$prop_content.title}]">{$prop_content.val|@escape}</textarea>
-            {elseif $prop_content.type == 'readonly'}
-                <div>{$prop_content.val|@escape}</div>
-            {elseif $prop_content.type == 'input'}
-                <input class="input_textbox" id="mediaProperty{$prop_fieldname}" type="text" name="serendipity[mediaProperties][{$mediakey}][{$prop_content.title}]" value="{$prop_content.val|@escape}" />
+            <footer>
+                <ul class="media_file_meta plainList">
+                    <li><b>{$CONST.SORT_ORDER_DATE}:</b> {if $file.authorid != 0}{$CONST.POSTED_BY} {$file.authorname} {/if}{$CONST.ON} {$file.date|@formatTime:DATE_FORMAT_SHORT}</li>
+                {if $file.hotlink}
+                    <li>{$file.nice_hotlink}</li>
+                {elseif $file.is_image}
+                    <li><b>{$CONST.ORIGINAL_SHORT}:</b> {$file.dimensions_width}x{$file.dimensions_height}</li>
+                    <li><b>{$CONST.THUMBNAIL_SHORT}:</b> {$file.dim.0}x{$file.dim.1}</li>
+                {/if}
+                    <li><b>{$CONST.SIZE_SHORT}:</b> {$file.nice_size} KB</li>
+                </ul>
+            </footer>
+        
+            <input type="hidden" name="serendipity[mediaProperties][{$mediakey}][image_id]" value="{$file.image_id}">
+
+            <section class="media_file_props">
+                <h4>{$CONST.MEDIA_PROP}</h4>
+            {foreach from=$file.base_property key="prop_fieldname" item="prop_content"}
+                <div class="form_{if $prop_content.type == 'textarea'}area{else}field{/if}">
+                    <label for="mediaProperty{$prop_fieldname}">{$prop_content.label}</label>
+                {if $prop_content.type == 'textarea'}
+                    <textarea id="mediaProperty{$prop_fieldname}" name="serendipity[mediaProperties][{$mediakey}][{$prop_content.title}]" rows="5">{$prop_content.val|@escape}</textarea>
+                {elseif $prop_content.type == 'readonly'}
+                    {$prop_content.val|@escape}
+                {elseif $prop_content.type == 'input'}
+                    <input id="mediaProperty{$prop_fieldname}" name="serendipity[mediaProperties][{$mediakey}][{$prop_content.title}]" type="text" value="{$prop_content.val|@escape}">
+                {/if}
+                </div>
+            {/foreach}
+            {if  NOT $file.hotlink}
+                <div class="form_select">
+                    <label for="newDir{$mediakey}">{$CONST.FILTER_DIRECTORY}</label>
+                    <input type="hidden" name="serendipity[oldDir][{$mediakey}]" value="{$file.path|@escape}">
+                    <select id="newDir{$mediakey}" name="serendipity[newDir][{$mediakey}]">
+                        <option value=""></option>
+                    {foreach from=$media.paths item="folder"}
+                        <option {if ($file.path == $folder.relpath)}selected{/if} value="{$folder.relpath}">{'&nbsp;'|str_repeat:($folder.depth*2)}{$folder.name}</option>
+                    {/foreach}
+                    </select>
+                </div>
             {/if}
-            </div>
-        {/foreach}
-        {if  NOT $file.hotlink}
-            <label for="newDir{$mediakey}">{$CONST.FILTER_DIRECTORY}</label><br />
-            <div>
-                <input type="hidden" name="serendipity[oldDir][{$mediakey}]" value="{$file.path|@escape}" />
-                <select id="newDir{$mediakey}" name="serendipity[newDir][{$mediakey}]">
-                <option value=""></option>
-                {foreach from=$media.paths item="folder"}
-                <option {if ($file.path == $folder.relpath)}selected="selected"{/if} value="{$folder.relpath}">{'&nbsp;'|str_repeat:($folder.depth*2)}{$folder.name}</option>
-                {/foreach}
-                </select>
-            </div>
-        {/if}
             {if $file.is_image}
-            <div>
-                <br /><a target="_blank" class="serendipityPrettyButton input_button" href="serendipity_admin_image_selector.php?serendipity[adminModule]=images&amp;serendipity[adminAction]=imgedit&amp;serendipity[fid]={$file.id}">{$CONST.EDIT}</a>
-            </div>
+                <a class="button_link icon_link opens_window" onclick="ic=window.open(this.href, 'ImageCrop', 'width=800,height=600,toolbar=no,scrollbars=1,scrollbars,resize=1,resizable=1'); ic.focus(); return false;" href="serendipity_admin_image_selector.php?serendipity[adminModule]=images&amp;serendipity[adminAction]=imgedit&amp;serendipity[fid]={$file.id}">{$CONST.EDIT}</a>
             {/if}
-        </div>
+            </section>
 
-        <h3>{$CONST.MEDIA_KEYWORDS}</h3>
-        <div>
-            <table>
-            {foreach from=$file.base_keywords key="keyword_row" item="keyword_cells"}
-                <tr>
-                {foreach from=$keyword_cells key="keyword_cell" item="keyword"}
-                    <td>
+            <section class="media_file_keywords">
+                <h4>{$CONST.MEDIA_KEYWORDS}</h4>
+
+                <ul class="plainList">
+                {foreach from=$file.base_keywords key="keyword_row" item="keyword_cells"}
+                    {foreach from=$keyword_cells key="keyword_cell" item="keyword"}
                     {if $keyword.name}
-                        <input class="input_checkbox" id="mediaKeyword{$keyword.name}{$mediakey}" type="checkbox" name="serendipity[mediaKeywords][{$mediakey}][{$keyword.name}]" value="true" {if $keyword.selected}checked="checked"{/if} />&nbsp;<label for="mediaKeyword{$keyword.name}{$mediakey}">{$keyword.name}</label>
-                    {else}
-                        &nbsp;
+                    <li><input id="mediaKeyword{$keyword.name}{$mediakey}" name="serendipity[mediaKeywords][{$mediakey}][{$keyword.name}]" type="checkbox" value="true"{if $keyword.selected} checked="checked"{/if}>
+                        <label for="mediaKeyword{$keyword.name}{$mediakey}">{$keyword.name}</label></li>
                     {/if}
-                    </td>
+                    {/foreach}
                 {/foreach}
-                </tr>
-            {/foreach}
-            </table>
-        </div>
+                </ul>
+            </section>
 
-        <h3>EXIF/IPTC/XMP</h3>
-        <div>
-        <dl>
-        {foreach from=$file.metadata key="meta_type" item="meta_data"}
-            <dt><h4>{$meta_type}</h4></dt>
-            <dd>
-            {if is_array($meta_data)}
-            <table>
-            {foreach from=$meta_data key="meta_name" item="meta_value"}
-                <tr>
-                    <td valign="top"><em>{$meta_name}!</em></th>
-                    <td>{if is_array($meta_value)}<pre>{$meta_value|@print_r}</pre>{else}{$meta_value|@formatTime:DATE_FORMAT_SHORT:false:$meta_name}{/if}</td>
-                </tr>
-            {/foreach}
-            </table>
-            {else}
-            {$meta_data|@formatTime:DATE_FORMAT_SHORT:false:$meta_type}
-            {/if}
-            </dd>
-        {/foreach}
-        </dl>
-        </div>
+            <section class="media_file_metadata">
+                <h4>EXIF/IPTC/XMP</h4>
 
+                <dl>
+            {foreach from=$file.metadata key="meta_type" item="meta_data"}
+                    <dt>{$meta_type}</dt>
+                {if is_array($meta_data)}
+                    {foreach from=$meta_data key="meta_name" item="meta_value"}
+                    <dd class="meta_name">{$meta_name}!</dd>
+                    <dd class="meta_value">{if is_array($meta_value)}<pre>{$meta_value|@print_r}</pre>{else}{$meta_value|@formatTime:DATE_FORMAT_SHORT:false:$meta_name}{/if}</dd>
+                    {/foreach}
+                {else}
+                    <dd>{$meta_data|@formatTime:DATE_FORMAT_SHORT:false:$meta_type}</dd>
+                {/if}
+            {/foreach}
+                </dl>
+            </section>
         {if $file.references}
-        <h3>{$CONST.REFERER}</h3>
-        <ul>
-        {foreach from=$file.references item="ref"}
-        <li>({$ref.name|@escape}) <a rel="nofollow" href="{$ref.link|@escape}">{$ref.link|@default:$CONST.NONE|@escape}</a></li>
-        {/foreach}
-        </ul>
-        {/if}
-    {/if}
+            <section class="media_file_referer">
+                <h4>{$CONST.REFERER}</h4>
 
-    {if $media.enclose AND (($smarty.foreach.mediafiles.iteration % $media.lineBreak) == 0)}
-    </tr><tr>
+                <ul>
+                {foreach from=$file.references item="ref"}
+                    <li>({$ref.name|@escape}) <a rel="nofollow" href="{$ref.link|@escape}">{$ref.link|@default:$CONST.NONE|@escape}</a></li>
+                {/foreach}
+                </ul>
+            </section>
+        {/if}
+        </article>
     {/if}
 {/foreach}

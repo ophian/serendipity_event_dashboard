@@ -1,38 +1,41 @@
-<!--- DASHBOARD MEDIA_IMGEDIT_DONE START -->
-        <fieldset class="info" id="fs_info">
-            <legend>Output Information</legend>
+{* HTML5: Yes *}
+{* jQuery: NN *}
 
-            Your image was {$imgedit.real_img_width} x {$imgedit.real_img_height} pixels (Orientation: {$imgedit.area_orientation}).<br />
-            Depending on your zoom of {$imgedit.zoombox_factor}x, it was {$imgedit.zoom_img_width} x {$imgedit.zoom_img_height} pixels.<br />
-            It got scaled to {$imgedit.img_width} x {$imgedit.img_height} pixels.<br />
-            Then a rectangle starting from ({$imgedit.slice_from_x}|{$imgedit.slice_from_y}) to ({$imgedit.slice_to_x}|{$imgedit.slice_to_y}) has been sliced from it.<br />
-            <br />
+{* Erm, why isn't this localized at all? o_O *}
+        <div  id="fs_info" class="info">
+            {* Check if h3 is the proper level. *}
+            <h3>Output Information</h3>
 
-            {if $imgedit.image_cut}
-            The image has been correctly cropped and only the part inside of the rectangle is going to be shown.
-            {/if}
+            <p>Your image was {$imgedit.real_img_width} x {$imgedit.real_img_height} pixels (Orientation: {$imgedit.area_orientation}).</p>
 
-            {if $imgedit.image_no_cut}
-            Because the source dimensions were smaller than the destination dimensions, the image does not fill up the complete space.
-            {/if}
+            <p>Depending on your zoom of {$imgedit.zoombox_factor}x, it was {$imgedit.zoom_img_width} x {$imgedit.zoom_img_height} pixels.</p>
 
-            {if $imgedit.image_error}
-            <span class="error">However, there were errors processing your image.</span>
-            {/if}
-        </fieldset>
+            <p>It got scaled to {$imgedit.img_width} x {$imgedit.img_height} pixels.</p>
 
-        <fieldset class="info" style="height: 200px">
-            <legend>Image Result</legend>
+            <p>Then a rectangle starting from ({$imgedit.slice_from_x}|{$imgedit.slice_from_y}) to ({$imgedit.slice_to_x}|{$imgedit.slice_to_y}) has been sliced from it.</p>
+        {if $imgedit.image_cut}
+            <p>The image has been correctly cropped and only the part inside of the rectangle is going to be shown.</p>
+        {/if}
+        {if $imgedit.image_no_cut}
+            <p>Because the source dimensions were smaller than the destination dimensions, the image does not fill up the complete space.</p>
+        {/if}
+        {if $imgedit.image_error}
+            <span class="msg_error"><span class="icon-attention"></span> However, there were errors processing your image.</span>
+        {/if}
+        </div>
 
-            Cropped Image:<br />
+        <div id="fs_crop" class="info">
+            <h3>Image Result</h3>
+
+            <h4>Cropped Image:<h4>
 
             <div id="outer">
-                <img id="cropimage" alt="Cropped image" src="{$imgedit.http_img_name}?{$imgedit.refresh_line}" width="{$imgedit.img_width}" height="{$imgedit.img_height}" class="crop" />
+                <img id="cropimage" class="crop" src="{$imgedit.http_img_name}?{$imgedit.refresh_line}" width="{$imgedit.img_width}" height="{$imgedit.img_height}" alt="Cropped image">
             </div>
-        </fieldset>
+        </div>
 
-        <fieldset class="info">
-            <legend>Play it again, Sam</legend>
+        <div class="info">
+            <h3>Play it again, Sam</h3>
 
-            That was great! So, please once more, with feeling!.
-        </fieldset>
+            <p>That was great! So, please once more, with feeling!</p>
+        </div>

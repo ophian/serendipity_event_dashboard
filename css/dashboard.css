@@ -1,6 +1,66 @@
 /*
+## Font Awesome
+
+   Copyright (C) 2012 by Dave Gandy
+
+   Author:    Dave Gandy
+   License:   CC BY 3.0 (http://creativecommons.org/licenses/by/3.0/)
+   Homepage:  http://fortawesome.github.com/Font-Awesome/
+   
+   clean.css
+   animation.css
+*/
+[class^="icon-"]:before,
+[class*=" icon-"]:before {
+  opacity: 1;
+}
+#dashboard [class^="icon-"]:before,
+#dashboard [class*=" icon-"]:before {
+  color: #000;
+}
+#dashboard #nav-info [class^="icon-"]:before, 
+#dashboard #nav-info [class*=" icon-"]:before {
+    color: grey;
+    font-size: large;
+}
+#cont2.mbc_container.black > .mbc_content [class^="icon-"]:before, #cont2.mbc_container.black > .mbc_content [class*=" icon-"]:before {
+    color: #FFF;
+}
+/* don't whitish button link icons */
+#cont2.mbc_container.black > .mbc_content .button_link  [class^="icon-"]:before, #cont2.mbc_container.black > .mbc_content .button_link  [class*=" icon-"]:before {
+    color: #000000;
+}
+#mbc_wrapper .mbc_container.black > .mbc_content [class^="icon-"]:before, #mbc_wrapper .mbc_container.black > .mbc_content [class*=" icon-"]:before {
+    color: #FFF;
+}
+/*#cont2.mbc_container.black > .mbc_content .blue [class^="icon-"]:before, #cont2.mbc_container.black > .mbc_content .blue [class*=" icon-"]:before,*/
+#dashboard .blue [class^="icon-"]:before, #dashboard .blue [class*=" icon-"]:before,
+.blue [class^="icon-"]:before, .blue [class*=" icon-"]:before {
+    color: #33CCFF;
+}
+/*#cont2.mbc_container.black > .mbc_content .green [class^="icon-"]:before, #cont2.mbc_container.black > .mbc_content .green [class*=" icon-"]:before,*/
+#dashboard .green [class^="icon-"]:before, #dashboard .green [class*=" icon-"]:before,
+.green [class^="icon-"]:before, .green [class*=" icon-"]:before {
+    color: #00FF33;
+}
+/*#cont2.mbc_container.black > .mbc_content .red [class^="icon-"]:before, #cont2.mbc_container.black > .mbc_content .red [class*=" icon-"]:before,*/
+#dashboard .red [class^="icon-"]:before, #dashboard .red [class*=" icon-"]:before,
+.red [class^="icon-"]:before, .red [class*=" icon-"]:before {
+    color: #FF6600;
+}
+#dashboard .bayes-button [class^="icon-"]:before, #dashboard .bayes-button [class*=" icon-"]:before,
+#dashboard .mod_bayes [class^="icon-"]:before, #dashboard .mod_bayes [class*=" icon-"]:before {
+    color: darkblue;
+}
+.icon-move {
+    cursor: move;
+}
+.pluginmanager_grablet, .pluginmanager_configure {
+    position: static;
+}
+/*
    dashboard css file
-   last modified: 2012-12-14
+   last modified: 2013-01-31
 */
 
 html, body {
@@ -8,6 +68,33 @@ html, body {
 }
 body {
     max-width: 1280px;
+}
+body > #loaderPanel {
+    display: none;
+    visibility: hidden;
+    overflow: hidden;
+}
+body.spinLoadProgress {
+    /* this does not hurt, since we need some content here */
+	position: absolute;
+    vertical-align: middle;
+    z-index: 1004;
+}
+body.spinLoadProgress > #loaderPanel {
+    background: none repeat scroll 0 0 #333333;
+    display: block;
+    height: 100%;
+    opacity: 0.5;
+    position: absolute;
+    text-align: center;
+    top: 0;
+    visibility: visible;
+    width: 100%;
+    z-index: 1005;
+}
+body.spinLoadProgress > #loaderPanel img {
+     margin: 38% auto;
+	 vertical-align: middle;
 }
 
 /* BP5 take over, if in sidebar mode */
@@ -20,12 +107,20 @@ button, input {
     white-space: normal;
 }
 
+/* 2k11/admin/style - corrects extended toolbar right added margins */
+#tools_extended.editor_toolbar > input {
+    margin-right: 0;
+}
+
 #dashboard button, #dashboard input, #dashboard select, #dashboard textarea {
     font-size: 100%;
     margin: 0;
     vertical-align: baseline;
 }
-
+/*added with new backend */
+#dashboard button.none {
+    margin: 0 2px;
+}
 #dashboard button, #dashboard input, #dashboard select, #dashboard textarea {
     color: #222222;
     font-family: sans-serif;
@@ -51,6 +146,69 @@ article, aside, details, figcaption, figure, footer, header, hgroup, nav, sectio
     font: 700 126%/1.6 sans-serif;
 }
 
+/* Automagic quotes, http://html5doctor.com/blockquote-q-cite/ */
+q { quotes: '“' '”' '‘' '’'; }
+:lang(de) q { quotes: '„' '“' '‚' '‘'; }
+
+blockquote p { quotes: '“' '”'; }
+
+blockquote p:before {
+    content: '';
+    content: no-open-quote;
+}
+
+blockquote p:after {
+    content: '';
+    content: no-close-quote;
+}
+
+blockquote p:first-child:before {
+    content: '“';
+    content: open-quote;
+}
+
+blockquote p:last-child:after {
+    content: '”';
+    content: close-quote;
+}
+
+:lang(de) blockquote p,
+blockquote:lang(de) p { quotes: '„' '“'; }
+
+:lang(de) blockquote p:before,
+blockquote:lang(de) p:before {
+    content: '';
+    content: no-open-quote;
+}
+
+:lang(de) blockquote p:after,
+blockquote:lang(de) p:after {
+    content: '';
+    content: no-close-quote;
+}
+
+:lang(de) blockquote p:first-child:before,
+blockquote:lang(de) p:first-child:before {
+    content: '„';
+    content: open-quote;
+}
+
+:lang(de) blockquote p:last-child:after,
+blockquote:lang(de) p:last-child:after {
+    content: '“';
+    content: close-quote;
+}
+
+blockquote > cite,
+blockquote + cite { display: block; }
+
+blockquote > cite:before,
+blockquote + cite:before { content: "– "; }
+
+blockquote > cite { margin: 1.5em 0; }
+
+blockquote + cite { margin: 0 0 1.5em 3em; }
+
 #dashboard ::-moz-selection { background: #fe57a1; color: #fff; text-shadow: none; }
 #dashboard ::selection { background: #fe57a1; color: #fff; text-shadow: none; }
 
@@ -69,10 +227,13 @@ article, aside, details, figcaption, figure, footer, header, hgroup, nav, sectio
 #dashboard a:hover, #dashboard a:active { outline: 0; }
 #dashboard a img { border: 1px solid transparent; } /* IE need! */
 
+#dashboard * { font-family: 'Open Sans', sans-serif; }
+
 /* corrects BP3.0 for Dashboard */
 #dashboard input[type="checkbox"], #dashboard input[type="radio"] {
     margin: 3px 3px 0;
     padding: 0;
+    top: 0; /*added with new backend */
 }
 .serendipityAdminContentnoSb {
     padding: 3px;
@@ -88,12 +249,12 @@ td.serendipityAdminContentDashboard {
     display: block;
     font-size: 90%; /* ... and back in the dashboard to its near old value... could also 90% */
     line-height: normal;
-    margin: 0;
+    margin: 0 0 2em;
     max-width: 1208px;
     padding: 0;
     width: 100%;
 }
-#dashboard .serendipity_backend_msg_notice { 
+#dashboard .dashboard_msg_notice { 
     /* radial */
     background: rgb(248,255,232); /* Old browsers */
     background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPHJhZGlhbEdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgY3g9IjUwJSIgY3k9IjUwJSIgcj0iNzUlIj4KICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNmOGZmZTgiIHN0b3Atb3BhY2l0eT0iMSIvPgogICAgPHN0b3Agb2Zmc2V0PSIzMyUiIHN0b3AtY29sb3I9IiNlM2Y1YWIiIHN0b3Atb3BhY2l0eT0iMSIvPgogICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjYjdkZjJkIiBzdG9wLW9wYWNpdHk9IjEiLz4KICA8L3JhZGlhbEdyYWRpZW50PgogIDxyZWN0IHg9Ii01MCIgeT0iLTUwIiB3aWR0aD0iMTAxIiBoZWlnaHQ9IjEwMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
@@ -131,11 +292,12 @@ td.serendipityAdminContentDashboard {
     margin: 0 0 1em;
 }
 
-#dashboard header, #dashboard section {
+#dashboard header, #dashboard #layout, #dashboard #s9y-error {
     background: none repeat scroll 0 0 #F9F9F9;
     border: 1px solid #AAAAAA;
     margin: 0 0 4px;
     max-width: 1208px;
+    padding: 0.2em;
 }
 #dashboard #nav-navigation-select {
     border: 1px solid #BBBBBB;
@@ -153,7 +315,8 @@ td.serendipityAdminContentDashboard {
     width: 16em;
 }
 #dashboard #select-form-navigation.select-navigation {
-    display: block;
+    display: inline-block;
+    width: 86%;
 }
 #dashboard #nav-embed-iconset {
     background: rgb(255,255,255); /* Old browsers */
@@ -195,6 +358,12 @@ td.serendipityAdminContentDashboard {
     float: right;
     text-align: end;
 }
+/*added with new backend - in sidebar mode*/
+#dashboard > header, #dashboard > header nav {
+    height: auto;
+    min-height: 76px;
+}
+
 #dashboard #nav-embed-switch ul li:first-child {
     padding-top: 8px;
 }
@@ -202,10 +371,17 @@ td.serendipityAdminContentDashboard {
     float: right;
     padding: 2px 6px;
 }
+/*added with new backend*/
+#dashboard #nav-embed-switch ul li:last-child {
+    height: 0; 
+}
+
 #dashboard #nav-navigation-select .main-help {
-    margin: 1em 0.7em 1em 0;
-    text-align: right; /* IE + Opera and old Moz and Safari fallback */
-    text-align: end;
+    /* text-align: right; IE + Opera and old Moz and Safari fallback
+    text-align: end; */
+    display: inline-block;
+    float: right;
+    margin: 1.6em 0.7em 1em 0;
 }
 #dashboard input.serendipityPrettyButton, a.serendipityPrettyButton {
     background: none repeat scroll 0 0 lightSteelBlue;
@@ -218,6 +394,8 @@ td.serendipityAdminContentDashboard {
 #dashboard .input-boxed,
 #dashboard .bayes-boxed {
     display: inline-block;
+    float: right; /* added with new backend */
+    margin-bottom: 4px; /* added with new backend */
 }
 /* reset our normal browsers input type (button) behaviour by CSS */
 #dashboard input.none[type="button"], #dashboard input.none[type="reset"], #dashboard input.none[type="submit"] {
@@ -286,19 +464,20 @@ td.serendipityAdminContentDashboard {
 }
 
 /* dashboard ul sets global block, nav ul needs inline and sections need inline-block */
-#dashboard ul { 
+#dashboard > header ul,
+#dashboard > #layout ul { 
     display: block;
     list-style: none outside none; 
     margin: 0; 
     padding: 0; 
 }
-#dashboard nav ul, #dashboard nav ol { 
+#dashboard header ul, #dashboard header ol { 
     display: inline; 
 }
-#dashboard > section ul {
+#dashboard #layout ul {
     display: inline-block; 
 }
-#dashboard ul li { 
+#dashboard .horizontal li {
     float: left; 
     padding: 2px 6px; 
 }
@@ -310,20 +489,14 @@ td.serendipityAdminContentDashboard {
     /* avoid box-shadow in here for IE9 compat issues */
     border-color: #BBBBBB;
     border-style: solid;
-    border-width: 1px 0;
+    border-width: 1px;
     margin-bottom: 5px;
-    margin-left: 2px;
     padding: 10px;
-    width: inherit;
+    width: 100.2%;
 }
 
-#dashboard #compen .comment_text { 
-    background: none repeat scroll 0 0 SteelBlue;
-    color: invert;
-    color: PowderBlue;
-}
 #dashboard #comapp .comment_text { 
-    background: none repeat scroll 0 0 DarkSeaGreen;
+    background: none repeat scroll 0 0 infobackground;
     color: DarkSlateGrey;
 }
 #dashboard #compen li.mod_ham,
@@ -400,16 +573,16 @@ td.serendipityAdminContentDashboard {
     border: 0 none; 
     border-bottom: 2px solid #FF0000; 
 }
-#dashboard .serendipityAdminMsgNote {
+#dashboard .msg_dialogue {
     margin: -13px 0 10px;
 }
-#dashboard .serendipity_admin_comment_pending {
-    border: 1px solid #FF0000; /* corrects 2px border */
+#dashboard #update .serendipity_admin_list_item {
+    border: 1px solid #72878A;
 }
-#dashboard .serendipity_admin_list_item {}
 #dashboard .serendipity_admin_list_item_uneven {
     background: none repeat scroll 0 0 #EEEEEE;
 }
+
 #dashboard .serendipity_admin_list_item_draft, 
 #dashboard .serendipity_admin_list_item_future { 
     display: inline-table; 
@@ -417,15 +590,17 @@ td.serendipityAdminContentDashboard {
 }
 /* important is a need sometimes... */
 #dashboard .visuallyhidden { 
-    border: 0 !important; 
-    clip: rect(0 0 0 0); 
-    height: 0 !important; 
-    margin: 0 !important; 
-    padding: 0 !important; 
-    overflow: hidden; 
-    position: absolute; 
-    width: 0 !important; 
-}
+    border: 0 none !important;
+    clip: rect(0px, 0px, 0px, 0px);
+    display: none !important;
+    height: 0 !important;
+    margin: 0 !important;
+    overflow: hidden;
+    padding: 0 !important;
+    position: absolute;
+    visibility: hidden !important;
+    width: 0 !important;
+}}
 
 #dashboard .comment_boxed { 
     background-color: LightGreen;
@@ -440,13 +615,11 @@ td.serendipityAdminContentDashboard {
     text-align: right;
 }
 #dashboard .box-right { 
-    background: none repeat scroll 0 0 buttonface;
-    border-bottom: 1px solid transparent;
-    border-left: 1px solid #999999;
+    border: 1px solid #DFDFDF;
     float: right;
+    margin: -1px 0 0;
+    padding: 0 0.28em;
     text-align: right;
-    margin-right: 0;
-    padding: 0.2em 0.2em 0;
 }
 #dashboard #cell_left, #dashboard #cell_right {
     display: table-cell;
@@ -465,7 +638,7 @@ td.serendipityAdminContentDashboard {
     text-align: right; 
 }
 #dashboard #cell_right ul li {
-    float: right;
+    float: left;
     margin: 6px 0 2px;
     padding: 0;
 }
@@ -560,7 +733,7 @@ td.serendipityAdminContentDashboard {
 #dashboard #nav-welcome {
     float: left;
     min-width: 50%;
-    max-width: 62%;
+    max-width: 63%;
 }
 #dashboard #nav-welcome ul li {
     border: 1px solid #BBBBBB;
@@ -574,14 +747,9 @@ td.serendipityAdminContentDashboard {
 #dashboard #nav-welcome h2 span img{
     vertical-align: top;
 }
-
-#dashboard #boxed_autoupdate {
-    background: none repeat scroll 0 0 ivory;
-    border: 1px solid red;
-    display: table;
-    font-size: 89%;
-    margin: -0.7em 0 0.3em;
-    padding: 0.1em 0 0 0.1em;
+#dashboard #nav-info > span.msg_notice {
+    margin: 0;
+    padding: 0;
 }
 #dashboard #nav-navigation {
     border: 1px solid #BBBBBB;
@@ -784,7 +952,6 @@ td.serendipityAdminContentDashboard {
 #dashboard #compen li.mod_bayes ul li {
     padding: 0 0.2em;
 }
-
 #dashboard #cell_left.clmore { 
     width: 56%; 
 }
@@ -818,13 +985,14 @@ td.serendipityAdminContentDashboard {
     padding: 0;
 }
 #dashboard .comment_boxed,
+#dashboard #feed .feed_text,
 #dashboard #comapp .comment_text,
 #dashboard #compen .comment_text {
-    margin-right: 2px;
+    margin-left: -1px;
     opacity: 0.7;
 }
 #dashboard #compen .comment_text {
-    background: none repeat scroll 0 0 transparent;
+    background: none repeat scroll 0 0 infobackground;
     color: DimGrey;
 }
 #dashboard .text-icon {
@@ -849,9 +1017,6 @@ td.serendipityAdminContentDashboard {
 }
 #dashboard .text-icon-notifications:before {
     content: "!";
-}
-#dashboard #boxed_autoupdate {
-    margin: 0.2em 0.8em;
 }
 #dashboard > section .block-box {
     background: none repeat scroll 0 0 #F9F9F9;
@@ -902,21 +1067,21 @@ td.serendipityAdminContentDashboard {
     margin: 0;
     padding: 3px 0;
 }
-#dashboard #layout li.flipflop {
+#dashboard #layout section.flipflop {
     display: inline-block;
     margin: 0;
     padding: 0;
     width: 100%;
 }
-#dashboard #layout li.flipflop,
+#dashboard #layout section.flipflop,
 #dashboard #layout .block-box .flipbox {
     top: 0;
     left: 0;
 }
-#dashboard #layout li.flipflop:nth-of-type(1) {
+#dashboard #layout section.flipflop:nth-of-type(1) {
     margin: 4px 0 0;
 }
-#dashboard #layout li.ui-state-highlight .block-box {
+#dashboard #layout section.ui-state-highlight .block-box {
     margin-left: 1.5px;
 }
 
@@ -947,9 +1112,9 @@ td.serendipityAdminContentDashboard {
     padding: 0;
     position: relative;
 }
-#dashboard .block-content-info .table span {
-    float: right;
-    text-align: right;
+#dashboard .block-content-info .table_content > ul.plainlist {
+    font-size: 1em;
+    margin: 0 0 1em;
 }
 #dashboard .block-content-info .table_content {
     border-top: 1px solid #ECECEC;
@@ -963,18 +1128,25 @@ td.serendipityAdminContentDashboard {
     width: 40%;
     padding: 0 10px 12px;
 }
-#dashboard .block-content-info .t {
-    padding-top: 4px;
-    vertical-align: middle;
+#dashboard #info .versions.plainList {
+    line-height: 2;
+    margin-top: 1em;
 }
-#dashboard label.num,
+#dashboard .block-content-info .t {
+    line-height: 2;
+}
+#dashboard label.num span,
 #dashboard .block-box h3.flipbox span.num,
-#dashboard .block-content-info td.b a {
+#dashboard .block-content-info span.b a span {
+    display: inline;
     font-family: Georgia,"Times New Roman","Bitstream Charter",Times,serif;
 }
-#dashboard .block-content-info td.b a {
+#dashboard .block-content-info span.b a {
     font-size: 18px;
+    text-decoration: none;
 }
+#dashboard .block-content-info ul.versions  span.b a { font-size: inherit; }
+
 #dashboard .feed_title {
     display: inline-block;
     margin: 1.75px;
@@ -987,23 +1159,35 @@ td.serendipityAdminContentDashboard {
     font-size: smaller;
     vertical-align: baseline;
 }
+#dashboard .feed_title label, #dashboard .feed_title label > span {
+    display: inherit; /* new backend */
+}
 #dashboard .feed_text {
-    background: none repeat scroll 0 0 infobackground;/*InactiveBorder InactiveCaption Lavender SlateGrey*/
+    background: none repeat scroll 0 0 infobackground;
     font: 12px Monaco,"Courier New","DejaVu Sans Mono","Bitstream Vera Sans Mono",monospace;
     padding: 0.5em;
 }
 #dashboard .comments_header label {
-    color: lightslategray; /*DarkGrey*/
+    color: lightslategray;
 }
-#dashboard #upgrade_notice a, #dashboard #cell_left h3 a, #dashboard .comments_header label a { opacity: 0.7; }
+/*added with new backend */
+#dashboard label {
+    font-weight: normal;
+}
+/*added feed new backend*/
+#dashboard #feed a, #dashboard #upgrade_notice a, #dashboard #cell_left h3 a, #dashboard .comments_header label a { 
+    opacity: 0.7; 
+    color: #00004A !important; /*new backend*/
+    font-weight: normal; /*new backend*/
+}
 #dashboard #upgrade_notice a:visited, #dashboard #cell_left h3 a:visited, #dashboard .comments_header label a:visited { color: #03e; }
 #dashboard #upgrade_notice a:hover, #dashboard #cell_left h3 a:hover, #dashboard .comments_header label a:hover { color: #06e; }
 
 #dashboard label.num {
-    color: Navy;
-    color: OrangeRed;
     font-size: 12px;
-    vertical-align: text-top;
+}
+#dashboard label.num  a {
+    text-decoration: none;
 }
 #dashboard #feed span.num,
 #dashboard .block-box h3.flipbox span.num {
@@ -1016,8 +1200,11 @@ td.serendipityAdminContentDashboard {
     font-size: smaller;
     vertical-align: inherit;
 }
-
-#dashboard .block-content-info p.sub, #dashboard .block-content-info .table, #dashboard .block-content-info .versions {
+/*added with new backend*/
+#dashboard #feed .text.toggle-icon.icon-zoom-in {
+    font-size: 112%;
+}
+#dashboard .block-content-info h4.sub, #dashboard .block-content-info .table, #dashboard .block-content-info .versions {
     margin: 3px;
 }
 #dashboard .block-content-info .versions {
@@ -1050,11 +1237,15 @@ td.serendipityAdminContentDashboard {
 
 #dashboard #layout .meta-box:hover {
     background-color: #FDFDFF;
-    outline: thin dashed #F0DADA;/*F0F0F0;*/
+    outline: thin dashed #F0DADA;
     outline-offset: -2px; /* Move the outline 2px, as of border */
     padding-bottom: 0.5em;
 }
 
+/* hide/show sidebar toogles #content class no-sidebar in new backend*/
+#content.no-sidebar { width: 100%; }
+/* correct top margin with new backend css */
+#content { margin: 2% 2% 0 0; }
 
 /*
  * jQuery UI CSS Framework 1.8.21
@@ -1068,7 +1259,7 @@ td.serendipityAdminContentDashboard {
 /*----------------------------------*/
 
 /* JQUERY-UI_MODS in here */
-#dashboard  section#layout .ui-layout-main {position: relative; height: 100%; overflow: hidden; margin: 0; padding: 0; border: medium none; cursor: auto;}
+#dashboard  #layout .ui-layout-main {position: relative; height: 100%; overflow: hidden; margin: 0; padding: 0; border: medium none; cursor: auto;}
 
 /*
  * The :nth-child() and :nth-of-type() pseudo-classes allow to select elements with a formula. *: for all elements.
@@ -1076,36 +1267,41 @@ td.serendipityAdminContentDashboard {
  * div:nth-of-type() works the same, except that it only considers element of the given type (<div> in the example).
  * :first-of-type == :first-child and :last-of-type == :last-child and :only-of-type means an element which is the only child of its parent.
  */
-#dashboard #layout li.ui-state-highlight:nth-of-type(n+1) {
-    margin: 3px 2px;
+#dashboard #layout section.ui-state-highlight:nth-of-type(n+1) {
     padding: 0.25em;
-    width: 98.8%;      /* adjust block width as of l/r intent */
 }
-#dashboard #layout li.ui-state-highlight:nth-of-type(1) {
+#dashboard #layout section.ui-state-highlight:nth-of-type(1) {
     margin: 4px 0 3px 2px;
 }
-#dashboard #layout li.ui-state-highlight:nth-of-type(n+1) .block-box {
+#dashboard #layout section.ui-state-highlight:nth-of-type(n+1) .block-box {
     margin: 0;
     width: 100%;
 }
-#dashboard #layout li.ui-state-highlight:nth-of-type(1) .block-box {
+#dashboard #layout section.ui-state-highlight:nth-of-type(1) .block-box {
     margin: 0;
     width: 100%;
 }
 /*------------------------------------*/
 
-#dashboard #layout ul li.widget {
+#dashboard #layout div section.widget {
     clear: both;
     width: 97%;
 }
 #dashboard #layout .block-box {
     min-height: 0; /* flipping boxes need this better here, as in jquery toggle() */
     position: relative;
-    width: 99%;
+    margin: 0 auto 0.4em;
+    background: none repeat scroll 0 0 #F9F9F9;
+    border: 1px solid #DFDFDF;
+}
+#dashboard #meta-box-right .block-box {
+    margin-left: 0.2em;
 }
 #dashboard #meta-box-left .block-box {
     left: 0;
     top: 0;
+    margin-left: 0.1em;
+    margin-right: 0.2em;
 }
 #dashboard #layout .block-box h3 > span {
     font-family: Georgia,"Times New Roman","Bitstream Charter",Times,serif;
@@ -1155,6 +1351,7 @@ td.serendipityAdminContentDashboard {
     -o-box-shadow: 2px 2px 11px #666;
     box-shadow: 2px 2px 11px #666;
 }
+
 
 /*
  * jQuery.mb.components
@@ -1232,7 +1429,7 @@ td.serendipityAdminContentDashboard {
 
 .mbc_container > .mbc_buttonBar {
     position: absolute;
-    top:8px;
+    top: 8px;
     right: 8px;
 }
 
@@ -1259,7 +1456,7 @@ td.serendipityAdminContentDashboard {
     white-space: nowrap;
     width: 100%;
 }
-/*backport from 2.0*/
+
 #cont2 button, .mbc_button, #cont2 input[type="button"], #cont2 input[type="reset"], #cont2 input[type="submit"] {
     text-shadow: inherit;
 }
@@ -1378,6 +1575,17 @@ td.serendipityAdminContentDashboard {
     overflow: auto;
     color: white;
 }
+#cont2.mbc_container.black > .mbc_content .media_file > header {
+    color: background;
+}
+#cont2.mbc_container.black article header, #cont2.mbc_container.black article section  {
+    background: none repeat scroll 0 0 #6F6F6F;
+    margin: 0 0 4px;
+    max-width: 100%;
+}
+#cont2.black section {
+    background: none repeat scroll 0 0 transparent;
+}
 .mbc_container.black > .mbc_header > .mbc_toolBar {
     border-top: 1px solid #525252;
 }
@@ -1415,6 +1623,13 @@ td.serendipityAdminContentDashboard {
     height: 100%;
     background: #444e57;
 }
+#mbc_wrapper .black a {
+    color: lightblue;
+}
+#mbc_wrapper .mbc_container a:hover, #mbc_wrapper .black a:hover {
+    color: #EB4E00;
+    text-decoration: underline;
+}
 .container {
     width: 450px;
     height: auto;
@@ -1425,7 +1640,7 @@ td.serendipityAdminContentDashboard {
     font-size: medium;*/
     font-family: 'Open Sans', sans-serif;
     font-size: 15px;
-    padding: 10px 10px 10px 20px;
+    padding: 0.75em 0.75em 0.75em 1.5em;
 }
 .mbc_container > .mbc_content {
     background: none repeat scroll 0 0 white;
@@ -1483,11 +1698,11 @@ td.serendipityAdminContentDashboard {
 /* MBC ICONS */
 .container .icon {
     margin: 0;
-    position: relative; /*absolute*/
+    position: relative;
     top: 15px;
 }
 /* set background to transparent containers icon - which is same as light skin head color */
-#serendipity_admin_page > .containerIcon .icon, #cont1 .icon, #cont2 .icon, #dock .icon {
+#serendipity_admin_page > .containerIcon .icon, #mbc_wrapper .icon, #dock .icon {
     background: #f8f8f8; /* Old browsers */
     background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2Y4ZjhmOCIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNlZmVmZWYiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
     background: -moz-linear-gradient(top,  #f8f8f8 0%, #efefef 100%); /* FF3.6+ */
@@ -1501,26 +1716,45 @@ td.serendipityAdminContentDashboard {
 #serendipity_admin_page > .containerIcon .icon, #dock .icon {
     vertical-align: middle;
 }
-.mbc_container > .mbc_header h2{
+.mbc_container > .mbc_header h2 {
     margin-left: 20px;
 }
+
+/* Dashboard Containers main starter settings */
+#cont1.container { top: 240px; left: 240px; width: 800px; height: 500px; }
+#cont2.container { top: 240px; left: 240px; width: 800px; height: 600px; }
+#cont3.container { top: 240px; left: 240px; width: 800px; height: 500px; }
 
 /* dashboard specific mbc inner header/content additions */
 #cont1 p.note {
     font: italic normal lighter 0.9em/1.2em 'Courier New','DejaVu Sans Mono','Bitstream Vera Sans Mono',monospace;
 }
+#cont1.black .content-box > p.note {
+    color: #DAA783;
+}
 #cont1.mbc_container ul {
+    background: none repeat scroll 0 0 #F9F9F9;
     border: 1px solid #999999;
     display: list-item;
     margin-bottom: 1em;
+    padding: 0.2em;
+}
+#cont1.mbc_container.black ul {
+    background: inherit;
 }
 #cont1.mbc_container ul li {
     background: none repeat scroll 0 0 gold;
-    border: 1px solid brown;
+    border: 1px solid activeborder;
     color: #333333;
     float: none;
     list-style: decimal-leading-zero inside none;
     margin: 6px 1px;
+    padding: 0 0.1em;
+}
+#cont1.mbc_container ul li ul li {
+    background: none repeat scroll 0 0 activeborder;
+    border: 0 none;
+    margin: 0;
 }
 #cont1.mbc_container ul li.checked {
     background: none repeat scroll 0 0 LightGreen;
@@ -1542,146 +1776,153 @@ td.serendipityAdminContentDashboard {
     text-decoration: none;
     font-style: italic;
 }
-
+#osx-modal-data.content-box,
+#mbc_wrapper .mbc_container .content-box {
+	-moz-column-gap: 1.6em;  
+	-webkit-column-gap: 1.6em; 
+	column-gap: 1.6em; /* Specify a space gap between the columns */
+	-moz-column-rule: thin dotted black;
+	-webkit-column-rule: thin dotted black;
+	column-rule: thin dotted black; /* Specify the width, style and color of the rule between columns */
+    -webkit-columns: 100px 3;
+    -moz-columns: 100px 3;
+    columns: 100px 3; /* Specify the width and number of columns */
+    border: 10px solid #DFDFDF;
+    -moz-box-shadow: 0 3px 10px rgba(0, 0, 0, 0.5);
+    -webkit-box-shadow: 0 3px 10px rgba(0, 0, 0, 0.5);
+    -o-box-shadow: 0 3px 10px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.5);
+    margin: 1em;
+    padding: 0.2em 0.5em;
+    text-align: justify;
+}
+#osx-modal-data.content-box.guide,
+#mbc_wrapper .mbc_container .content-box.guide {
+    border: 10px solid lightslategray;
+}
+#mbc_wrapper .mbc_container .autojs.content-box.guide {
+    margin: 0;
+}
 /**
  * Backend Container #cont2 both skins - Core styles 
  */
- 
- /* reset font-size: 102%; in modal container views */
-#cont2 * { font-size: 100%; }
-#cont2 #backend_sp_simple { font-size: small; } /* = ~ 84%; */
-
-/*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
-#cont2 #edit_entry_title label,
-#cont2 #edit_entry_metadata label,
-#cont2 #filter_comments label {
-    display: inline-block;
-    width: 15%;
+ /* serendipity_admin.css filter type corrections */
+#cont2 input[type="email"], #cont2 input[type="date"], #cont2 input[type="datetime"], #cont2 input[type="datetime-local"], 
+#cont2 input[type="month"], #cont2 input[type="number"], #cont2 input[type="password"], 
+#cont2 input[type="search"], #cont2 input[type="time"], #cont2 input[type="tel"], 
+#cont2 input[type="week"], #cont2 input[type="text"], #cont2 input[type="url"], 
+#dashboard  textarea, #cont2 textarea, 
+#dashboard  select, #cont2 select {
+	padding: 0;
 }
-
-#cont2 #sort_entries .form_select label,
-#cont2 #filter_entries .form_select label,
-#cont2 #filter_entries .form_field label {
-    display: inline-block;
-    width: 20%;
-}
-
-#cont2 #sort_entries .form_select select,
-#cont2 #filter_entries .form_select select,
-#cont2 #filter_entries .form_field input { width: 79%; }
-
-#cont2 #edit_entry_title input { width: 84%; }
-
-#cont2 #edit_entry_metadata input,
-#cont2 #edit_entry_metadata select,
-#cont2 #filter_comments input,
-#cont2 #filter_comments select { width: 84%; }
-
-#cont2 .editor_toolbar input { margin: 0 .25em .75em 0; }
-
-#cont2 .editor_toolbar input,
-#cont2 .comment_data dt { min-width: 4.25em; }
-
-#cont2 #entries_list .form_check { float: left; }
-
-#cont2 #entries_list h3 {
-    font-size: 1em;
-    line-height: 1.5;
-}
-
-#cont2 #entries_list h3,
-#cont2 #entries_list .entry_status,
-#cont2 #entries_list .entry_meta {
-    float : left;
-    margin: .75em 1em .75em 0;
-}
-
-#cont2 #entries_list .actions {
-    float: right;
-    margin: .75em 0;
-}
-/******************************************************/
-#cont2 textarea, #cont2 select[size], #cont2 select[multiple] {
-    height: auto;
-}
-/*#cont2 select {
-    background-image: url("data:image/gif;base64,R0lGODlhDQAEAIAAAAAAAP8A/yH5BAEHAAEALAAAAAANAAQAAAILhA+hG5jMDpxvhgIAOw==");
-    background-position: right center;
-    background-repeat: no-repeat;
-    padding-right: 20px;
-}*/
-#cont2 select[size], #cont2 select[multiple] {
-    background-image: none;
-    padding: 0;
-}
-#cont2 textarea {
-    min-height: 40px;
-    overflow: auto;
-    resize: vertical;
-    width: 100%;
-}
-#cont2 optgroup {
-    color: #222222;
-    font-style: normal;
-    font-weight: normal;
-}
-#cont2 label, .standout, #cont2 legend > span {
-    font-weight: bold;
-}
-#cont2 .block_level, #cont2 .form_multiselect label, #cont2 label > span {
-    display: block;
-}
-#cont2 label > span, #cont2 input[type="checkbox"] + label, #cont2 input[type="radio"] + label, #cont2 .form_check label {
-    font-weight: normal;
-}
-#cont2 input[type="checkbox"] {
-    margin-right: 0.4em;
-}
-#cont2 .form_radio {
-    float: left;
-    margin-right: 1em;
-}
-#cont2 .form_buttons input {
-    margin-bottom: 1.5em;
-    margin-top: 1.5em;
-}
-#cont2 .form_field, #cont2 .form_area, #cont2 .form_check, #cont2 .form_radio, #cont2 .form_select, #cont2 .form_multiselect {
-    margin-bottom: 0.75em;
-    margin-top: 0.75em;
-}
-/*** add end ****/
-
-#cont2.black a,
-#cont1.black a {
+#mbc_wrapper .black a {
     color: lightblue;
 }
-#cont2.mbc_container a:hover, #cont2.black a:hover,
-#cont1.mbc_container a:hover, #cont1.black a:hover {
+#mbc_wrapper .mbc_container a:hover, #mbc_wrapper .black a:hover {
     color: #EB4E00;
     text-decoration: underline;
 }
-/* Backend Container Box */
+
+/* old backend with new stylesheet needs replace for absolute */
+#cont2.mbc_container .pluginmanager_grablet,
+#cont2.mbc_container .pluginmanager_configure {
+    position: static;
+}
+#cont2 .editor_toolbar {
+    float: right;
+    margin-top: 0.25em;
+}
+#cont2 #edit_entry_category > div a, #cont2 #edit_entry_category > div label {
+    display: inline-block;
+}
+#cont2 #edit_entry_category {
+    margin: 0.75em 0.25em;
+}
+/* temporary: do not display the dashboard in modal container - if form submits fall back to serendipity_admin.php without messages*/
+#cont2 article#dashboard {
+    display: none;
+}
+/* Backend Container Box
 #cont2 ul li {
     display: inline-block;
     float: none;
+} */
+#cont2 article.media_file.media_enclose_no > header {
+    background: inherit;
+    border: 0 none;
+    margin: 0;
+    max-width: inherit;
+    padding: 0;
+}
+#cont2.mbc_container.black > .mbc_content .media_pane article > header {
+    background: inherit;
+    margin: 0;
+    max-width: inherit;
+}
+#cont2.mbc_container.black > .mbc_content .media_pane footer ul li {
+    color: background;
+}
+#cont2 #template_select ul.plainList.clearfix > li, 
+#cont2 ul#entries_list li {
+    display: inline;
+}
+#cont2 ul.media_file_meta.plainList > li {
+    display: block;
+}
+/* disable #cont2 ul li rule, while in new backend */
+#cont2 .pluginmanager_container ul li  {
+    display: inherit;
+    float: inherit;
+}
+#cont2 #configuration_footer {
+    height: 0;
+    line-height: 0;
+    padding: 0;
 }
 #cont2 table span {
     color: inherit !important;
     font-size: 8.7pt !important;
 }
+#cont2.mbc_container .mbc_content > footer#colophon,
+#cont2.mbc_container .backend_entry_container > aside#sidebar_right, 
+#cont2.mbc_container .backend_entry_container > nav#main_menu {
+    display: none; /* disable the sidebar */
+    visibility: hidden;
+}
 #cont2 .backend_entry_container table:last-of-type div:not(.serendipity_admin_list_item) tr:last-child {
     height: 4em; /* commonly a submit button or a note - i.e the last child in check (new) available plugins for update - section n plugins available */
 }
-#cont2 #serendipity_plugin_config {margin:0;}
+#cont2 #serendipity_plugin_config { margin:0; }
+
+/*#cont2.mbc_container .mbc_content > #spinLoadProgress {
+    background: none repeat scroll 0 0 #666666;
+    height: 100%;
+    opacity: 0.5;
+    overflow: hidden;
+    position: absolute;
+    text-align: center;
+    vertical-align: middle;
+    width: 100%;
+    z-index: 10;
+}<div id="loading" class="tab-pane fade active in"><i class="icon-load animate-spin"></i> Loading...</div>
+<div style="display: block;" id="spinLoadProgress" role="status" aria-hidden="false">
+     <span id="loaderPanel"><img style="margin-top: 30%;" alt="" src="/Content/images\roller.gif"></span>
+</div>
+*/
+/*
 #cont2.mbc_container > .mbc_content .freetagMenu,
 #cont2.mbc_container > .mbc_content #bayesNav, 
 #cont2.mbc_container > .mbc_content #serendipityStaticpagesNav {
-    font-family: 'Open Sans', sans-serif; /* or font-family: 'Droid Sans', sans-serif; */
+    font-family: 'Open Sans', sans-serif;
     font-size: smaller;
+}*/
+#cont2.mbc_container > .mbc_content .freetagMenu {
+    line-height: 1.8;
 }
+/*
 #cont2.mbc_container .backend_entry_container {
-    /*font-size: 108%;*/
-}
+    font-size: 108%;
+}*/
 #cont2.mbc_container input.serendipityPrettyButton, #cont2.mbc_container a.serendipityPrettyButton {
     background: url("images/bp_admin_prettybutton.png") repeat scroll 0 50% #055BC6;
     border: 1px solid #055BC6;
@@ -1690,20 +1931,34 @@ td.serendipityAdminContentDashboard {
     text-decoration: none;
     color: white;
 }
-#cont2.mbc_container input, #cont2.mbc_container select, #cont2.mbc_container form fieldset, #cont2.mbc_container a.serendipityPrettyButton {
-    font-size: small;/*84%;*/
-}
-#cont2.black .serendipityAdminMsgError, #cont2.black .serendipityAdminMsgNotice, #cont2.black .serendipityAdminMsgNote,
-#cont2 .mbc_content > .backend_entry_container .serendipityAdminMsgSuccess {
+/*#cont2.mbc_container input, #cont2.mbc_container select, #cont2.mbc_container form fieldset, #cont2.mbc_container a.serendipityPrettyButton {
+    font-size: 84%;
+}*/
+#cont2.black .msg_error, #cont2.black .msg_notice, #cont2.black .msg_dialogue,
+#cont2 .mbc_content > .backend_entry_container .msg_success {
     border: 1px solid #A0A0A0;
     display: inline-block;
     background: none repeat scroll 0 0 #CDD;
     padding: 0.5em;
 }
-#cont2.black .serendipityAdminMsgError a, #cont2.black .serendipityAdminMsgNotice a, #cont2.black .serendipityAdminMsgNote a,
-#cont2 .mbc_content > .backend_entry_container .serendipityAdminMsgSuccess a {
+#cont2.black .msg_error a, #cont2.black .msg_notice a, #cont2.black .msg_dialogue a,
+#cont2 .mbc_content > .backend_entry_container .msg_success a {
     color: blue;
 }
+#cont2 #entry_skip > input {
+    margin-right: 1em;
+}
+#cont2 ul.media_file_actions.actions.plainList.clearfix {
+    margin: 1em 0 0;
+}
+#cont2 .media_file.odd > header, #cont2 .media_file.even > header {
+    background: inherit;
+    border: 0 none;
+    margin: 0;
+    max-width: inherit;
+    padding: 0;
+}
+
 /* administration -> configuration */
 #cont2 .mbc_content > .backend_entry_container  form table {
     margin: 0.5em 0;
@@ -1716,49 +1971,27 @@ td.serendipityAdminContentDashboard {
     padding: 3px;
 }
 
-/*#cont2.mbc_container button, #cont2.mbc_container input, #cont2.mbc_container select, #cont2.mbc_container textarea {
-    font-family: inherit;
-}*/
-
-/* Backend Container #cont2 Both Skins - Core styles */
-/*#cont2.black .backend_entry_container tbody {
-    color: lightgray;
-}*/
 #cont2.black .backend_entry_container #serendipityStaticpagesTableHeader,
 #cont2.black .backend_entry_container #serendipityStaticpagesTable0,
 #cont2.black .backend_entry_container #serendipityStaticpagesTable1 {
     color: maroon;
 }
 #cont2.black .backend_entry_container legend {
-    background-color: InactiveCaptionText; /*transparent;*/
+    background-color: InactiveCaptionText;
 }
 #cont2.black .customfield_name {
     background-color: AppWorkspace;
 }
 
 #cont2.black textarea, #cont2.black  input:not([type="submit"]), #cont2.black select {
-    background-color: lightgray; /*whitesmoke;*/
+    background-color: lightgray;
 }
 #cont2.black  input[type="image"] {
     background-color: transparent; /* we can not use multiple attributes in :not()*/
 }
-/*but this fiddle does work - hmm
-<input  type="text" />
-<input  type="radio" />
-<input  type="checkbox" />
-<input type="submit" value="go" />
-<input type="image" src="" />
-input:not([type="submit"]):not([type="image"]) {
-    display: none;
-}*/
 #cont2.black .serendipityEntryEdit span {
     color: inherit !important; /* must override .serendipityAdminContent span */
 }
-/*
-#cont2.black input.serendipityPrettyButton {
-    color: white;
-}
-*/
 #cont2.black form > div, #cont2.black .serendipity_admin_list_item_even, #cont2.black .serendipity_admin_list_item_uneven {
     background: none repeat scroll 0 0 transparent;
 }
@@ -1771,12 +2004,13 @@ input:not([type="submit"]):not([type="image"]) {
 #cont2.black #dashboard #upgrade_notice a:visited, #cont2.black #dashboard #cell_left h3 a:visited, #cont2.black #dashboard .comments_header label a:visited {
     color: inherit;
 }
-#cont2.black .serendipityAdminMsgNotice, #cont2.black .serendipityAdminMsgNote {
-/*	background: none repeat scroll 0 0 #98B8B6;
-	padding: 0.5em; see #CDD ~1576*/
-	color: #C70000 !important;
+#cont2.black .msg_notice, #cont2.black .msg_dialogue  {
+    color: #C70000 !important;
 }
-
+/* entries overview - inherits L162 */
+#cont2 .plainList li > h3 {
+    margin: 0.75em 0.2em 0;
+}
 
 /*******************************************************
  * Backend Container #cont2 Black Skin - Additional Plugins styles
@@ -1789,12 +2023,6 @@ input:not([type="submit"]):not([type="image"]) {
 #cont2 .backend_entry_container > div {
     margin-top: 2px;
 }
-/*#cont2 #serendipityStaticpagesNav ul {
-    border-bottom: 1px solid #A0A0A0;
-}
-#cont2 #serendipityStaticpagesNav ul li a {
-    border-top: 0 none;
-}*/
 #cont2 #serendipityStaticpagesNav ul {
     margin: 0 0 8px 0; /* left 0 with following background, else -10px */
     border-bottom: 0px solid transparent;
@@ -1816,13 +2044,13 @@ input:not([type="submit"]):not([type="image"]) {
 }
 #cont2 #serendipityStaticpagesNav ul li a {
     border: 0 none;
-	color: black;
+    color: black;
 }
 #cont2.mbc_container .default_staticpage .sect_basic, 
 #cont2.mbc_container .default_staticpage .sect_struct,
 #cont2.mbc_container .default_staticpage .sect_meta,
 #cont2.mbc_container .default_staticpage .sect_opt {
-    font-size: 100%; /*8.4pt; new backend */
+    font-size: 100%;
 }
 #cont2.mbc_container #backend_sp_simple nobr {
     display: inline-block;
@@ -1853,13 +2081,13 @@ input:not([type="submit"]):not([type="image"]) {
 #cont2.black div.backend_guestbook_menu,
 #cont2.black div.backend_guestbook_head,
 #cont2.black div.backend_guestbook_nav {
-	background: none repeat scroll 0 0 transparent;
+    background: none repeat scroll 0 0 transparent;
 }
 #cont2.black #backend_guestbook_wrapper .guestbook_entrytop {
     background: none repeat scroll 0 0 #2B3844;
 }
 #cont2.black #backend_verify_wrapper div.backend_verify_menu, #cont2.black #backend_verify_wrapper div.backend_verify_nav {
-	background-color: inherit;
+    background-color: inherit;
 }
 
 /* Freetag Plugins styles */
@@ -1880,6 +2108,181 @@ input:not([type="submit"]):not([type="image"]) {
     vertical-align: middle;
 }
 
+/*    COMMENT ANSWER WINDOW BOX       */
+#serendipityAdminFrame table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+#serendipityAdminFrame p {
+    -moz-hyphens: auto;
+}
+#serendipityCommentFormC button, input[type="button"], #serendipityCommentFormC input[type="reset"], input[type="submit"] {
+    cursor: pointer;
+}
+#serendipityCommentFormC button, #serendipityCommentFormC input, #serendipityCommentFormC select, #serendipityCommentFormC textarea {
+    color: #222222;
+    font-family: Helvetica,Arial,sans-serif;
+    margin: 0;
+    vertical-align: baseline;
+}
+#serendipityCommentFormC button, #serendipityCommentFormC input {
+    line-height: normal;
+}
+#serendipityCommentFormC input, #serendipityCommentFormC textarea {
+    padding: 3px;
+}
+#serendipityCommentFormC .form_field {
+    margin-bottom: 0.5em;
+}
+#serendipityCommentFormC form, #serendipityCommentFormC figure {
+    margin: 0;
+}
+#serendipityCommentFormC .nocomments #serendipityCommentFormC .manage_comments {
+    color: #666666;
+    line-height: 1.8462;
+}
+#serendipityCommentFormC .nocomments {
+    font-style: italic;
+}
+#serendipityCommentFormC .block_level, 
+#serendipityCommentFormC fieldset, 
+#serendipityCommentFormC .form_field label, 
+#serendipityCommentFormC .form_tarea label, 
+#serendipityCommentFormC .serendipity_comment_captcha .captcha, 
+#serendipityCommentFormC .serendipity_comment_captcha label {
+    display: block;
+}
+#serendipityCommentFormC label {
+    cursor: pointer;
+}
+#serendipityCommentFormC #serendipity_comment input[type="text"], #serendipityCommentFormC #serendipity_comment input[type="email"], #serendipityCommentFormC #serendipity_comment input[type="url"] {
+    max-width: 20em;
+    width: 95%;
+}
+#serendipityCommentFormC input[type="text"], #serendipityCommentFormC input[type="search"], #serendipityCommentFormC input[type="email"], #serendipityCommentFormC input[type="url"], #serendipityCommentFormC textarea {
+    border: 1px solid #AAAAAA;
+    border-radius: 3px 3px 3px 3px;
+    color: #666666;
+}
+#serendipityCommentFormC  #serendipity_replyTo,  {
+    margin: 0;
+    max-width: 20.5em;
+}
+#serendipityCommentFormC #serendipity_replyTo, #serendipity_comment textarea {
+    width: 95%;
+}
+#serendipityCommentFormC #c, #serendipityCommentFormC .serendipity_commentDirection {
+    background-color: #EEEEEE;
+    border: 1px solid #DDDDDD;
+    border-radius: 3px 3px 3px 3px;
+}
+#serendipityCommentFormC .serendipity_commentDirection {
+    color: #222222;
+    font-size: 0.8125em;
+    line-height: 1.8462;
+    margin: 0 0 1.2308em;
+    padding: 0.3846em;
+    max-width: 36.75em;
+}
+/* comment answer end */
+
+
+/* temporary tests with new backend .plainList
+#event_col, #event_col li > a, #event_col li > h5 {
+#cont2 ol.pluginmanager_container  li > div,
+#cont2 ol.pluginmanager_container  li > a,
+#cont2 ol.pluginmanager_container  li > h5 {
+    display: inline-block;
+}
+#pluginlist_sidebar li h5, #event_col li > h5 {
+    float: right;*/
+    /*padding: 0.8em 0.5em 0 0; was fixed with YL-Jan-3/4 fixes*/
+/*}*/
+.pluginmanager_container > li {
+    list-style: none outside none;
+}
+.pagination.plainList > li {
+    margin: 0 auto;
+}
+/*need extra #cont2 here to overrule #cont2 ul li L1670 */
+#cont2 .pagination.plainList > li:first-child,
+.pagination.plainList > li:first-child {
+    float: left;
+}
+/*need extra #cont2 here to overrule #cont2 ul li L1670 */
+#cont2 .pagination.plainList > li:last-child,
+.pagination.plainList > li:last-child {
+    float: right;
+}
+#cont2 .media_pane .pagination.plainList:first-child, 
+.media_pane .pagination.plainList:first-child {
+    margin: 0 0 1em;
+}
+
+
+/*
+ * SimpleModal Basic Modal Dialog
+ * http://simplemodal.com
+ *
+ * Copyright (c) 2013 Eric Martin - http://ericmmartin.com
+ *
+ * Licensed under the MIT license:
+ *   http://www.opensource.org/licenses/mit-license.php
+ */
+
+#info-help {
+    display: inline-block;
+    float: right;
+}
+#info-help-content { display:none; }
+#info-help-content > h3 {
+    margin: 0.25em 0;
+}
+#info-help-content > p {
+    font-size: small;
+    margin-bottom: 0.25em;
+    margin-top: 0.25em;
+}
+/* Overlay */
+#simplemodal-overlay {background-color:#000;}
+
+/* Container */
+#simplemodal-container {height: 30%; max-height:360px; width:96%; max-width:600px; color:#bbb; background-color:#333; border:0.4em solid #444; padding:1.2em;}
+#simplemodal-container .simplemodal-data {padding:8px;}
+#simplemodal-container code {background:#141414; border-left:0.3em solid #65B43D; color:#bbb; display:block; font-size:12px; margin-bottom:1.2em; padding:0.4em 0.6em 0.6em;}
+#simplemodal-container a {color:#ddd;}
+#simplemodal-container a.modalCloseImg {background:url(../img/x.png) no-repeat; width:25px; height:29px; display:inline; z-index:3200; position:absolute; top:-15px; right:-16px; cursor:pointer;}
+#simplemodal-container h3 {color:#84b8d9;}
+
+#osx-modal-content, #osx-modal-data {display:none;}
+
+/* Overlay */
+#osx-overlay {background-color:#000;}
+
+/* Container */
+#osx-container {background-color:#eee; color:#000; font: 16px/24px "Lucida Grande",Arial,sans-serif; width:96%; max-width:600px; max-height:440px; overflow: auto; padding-bottom:0.4em; -moz-border-radius-bottomleft:0.6em; -webkit-border-bottom-left-radius:0.6em; -moz-border-radius-bottomright:0.6em; -webkit-border-bottom-right-radius:0.6em; border-radius:0 0 0.6em 0.6em; -moz-box-shadow:0 0 6.4em #000; -webkit-box-shadow:0 0 6.4em #000; box-shadow:0 0 6.4em #000;}
+#osx-container a {color:#ddd;}
+#osx-container #osx-modal-title {color:#000; background-color:#ddd; border-bottom:1px solid #ccc; font-weight:bold; padding:0.6em 0.8em; text-shadow:0 1px 0 #f4f4f4;}
+#osx-container .close {display:none; position:absolute; right:0; top:0;}
+#osx-container .close a {display:block; color:#777; font-weight:bold; padding:0.6em 1.2em 0; text-decoration:none; text-shadow:0 1px 0 #f4f4f4;}
+#osx-container .close a:hover {color:#000;}
+#osx-container #osx-modal-data {font-size:14px; padding:0.6em 1.2em;}
+#osx-container h2 {margin:1em 0 0.6em;}
+#osx-container p {margin-bottom:1em;}
+#osx-container span {color:#777;}
+
+/* simple Modal additions */
+#osx-modal.help [class^="icon-"]:before, #osx-modal.help [class*=" icon-"]:before,
+#spl-modal.help [class^="icon-"]:before, #spl-modal.help [class*=" icon-"]:before {
+    color:darkred;
+}
+#osx-container #osx-modal-data.content-box.guide {
+    /*font-size: smaller;*/
+    padding: 0.2em 0.5em;
+}
+#osx-modal-data.content-box.guide > p:first-child {
+    margin-top: 0;
+}
 /*----------------------------------------------
    Responsive Design
    The SelectBar Mode works w/o horizontal scrollbar in Small tablet portrait Mode (600x800) and up
@@ -1961,6 +2364,9 @@ input:not([type="submit"]):not([type="image"]) {
     #dashboard #nav-navigation-select #navbar    {
         display: table-caption;
     }
+    #dashboard #select-form-navigation.select-navigation {
+        width: auto;
+    }
     #dashboard #layout .meta-box {
         min-height: 0;
         width: inherit;
@@ -1988,11 +2394,45 @@ input:not([type="submit"]):not([type="image"]) {
         padding-bottom: inherit;
     }
 }
+/* Netbooks only
+@media (max-width: 1024px) {
+	#cont1.container,#cont2.container { width: 88%; }
+} *//**
+@media (min-width: 560px) and (max-width: 800px) {
+	#cont1.container,#cont2.container { width: 80%; } /* range 448px to 640px *//**
+} 
+@media (min-width: 450px) and (max-width: 560px) {
+	#cont1.container,#cont2.container { width: 88%; } /* range 396px to 492.8px *//**
+} */
+@media (min-width: 975px) and (max-width: 1150px) {
+	#mbc_wrapper .container.mbc_container { width: 68%; } /* range 663px to 782px */
+} 
+@media (min-width: 800px) and (max-width: 975px) {
+	#mbc_wrapper .container.mbc_container { width: 72%; } /* range 576px to 702px */
+} 
+@media (min-width: 625px) and (max-width: 800px) {
+	#mbc_wrapper .container.mbc_container { width: 80%; } /* range 500px to 640px */
+} 
+@media (min-width: 450px) and (max-width: 625px) {
+	#mbc_wrapper .container.mbc_container { width: 88%; } /* range 396px to 550px */
+} 
+/* these are ok, but upper min to max in percent seems better...
+@media (max-width: 800px) {
+	#cont1.container,#cont2.container { width: 560px; }
+}
+@media (max-width: 560px) {
+	#cont1.container,#cont2.container { width: 420px; }
+}
+*/
 /* mobile portrait only */
 @media (max-width: 450px) {
     #dashboard #nav-embed-iconset {
         margin: 0 10%;
-    }/**/
+    }
+    #dashboard #cell_left, #dashboard #cell_right {
+        padding: 0;
+    }
+	#mbc_wrapper .container.mbc_container { width: 96%; }
 }
 /* screen only */
 @media (min-width: 1024px) {
@@ -2003,7 +2443,7 @@ input:not([type="submit"]):not([type="image"]) {
 /* screen only */
 @media (min-width: 1200px) {
     #dashboard #nav-welcome {
-        width: 62%;
+        width: 63%;
     }
 }
 

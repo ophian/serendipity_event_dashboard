@@ -1,28 +1,34 @@
-/*******************************************************************************
- jquery.mb.components
- Copyright (c) 2001-2012. Matteo Bicocchi (Pupunzi); Open lab srl, Firenze - Italy
- email: mbicocchi@open-lab.com
- site: http://pupunzi.com
-
- Licences: MIT, GPL
- http://www.opensource.org/licenses/mit-license.php
- http://www.gnu.org/licenses/gpl.html
- ******************************************************************************/
+/*
+ * ******************************************************************************
+ *  jquery.mb.components
+ *  file: jquery.mb.containerPlus.js
+ *
+ *  Copyright (c) 2001-2013. Matteo Bicocchi (Pupunzi);
+ *  Open lab srl, Firenze - Italy
+ *  email: matteo@open-lab.com
+ *  site: 	http://pupunzi.com
+ *  blog:	http://pupunzi.open-lab.com
+ * 	http://open-lab.com
+ *
+ *  Licences: MIT, GPL
+ *  http://www.opensource.org/licenses/mit-license.php
+ *  http://www.gnu.org/licenses/gpl.html
+ *
+ *  last modified: 18/01/13 0.42
+ *  *****************************************************************************
+ */
 
 /*
  * jQuery.mb.components: mb.container+
  * version: - 3.0
- * © 2001 - 2012 Matteo Bicocchi (pupunzi), Open Lab
  */
-
 
 (function($){
 
 	$.cMethods={};
-
 	$.containerize={
 		author:"Matteo Bicocchi",
-		version:"3.0",
+		version:"3.1",
 		defaults:{
 			containment:"document",
 			elementsPath:"elements/",
@@ -61,7 +67,7 @@
 				return false;
 			}
 
-			$(window).bind("resize",function(){
+			$(window).on("resize",function(){
 				$(".mbc_container").each(function(){
 					var el = this;
 					el.$.containerize("windowResize");
@@ -105,11 +111,11 @@
 			el.toolBar = toolBar;
 			el.buttonBar = buttonBar;
 
-			el.$.bind("mousedown",function(){
+			el.$.on("mousedown",function(){
 				$(this).mb_bringToFront(el.opt.zIndexContext);
 			});
 
-			el.content.bind("touchmove",function(e){
+			el.content.on("touchmove",function(e){
 				e.originalEvent.stopPropagation();
 			});
 
@@ -290,7 +296,7 @@
 				$.cMethods.collapse = "collapse";
 				var el = this;
 
-				el.containerTitle.bind("dblclick",function(){
+				el.containerTitle.on("dblclick",function(){
 
 					if(!el.isCollapsed){
 						el.h= el.$.outerHeight();
@@ -474,7 +480,7 @@
 					if(typeof el.opt.onIconize === "function")
 						el.opt.onIconize(el);
 
-					el.iconElement.bind("click",function(){
+					el.iconElement.on("click",function(){
 						$(this).remove();
 						el.$.containerize("restoreView",true);
 						el.$.mb_bringToFront(el.opt.zIndexContext);
@@ -491,7 +497,8 @@
 				if(!el.fullscreen){
 					if(el.$.data("resize"))
 						el.$.resizable("disable");
-					el.$.draggable("disable");
+					if(el.$.data("drag"))
+					    el.$.draggable("disable");
 					el.oWidth= el.$.outerWidth();
 					el.oHeight= el.$.outerHeight();
 					el.oTop= el.$.position().top;
@@ -518,37 +525,37 @@
 				$.cMethods.rememberme = "rememberme";
 				var el = this;
 
-				el.$.bind("resized",function(){
+				el.$.on("resized",function(){
 					$.mbCookie.set(el.id+"_w", el.$.outerWidth(),7);
 					$.mbCookie.set(el.id+"_h", el.$.outerHeight(),7);
 				});
 
-				el.$.bind("dragged",function(){
+				el.$.on("dragged",function(){
 					$.mbCookie.set(el.id+"_t", el.$.css("top"),7);
 					$.mbCookie.set(el.id+"_l", el.$.css("left"),7);
 				});
 
-				el.$.bind("iconized",function(e){
+				el.$.on("iconized",function(e){
 					$.mbCookie.set(el.id+"_iconized", e.dock,7);
 				});
 
-				el.$.bind("closed",function(){
+				el.$.on("closed",function(){
 					$.mbCookie.set(el.id+"_closed", true,7);
 					$.mbCookie.remove(el.id+"_opened");
 				});
 
-				el.$.bind("opened",function(){
+				el.$.on("opened",function(){
 					$.mbCookie.set(el.id+"_opened", true,7);
 					$.mbCookie.remove(el.id+"_closed");
 
 				});
 
-				el.$.bind("centeredOnWindow",function(){
+				el.$.on("centeredOnWindow",function(){
 					$.mbCookie.set(el.id+"_t", el.$.css("top"),7);
 					$.mbCookie.set(el.id+"_l", el.$.css("left"),7);
 				});
 
-				el.$.bind("restored",function(){
+				el.$.on("restored",function(){
 					$.mbCookie.remove(el.id+"_iconized");
 					$.mbCookie.remove(el.id+"_closed");
 				});
@@ -661,7 +668,7 @@
 
 	$.fn.addTouch = function(){
 		this.each(function(i,el){
-			$(el).bind('touchstart touchmove touchend touchcancel',function(){
+			$(el).on('touchstart touchmove touchend touchcancel',function(){
 				//we pass the original event object because the jQuery event
 				//object is normalized to w3c specs and does not provide the TouchList
 				handleTouch(event);

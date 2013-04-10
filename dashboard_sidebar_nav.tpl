@@ -1,10 +1,10 @@
-{*** dashboard_sidebar_nav.tpl - last modified: 2012-09-03 ***}
+{*** dashboard_sidebar_nav.tpl - last modified: 2012-12-16 ***}
 {*** NAVIGATION-MENU START ***}
 
         <div id="navbar" class="dashboard_navbar">
             <h2 class="visuallyhidden">Navigation</h2>
 
-            <ul class="clearfix">
+            <ul class="clearfix horizontal">
                 <li>
                 {*** ENTRY LINKS START ***}
                 {if 'adminEntries'|checkPermission OR 'adminEntriesPlugins'|checkPermission}
@@ -65,7 +65,7 @@
                     <ul class="serendipitySideBarMenuAppearance">
                         <li id="menu-a00" class="serendipitySideBarMenuLinkStart"><a href="">{$CONST.NAV_SELECT}</a></li>
                         {if 'adminTemplates'|checkPermission}
-                        <li id="menu-a01" class="serendipitySideBarMenuLink serendipitySideBarMenuAppearanceLinks"><a href="serendipity_admin.php?serendipity[adminModule]=templates">{$CONST.MANAGE_STYLES}</a></li>
+                        <li id="menu-a01" class="serendipitySideBarMenuLink serendipitySideBarMenuAppearanceLinks"><a href="serendipity_admin.php?serendipity[adminModule]=templates&amp;serendipity[skipTemplate]=true">{$CONST.MANAGE_STYLES}</a></li>
                         {/if}
                         {if 'adminPlugins'|checkPermission}
                         <li id="menu-a02" class="serendipitySideBarMenuLink serendipitySideBarMenuAppearanceLinks"><a href="serendipity_admin.php?serendipity[adminModule]=plugins">{$CONST.CONFIGURE_PLUGINS}</a></li>

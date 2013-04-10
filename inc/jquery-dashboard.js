@@ -7,8 +7,13 @@ window.log = function f(){ log.history = log.history || []; log.history.push(arg
 (function(){try{console.log();return window.console;}catch(a){return (window.console={});}}());
 // Attention: do not use paulirish log() method, as making our events behave different
 
-// jquery-dashboard.js - last-modified: 2012-12-14
+// jquery-dashboard.js - last-modified: 2013-04-10
 
+if (typeof String.prototype.startsWith != 'function') {
+  String.prototype.startsWith = function (str){
+    return this.slice(0, str.length) == str;
+  };
+}
 /**
  *  This is a simple prototype plugin which converts 'a,form,select,button' targets dynamically into AJAX requests
  **/
@@ -17,12 +22,17 @@ $.fn.ajax_submit = function(degurl) {
     var $thisscope = $('#cont2 .mbc_content'); // not 'this' or 'document.body' - $thisscope can't be a global var, as it its build on load later on
     // create the url
     var url = $(this).attr('action') || $(this).attr('href') || degurl;
-    var url = url +(url.search.length ? '&' : '?')+'serendipity[noHeading]=true'; // reduced as the rest is done in dashboards backend_configure hook
+    if (typeof url === 'undefined') { 
+        var url = ''; 
+    } else {
+        var url = url +(url.search.length ? '&' : '?')+'serendipity[noHeading]=true'; // reduced, as the rest is done in dashboards backend_configure hook
+    }
+    var url = url.replace('.html&','.html?'); // tests
     var url = url.replace('.php&','.php?');
     var url = url.replace('?&','?');
     // create the method
     var method = "" + $(this).attr('method'); // fasted method to stringify is ""+
-    var method = (method.toUpperCase() == 'POST') ? 'POST' : 'GET';
+    var method = (method.toUpperCase() == 'POST' || method == '' || method == 'undefined') ? 'POST' : 'GET';
     // append submit button value to query string, which is left out by default $(this).serialize()
     if ($(this).attr('action')) {
         var $itsu  = $(this).find('input[type="submit"]');
@@ -52,26 +62,38 @@ $.fn.ajax_submit = function(degurl) {
         context: $thisscope,
         success: function(data, status, xhr) {
             // return cut data from/to into container; cut is starting in front of expression.
-            resultdata = containersCut('<td class="serendipityAdminContent">', '</td>', data);
+            var hasString = '<td class="serendipityAdminContent">';
+            if (data.lastIndexOf(hasString) != -1) {
+                resultdata = containersCut('<td class="serendipityAdminContent">', '</td>', data);
+            } else {
+                resultdata = containersCut('<div id="content" class="clearfix">', '</div>', data);
+            }
             if (callback) {
                 if (typeof callback == 'function') { // make sure the callback is a function
                     callback.call(this, resultdata, url); // brings the scope to the callback
                 } else {
                     rebuildContainer.call(this, resultdata, url); // if callback is not willing to be a function, try with our real function name
                 }
-            }
+            }            
         },
         error: function(xhr, status, error) {
             console.log(error);
-        }
+        },
+        complete: function( xhr ) { loadSpin('OFF'); } //Hide spinner
+        /**
+        .success() gets called only, if the server responds with a 200 OK HTTP header
+        .complete() will always get called, no matter if the ajax call was successful or not - even after error returns
+        and that .complete() will get called after .success() gets called
+        http://api.jquery.com/ajaxComplete/
+        http://api.jquery.com/ajaxSuccess/
+        **/
    });
 };
 
 $.fn.autoAjax = function(delegatedUrl) {
-    $(this).ajax_submit(delegatedUrl); //and then?
+    $(this).ajax_submit(delegatedUrl); // and then?
     return false;
 };
-
 
 /**
  * Start main functions on document.ready = load in DOM
@@ -87,11 +109,12 @@ jQuery(document).ready(function($) {
     var c_text     = ['#info, #draft, #future, #update, #plugup'];
     var t_text     = ['#comapp, #compen, #feed'];
     var t_form     = ['#formMultiDeleteApp, #formMultiDeletePen'];
-    var c_blocks   = ['#draft, #future, #plugup, #comapp, #compen, #info'];
+    var c_blocks   = ['#draft, #future, #plugup, #comapp, #compen, #info, #test'];
 
     // start object selectors
     var $button    = $('#menu-fadenav');
-    var $sidebar   = $('#serendipitySideBar');
+    var $sidebar   = $('#main_menu');
+    //var $sidebar   = $('#serendipitySideBar'); // 1.6.x
     var $selectbar = $('#nav-navigation-select');
 
     // storage containers
@@ -139,7 +162,7 @@ jQuery(document).ready(function($) {
                     var newid         = 'LS-'+storedMeta+'-'+storedSortId; // if storedMeta not set global, this will be the obj of changing key instead, eg 's9y-plugup,sort_3' and the -sort_3-new
                     var $sortthis     = $('#'+storedBlockId); // even faster as singulary node, no need for add #layout
 
-                    // replace the sort id by newsortid, which must depend on '#layout > li.flipflop' count, do not use LS- prefix while using toggle cookie return info
+                    // replace the sort id by newsortid, which must depend on '#layout > section.flipflop' count, do not use LS- prefix while using toggle cookie return info
                     $sortthis.find('div.block-content').attr("id", 'sort_'+newsortid);
 
                     // also add new id to flipbox h3 title
@@ -215,12 +238,11 @@ jQuery(document).ready(function($) {
 
         function addTooltip() {
             var $metaid = this.id;
-            // arr[$metaid] = [];
-            var $thisobj = $(this); // = [ul#meta-box-left.boxed-left] + [ul#meta-box-right.boxed-right]
+            var $thisobj = $(this); // = [div#meta-box-left.boxed-left] + [div#meta-box-right.boxed-right]
             // set dragged and sorted blocks into Storage
             setStorageArray($metaid, $thisobj);
             // set new first blocks title
-            $thisobj.children("li:first").find(".flipbox").attr('title', fstBHead);
+            $thisobj.children("section:first").find(".flipbox").attr('title', fstBHead);
         }
 
         // lastly put the returned array/object into storage
@@ -234,7 +256,27 @@ jQuery(document).ready(function($) {
         var s = datastring.lastIndexOf(start);
         var e = datastring.lastIndexOf(end);
         var d = datastring.substring(s,e);
-        var n = d.replace('<td class="serendipityAdminContent">', '');
+        var a = d.replace('addLoadEvent(templatePluginMoverInit)', 'jQuery(function ($) { templatePluginMoverInit(); })');
+        var b = a.replace('addLoadEvent(pluginMoverInitEvent)', 'jQuery(function ($) { pluginMoverInitEvent(); })');
+        var c = b.replace('addLoadEvent(treeInit)', 'jQuery(function ($) { treeInit(); })');
+        var f = c.replace('addLoadEvent(enableAutocomplete)', 'jQuery(function ($) { enableAutocomplete(); })');
+        var g = f.replace('addLoadEvent(placeSpambutton)', 'jQuery(function ($) { placeSpambutton(); })');
+        var h = g.replace('addLoadEvent(showItem)', 'jQuery(function ($) { showItem(); })');
+        var i = h.replace('addLoadEvent(init_sequence_Sequence)', 'jQuery(function ($) { init_sequence_Sequence(); })'); // dashboard and entryproperties plugin
+        var k = i.replace('addLoadEvent(init_cat_precedence_Sequence)', 'jQuery(function ($) { init_cat_precedence_Sequence(); })'); // categorytemplates plugin
+        /*
+		addLoadEvent(templatePluginMoverInit); functions_plugins_admin.inc.php
+        addLoadEvent(pluginMoverInitEvent); functions_plugins_admin.inc.php
+        addLoadEvent(treeInit); media_choose.tpl
+        addLoadEvent(enableAutocomplete); serendipity_event_freetag.php
+        addLoadEvent(placeSpambutton); bayes_commentlist.js
+        addLoadEvent(showItem); entries.tpl & functions_entries_admin.inc.php 
+        var x = y.replace('addLoadEvent(showItem)', 'jQuery(function ($) { showItem(); })'); //no need ?
+        addLoadEvent(init_${config_item}_Sequence); functions_plugins_admin.inc.php
+        addLoadEvent(liveSearchInit); serendipity_event_livesearch.php
+        */
+        var m = k.replace('<td class="serendipityAdminContent">', '<td id="mdc_content" class="clearfix">');
+        var n = m.replace('<div id="content" class="clearfix">', '<div id="mdc_content" class="clearfix">');
         return n;
     });
 
@@ -244,14 +286,25 @@ jQuery(document).ready(function($) {
     contLinksToAjax = (function (tag, url) {
         // append data-remote="auto-ajax" data-callback="rebuildContainer" to all anchor elements in our new container class
         $(tag).each( function() {
-            var $this = $(this).not('[onclick]').not('[target="_blank"]').not('[href*="mailto:"]'); // if tag a has no attribute onclick and is not a target _blank or href mailto
+            var $this = $(this).not('[onclick]').not('[target="_blank"]').not('[href*="mailto:"]').not('.toggle_text'); // if tag a has no attribute onclick and is not a target _blank or href mailto or has class toggle_text
             var $that = $(this).is('form') && $(this).not('[action]'); // if tag is a form element with no action attribute, returning to self in document environments
             if($that[0]) {
                 $that.attr({'action':url, 'data-remote':'auto-ajax', 'data-callback':'rebuildContainer'});
             } else {
-                // dont use for abort buttons, as in do sync media library
+                // don't use for abort buttons, as in do sync media library
                 $this.not('[href="serendipity_admin.php"]').attr({'data-remote':'auto-ajax', 'data-callback':'rebuildContainer'});
             }
+        });
+    });
+
+    /**
+     * Function Expression reset all ajaxified link anchors [OK]
+     */
+    resetContLinksToAjax = (function (tag, url) {
+        // reset data-remote="auto-ajax" data-callback="rebuildContainer" from all anchor elements in our new container class
+        $(tag).each( function() {
+            var $this = $(this); // take them all to reset
+            $this.not('[href="serendipity_admin.php"]').removeAttr('data-remote data-callback');
         });
     });
 
@@ -261,25 +314,70 @@ jQuery(document).ready(function($) {
     rebuildContainer = (function(result, delegatedUrl) {
         if(result.length) {
             var $item = $('#cont2 .mbc_content > div');
+            var url   = '';
             // clean up previous data in container, if any
             $item.empty().remove(); // they say its faster to empty before remove ...
-            // append data to backend container - 
-            // this is where the dragdrop and inline js gets lost - I a sure I solved that before.....!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            $('<div class="backend_entry_container">' + result + '</div>').appendTo($('#cont2 .mbc_content'));
+            // append data to backend container
+            $('#cont2 .mbc_content').append('<div class="backend_entry_container">' + result + '</div>'); // [OK] also prepend
+            $('footer#colophon').empty().remove(); /* new backend entered some unwanted siblings of */
             // what does configs extend to Container var say? Are we allowed to follow containerized backend content?
             if( extend2Cont === true ) {
                 // add ajaxification attributes to all anchor links already placed in DOM - ajaxifies a, form, select, button elements
                 var $container = "#cont2 .mbc_content > .backend_entry_container";
-                contLinksToAjax($container+' a[href]');
-                contLinksToAjax($container+' form[action]');
+                contLinksToAjax($container+' a[href]', url);
+                contLinksToAjax($container+' form[action]', url);
                 contLinksToAjax($container+' form:not([action])', delegatedUrl);
-                /*contLinksToAjax($container+' select option[value]'); // do we really need this (automatic option selects) anywhere?*/
-                contLinksToAjax($container+' button[value]');
+                /*contLinksToAjax($container+' select option[value]', url); // do we really need this (automatic option selects) anywhere?*/
+                contLinksToAjax($container+' button[value]', url);
                 // remove 100px inline style in plugin configurations submit spacer
                 $plugconf = $('#cont2 #configuration_footer');
                 if ($plugconf) $plugconf.removeAttr('style');
             }
-        } else { console.log('fct rebuildContainer: An ajax result error occured'); }
+        } else { console.log('fcn rebuildContainer: An ajax result error occured'); }
+    });
+
+    /**
+     * Function Expression check for ajaxification call [OK]
+     **/
+    ajaxify = (function(set) {
+        // react on dashboards config setting (true, false, 'never')
+        if( $.type(extend2Cont) === 'boolean' ) {
+            if (set === true) { 
+                // attract ajaxified data calls to personal settings button
+                $('#menu-perset').attr({'data-remote':'auto-ajax', 'data-callback':'rebuildContainer'});
+                // attract ajaxified data calls to plugin config button
+                $('#menu-plugco').attr({'data-remote':'auto-ajax', 'data-callback':'rebuildContainer'});
+                // set event handler
+                $('#menu-perset[data-remote="auto-ajax"], #menu-plugco[data-remote="auto-ajax"]').on('click', function(e) {
+                    loadSpin('ON');
+                    e.preventDefault();
+                    // if container is closed, open it (this is the case, if we follow containable links outside a container, like this opening personal settings in navbar)
+                    if($('#cont2').get(0).isClosed) $("#cont2").containerize("open",500); // open new modal container / fs = .containerize("fullScreen")
+                    emac = e.delegatedTarget;
+                    return $(this).autoAjax(emac);
+                });
+            } else {
+                // remove previsous set data-* attributes and event handler
+                $('#menu-perset, #menu-plugco').removeAttr('data-remote data-callback');
+                $('#menu-perset, #menu-plugco').off();
+            }
+
+            // the selectbar ajaxification is done somewhere else
+            // if sidebar slide button or read cookie declares a dashboard fullview, ajaxify all other links
+            $(c_blocks.join(', ')).each(linkToBox);
+        }
+
+        function linkToBox() {
+            var $this = $(this);
+            var url   = '';
+            if ( set === true ) {
+                // add ajaxification attributes to all boxed anchor links already placed in DOM - ajaxifies a(, form, select, button) elements
+                contLinksToAjax($this.find('a[href]'), url);
+            } else {
+                // reset already added data attributes 
+                resetContLinksToAjax($this.find('a[href]'), url);
+            }
+        }
     });
 
     /**
@@ -300,10 +398,10 @@ jQuery(document).ready(function($) {
     /**
      * Function Expression unsetUIHightlight(object) [OK]
      * 
-     * Removes this selectors upper li class ui-state-highlight on click flip and toggle buttons
+     * Removes this selectors upper section class ui-state-highlight on click flip and toggle buttons
      **/
     unsetUIHightlight = (function(obj) {
-        obj.closest('li.flipflop').removeClass('ui-state-highlight');
+        obj.closest('section.flipflop').removeClass('ui-state-highlight');
     });
 
     /**
@@ -328,6 +426,19 @@ jQuery(document).ready(function($) {
     });
 
     /**
+     * Function Expression set spinning img layer on modal container page load() [OK]
+     */
+    loadSpin = (function(state) {
+        if (state == 'ON') { 
+            $('#serendipity_admin_page').addClass('spinLoadProgress');
+            $('#loaderPanel').html('<img alt="" src="'+dashpath+'img/spinner.gif">'+" loading...").css("color","#FFFFFF"); //Add spinner;
+        } else {
+            $('#serendipity_admin_page').removeClass('spinLoadProgress');
+            //$('#loaderPanel').html(''); //Remove spinner; - do no leave it in DOM
+        }
+    });
+
+    /**
      * Function Expression watchLogOff() [OK]
      *
      * Set on click logoff notification, while in maintenance mode
@@ -335,12 +446,14 @@ jQuery(document).ready(function($) {
      **/
     watchLogOff = (function(set) {
         if (set) {
-            $('#nav-embed-iconset li:nth-child(1)').on('click', 'a', (function(e) {
+            $('#user_menu li:nth-child(6)').on('click', 'a#menu-logoff', (function(e) {
+            //$('#nav-embed-iconset li:nth-child(1)').on('click', 'a#menu-logoff', (function(e) { // 1.6.x
                 e.preventDefault(); // Cancel a link's default action using the preventDefault method
                 alert(logoff_text);
-            }));
+            }));// master has no nav-embed-iconset any more
         } else {
-            $('#nav-embed-iconset li:nth-child(1)').unbind('click');
+            $('#user_menu li:nth-child(6)').unbind('click');
+            //$('#nav-embed-iconset li:nth-child(1)').unbind('click'); // 1.6.x
         }
     });
 
@@ -460,7 +573,7 @@ jQuery(document).ready(function($) {
         $('h3.serendipityWelcomeBack').addClass('visuallyhidden');
 
         // set .serendipityAdminContent left padding class on default
-        $('td.serendipityAdminContent').addClass('serendipityAdminContentDashboard clearfix');
+        //$('td.serendipityAdminContent').addClass('serendipityAdminContentDashboard clearfix'); // 1.6.x
 
         // add missing class to #serendipitySideBar
         $sidebar.addClass('no-class');
@@ -470,54 +583,6 @@ jQuery(document).ready(function($) {
 
         // attract a title to the help gazette before running tooltip
         $('#iopen.help').attr('title', 'The Gazette!');
-
-        if( $.type(extend2Cont) === 'boolean') {
-            // attract ajaxified data calls to personal settings button
-            $('#menu-perset').attr({'data-remote':'auto-ajax', 'data-callback':'rebuildContainer'});
-            // attract ajaxified data calls to plugin config button
-            $('#menu-plugco').attr({'data-remote':'auto-ajax', 'data-callback':'rebuildContainer'});
-            function linkToBox() {
-                var $this = $(this);
-
-                // add ajaxification attributes to all anchor links already placed in DOM - ajaxifies a, form, select, button elements
-                contLinksToAjax($this.find('a[href]').not('a[class="button"]'));
-            }
-            var $cbk = $(c_blocks.join(', ')).each(linkToBox);
-        }
-    });
-
-    /**
-     * Some Event Delegation Listeners on DOM ready
-     **/
-    $(function() {
-        if( $.type(extend2Cont) !== 'null') {
-            // containerized auto-ajax event listeners
-            $('#cont2').on('submit', 'form[data-remote="auto-ajax"]', function(e) {
-                e.preventDefault();
-                return $(this).autoAjax();
-            });
-            $('#menu-perset[data-remote="auto-ajax"], #menu-plugco[data-remote="auto-ajax"]').on('click', function(e) {
-                e.preventDefault();
-                // if container is closed, open it (this is the case, if we follow containable links outside a container, like this opening personal settings in navbar)
-                if($('#cont2').get(0).isClosed) $("#cont2").containerize("open",500); // open new modal container / fs = .containerize("fullScreen")
-                emac = e.delegatedTarget;
-                return $(this).autoAjax(emac);
-            });
-            $(c_blocks.join(', ')).on('click', 'a[data-remote="auto-ajax"], button[data-remote="auto-ajax"]', function(e) {
-                e.preventDefault();
-                // if container is closed, open it (this is the case, if we follow containable links outside a container, or plugbox container links)
-                if($('#cont2').get(0).isClosed) $("#cont2").containerize("open",500); // open new modal container / fs = .containerize("fullScreen")
-                return $(this).autoAjax();
-            });
-            $('#cont2').on('click', 'a[data-remote="auto-ajax"], button[data-remote="auto-ajax"]', function(e) {
-                e.preventDefault();
-                return $(this).autoAjax();
-            });
-            $('#cont2').on('change', 'select[data-remote="auto-ajax"]', function(e) {
-                e.preventDefault();
-                return $(this).autoAjax();
-            });
-        }
     });
 
     /**
@@ -559,12 +624,12 @@ jQuery(document).ready(function($) {
             // now toggle src target each time
             $(this).children('.button').toggle( 
                 function () { 
-                    $(this).find('img').stop(true, true).attr({src:img_plus});
+                    $(this).find('img').stop(true, true).attr({src:img_plus});//.parent().css({'display':'block'});
                     $(this).parents().next().siblings('.comment_boxed').toggleClass('visuallyhidden');
                     unsetUIHightlight($(this));
                 }, 
                 function () { 
-                    $(this).find('img').stop(true, true).attr({src:img_minus});
+                    $(this).find('img').stop(true, true).attr({src:img_minus});//.parent().css({'display':'block'});
                     $(this).parents().next().siblings('.comment_boxed').toggleClass('visuallyhidden');
                     unsetUIHightlight($(this));
                 }
@@ -588,26 +653,21 @@ jQuery(document).ready(function($) {
     });
 
     /**
-     * Toggle the feed/comments text block and change view/hide constant on event
+     * Toggle the feed/comments text blocks and change view/hide constant on event
      **/
     $(function() {
-        $(t_text.join(', ')).find('.fulltxt').addClass('visuallyhidden');
-        $(t_text.join(', ')).find('.text').toggle( 
+        $(t_text.join(', ')).find('.toggle_text').toggle( 
             function (event) { 
-                $(event.target).html(const_hide);
                 $(this).closest('.serendipity_admin_list_item').children('.comment_text').children().toggleClass('visuallyhidden');
-                $(this).addClass('icon-zoom-out');
+                $(this).find('span:first-of-type').removeClass().addClass('text toggle-icon icon-zoom-out'); /*new backend and chrome needed to switch to a.toggle_text */
                 unsetUIHightlight($(this));
-                // set new id#layout height on toggle inside 
-                setContainersHeight();
+                setContainersHeight(); // set new id#layout height on toggle inside 
             }, 
             function (event) { 
-                $(event.target).html(const_view);
                 $(this).closest('.serendipity_admin_list_item').children('.comment_text').children().toggleClass('visuallyhidden');
-                $(this).removeClass('icon-zoom-out');
+                $(this).find('span:first-of-type').removeClass().addClass('text toggle-icon icon-zoom-in'); /*new backend and chrome needed to switch to a.toggle_text */
                 unsetUIHightlight($(this));
-                // set new id#layout height on toggle inside 
-                setContainersHeight();
+                setContainersHeight(); // set new id#layout height on toggle inside 
             }
         );
     });
@@ -653,12 +713,12 @@ jQuery(document).ready(function($) {
                 $(this).siblings('div').toggle('slow', function() {
                     // set new id#layout height on flip, as flip is a single event only
                     setContainersHeight();
-                    // get closest parent li element object as this is unique only in both metas
-                    var parliobj = $(this).closest('li');
+                    // get closest parent section element object as this is unique only in both metas
+                    var parsec = $(this).closest('section');
                     // set cookie to hold the blocks hidden state
-                    updateCookie( $(this), parliobj ); // elem_ID is the static number we want, use this for the cookie!
+                    updateCookie( $(this), parsec ); // elem_ID is the static number we want, use this for the cookie!
                 });
-                // unsets this parents li .flipflop class ui-state-highlight, if active
+                // unsets this parents section.flipflop class ui-state-highlight, if active
                 unsetUIHightlight($(this));
             }
         });
@@ -670,12 +730,12 @@ jQuery(document).ready(function($) {
     $(function() {
         $("#menu-autoupdate").toggle( 
             function (event) { 
-                $(this).parents().siblings('#nav-welcome').find('span').hide();
-                $('#boxed_autoupdate').toggleClass('visuallyhidden');
+                $('#nav-welcome h2').hide();
+                $('#nav-info').toggleClass('visuallyhidden');
             }, 
             function (event) { 
-                $(this).parents().siblings('#nav-welcome').find('span').show();
-                $('#boxed_autoupdate').toggleClass('visuallyhidden');
+                $('#nav-welcome h2').show();
+                $('#nav-info').toggleClass('visuallyhidden');
             }
         );
     });
@@ -691,33 +751,93 @@ jQuery(document).ready(function($) {
             // .is(":visible") - Checks for display:[none|block], ignores visible:[true|false]
             if ($sidebar.is(':visible')) {
                 $sidebar.fadeOut();
+                $("#content").addClass('no-sidebar');
+                //$('td.serendipityAdminContent').addClass('no-sidebar'); // 1.6.x
+                extendLinks = true; // containerize links
                 // ugly workaround for chrome and ie browser, which denied local hostnames set as domain: hostname
                 if( !$.cookie('serendipity[dashboard_cookie_sidebar]', 'isSelectBar', { expires: 180, path: pathname, domain: hostname }) ) {
                     $.cookie('serendipity[dashboard_cookie_sidebar]', 'isSelectBar', { expires: 180, path: pathname });//, domain: hostname
                 }
             } else {
                 $sidebar.fadeIn();
+                $("#content").removeClass('no-sidebar');
+                //$('td.serendipityAdminContent').removeClass('no-sidebar'); // 1.6.x
+                extendLinks = false; // uncontainerize links
                 // ugly workaround for chrome and ie browser, which denied local hostnames set as domain: hostname
                 if( !$.cookie('serendipity[dashboard_cookie_sidebar]', 'isSideBar', { expires: 180, path: pathname, domain: hostname }) ) {
                     $.cookie('serendipity[dashboard_cookie_sidebar]', 'isSideBar', { expires: 180, path: pathname });//, domain: hostname
                 }
             }
             $selectbar.toggleClass('visuallyhidden');
+            ajaxify(extendLinks); // set/reset ajaxified block container links
         });
 
-        // check to see if a cookie exists for the app state
-        var cookie_sidebar = $.cookie('serendipity[dashboard_cookie_sidebar]');
-        if(cookie_sidebar == 'isSelectBar') { 
-            $sidebar.fadeOut();
-            $selectbar.toggleClass('visuallyhidden');
-        } else {
-            $sidebar.fadeIn();
-        }
+        if( typeof extendLinks === 'undefined' ) {
+            // check to see if a cookie exists for the app state
+            var cookie_sidebar = $.cookie('serendipity[dashboard_cookie_sidebar]');
+            if(cookie_sidebar == 'isSelectBar') { 
+                $sidebar.fadeOut();
+                $("#content").addClass('no-sidebar');
+                //$('td.serendipityAdminContent').addClass('no-sidebar'); // 1.6.x
+                extendLinks = true; // containerize links
+                //ajaxify(true); // also ajaxify block container links
+                $selectbar.toggleClass('visuallyhidden');
+            } else {
+                $sidebar.fadeIn();
+                extendLinks = false; // uncontainerize links
+                //ajaxify(false);  // reset ajaxified block container links
+                $("#content").removeClass('no-sidebar');
+                //$('td.serendipityAdminContent').removeClass('no-sidebar'); // 1.6.x
+            }
 
-        // make sure everything outside dashboard context has the normal 'isSideBar' Layout!
-        if ( !$('#dashboard').children().length > 0 ) { 
-            $sidebar.fadeIn();
-            $('td.serendipityAdminContent').removeClass('serendipityAdminContentDashboard');
+            // make sure everything outside dashboard context has the normal 'isSideBar' Layout!
+            if ( !$('#dashboard').children().length > 0 ) { 
+                $sidebar.fadeIn();
+                extendLinks = false; // uncontainerize links
+                //ajaxify(false);  // reset ajaxified block container links
+                $("#content").removeClass('no-sidebar');
+                //$('td.serendipityAdminContent').removeClass('no-sidebar'); // 1.6.x
+            }
+            ajaxify(extendLinks); // set/reset ajaxified block container links
+        }
+    });
+
+    /**
+     * Some Event Delegation Listeners on DOM ready [need to be settled here, after the ajaxify call has been done, else it listens on something set later (at least in the nav)]
+     **/
+    $(function() {
+        if( $.type(extend2Cont) !== 'null') {
+            // containerized auto-ajax event listeners
+            $('#cont2').on('submit', 'form[data-remote="auto-ajax"]', function(e) {
+                loadSpin('ON');
+                e.preventDefault();
+                return $(this).autoAjax();
+            });
+            $('#menu-perset[data-remote="auto-ajax"], #menu-plugco[data-remote="auto-ajax"]').on('click', function(e) {
+                loadSpin('ON');
+                e.preventDefault();
+                // if container is closed, open it (this is the case, if we follow containable links outside a container, like this opening personal settings in navbar)
+                if($('#cont2').get(0).isClosed) $("#cont2").containerize("open",500); // open new modal container / fs = .containerize("fullScreen")
+                emac = e.delegatedTarget;
+                return $(this).autoAjax(emac);
+            });
+            $(c_blocks.join(', ')).on('click', 'a[data-remote="auto-ajax"], button[data-remote="auto-ajax"]', function(e) {
+                loadSpin('ON');
+                e.preventDefault();
+                // if container is closed, open it (this is the case, if we follow containable links outside a container, or plugbox container links)
+                if($('#cont2').get(0).isClosed) $("#cont2").containerize("open",500); // open new modal container / fs = .containerize("fullScreen")
+                return $(this).autoAjax();
+            });
+            $('#cont2').on('click', 'a[data-remote="auto-ajax"], button[data-remote="auto-ajax"]', function(e) {
+                loadSpin('ON');
+                e.preventDefault();
+                return $(this).autoAjax();
+            });
+            $('#cont2').on('change', 'select[data-remote="auto-ajax"]', function(e) {
+                loadSpin('ON');
+                e.preventDefault();
+                return $(this).autoAjax();
+            });
         }
     });
 
@@ -748,20 +868,25 @@ jQuery(document).ready(function($) {
                     e.preventDefault(); /* prevents the link from opening the href link */
                     var $thisscope = $('#cont2 .mbc_content'); // $thisscope can't be a global var, as it its build on load later on
                     val = val+'&serendipity[noHeading]=true';
+                    
                     $.ajax({
                         url: val,
                         type: 'POST',
                         dataType: 'html',
-                        async: false,
+                        async: true, // set to true as chrome did not want to trigger beforeSend properly
                         context: $thisscope,
                         success: function(data) {
                             // remove everything else from fetched page than block *.*
                             // return cut data from/to into container
-                            result = containersCut('<td class="serendipityAdminContent">', '</td>', data);
+                            result = containersCut('<div id="content" class="clearfix">', '</div>', data);
+                            //result = containersCut('<div class="serendipityAdminContent">', '</td>', data); // 1.6.x?
+                        },
+                        beforeSend: function ( xhr ) {
+                            loadSpin('ON');
                         },
                         error: function(){
                             alert('Work in Backend respond failure!');
-                        }
+                        },
                     }).done(function() {
                         if(result.length) {
                             // store result data as cache into localStorage container, to emulate a browsers back button later on
@@ -773,6 +898,7 @@ jQuery(document).ready(function($) {
                             rebuildContainer(result, val);
                             $("#cont2").containerize("open",500); // open new modal container / fs = .containerize("fullScreen")
                         }
+                        loadSpin('OFF'); // Hide spinner (the only case why we use this her instead of coplete, is calling the styles section)
                     });
                 }
             }
@@ -805,9 +931,9 @@ jQuery(document).ready(function($) {
             lastClick, diffClick; // timestamps
 
         // set to flipflop class only! 
-        $("#layout li.flipflop")
-        // Script to deferentiate a click from a mousedown for drag event
-        .bind('mousedown mouseup', function(e) {
+        $("#layout section.flipflop")
+        // Script to deferentiate a click from a mousedown for drag event (1.0.3x changed .bind() to .on() as of jquery 1.7+)
+        .on('mousedown mouseup', function(e) {
             if (e.type == "mousedown") {
                 lastClick = e.timeStamp; // get mousedown time
             } else {
@@ -862,11 +988,11 @@ jQuery(document).ready(function($) {
                 // keep upgrading localStorage
                 setLocalStorage(arr);
 
-                var sobj = $('#'+this.id).find('li[id].flipflop');
+                var sobj = $('#'+this.id).find('section[id].flipflop');
                 var $postMetaArr = [$(this.id).selector]; // eg. meta-box-right (chrome needs strict selector match, else pushing circular structure to JSON errors)
 
                 sobj.attr("id", function (index) { 
-                    var $dropid = $(this).attr('id').toString(); // collect li#ID name as string
+                    var $dropid = $(this).attr('id').toString(); // collect section#ID name as string
                     var $blockid = $(this).find('div.block-box');
                     var $blid = $blockid.attr('id');
                     $postMetaArr.push([$dropid, $blid]); // stick to array and do not use objects here
@@ -910,7 +1036,6 @@ jQuery(document).ready(function($) {
                 success: function(response){
                     // async false is needed to really know what has been set
                     response = (response === 'true') ? true : false;
-                    // alert(response);
                 },
                 error: function(){
                     alert('MoMa respond set failure!');
@@ -924,24 +1049,119 @@ jQuery(document).ready(function($) {
 
 
     /**
+     * JQuery.simpleModal help
+     **/
+    $(function(){
+        $("#info-help").click(function (e) {
+            // Disable focus (allows tabbing away from dialog)
+            $('#info-help-content').modal({focus:false});
+            return false;
+        });
+    });
+
+    jQuery(function ($) {
+        // Load dialog on page load
+        //$('#basic-modal-content').modal();
+
+        // Load dialog on click
+        $('#basic-modal .basic').click(function (e) {
+            $('#basic-modal-content').modal();
+
+            return false;
+        });
+    });
+
+    /*
+     * SimpleModal OSX Style Modal Dialog
+     * http://simplemodal.com
+     *
+     * Copyright (c) 2013 Eric Martin - http://ericmmartin.com
+     *
+     * Licensed under the MIT license:
+     *   http://www.opensource.org/licenses/mit-license.php
+     */
+
+    jQuery(function ($) {
+        var OSX = {
+            container: null,
+            init: function () {
+                $("input.osx, a.osx, button.osx").click(function (e) {
+                    e.preventDefault();    
+
+                    //$("#osx-modal-content").modal({.load(dashpath+'ihelp.html')
+                    $("#osx-modal-content").modal({
+                        overlayId: 'osx-overlay',
+                        containerId: 'osx-container',
+                        closeHTML: null,
+                        minHeight: 80,
+                        /*maxHeight: 440,*/
+                        opacity: 65,
+                        position: ['0',],
+                        overlayClose: true,
+                        onOpen: OSX.open,
+                        onClose: OSX.close
+                    });
+                });
+            },
+            open: function (d) {
+                var self = this;
+                self.container = d.container[0];
+                d.overlay.fadeIn('slow', function () {
+                    $("#osx-modal-content", self.container).show();
+                    var title = $("#osx-modal-title", self.container);
+                    title.show();
+                    d.container.slideDown('slow', function () {
+                        setTimeout(function () {
+                            var h = $("#osx-modal-data", self.container).height()
+                                + title.height()
+                                + 20; // padding
+                            d.container.animate(
+                                {height: h}, 
+                                200,
+                                function () {
+                                    $("div.close", self.container).show();
+                                    $("#osx-modal-data", self.container).show();
+                                }
+                            );
+                        }, 300);
+                    });
+                })
+            },
+            close: function (d) {
+                var self = this; // this = SimpleModal object
+                d.container.animate(
+                    {top:"-" + (d.container.height() + 20)},
+                    500,
+                    function () {
+                        self.close(); // or $.modal.close();
+                    }
+                );
+            }
+        };
+
+        OSX.init();
+        //$('#osx-modal-content .simplemodal-close').on('click', OSX.close).close();
+    });
+
+    /**
      * JQuery.mb.containerPlus help
      **/
     $(function(){
-        /*
+        /**
          * custom method to add ajaxified content
          **/
-
         $.containerize.addMethod("getdata",function(){
             var el = this;
             $.ajax({
                 url: dashpath + 'dashboard_gazette.html',
-                type: 'GET',
-                dataType: 'html',
+                type: 'POST', /* take type:post to leave inner script code untouched */
+                contentType: "text/html; charset=UTF-8",
+                /*dataType: 'html', let ajax decide the dataType automatically*/
                 success: function(data) {
                     result = data;
                 },
-                error: function(){
-                    alert('Fetching help page failure!');
+                error: function(xhr, status, thrown) {
+                    alert('Fetching help page failure! '+status+': '+thrown);
                 }
             }).done(function() {
                 if(result.length) {
@@ -1004,12 +1224,14 @@ jQuery(document).ready(function($) {
         var fullScreenBtn = $("<button/>").addClass("mbc_button").html("full screen").click(function(e){
             var el = $(this).parents(".mbc_container");
             el.containerize("fullScreen");
+            $('#cont1.container, #cont2.container, #cont3.container').css({'width':'auto !important'});
             e.stopPropagation();
             e.preventDefault();
         });
 
         var iconizeBtn = $("<button/>").addClass("mbc_button").html("iconize").click(function(e){
             var el = $(this).parents(".mbc_container");
+            loadSpin('OFF');
             el.containerize("iconize");
             e.stopPropagation();
             e.preventDefault();
@@ -1017,21 +1239,25 @@ jQuery(document).ready(function($) {
 
         var dockBtn = $("<button/>").addClass("mbc_button").html("dock").click(function(e){
             var el = $(this).parents(".mbc_container");
+            loadSpin('OFF');
             el.containerize("iconize","dock");
             e.stopPropagation();
             e.preventDefault();
         });
-
+        
         var closeBtn = $("<button/>").addClass("mbc_button").html("close").click(function(e){
             var el = $(this).parents(".mbc_container");
+            loadSpin('OFF');
             el.containerize("close");
             e.stopPropagation();
             e.preventDefault();
         });
 
-        $("#cont1").containerize("addtotoolbar", [fullScreenBtn,iconizeBtn,changeSkinBtn,dockBtn,closeBtn]); // the help box fullScreenBtn,changeSkinBtn,closeBtn
-        $("#cont2 .mbc_footer").empty(); // empty debug notes, if any
-        $("#cont2").containerize("addtotoolbar", [backBtn, fullScreenBtn,iconizeBtn,changeSkinBtn,dockBtn,closeBtn]); // the containerized backend!
+        $("#cont1").containerize("addtotoolbar", [fullScreenBtn,iconizeBtn,changeSkinBtn,dockBtn,closeBtn]); // the help box
+        //$("#cont2 .mbc_footer").empty(); // empty debug notes, if any
+        $("#cont2").containerize("addtotoolbar", [backBtn, fullScreenBtn,iconizeBtn,changeSkinBtn,dockBtn,closeBtn]); // the modal container backend!
+        $("#cont3").containerize("addtotoolbar", [fullScreenBtn,iconizeBtn,changeSkinBtn,dockBtn,closeBtn]); // the 2cd help box
+        $("#cont3 > .mbc_content > .autojs").addClass('content-box guide');
     });
 
     /**
@@ -1041,8 +1267,9 @@ jQuery(document).ready(function($) {
      * use with ('*') all selectors, or selector tagNames, idNames, classNames etc.
      **/
     $(function(){
-        // as of now = 1098 w/o Gazette, ie. we there have 282 li, 45 ul, 162 div elements, etc
+        // as of now = 651FF/652CH ??? elements, which is less than half!
         // console.log( $('*').length );
+        loadSpin('OFF'); /* thus to make sure layer is off by default */
     });
 
 }); // close jQuery document ready

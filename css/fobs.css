@@ -1,0 +1,52 @@
+/* some short fixes to workaround the modal includment of serendipity_admin.css - does not cover them all, but is ok for the moment .. 
+   to keep dashboard underlaying main window nearly unchanged, when modal popup views styles (template) section 
+   fobs.css (Fix Old Backend Styles) - last modified: 2013-02-01 */
+body {
+    background: none repeat scroll 0 0 #FCFCFC;
+    line-height: inherit;
+    margin: 0;
+    text-align: left; 
+    max-width: 1280px;
+}
+header #banner {
+    font-family: Helvetica,Arial,sans-serif;
+}
+h1 {
+    font-size: 2em;
+}
+h2 {
+    font-size: 1.5em;
+}
+h3 {
+    font-size: 1.28571em;
+}
+a, a:link, a:visited, a:active {
+    color: #3A4B6F;
+    text-decoration: underline;
+}
+#dashboard a:link, #dashboard a:visited, #dashboard a:active {
+    text-decoration: underline;
+}
+#user_menu {
+    text-align: right;
+}
+.input_textbox, select, textarea {
+    border: 1px solid;
+    border-color: #c1c1c1 #c1c1c1 #e1e1e1;
+}
+.serendipity_admin_list_item {
+    border: 0 none;
+    margin: inherit;
+}
+.serendipity_admin_list_item_even {
+    background: none repeat scroll 0 0 transparent;
+}
+.serendipity_admin_list_item_uneven {
+    background: none repeat scroll 0 0 #F0F0F0;
+}
+#cont2.mbc_container > .mbc_content, #cont2.mbc_container.black > .mbc_content {
+}
+#cont2 #serendipityAdminFrame {
+    font-size: 18px;
+    width: 100%;
+}

@@ -148,7 +148,7 @@ Coordinate.prototype.inside = function(northwest, southeast) {
  **********************************************************/
 
 var Drag = {
-    BIG_Z_INDEX : 10000,
+    BIG_Z_INDEX : 100000,
     group : null,
     isDragging : false,
     scrolledY : 0,
@@ -290,6 +290,7 @@ var Drag = {
                 "SE offset: " + seOffset.toString();*/
     },
 
+    
     onMouseMove : function(event) {
         event = Drag.fixEvent(event);
         var group = Drag.group;
@@ -303,7 +304,8 @@ var Drag = {
 
         if (!Drag.isDragging) {
             if (group.threshold > 0) {
-                var distance = group.initialWindowCoordinate.distance(mouse);
+                var distance = group.initialWindowCoordinate.distance(
+                        mouse);
                 if (distance < group.threshold) return true;
             } else if (group.thresholdY > 0) {
                 var deltaY = Math.abs(group.initialWindowCoordinate.y - mouse.y);
@@ -339,7 +341,7 @@ var Drag = {
         // changed to be recursive/use absolute offset for corrections
         var offsetBefore = Coordinates.northwestOffset(group, true);
         group.onDrag(nwPosition, sePosition, nwOffset, seOffset);
-
+        
         //sroll window if reaching the border
         if(event.clientX < 20) {
             window.scrollBy(-20, 0);
@@ -357,12 +359,13 @@ var Drag = {
             window.scrollBy(0, 20);
             Drag.scrolledY = 20;
         }
-
+        
         var offsetAfter = Coordinates.northwestOffset(group, true);
 
         offsetAfter.x = offsetAfter.x - Drag.scrolledX;
         offsetAfter.y = offsetAfter.y - Drag.scrolledY;
-
+        
+        
         if (!offsetBefore.equals(offsetAfter)) {
             var errorDelta = offsetBefore.minus(offsetAfter);
             Drag.scrolledX = 0;
@@ -371,9 +374,10 @@ var Drag = {
             nwPosition.reposition(group);
         }
 
+        
         return false;
     },
-
+    
     onMouseUp : function(event) {
         event = Drag.fixEvent(event);
         var group = Drag.group;
@@ -613,7 +617,7 @@ var DragDrop = {
     onDragEnd : function(nwPosition, sePosition, nwOffset, seOffset) {
         // if the drag ends and we're still outside all containers
         // it's time to remove ourselves from the document or add
-        // to the trash bin
+                // to the trash bin
         if (this.isOutside) {
             var container = DragDrop.firstContainer;
             while (container != null) {
@@ -816,7 +820,7 @@ var DOMDrag = {
     end : function() {
         document.onmousemove = null;
         document.onmouseup   = null;
-        DOMDrag.obj.root.onDragEnd( parseInt(DOMDrag.obj.root.style[DOMDrag.obj.hmode ? "left" : "right"]),
+        DOMDrag.obj.root.onDragEnd(    parseInt(DOMDrag.obj.root.style[DOMDrag.obj.hmode ? "left" : "right"]),
                                     parseInt(DOMDrag.obj.root.style[DOMDrag.obj.vmode ? "top" : "bottom"]));
         DOMDrag.obj = null;
     },

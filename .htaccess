@@ -1,4 +1,25 @@
 #
+#AddType application/vnd.ms-fontobject .eot
+#AddType application/octet-stream .otf .ttf
+#
+AddType application/vnd.ms-fontobject .eot
+AddType font/ttf .ttf
+AddType font/otf .otf
+AddType application/x-font-woff .woff
+#new since Dec 13 2012 in chrome
+AddType application/font-woff .woff
+# better
+AddType font/ttf .ttf
+AddType font/eot .eot
+AddType font/otf .otf
+AddType font/woff .woff
+#
+# Avoid Chrome browser: Resource interpreted as image but transferred with MIME type text/html.
+#
+AddType image/gif .gif
+AddType image/jpeg .jpeg .jpg
+AddType image/png .png
+#
 # Tell serendipity to not redirect plugin documentation files
 #
 RewriteEngine On

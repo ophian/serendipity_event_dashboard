@@ -1,17 +1,22 @@
 /*******************************************************************************
- * Proof of Concept Dashboard Plugin info file vs > 1.0x
- * last-modified: 2012-09-27
+ * Proof of Concept Dashboard Plugin info file 1.0.2x
+ * last-modified: 2013-01-08
  ******************************************************************************/
  
  As of changing the $serendipity['templatePath'] and $serendipity['template'] on demand, 
  in case of containerized backend views into the dashboard plugin path, we needed to clone
  
  - the complete /templates/default/admin directory, 
- - gather all available additional backend plugins into dashboard /backend_templates (or is it staticpages only?)
+ - hold staticpage template file in dashboard /backend_templates (are there more to include?)
  - and also pass some images and scripts residing in /templates/default or /templates/default/img 
  - to also live in the dashboard path, while called as {serendipity_getFile file="img/plus.png"} 
  - or {serendipity_getFile file="dragdrop.js"} for examples, which get called in core scripts like 
  - /include/admin/tpl/plugins.inc.tpl and /include/functions_plugins_admin.inc.php, or in some of the cloned tpl files.
  
- To not get lost having too many files, the new on demand path will now be: /plugins/serendipity_event_dashboard/default/.
+ To not get lost having too many files, the new on-demand path will now be: /plugins/serendipity_event_dashboard/default/.
  
+Still buggy and unresolved issues in **modal container** view:
+
+- the drag and drop javascript fails to work (in plugins overview page and the dashboard config view)
+- the upload of media files fails to work (the fields javascript now gathered in serendipity_editor.js vs serendipity[userfile][] collection is missing?)
+- some redirects do not happen how they should to be

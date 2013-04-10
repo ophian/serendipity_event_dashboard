@@ -1,19 +1,23 @@
-<!--- DASHBOARD MEDIA_PROPERTIES START -->
+{* HTML5: Yes *}
+{* jQuery: NN *}
+
 {if $media.is_edit}
 <form id="mediaPropertyForm" action="?" method="POST">
-    <div>
-        {$media.token}
-        <input type="hidden" name="serendipity[action]"         value="admin" />
-        <input type="hidden" name="serendipity[adminModule]"    value="images" />
-        <input type="hidden" name="serendipity[adminAction]"    value="add" />
-        <input type="hidden" name="serendipity[adminSubAction]" value="properties" />
-        {$media.editform_hidden}
+<div>
+    {$media.token}
+    <input name="serendipity[action]" type="hidden" value="admin">
+    <input name="serendipity[adminModule]" type="hidden" value="images">
+    <input name="serendipity[adminAction]" type="hidden" value="add">
+    <input name="serendipity[adminSubAction]" type="hidden" value="properties">
+    {$media.editform_hidden}
 {/if}
 
 {$MEDIA_ITEMS}
 
 {if $media.is_edit}
-    <br /><input type="submit" name="submit" value="{$CONST.GO}" class="serendipityPrettyButton input_button" />
+    <div class="form_buttons">
+        <input name="submit" type="submit" value="{$CONST.GO}">
     </div>
+</div>
 </form>
 {/if}

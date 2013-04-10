@@ -1,10 +1,19 @@
-/* normalize.css v1.0.1 | MIT License | git.io/normalize */
-article, aside, details,
-figcaption, figure, footer,
-header, hgroup, nav, section,
+/* NORMALIZE.CSS
+   ----------------------------------------------------------------- */
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+nav,
+section,
 summary { display: block; }
 
-audio, canvas,
+audio,
+canvas,
 video {
     display: inline-block;
     *display: inline;
@@ -31,7 +40,8 @@ a:hover { outline: 0; }
 
 abbr[title] { border-bottom: 1px dotted; }
 
-b, strong { font-weight: bold; }
+b,
+strong { font-weight: bold; }
 
 blockquote { margin: 1em 40px; }
 
@@ -42,8 +52,10 @@ mark {
     color: #000;
 }
 
-code, kbd,
-pre, samp {
+code,
+kbd,
+pre,
+samp {
     font-family: monospace, serif;
     _font-family: 'courier new', monospace;
     font-size: 1em;
@@ -57,7 +69,8 @@ pre {
 
 small { font-size: 80%; }
 
-sub, sup {
+sub,
+sup {
     font-size: 75%;
     line-height: 0;
     position: relative;
@@ -65,9 +78,11 @@ sub, sup {
 }
 
 sup { top: -0.5em; }
+
 sub { bottom: -0.25em; }
 
-menu, ol,
+menu,
+ol,
 ul { padding: 0 0 0 40px; }
 
 nav ul,
@@ -86,12 +101,6 @@ svg:not(:root) { overflow: hidden; }
 figure,
 form { margin: 0; }
 
-fieldset {
-    border: 1px solid #ccc;
-    margin: 0 2px;
-    padding: 0.35em 0.625em 0.75em;
-}
-
 legend {
     border: 0;
     padding: 0;
@@ -99,15 +108,18 @@ legend {
     *margin-left: -7px;
 }
 
-button, input,
-select, textarea {
+button,
+input,
+select,
+textarea {
     font-size: 100%;
     margin: 0;
     vertical-align: baseline;
     *vertical-align: middle;
 }
 
-button, input { line-height: normal; }
+button,
+input { line-height: normal; }
 
 button,
 html input[type="button"],
@@ -157,9 +169,13 @@ table {
     border-spacing: 0;
 }
 
-/* Base styles */
-html, button,
-input, select,
+
+/* BASE STYLES
+   ----------------------------------------------------------------- */
+html,
+button,
+input,
+select,
 textarea {
     background: #fcfcfc;
     color: #222;
@@ -189,7 +205,7 @@ hr {
     display: block;
     height: 1px;
     border: 0;
-    border-top: 1px solid #ccc;
+    border-top: 1px solid #ddd;
     margin: 1.5em 0;
     padding: 0;
 }
@@ -198,12 +214,16 @@ img { vertical-align: middle; }
 
 /* Responsive media objects
    http://unstoppablerobotninja.com/entry/fluid-images */
-embed, object,
-audio, video,
+embed,
+object,
+audio,
+video,
 img { max-width: 100%; }
 
 video,
 img { height: auto; }
+
+.htmlarea .toolbar img { max-width: inherit; }
 
 fieldset {
     border: 0;
@@ -213,97 +233,23 @@ fieldset {
 
 textarea { resize: vertical; }
 
-/* Automagic quotes, http://html5doctor.com/blockquote-q-cite/ */
-q { quotes: '�' '�' '�' '�'; }
-:lang(de) q { quotes: '�' '�' '�' '�'; }
-
-blockquote p { quotes: '�' '�'; }
-
-blockquote p:before {
-    content: '';
-    content: no-open-quote;
-}
-
-blockquote p:after {
-    content: '';
-    content: no-close-quote;
-}
-
-blockquote p:first-child:before {
-    content: '�';
-    content: open-quote;
-}
-
-blockquote p:last-child:after {
-    content: '�';
-    content: close-quote;
-}
-
-:lang(de) blockquote p,
-blockquote:lang(de) p { quotes: '�' '�'; }
-
-:lang(de) blockquote p:before,
-blockquote:lang(de) p:before {
-    content: '';
-    content: no-open-quote;
-}
-
-:lang(de) blockquote p:after,
-blockquote:lang(de) p:after {
-    content: '';
-    content: no-close-quote;
-}
-
-:lang(de) blockquote p:first-child:before,
-blockquote:lang(de) p:first-child:before {
-    content: '�';
-    content: open-quote;
-}
-
-:lang(de) blockquote p:last-child:after,
-blockquote:lang(de) p:last-child:after {
-    content: '�';
-    content: close-quote;
-}
-
-blockquote > cite,
-blockquote + cite { display: block; }
-
-blockquote > cite:before,
-blockquote + cite:before { content: "� "; }
-
-blockquote > cite { margin: 1.5em 0; }
-
-blockquote + cite { margin: 0 0 1.5em 3em; }
-
 dt { font-weight: bold; }
 dd { margin: 0; }
 
-caption, th { text-align: left; }
+caption,
+th { text-align: left; }
 
-li ul, li ol { margin: 0; }
+li ul,
+li ol { margin: 0; }
 
 pre code { font-size: 1em; }
-
-p {
-    -webkit-hyphens: auto;
-    -moz-hyphens: auto;
-    -ms-hyphens: auto;
-    hyphens: auto;
-}
-
-p code, p samp,
-p kbd {
-    -webkit-hyphens: none;
-    -moz-hyphens: none;
-    -ms-hypens: none;
-    hyphens: none;
-}
 
 nav ul,
 nav ol { padding: 0; }
 
-/* CSS helper classes for various purposes */
+
+/* GENERIC CSS HELPER CLASSES
+   ----------------------------------------------------------------- */
 /* Image replacement */
 .ir {
     background-color: transparent;
@@ -360,15 +306,167 @@ nav ol { padding: 0; }
 }
 
 .clearfix:after { clear: both; }
+
 .clearfix { *zoom: 1; }
 
 
-/* Forms | forked from formalize.me */
-.input_full_wrap {
-    display: block;
-    padding-right: 8px;
+/* ICON FONT:; http://fortawesome.github.com/Font-Awesome/
+   ----------------------------------------------------------------- */
+@font-face {
+    font-family: 'fontello';
+    src: url("{TEMPLATE_PATH}font/fontello.eot");
+    src: url("{TEMPLATE_PATH}font/fontello.eot?#iefix") format('embedded-opentype'),
+         url("{TEMPLATE_PATH}font/fontello.woff") format('woff'),
+         url("{TEMPLATE_PATH}font/fontello.ttf") format('truetype'),
+         url("{TEMPLATE_PATH}font/fontello.svg#fontello") format('svg');
+    font-weight: normal;
+    font-style: normal;
 }
 
+[class^="icon-"]:before,
+[class*=" icon-"]:before {
+    font-family: 'fontello';
+    font-style: normal;
+    font-weight: normal;
+    speak: none;
+    display: inline-block;
+    text-decoration: inherit;
+    width: 1em;
+    margin-right: 0.2em;
+    text-align: center;
+    opacity: 1.0;
+    line-height: 1em;
+}
+
+.icon-home:before { content: '\2302'; } /* '⌂' */
+.icon-cog:before { content: '\2699'; } /* '⚙' */
+.icon-attention:before { content: '\26a0'; } /* '⚠' */
+.icon-cog-alt:before { content: '\26ef'; } /* '⛯' */
+.icon-edit:before { content: '\270d'; } /* '✍' */
+.icon-ok-circle:before { content: '\2714'; } /* '✔' */
+.icon-cancel-circle:before { content: '\2716'; } /* '✖' */
+.icon-attention-circle:before { content: '\2757'; } /* '❗' */
+.icon-plus-circle:before { content: '\2795'; } /* '➕' */
+.icon-minus-circle:before { content: '\2796'; } /* '➖' */
+.icon-ccw:before { content: '\27f2'; } /* '⟲' */
+.icon-cw:before { content: '\27f3'; } /* '⟳' */
+.icon-help-circle:before { content: '\e704'; } /* '' */
+.icon-info-circle:before { content: '\e705'; } /* '' */
+.icon-eye:before { content: '\e70a'; } /* '' */
+.icon-tags:before { content: '\e70d'; } /* '' */
+.icon-comment:before { content: '\e718'; } /* '' */
+.icon-chat:before { content: '\e720'; } /* '' */
+.icon-trash:before { content: '\e729'; } /* '' */
+.icon-resize-full:before { content: '\e744'; } /* '' */
+.icon-zoom-in:before { content: '\e750'; } /* '' */
+.icon-zoom-out:before { content: '\e751'; } /* '' */
+.icon-arrows-cw:before { content: '\e760'; } /* '' */
+.icon-off:before { content: '\e78e'; } /* '' */
+.icon-move:before { content: '\f047'; } /* '' */
+.icon-link-ext:before { content: '\f08e'; } /* '' */
+.icon-rss:before { content: '\f09e'; } /* '' */
+.icon-left-circled:before { content: '\f0a8'; } /* '' */
+.icon-right-circled:before { content: '\f0a9'; } /* '' */
+.icon-up-circled:before { content: '\f0aa'; } /* '' */
+.icon-down-circled:before { content: '\f0ab'; } /* '' */
+.icon-filter:before { content: '\f0b0'; } /* '' */
+.icon-resize-full-alt:before { content: '\f0b2'; } /* '' */
+.icon-menu:before { content: '\f0c9'; } /* '' */
+.icon-sort:before { content: '\f0dc'; } /* '' */
+.icon-sort-down:before { content: '\f0dd'; } /* '' */
+.icon-sort-up:before { content: '\f0de'; } /* '' */
+.icon-mail-alt:before { content: '\f0e0'; } /* '' */
+.icon-picture:before { content: '🌄'; } /* '\1f304' */
+.icon-user:before { content: '👤'; } /* '\1f464' */
+.icon-users:before { content: '👥'; } /* '\1f465' */
+.icon-folder-open:before { content: '📂'; } /* '\1f4c2' */
+.icon-upload:before { content: '📤'; } /* '\1f4e4' */
+.icon-download:before { content: '📥'; } /* '\1f4e5' */
+.icon-shuffle:before { content: '🔀'; } /* '\1f500' */
+.icon-search:before { content: '🔍'; } /* '\1f50d' */
+.icon-lock:before { content: '🔒'; } /* '\1f512' */
+.icon-lock-open:before { content: '🔓'; } /* '\1f513' */
+.icon-link:before { content: '🔗'; } /* '\1f517' */
+.icon-clock:before { content: '🕔'; } /* '\1f554' */
+.icon-block:before { content: '🚫'; } /* '\1f6ab' */
+
+
+/* BACKEND HELPER CLASSES
+   ----------------------------------------------------------------- */
+/* replace w/ .level_inblock */
+.icon_link,
+#insert_image,
+form > a,
+#user_menu li,
+.edit_actions li,
+.actions li,
+#login .form_field label,
+#edit_entry_title label,
+#edit_entry_metadata label,
+#filter_comments label,
+#serendipity_comment label,
+#sort_entries .form_select label,
+#filter_entries .form_select label,
+#filter_entries .form_field label,
+#serendipity_category label,
+.pluginmanager_plugin .form_check,
+.pluginmanager_plugin h5,
+.media_file .form_check,
+.media_file h3,
+#media_pane_filter label,
+#media_pane_sort label,
+#image_directory_create_form label,
+#mediaPropertyForm .media_file_props label {
+    display: inline-block;
+    *display: inline;
+    *zoom: 1;
+}
+
+/* replace w/ .level_block */
+.block_level,
+.form_multiselect label,
+label > span,
+#back_to_blog,
+#meta small,
+.msg_error,
+.msg_success,
+.msg_notice,
+.msg_dialogue,
+#serendipity_category .form_multiselect label,
+#image_directory_edit_form .form_select label,
+#uploadform label { display: block; }
+
+.image_resize_hint p { display: inline; }
+
+h5,
+h6,
+blockquote,
+ul,
+ol,
+dl,
+p,
+table,
+details,
+.standalone,
+.form_buttons,
+form > a {
+    margin-top: 1.5em;
+    margin-bottom: 1.5em;
+}
+
+.plainList,
+.imageMessage ul {
+    list-style: none;
+    padding: 0;
+}
+
+.hilite_b { font-weight: bold;}
+.hilite_i { font-style: italic; }
+.hilite_u { text-decoration: underline; }
+
+
+/* BASIC FORM STYLES (forked from formalize.me)
+   ----------------------------------------------------------------- */
 input[type="radio"],
 input[type="checkbox"] {
     position: relative;
@@ -378,22 +476,29 @@ input[type="checkbox"] {
     *top: -5px;
 }
 
-button:focus, input:focus,
-select:focus, textarea:focus {
+.button_link:focus,
+button:focus,
+input:focus,
+select:focus,
+textarea:focus {
     -webkit-box-shadow: #0066ff 0 0 5px 0;
     -moz-box-shadow: #0066ff 0 0 5px 0;
     box-shadow: #0066ff 0 0 5px 0;
     z-index: 1;
 }
 
-input[type="file"]:focus, input[type="file"]:active,
-input[type="radio"]:focus, input[type="radio"]:active,
-input[type="checkbox"]:focus, input[type="checkbox"]:active {
+input[type="file"]:focus,
+input[type="file"]:active,
+input[type="radio"]:focus,
+input[type="radio"]:active,
+input[type="checkbox"]:focus,
+input[type="checkbox"]:active {
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
     box-shadow: none;
 }
 
+.button_link,
 button, input[type="button"],
 input[type="reset"],
 input[type="submit"] {
@@ -406,11 +511,11 @@ input[type="submit"] {
     -moz-background-clip: padding;
     background-clip: padding-box;
     background: #ddd;
-    background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #ffffff), color-stop(100%, #dddddd));
-    background-image: -webkit-linear-gradient(#ffffff, #dddddd);
-    background-image: -moz-linear-gradient(#ffffff, #dddddd);
-    background-image: -o-linear-gradient(#ffffff, #dddddd);
-    background-image: linear-gradient(#ffffff, #dddddd);
+    background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #fff), color-stop(100%, #ddd));
+    background-image: -webkit-linear-gradient(#fff, #ddd);
+    background-image: -moz-linear-gradient(#fff, #ddd);
+    background-image: -o-linear-gradient(#fff, #ddd);
+    background-image: linear-gradient(#fff, #ddd);
     border: 1px solid;
     border-color: #ddd #bbb #999;
     color: #000;
@@ -422,24 +527,28 @@ input[type="submit"] {
     *padding-bottom: 0;
 }
 
-button:hover, input[type="button"]:hover,
+.button_link:hover,
+button:hover,
+input[type="button"]:hover,
 input[type="reset"]:hover,
 input[type="submit"]:hover {
-    background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #ffffff), color-stop(1px, #eeeeee), color-stop(100%, #cccccc));
-    background-image: -webkit-linear-gradient(#ffffff, #eeeeee 1px, #cccccc);
-    background-image: -moz-linear-gradient(#ffffff, #eeeeee 1px, #cccccc);
-    background-image: -o-linear-gradient(#ffffff, #eeeeee 1px, #cccccc);
-    background-image: linear-gradient(#ffffff, #eeeeee 1px, #cccccc);
+    background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #fff), color-stop(1px, #eee), color-stop(100%, #ccc));
+    background-image: -webkit-linear-gradient(#fff, #eee 1px, #ccc);
+    background-image: -moz-linear-gradient(#fff, #eee 1px, #ccc);
+    background-image: -o-linear-gradient(#fff, #eee 1px, #ccc);
+    background-image: linear-gradient(#fff, #eee 1px, #ccc);
 }
 
-button:active, input[type="button"]:active,
+.button_link:active,
+button:active,
+input[type="button"]:active,
 input[type="reset"]:active,
 input[type="submit"]:active {
-    background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #ffffff), color-stop(1px, #dddddd), color-stop(100%, #eeeeee));
-    background-image: -webkit-linear-gradient(#ffffff, #dddddd 1px, #eeeeee);
-    background-image: -moz-linear-gradient(#ffffff, #dddddd 1px, #eeeeee);
-    background-image: -o-linear-gradient(#ffffff, #dddddd 1px, #eeeeee);
-    background-image: linear-gradient(#ffffff, #dddddd 1px, #eeeeee);
+    background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #fff), color-stop(1px, #ddd), color-stop(100%, #eee));
+    background-image: -webkit-linear-gradient(#fff, #ddd 1px, #eee);
+    background-image: -moz-linear-gradient(#fff, #ddd 1px, #eee);
+    background-image: -o-linear-gradient(#fff, #ddd 1px, #eee);
+    background-image: linear-gradient(#fff, #ddd 1px, #eee);
     -webkit-box-shadow: inset rgba(0, 0, 0, 0.25) 0 1px 2px 0;
     -moz-box-shadow: inset rgba(0, 0, 0, 0.25) 0 1px 2px 0;
     box-shadow: inset rgba(0, 0, 0, 0.25) 0 1px 2px 0;
@@ -451,13 +560,21 @@ button {
     *padding-bottom: 1px;
 }
 
-input[type="date"], input[type="datetime"],
-input[type="datetime-local"], input[type="month"],
-input[type="number"], input[type="password"],
-input[type="time"], input[type="week"],
-textarea, select, input[type="email"],
-input[type="search"], input[type="tel"],
-input[type="text"], input[type="url"] {
+input[type="date"],
+input[type="datetime"],
+input[type="datetime-local"],
+input[type="month"],
+input[type="number"],
+input[type="password"],
+input[type="time"],
+input[type="week"],
+textarea,
+select,
+input[type="email"],
+input[type="search"],
+input[type="tel"],
+input[type="text"],
+input[type="url"] {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
@@ -483,17 +600,28 @@ input[type="text"], input[type="url"] {
     *height: auto;
 }
 
-input[type="date"][disabled], input[type="datetime"][disabled],
-input[type="datetime-local"][disabled], input[type="month"][disabled],
-input[type="number"][disabled], input[type="password"][disabled],
-input[type="time"][disabled], input[type="week"][disabled],
-textarea[disabled], select[disabled], input[type="email"][disabled],
-input[type="search"][disabled], input[type="tel"][disabled],
-input[type="text"][disabled], input[type="url"][disabled] { background-color: #eee; }
+input[type="date"][disabled],
+input[type="datetime"][disabled],
+input[type="datetime-local"][disabled],
+input[type="month"][disabled],
+input[type="number"][disabled],
+input[type="password"][disabled],
+input[type="time"][disabled],
+input[type="week"][disabled],
+textarea[disabled],
+select[disabled],
+input[type="email"][disabled],
+input[type="search"][disabled],
+input[type="tel"][disabled],
+input[type="text"][disabled],
+input[type="url"][disabled] { background-color: #eee; }
 
-button[disabled], input[disabled],
-select[disabled], select[disabled] option,
-select[disabled] optgroup, textarea[disabled] {
+button[disabled],
+input[disabled],
+select[disabled],
+select[disabled] option,
+select[disabled] optgroup,
+textarea[disabled] {
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
     box-shadow: none;
@@ -521,7 +649,8 @@ textarea.placeholder_text { color: #888; }
     box-shadow: none;
 }
 
-textarea, select[size],
+textarea,
+select[size],
 select[multiple] { height: auto; }
 
 @media (-webkit-min-device-pixel-ratio: 0) {
@@ -552,13 +681,12 @@ optgroup {
     font-weight: normal;
 }
 
-/* Backend-specific form stuff */
-label, .standout,
-legend > span { font-weight: bold; }
 
-.block_level,
-.form_multiselect label,
-label > span { display: block; }
+/* BACKEND FORM STYLES
+   ----------------------------------------------------------------- */
+label,
+legend > span,
+figcaption { font-weight: bold; }
 
 label > span,
 input[type=checkbox] + label,
@@ -572,893 +700,615 @@ input[type=checkbox] { margin-right: .4em; }
     margin-right: 1em;
 }
 
-.form_buttons input {
-    margin-top: 1.5em;
-    margin-bottom: 1.5em;
-}
+.form_radio label,
+.form_check label { display: inline-block !important; }
 
-.form_field, .form_area,
-.form_check, .form_radio,
-.form_select, .form_multiselect {
+.serendipity_commentDirection,
+.form_field,
+.form_area,
+.form_check,
+.form_radio,
+.form_select,
+.form_multiselect {
     margin-top: .75em;
     margin-bottom: .75em;
 }
 
-/* These selection declarations have to be separate. */
-/*::-moz-selection {
-    background: #3a4b6f;
-    color: #fff;
-    text-shadow: none;
-}
-
-::selection {
-    background: #3a4b6f;
-    color: #fff;
-    text-shadow: none;
-}
-*/
-hr {
-    display: block;
-    height: 1px;
-    border: 0;
-    border-top: 1px solid #ccc;
-    margin: 1.5em 0;
-    padding: 0;
-}
-
-img { vertical-align: middle; }
-
-/* Responsive media objects
-   http://unstoppablerobotninja.com/entry/fluid-images */
-embed, object,
-audio, video,
-img { max-width: 100%; }
-
-video,
-img { height: auto; }
-
-fieldset {
-    border: 0;
-    margin: 0;
-    padding: 0;
-}
-
-textarea { resize: vertical; }
-
-/* Automagic quotes, http://html5doctor.com/blockquote-q-cite/ */
-q { quotes: '“' '”' '‘' '’'; }
-:lang(de) q { quotes: '„' '“' '‚' '‘'; }
-
-blockquote p { quotes: '“' '”'; }
-
-blockquote p:before {
-    content: '';
-    content: no-open-quote;
-}
-
-blockquote p:after {
-    content: '';
-    content: no-close-quote;
-}
-
-blockquote p:first-child:before {
-    content: '“';
-    content: open-quote;
-}
-
-blockquote p:last-child:after {
-    content: '”';
-    content: close-quote;
-}
-
-:lang(de) blockquote p,
-blockquote:lang(de) p { quotes: '„' '“'; }
-
-:lang(de) blockquote p:before,
-blockquote:lang(de) p:before {
-    content: '';
-    content: no-open-quote;
-}
-
-:lang(de) blockquote p:after,
-blockquote:lang(de) p:after {
-    content: '';
-    content: no-close-quote;
-}
-
-:lang(de) blockquote p:first-child:before,
-blockquote:lang(de) p:first-child:before {
-    content: '„';
-    content: open-quote;
-}
-
-:lang(de) blockquote p:last-child:after,
-blockquote:lang(de) p:last-child:after {
-    content: '“';
-    content: close-quote;
-}
-
-blockquote > cite,
-blockquote + cite { display: block; }
-
-blockquote > cite:before,
-blockquote + cite:before { content: "– "; }
-
-blockquote > cite { margin: 1.5em 0; }
-
-blockquote + cite { margin: 0 0 1.5em 3em; }
-
-dt { font-weight: bold; }
-dd { margin: 0; }
-
-caption, th { text-align: left; }
-
-li ul, li ol { margin: 0; }
-
-pre code { font-size: 1em; }
-
-p {
-    -webkit-hyphens: auto;
-    -moz-hyphens: auto;
-    -ms-hyphens: auto;
-    hyphens: auto;
-}
-
-p code, p samp,
-p kbd {
-    -webkit-hyphens: none;
-    -moz-hyphens: none;
-    -ms-hypens: none;
-    hyphens: none;
-}
-
-nav ul,
-nav ol { padding: 0; }
-
-/* CSS helper classes for various purposes */
-/* Image replacement */
-.ir {
-    background-color: transparent;
-    border: 0;
-    overflow: hidden;
-    *text-indent: -9999px;
-}
-
-.ir:before {
-    content: "";
-    display: block;
-    width: 0;
-    height: 100%;
-}
-
-/* Hide from both screenreaders and browsers */
-.hidden {
-    display: none !important;
-    visibility: hidden;
-}
-
-/* Hide only visually, but have it available for screenreaders */
-.visuallyhidden {
-    border: 0;
-    clip: rect(0 0 0 0);
-    height: 1px;
-    margin: -1px;
-    overflow: hidden;
-    padding: 0;
-    position: absolute;
-    width: 1px;
-}
-
-/* Extends the .visuallyhidden class to allow the element
-   to be focusable when navigated to via the keyboard */
-.visuallyhidden.focusable:active,
-.visuallyhidden.focusable:focus {
-    clip: auto;
-    height: auto;
-    margin: 0;
-    overflow: visible;
-    position: static;
-    width: auto;
-}
-
-/* Hide visually and from screenreaders, but maintain layout */
-.invisible { visibility: hidden; }
-
-/* Clearfix: contain floats */
-.clearfix:before,
-.clearfix:after {
-    content: " ";
-    display: table;
-}
-
-.clearfix:after { clear: both; }
-.clearfix { *zoom: 1; }
+.comment_data,
+.comment_data dt,
+.template_info dt,
+.comment_summary,
+.comment_full,
+.serendipity_commentDirection { clear: both; }
 
 
-/******************************************************************************************************/
+/* COMMON STYLES (all resolutions)
 
-/***************************************************************************/
-/* Dashboard Admin style, which is the default with some additions at the end */
-/***************************************************************************/
+   Color scheme:
+   -------------
+   Dark blue:   #25253d     Mid blue:    #3e5f81
+   Lite blue:   #ccdee7     Yellow:      #ffbf00
+   Off black:   #222        Off white:   #fcfcfc
+   ----------------------------------------------------------------- */
+
+html { background: #ccdee7; }
 
 body {
-    font: 100.01% Verdana, Arial, Helvetica, sans-serif;
-    margin: 5px 0 0 0;
-    text-align: center;
-    background: #888888;
-    direction: {LANG_DIRECTION};
+    background: #fcfcfc;
+    font-size: 0.875em;
 }
 
-/* body ID */
-/* styles to this ID or body would have the same effect */
-#serendipity_admin_page { 
-}
+a,
+a:visited { color: #3a4b6f; }
 
-/* these are a default for headings not styled more specifically through an additional class */
-h1 {font-size: 170%;}
-h2 {font-size: 150%;}
-h3 {font-size: 140%;}
-h4 {font-size: 125%;}
+a:hover,
+a:focus { color: #d06604; }
 
-/* all links except those specifically overridden by other class or id further down*/
-a:link, a:visited, a:active {
-   text-decoration: none;
-   color: #055BC6;
-}
-
-a:hover {
+a.button_link,
+a.button_link:hover,
+a.button_link:focus,
+.button_link>span:before {
+    color: #000;
     text-decoration: none;
-    color: #FF6600;
 }
 
-/* approximately equal to frontend #wrapper but does not include footer         */
-#serendipityAdminFrame {
-    text-align: left;
-    margin: 0px auto;
-    border: 0;
-    width: 95%;
-    background: #ffffff;
+.button_link>span:before {
+    margin-right: 0;
+    width: auto;
 }
 
-/* container is a table, so font must be set on tbody to affect td's */
-/* this font size affects everything except #footer                  */
-#serendipityAdminFrame tbody {
-    font-size: 80%;
+h1 {
+    font-size: 1.71429em;
+    line-height: 1.75em;
+    margin: 0.875em 0 0;
 }
 
-/* equal to frontend #serendipity_banner */
-#serendipityAdminBanner {
-    color: #ffffff;
-    background: #5792D8 url('{TEMPLATE_PATH}img/bp_admin_banner_fluid.png') top left repeat-x;
-    height: 94px;
-    border: 3px solid #ffffff;
-    padding: 0;
-    line-height: 0.7em;
+#banner_install h1 { margin: 0.875em 0; }
+
+h2 {
+    font-size: 1.42857em;
+    line-height: 1.05em;
+    margin: 1.05em 0;
 }
 
-/* First line in banner, ie 'Serendipity Administration Suite' */
-#serendipityAdminBanner h1 {
-    font-weight: bold;
-    padding: 0;
-    margin: 17px 0 0 5px;
+h3 {
+    font-size: 1.28571em;
+    line-height: 1.16667em;
+    margin: 1.16667em 0;
 }
 
-/* Second line in banner, ie blog name */ 
-#serendipityAdminBanner h2 {
-    font-weight: normal;
-    padding: 0;
-    margin-left: 5px;
+h4 {
+    font-size: 1.14286em;
+    line-height: 1.3125em;
+    margin: 1.3125em 0;
 }
 
-/* approximately equal to BP frontend #sitenav when located below header */
-#serendipityAdminInfopane {
-    background: #CCCCCC url('{TEMPLATE_PATH}img/bp_admin_infopane_fluid.png') top left repeat-x;
-    border-left: 3px solid #ffffff;
-    border-right: 3px solid #ffffff;
-    text-align: right;
-    font-size: 75%;
-    line-height: 70%;
-    height: 24px;
-    color: #055BC6;
-    padding:0;
-}
+h5, h6 { font-size: 1em; }
 
-/* approximately equal to frontend #content */
-.serendipityAdminContent {
-    padding: 3px 3px 10px 8px;
-    text-align: left;
-}
-
-/* all content identified as a span, notably config descriptions */
-/* !important required to override in-line styles                */
-.serendipityAdminContent span{
-    color: #055BC6 !important;
-}
-
-/* all fieldsets in admin content, such as "advanced options" */
-.serendipityAdminContent fieldset {
-    border: 1px solid #72878A;
-}
-
-.serendipityAdminContent legend {
-    border: 1px solid #72878A;
-    padding: 2px 5px;
-    background-color: #DFDFDF;
-}
-
-/* welcome message on sign-on screen, ie */
-/* 'welcome to serendipity admin suite'  */
-/* 'please enter your credentials'       */
-#serendipityAdminWelcome{
-    color: #055BC6;
-}
-
-/* 'back to blog' link in bottom left of sign-on screen */
-#serendipityBackToBlog {
-    padding: 0 0 10px 10px;
-}
-/* welcome back text displayed after successfully logging in */
-.serendipityWelcomeBack {
-    color: #055BC6;
-    margin: 0;
-}
-
-/***** SIDEBAR STYLES *****/
-
-/* s9y v1.2 class between top and bottom menu blocks */
-/* display: none prevents excess space (<br />) from */
-/* appearing between these 2 menu blocks and the     */
-/* menu blocks in between                            */
-.serendipitySideBarMenuSpacer {
-    display: none;
-}
-
-/* Equal to frontend sidebar - positioned left due to table structure */
-#serendipitySideBar {
-    width: 203px;
-    padding: 3px 0 0 0;
-}
-
-/* style certain elements of admin frontpage navigation blocks the same      */
-.further_links,
-/* serendipitySideBarMenu is a combination of sidebaritem and sidebarcontent */
-/* actual width will be sidebar width less side margins and side borders     */
-ul.serendipitySideBarMenu {
-    list-style: none;
-    overflow: hidden; 
-    background: #EEEEEE url('{TEMPLATE_PATH}img/bp_admin_sidebar_body.png') repeat-y;
-    padding: 0;
-    width: 200px;
-    margin: 0 0 3px 3px;
-}
-
-/* just the further links container */
-.further_links {
-/* for width equal to left sidebar links, set width equal to sidebar less */
-/* serendipitySideBarMenu left & right margins plus L&R borders.          */
-/* Width does not need to be uniquely defined if ul.serentipitySideBarMenu*/
-/* has no borders or L&R padding                                          */
-    float: right;
-}
-
-/* navigation within the container of further_links */
-.further_links ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-/* all <li>s -  serendipitySideBarMenuHead then needs to be styled separately    */
-/* this can change when all plugins have been updated to include s9y ver.1.2     */
-/* class of serendipitySideBarMenuLink which applies only to navigational links  */
-/* just as serendipitySideBarMenuHead only applies to the title even though both */
-/* are <li>s. */
-/* Update: All plugins HAVE been modified to include class serendipitySideBarLink*/
-/* The method below, however, works for users not using the most recent plugins. */
-.further_links li,
-.serendipitySideBarMenu li{
-    line-height: 105%
-}
-
-.further_links li a,
-.serendipitySideBarMenu li a {
-    font-size: 90%;
-    padding-left: 5px;
-}
-
-/* these are the titles for each menu block */
-.further_links .further_links_head,
-li.serendipitySideBarMenuHead {
-/* this background is a default in the event additional menu blocks are added in the future, but not presently defined */
-    background: #B0BEC0 url('{TEMPLATE_PATH}img/bp_admin_sidebar_default.png') no-repeat;
-    font-weight: bold;
-    font-size: 100%;
-    color: #30303f;
-    height: 30px;
-    padding: 0 0 0 5px;
-    line-height: 28px;
-    margin: 0 0 5px 0;
-    overflow: hidden;
-}
-
-/* unique graphics for the middle 4 menu blocks and further_links */
-ul.serendipitySideBarMenuEntry .serendipitySideBarMenuHead {
-    background: #B0BEC0 url('{TEMPLATE_PATH}img/bp_admin_sidebar_entries.png') no-repeat;
-}
-ul.serendipitySideBarMenuMedia .serendipitySideBarMenuHead {
-    background: #B0BEC0 url('{TEMPLATE_PATH}img/bp_admin_sidebar_media.png') no-repeat;
-}
-ul.serendipitySideBarMenuAppearance .serendipitySideBarMenuHead {
-    background: #B0BEC0 url('{TEMPLATE_PATH}img/bp_admin_sidebar_appearance.png') no-repeat;
-}
-ul.serendipitySideBarMenuUserManagement .serendipitySideBarMenuHead {
-    background: #B0BEC0 url('{TEMPLATE_PATH}img/bp_admin_sidebar_admin.png') no-repeat;
-}
-.further_links .further_links_head {
-    background: #B0BEC0 url('{TEMPLATE_PATH}img/bp_admin_sidebar_further.png') no-repeat;
-}
-
-/* set background for all menu block footers including any added in the future, but not presently defined */
-.further_links .further_links_foot,
-ul.serendipitySideBarMenu .serendipitySideBarMenuFoot {
-background: #EEEEEE url('{TEMPLATE_PATH}img/bp_admin_sidebar_foot.png') no-repeat;
-    display: block !important;
-    height: 8px;
-    margin: 3px 0 0 0;
-    font-size: 0; /* ie6, otherwise item is too tall */
-}
-
-/* main links (top 2) and logout links (bottom 2) are styled to */
-/* look like buttons - each of which has a unique icon          */
-ul.serendipitySideBarMenuLogout,
-ul.serendipitySideBarMenuMain {
-    background: none;
-    margin-bottom: 0;
-    padding: 0;
-}
-
-ul.serendipitySideBarMenuLogout li,
-ul.serendipitySideBarMenuMain li {
-    margin-bottom: 3px;
-    overflow: hidden;
-}
-
-ul.serendipitySideBarMenuLogout li a,
-ul.serendipitySideBarMenuMain li a,
-ul.serendipitySideBarMenuLogout li a:hover,
-ul.serendipitySideBarMenuMain li a:hover{
-    font-size: 100%;
-    font-weight: bold;
-    margin: 0;
-    padding-left: 5px;
-    line-height: 28px;
-}
-
-ul.serendipitySideBarMenuMain a,
-ul.serendipitySideBarMenuLogout a{
-/* this background is a default in the event additional links are added in the future, but not presently defined */
-/* it is an orange button with a double blue arrow pointing right */
-    background: #FBB73C url('{TEMPLATE_PATH}img/bp_admin_button_default.png') left top no-repeat;
-    display: block;
-    height: 33px;
-}
-
-/* default button hover and active states */
-ul.serendipitySideBarMenuMain a:hover,
-ul.serendipitySideBarMenuLogout a:hover{
-    background: #FDE33F url('{TEMPLATE_PATH}img/bp_admin_button_default.png') left 50% no-repeat;
-}
-
-ul.serendipitySideBarMenuMain a:active,
-ul.serendipitySideBarMenuLogout a:active{
-    background: #FDE33F url('{TEMPLATE_PATH}img/bp_admin_button_default.png') left 100% no-repeat;
-    line-height: 30px !important;
-}
-
-/* unique images for each of the main and logout links - normal, hover and active states */
-li.serendipitySideBarMenuMainFrontpage a{
-    background: #FBB73C url('{TEMPLATE_PATH}img/bp_admin_button_frontpage.png') left top no-repeat;
-}
-
-li.serendipitySideBarMenuMainFrontpage a:hover{
-    background: #FDE33F url('{TEMPLATE_PATH}img/bp_admin_button_frontpage.png') left 50% no-repeat;
-}
-
-li.serendipitySideBarMenuMainFrontpage a:active{
-    background: #FDE33F url('{TEMPLATE_PATH}img/bp_admin_button_frontpage.png') left 100% no-repeat;
-    line-height: 30px !important;
-}
-
-li.serendipitySideBarMenuMainPersonal a{
-    background: #FBB73C url('{TEMPLATE_PATH}img/bp_admin_button_personal.png') left top no-repeat;
-}
-
-li.serendipitySideBarMenuMainPersonal a:hover{
-    background: #FDE33F url('{TEMPLATE_PATH}img/bp_admin_button_personal.png') left 50% no-repeat;
-}
-
-li.serendipitySideBarMenuMainPersonal a:active{
-    background: #FDE33F url('{TEMPLATE_PATH}img/bp_admin_button_personal.png') left 100% no-repeat;
-    line-height: 30px !important;
-}
-
-li.serendipitySideBarMenuLogoutWeblog a{
-    background: #FBB73C url('{TEMPLATE_PATH}img/bp_admin_button_weblog.png') left top no-repeat;
-}
-
-li.serendipitySideBarMenuLogoutWeblog a:hover{
-    background: #FDE33F url('{TEMPLATE_PATH}img/bp_admin_button_weblog.png') left 50% no-repeat;
-}
-
-li.serendipitySideBarMenuLogoutWeblog a:active{
-    background: #FDE33F url('{TEMPLATE_PATH}img/bp_admin_button_weblog.png') left 100% no-repeat;
-    line-height: 30px !important;
-}
-
-li.serendipitySideBarMenuLogoutLogout a{
-    background: #FBB73C url('{TEMPLATE_PATH}img/bp_admin_button_logout.png') left top no-repeat;
-}
-
-li.serendipitySideBarMenuLogoutLogout a:hover{
-    background: #FDE33F url('{TEMPLATE_PATH}img/bp_admin_button_logout.png') left 50% no-repeat;
-}
-
-li.serendipitySideBarMenuLogoutLogout a:active{
-    background: #FDE33F url('{TEMPLATE_PATH}img/bp_admin_button_logout.png') left 100% no-repeat;
-    line-height: 30px !important;
-}
-
-/* do not show MenuFoot for the button type links */
-ul.serendipitySideBarMenuLogout .serendipitySideBarMenuFoot,
-ul.serendipitySideBarMenuMain .serendipitySideBarMenuFoot {
-    display: none !important;
-}
-
-/***** END OF SIDEBAR STYLES *****/
-
-/* Admin items presented consecutively such as entries  */
-/* comments, users, groups, templates etc.              */
-/* first class common to both odd and even items        */
-.serendipity_admin_list_item {
-    border: 1px solid #72878A;
-    margin: 0 0 5px 0;
-}
-/* only the uneven/odd list items */
-.serendipity_admin_list_item_uneven {
-    background: #DFDFDF;
-}
-
-/* only the even list items */
-.serendipity_admin_list_item_even {
-    background: #EEEEEE;
-}
-
-/* admin messages reporting an error */
-.serendipityAdminMsgError {
-    text-align: center; 
-    font-weight: bold;
-    margin: 10px 0;
-    color: red;
-    font-size: 100%;
-}
-
-/* any message indicating no error */
-.serendipityAdminMsgSuccess {
-    text-align: center;
-    font-weight: bold;
-    margin: 10px 0; 
-    color: green;
-    font-size: 100%;
-}
-
-/* used in spartacus and plugin config*/
-.serendipityAdminMsgNotice,
-.serendipityAdminMsgNote {
-    text-align: center;
-    font-weight: bold;
-    margin: 10px 0;
-    color: blue;
-    font-size: 100%;
-}
-
-/* installation and upgrade admin messages */
-/* defined here due to this template's styling of all other spans */
-/* these classes are available in s9y v1.3.2 and above */
-.serendipityAdminContent span.serendipityAdminMsgSuccessInstall {
-    color: green !important;
-    font-weight: bold !important;
-}
-
-.serendipityAdminContent span.serendipityAdminMsgWarningInstall {
-    color: orange !important;
-    font-weight: bold !important;
-}
-
-.serendipityAdminContent span.serendipityAdminMsgErrorInstall{
-    color: red !important;
-    font-weight: bold !important;
-}
-
-/* Pending comments in the admins comment list */
-.serendipity_admin_comment_pending {
-    border: 2px solid #FF0000;
-}
-
-.serendipity_admin_comment_pending_header{
-    background: #FFFF9D;
-    border: 2px solid #FF0000;
-    border-bottom: 0;
-}
-
-/* new input classes available in s9y v1.2 */
-.input_checkbox, .input_radio, .input_file, .input_textbox, .input_button, label, select, textarea{
-    font: 100% Verdana, Arial, Helvetica, sans-serif;
-}
-.input_textbox, select, textarea {
-    border: 1px solid #72878A;
-    background: #F8F9FA;
-}
-
-/* style for text of input buttons */
-/* new class of input_button also exists for all input buttons */
-input.serendipityPrettyButton,
-a.serendipityPrettyButton {
-    text-decoration: none;
-    font-weight: bold;
-    padding: 2px;
-    margin: 2px 2px 0px 2px;
-    color: #ffffff;
-    cursor: pointer;
-    background: #055BC6 url('{TEMPLATE_PATH}img/bp_admin_prettybutton.png') 0% 50%;
-    border: 1px solid #055BC6;
-    font-size: 90%;
-}
-
-/* make anchor version look more like the input version */
-a.serendipityPrettyButton {
-    padding: 3px;
-}
-
-/* entry preview window  */
-#serendipity_iframe {
-    border: 1px solid #72878A !important;
-    text-align: left !important;
-    margin: 0; }
+summary { cursor: pointer; }
 
 
-/* this exists exclusively in /templates/default/admin/media_items.tpl */
-.serendipityImageButton {
-    cursor: pointer; }
-
-/* icon links, such as edit, delete, reply, etc     */
-/* IconLink is used when icon is left of link text  */
-/* IconLinkRight is when icon is right of link text */
-/* Style approx the same except for margin settings */
-/* which provide separation between icon and text   */
-a:link.serendipityIconLink,
-a:visited.serendipityIconLink {
-    border: 0;
-    font-weight: bold;
-    text-decoration: none;
-    margin-right: 4px; }
-
-.serendipityIconLink img {
-    margin-right: 2px;
-    vertical-align: bottom;
-    border: 0; }
-
-a:link.serendipityIconLinkRight,
-a:visited.serendipityIconLinkRight {
-    border: 0;
-    font-weight: bold;
-    text-decoration: none;
-    margin-left: 4px; }
-
-.serendipityIconLinkRight img {
-    margin-left: 2px;
-    vertical-align: bottom;
-    border: 0; }
-
-/* this is not really implemented, but classes do exist in backend code */
-.direction_ltr {direction: ltr;}
-.direction_rtl {direction: rtl;}
-
-/*style for block that appears above list of available plugins available for installation */
-/* usually contains a filter dropdown box */ 
-.serendipity_pluginlist_header form{
-    border: 1px solid #72878A;
+/* BACKEND MESSAGES
+   ----------------------------------------------------------------- */
+.msg_error,
+.msg_success,
+.msg_notice,
+.msg_dialogue {
+    margin: 1.5em 0;
     padding: 10px;
-    margin: 0 0 15px 0;
-    background: #EEEEEE;
 }
 
-/* style for block that appears above each type of plugin (Backend: User management, Frontend: Entry Related, etc)*/
-.serendipity_pluginlist_section {
-    margin:20px 0 20px 0;
-    padding:10px;
-    border:1px solid #72878A;
-    color:#505050;
-    line-height:1.5em;
-    background: #EEEEEE;
+.msg_error {
+    background: #f2dede;
+    border: 1px solid #e4b9b9;
+    color: #b94a48;
 }
 
-/* custom fields within Advanced Options for entries */
-#serendipity_customfields {
-    width: 100%; }
-
-#serendipity_customfields .customfield_name {
-    background-color: #FAFAFA;
-    width: 25%;
-    padding-left: 5px; }
-
-#serendipity_customfields .customfield_value {
-    background-color: #FFFFFF;
-    width: 75%;
-    padding: 0;
+.msg_success {
+    background: #dff0d8;
+    border: 1px solid #c1e2b3;
+    color: #468847;
 }
 
-#serendipity_customfields .customfield_value textarea {
-    width: 100%;
-    height: 100px;
-    padding: 0;
-    margin:0; }
-
-/* left side window for choosing media to insert into entry */
-#serendipityAdminBodyImageSelectorTree {
-    width: auto;
-    font-size: 73%;
+.msg_notice {
+    background: #fcf8e3;
+    border: 1px solid #f7ecb5;
+    color: #c09853;
 }
 
-#serendipityAdminBodyImageSelectorTree tbody{
-    font-size: 80%;
+.msg_dialogue {
+    background: #eee;
+    border: 1px solid #aaa;
+    color: #777;
 }
 
-/* right side window for choosing media to insert into entry */
-/* will default to body background if not specified */
-#serendipityAdminBodyImageSelector {
-    width: auto;
-    margin: 0px;
-    background: #FFFFFF;
-    font-size: 80%;
-}
 
-#serendipityAdminBodyImageSelector tbody{
-    font-size: 80%;
-}
+/* LOGIN FORM
+   ----------------------------------------------------------------- */
+#login { margin: 2em auto 1em; }
 
-/* Manage Styles - template name in list of available templates */
-/* !important required to override inline style */
-span.serendipityTemplateSelectName {
-    color: #055BC6 !important;
-}
+#back_to_blog { margin: 1em auto 2em; }
 
-/* New v1.2 class - a hover effect in the plugin list */
-.serendipity_PluginAdminHighlight {
-    background: #ededed;
-}
-/* Added class in s9y v1.2 */
-/* container between AdminFrame and AdminFooter */
-/* can be used to emulate a footer while allowing */
-/* "powered by" text to fall below everything else in the actual footer */
-.serendipityAdminFooterSpacer {
-    display: none;
-}
+#back_to_blog,
+#login { max-width: 24em; }
 
-/* Equal to frontend #footer but falls below of #serendipityAdminFrame wrapper */
-#serendipityAdminFooter {
-    border: 0;
-/*have to pick up some of the styles from wrapper so they apply to footer div below table*/
+#login .form_check,
+#login_send { float: left; }
+
+#login_send { margin: .5em 0 0 7.5em;}
+
+#login .form_field label { min-width: 8em; }
+
+
+/* LAYOUT
+   ----------------------------------------------------------------- */
+#top > div,
+#main {
     margin: 0 auto;
-/*    background: #CCCCCC; */
-    width: 95%;
-    height: 24px;
-    font-size: 70%;
-    line-height: 24px;
-    padding: 0;
+    max-width: 1280px;
+    width: 96%;
 }
 
-/********************************/
-/* Dashboard additions and changes */
-/********************************/
+.category_data,
+.user_name,
+.group_name,
+#serendipity_comments_list .form_check,
+#serendipity_comments_list h4,
+.comment_data dt,
+.comment_data dd,
+.template_info dt,
+.template_info dd,
+#entries_list .form_check,
+.template_info { float: left; }
 
-/* adjust the sliver config text */
-#serendipity_plugin_config { 
-    /*003BC6font: 11.4px/16px Verdana, Arial, Helvetica, sans-serif;font-weight: 500;color: #666;  serendipityAdminMsgNote serendipity_admin_comment_pending_header*/
-    color: #003399;
-    font: 500 14px/1.6 sans-serif;
+.media_file_preview {
+    float: left;
+    margin: 0 1em 0 0;
 }
-/* when using collapsing config titles */
-#serendipity_plugin_config tbody { 
-    font: 500 8pt/1.6 sans-serif;
-    color: #003399;
-}
-.serendipityAdminContent .serendipityAdminMsgNote { 
-    font-weight: 500;
-    text-align: left;
-}
-.serendipityAdminContent .serendipityAdminMsgNotice,
-.serendipityAdminContent .serendipityAdminMsgError,
-.serendipityAdminContent .serendipityAdminMsgSuccess { font: 12px/16px Verdana, Arial, Helvetica, sans-serif;font-weight: 500;text-align: left; }
 
-.serendipity_admin_comment_pending_header { background:#FFFF99 !important;border: 1px solid #FF0000; font-weight: 500; }
-
-.template_about_box {
-    background: none repeat scroll 0 0 #EDEDED; /* standard color no gradient */
-    /* moz syntax: linear-gradient( [<point> || <angle>,]? <stop>, <stop> [, <stop>]* ) */
-    background: -moz-linear-gradient(center top , #EDEDED, #FFFFFF) repeat scroll 0 0 transparent; /* Firefox 3.6+ */
-    background: -ms-linear-gradient(#EDEDED, #FFFFFF); /* IE 10 has to get proofed in future */
-    background: -webkit-gradient(linear, center top, center bottom, color-stop(0%, #EDEDED), color-stop(100%, #FFFFFF)); /* Safari 4+, Chrome 2+ */
-    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#EDEDED), to(#FFFFFF)); /* Safari 4-5, Chrome 1-9 */
-    background: -webkit-linear-gradient(#EDEDED, #FFFFFF); /* Safari 5.1+, Chrome 10+ */
-    background: -o-linear-gradient(#EDEDED, #FFFFFF); /* Opera 11.10 */
-    /* IE gradient moved to special IE wrapper, to avoid gradient overflowing rounded corners */
-    background: linear-gradient(#EDEDED, #FFFFFF); /* html5 standard */
-    -pie-background: linear-gradient(#EDEDED, #FFFFFF);
-    /* rounded corners */
-    -webkit-border-radius: 1em 1em 1em 1em;
-    -moz-border-radius: 1em 1em 1em 1em;
-    -o-border-radius: 1em 1em 1em 1em;
-    border-radius: 1em 1em 1em 1em; /* html5 standard */
-    /* shadow settings */
-    -webkit-box-shadow: 0 0 3px #AAAAAA inset;
-    -moz-box-shadow: 0 0 3px #AAAAAA inset;
-    -o-box-shadow: 0 0 3px #AAAAAA inset;
-    box-shadow: 0 0 3px #AAAAAA inset; /* html5 standard */
-    /* need only of IE gradient/shadowing */
-    padding: 10px;
-    color: #555555;
-    /* need only of IE 6/7/8 gradient/border-radius/border-shadow */
-    /* position: relative; IE PIE lt 9, we need this here */
-    /* behavior: url("/PIE.htc"); found best in root */
+#mediaPropertyForm .media_file_preview {
+    float: none;
+    margin: 1.5em 0;
 }
-/* adjust admin pluginmanager sidebars to 6 sidebars */
-td.pluginmanager_side {
+
+#entry_skip legend,
+#entry_skip label,
+#skipto_entry,
+.dialog_delrip li {
+    float: left;
+    margin: 0 .4em 0 0;
+}
+
+#entries_list h3,
+#entries_list .entry_status,
+#entries_list .entry_meta {
+    float : left;
+    margin: .75em 1em .75em 0;
+}
+
+.edit_actions,
+#entries_list .actions { float: right; }
+
+#edit_entry_title label,
+#edit_entry_metadata label,
+#filter_comments label,
+#serendipity_comment label { width: 15%; }
+
+#sort_entries .form_select label,
+#filter_entries .form_select label,
+#filter_entries .form_field label,
+#serendipity_category label,
+#media_pane_filter label,
+#media_pane_sort label,
+#image_directory_create_form label,
+#mediaPropertyForm .media_file_props label { width: 20%; }
+
+.category_data { width: 75%; }
+
+#sort_entries .form_select select,
+#filter_entries .form_select select,
+#filter_entries .form_field input { width: 79%; }
+
+#edit_entry_title input,
+#edit_entry_metadata input,
+#edit_entry_metadata select,
+#filter_comments input,
+#filter_comments select,
+#serendipity_comment .form_field input,
+#serendipity_comment select { width: 84%; }
+
+#serendipity_category .form_multiselect label { width: auto; }
+
+.editor_toolbar input,
+.comment_data dt { min-width: 4.25em; }
+
+.category_data,
+.user_name,
+.group_name { min-width: 8em; }
+
+#image_directory_create_form .form_field input,
+#image_directory_create_form .form_select select,
+#mediaPropertyForm .form_field input,
+#mediaPropertyForm .form_select select { min-width: 12em; }
+
+#mediaPropertyForm textarea { max-width: 40em; }
+
+
+/* HEADER
+   ----------------------------------------------------------------- */
+#top {
+    background: #25253d;
+    color: #fcfcfc;
+}
+
+#top a,
+#top a:visited { color: #ffbf00; }
+
+#top a:hover,
+#top a:focus { color: #fcfcfc; }
+
+#banner,
+#user_menu { text-shadow: 1px 1px 1px rgba(0,0,0,.8); }
+
+#user_menu ul {
+    font-size: 1.5em;
+    margin: .5em 0;
+}
+
+#user_menu li { margin: 0 1em 0 0; }
+
+
+/* CONTENT
+   ----------------------------------------------------------------- */
+.image_add_form br {
+    display: none;
+    visibility: hidden;
+} /* Temporary */
+
+.users_delete_action,
+#edit_entry_timestamp,
+#media_pane_filter { position: relative; }
+
+.users_delete_action { top: 1.5em; }
+
+#reset_timestamp,
+#media_pane_filter #toggle_filters {
+    position: absolute;
+    top: 0;
+}
+
+#reset_timestamp {
+    max-height: 1.25em;
+    right: 0;
+}
+
+#media_pane_filter #toggle_filters { right: 1.5em;}
+
+
+.template_info,
+.template_info dl,
+fieldset p,
+.media_file_meta,
+.image_resize_hint p { margin: 0; }
+
+.actions,
+.edit_actions {
+    margin-top: .25em;
+    margin-bottom: .25em;
+}
+
+.media_file .actions,
+#entries_list .actions { margin-bottom: 0; }
+
+#entries_list .actions { margin-top: .5em; }
+
+.media_file .actions { margin-top: 1em; }
+
+.category_data,
+.category_desc { margin: 0 1em 0 0; }
+
+#serendipity_comments_list .form_check { margin: 1.35em 0; }
+
+.comment_data dt,
+.template_info dt,
+.actions li,
+.edit_actions li { margin: 0 .4em 0 0; }
+
+.editor_toolbar input { margin: 0 .25em .75em 0; }
+
+.comment_data,
+.configuration_group h3 { margin-top: 0; }
+
+.editor_toolbar { margin-top: .25em; }
+
+#serendipity_comments_list .actions { margin-top: .75em; }
+
+.sub_perm { margin-left: 1em; }
+
+
+#template_select article,
+.media_file {
+    background: #eee;
+    margin: 0 0 1em;
+    padding: 0 .5em 1em;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+#template_select article,
+#serendipityScaleImg img,
+.media_file,
+.media_file_preview img { border: 1px solid #ddd; }
+
+#template_select .preview_image {
+    float: left;
+    margin: 0 1em 1em 0;
+    /* TESTING */
     overflow: hidden;
-    min-width: 16.6%;
-    width: auto;
+    height: 100px;
+    width: 100px;
 }
-/* not sure about these... */
-blockquote, q { quotes: none; }
-blockquote:before, blockquote:after,
-q:before, q:after { content: ''; content: none; }
 
-/* Dashboard Staticpage Simple Template */
-#backend_sp_simple { margin-top: 16px; }
-#backend_sp_simple legend { margin: 10px 0; }
-#backend_sp_simple .default_staticpage_main { width: 69%; float: left; }
-#backend_sp_simple .default_staticpage_sbar { width: 29%; float: right; }
-#backend_sp_simple .default_staticpage_button_sbar { margin: 0px auto; text-align: center; }
-#serendipityAdminFrame .default_staticpage_button_main { margin: 10px auto; text-align: center; }
-#sp_toggle_optionall { display:inline; float:right; margin-top: 0; }
+#entries_list h3 {
+    font-size: 1em;
+    line-height: 1.5;
+}
 
-.serendipity_backend_msg_notice { 
-    /* http://www.colorzilla.com/gradient-editor/ */
-    /* radial */
-    background: rgb(248,255,232); /* Old browsers */
-    background: -moz-radial-gradient(center, ellipse cover,  rgba(248,255,232,1) 0%, rgba(227,245,171,1) 33%, rgba(183,223,45,1) 100%); /* FF3.6+ */
-    background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,rgba(248,255,232,1)), color-stop(33%,rgba(227,245,171,1)), color-stop(100%,rgba(183,223,45,1))); /* Chrome,Safari4+ */
-    background: -webkit-radial-gradient(center, ellipse cover,  rgba(248,255,232,1) 0%,rgba(227,245,171,1) 33%,rgba(183,223,45,1) 100%); /* Chrome10+,Safari5.1+ */
-    background: -o-radial-gradient(center, ellipse cover,  rgba(248,255,232,1) 0%,rgba(227,245,171,1) 33%,rgba(183,223,45,1) 100%); /* Opera 12+ */
-    background: -ms-radial-gradient(center, ellipse cover,  rgba(248,255,232,1) 0%,rgba(227,245,171,1) 33%,rgba(183,223,45,1) 100%); /* IE10+ */
-    background: radial-gradient(center, ellipse cover,  rgba(248,255,232,1) 0%,rgba(227,245,171,1) 33%,rgba(183,223,45,1) 100%); /* W3C */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f8ffe8', endColorstr='#b7df2d',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
-    background-clip: padding-box;
-    border: 1px solid #CACACA;
-    /* rounded corners */
-    -webkit-border-radius: 1em 1em 1em 1em;
-    -moz-border-radius: 1em 1em 1em 1em;
-    -o-border-radius: 1em 1em 1em 1em;
-    border-radius: 1em 1em 1em 1em; /* html5 standard */
-    /* shadow settings */
-    -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
-    -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
-    -o-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15); /* html5 standard */
-    color: #393939;
-    font: 12px Monaco,"Courier New","DejaVu Sans Mono","Bitstream Vera Sans Mono",monospace;
-    margin: 0;
-    overflow: auto;
-    padding: 10px;
-    position: relative; /* IE PIE lt 9, we need this here */
-    behavior: url("/PIE.htc"); /* found best in root */
+
+/* FOOTER
+   ----------------------------------------------------------------- */
+
+#meta {
+    background: #ccdee7;
+    border-top: 1px solid #25253d;
+    text-align: center;
+}
+
+#meta small {
+    font-size: 1em;
+    padding: 8px;
+}
+
+
+/* PLUGIN MANAGER
+
+   (These might go into pluginmanager.css or be merged with it.)
+   ----------------------------------------------------------------- */
+#configuration_footer { height: 100px; }
+
+.plugin_count {
+    clear: both;
+    margin: 0 0 1.5em;
+}
+
+.pluginmanager_grablet,
+.pluginmanager_configure {
+    position: absolute;
+    top: 5px;
+}
+
+.pluginmanager_grablet { left: 5px; }
+.pluginmanager_configure { right: 5px; }
+
+.pluginmanager_plugin .form_check,
+.pluginmanager_plugin h5,
+.media_file .form_check { margin: 0 0 1em; }
+
+.media_file h3 { margin: .5em 0 1em; }
+
+.media_file .form_check input {
+    position: relative;
+    top: .125em;
+}
+
+
+/* MEDIA DB
+
+   (These might go into imgedit.css or be merged with it.)
+   ----------------------------------------------------------------- */
+#fs_crop { min-height: 200px; }
+
+.media_pane .pagination { margin: 0; }
+
+
+/* SMALL SCREEN (e.g. smartphones)
+   ----------------------------------------------------------------- */
+@media only screen and (min-width: 481px) {
+    #uploadform label {
+        display: inline-block;
+        *display: inline;
+        *zoom: 1;
+        min-width: 40%;
+    }
+
+    #uploadform .form_field input,
+    #uploadform .form_select select { min-width: 16em; }
+}
+
+
+/* MEDIUM SCREEN (e.g. tablets)
+   ----------------------------------------------------------------- */
+@media only screen and (min-width: 768px) {
+    body { font-size: 1em; }
+
+    h1 {
+        font-size: 2em;
+        line-height: 1.5em;
+        margin: 0.75em 0 0;
+    }
+
+    #banner_install h1 { margin: 0.75em 0; }
+
+    h2 {
+        font-size: 1.5em;
+        line-height: 1em;
+        margin: 1em 0;
+    }
+
+    pre {
+        font-size: 0.875em;
+        line-height: 1.71429em;
+        margin: 1.71429em 0;
+    }
+
+    #image_directory_edit_form>.clearfix>div {
+        float: left;
+        margin: 0 5% 0 0;
+    }
+
+    #template_select article,
+    #serendipityScaleForm,
+    #serendipityScaleImg,
+    .media_file {
+        float: left;
+        margin: 0 2% 1em 0;
+        width: 48%;
+    }
+
+    #mediaPropertyForm .media_file {
+        float: none;
+        margin: 1.5em 0;
+        width: auto;
+    }
+
+    #template_select .odd,
+    .media_pane .odd { clear: left; }
+
+    #serendipityScaleImg,
+    .media_file header { overflow: hidden; } 
+
+    #serendipityScaleImg { margin-top: 2.25em; }
+
+    /* Plugin manager – might go into pluginmanager.css in the end */
+    .pluginmanager_side {
+        float: left;
+        margin: 0 0 1.5em;
+    }
+
+    #pluginlist_sidebar .pluginmanager_side  {
+        margin-right: 1%;
+        width: 32%;
+    }
+
+    #pluginlist_event .pluginmanager_side  {
+        margin-right: 1%;
+        width: 48%;
+    }
+}
+
+
+/* LARGE SCREEN (e.g. netbooks)
+   ----------------------------------------------------------------- */
+@media only screen and (min-width: 1024px) {
+    #edit_entry_timestamp,
+    #reset_timestamp {
+        max-height: auto;
+        position: static;
+    }
+
+    #edit_entry_metadata label,
+    #sort_entries .form_select label,
+    #filter_entries .form_select label,
+    #filter_entries .form_field label,
+    #filter_comments label,
+    #serendipity_category label,
+    #serendipity_comment label,
+    #media_pane_filter label,
+    #media_pane_sort label {
+        display: block;
+        width: auto;
+    }
+
+    #banner,
+    #content {
+        float: left;
+        margin: 0 2% 0 0;
+    }
+
+    #user_menu,
+    #main_menu {
+        float: right;
+        margin: 0 0 0 2%;
+    }
+
+    #edit_entry_metadata>div,
+    #sort_entries .form_select,
+    #filter_comments .clearfix>div,
+    #serendipity_category>.clearfix>div,
+    #serendipity_comment .form_field,
+    #media_filter>div,
+    #moreFilter>div,
+    #media_pane_sort>.clearfix>div {
+        float: left;
+        width: 33% ;
+    }
+
+    #filter_entries .form_select,
+    #filter_entries .form_field {
+        float: left;
+        width: 25%;
+    }
+
+    #moreFilter .left,
+    #serendipity_comment .form_tarea { clear: both; }
+
+    #main_menu { width: 23%; }
+    .lt-ie8 #main_menu { width: 22.5%; }
+
+    .lt-ie8 #banner,
+    .lt-ie8 #user_menu { width: 47.5%; }
+
+    #banner,
+    #user_menu { width: 48%; }
+
+    #content { width: 73%; }
+    .lt-ie8 #content { width: 72.5%; }
+
+    #edit_entry_metadata select[multiple],
+    #sort_entries .form_select select,
+    #filter_entries .form_select select,
+    #filter_entries .form_field input,
+    #media_filter input,
+    #media_filter select,
+    #media_pane_sort select { width: 84%; }
+
+    #edit_entry_metadata select { width: 100%; }
+
+
+    #banner>span { margin: 0 0 1.5em; }
+
+    #user_menu li { margin: 0 0 0 1em; }
+
+    #login { margin: 4em auto 1em; }
+
+    #back_to_blog { margin: 1em auto 4em; }
+
+    #moreFilter fieldset input,
+    #moreFilter fieldset select { margin-bottom: .75em; }
+
+
+    #user_menu { text-align: right; }
+
+    #user_menu ul {
+        font-size: 1.5em;
+        margin: 1.5em 0 .5em;
+    }
+}
+
+
+/* LARGER SCREEN (e.g. laptops)
+   ----------------------------------------------------------------- */
+@media only screen and (min-width: 1280px) {
+    #user_menu ul {
+        font-size: 2em;
+        margin: 1em 0;
+    }
+}
+
+
+/* HUGE SCREEN (e.g. desktops)
+   ----------------------------------------------------------------- */
+@media only screen and (min-width: 1400px) {
+    body { font-size: 1.125em; }
 }
