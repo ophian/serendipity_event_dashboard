@@ -74,7 +74,7 @@ $.fn.ajax_submit = function(degurl) {
                 } else {
                     rebuildContainer.call(this, resultdata, url); // if callback is not willing to be a function, try with our real function name
                 }
-            }            
+            }
         },
         error: function(xhr, status, error) {
             console.log(error);
@@ -109,7 +109,7 @@ jQuery(document).ready(function($) {
     var c_text     = ['#info, #draft, #future, #update, #plugup'];
     var t_text     = ['#comapp, #compen, #feed'];
     var t_form     = ['#formMultiDeleteApp, #formMultiDeletePen'];
-    var c_blocks   = ['#draft, #future, #plugup, #comapp, #compen, #info, #test'];
+    var c_blocks   = ['#draft, #future, #plugup, #comapp, #compen, #info'];
 
     // start object selectors
     var $button    = $('#menu-fadenav');
@@ -265,7 +265,7 @@ jQuery(document).ready(function($) {
         var i = h.replace('addLoadEvent(init_sequence_Sequence)', 'jQuery(function ($) { init_sequence_Sequence(); })'); // dashboard and entryproperties plugin
         var k = i.replace('addLoadEvent(init_cat_precedence_Sequence)', 'jQuery(function ($) { init_cat_precedence_Sequence(); })'); // categorytemplates plugin
         /*
-		addLoadEvent(templatePluginMoverInit); functions_plugins_admin.inc.php
+        addLoadEvent(templatePluginMoverInit); functions_plugins_admin.inc.php
         addLoadEvent(pluginMoverInitEvent); functions_plugins_admin.inc.php
         addLoadEvent(treeInit); media_choose.tpl
         addLoadEvent(enableAutocomplete); serendipity_event_freetag.php
@@ -450,7 +450,7 @@ jQuery(document).ready(function($) {
             //$('#nav-embed-iconset li:nth-child(1)').on('click', 'a#menu-logoff', (function(e) { // 1.6.x
                 e.preventDefault(); // Cancel a link's default action using the preventDefault method
                 alert(logoff_text);
-            }));// master has no nav-embed-iconset any more
+            })); // master has no nav-embed-iconset any more
         } else {
             $('#user_menu li:nth-child(6)').unbind('click');
             //$('#nav-embed-iconset li:nth-child(1)').unbind('click'); // 1.6.x

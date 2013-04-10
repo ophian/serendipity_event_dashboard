@@ -1,6 +1,6 @@
 <?php # $Id$
 
-// - last modified 2012-12-12
+// - last modified 2013-04-04
 
 if (IN_serendipity !== true) {
     die ("Don't hack!");
@@ -296,7 +296,7 @@ define(DASHBOARD_PRESET_MOMATXT, sprintf(PLUGIN_DASHBOARD_MAINTENANCE_TEXT, $ser
             'php'         => '5.2.6'
         ));
 
-        $propbag->add('version',       '1.0.1');
+        $propbag->add('version',       '1.0.4');
         $propbag->add('author',        'Garvin Hicking, Ian');
         $propbag->add('stackable',     false);
         $propbag->add('configuration', array('read_only', 'path', 'limit_compen', 'limit_comments', 'limit_draft', 'limit_future', 'limit_feed', 'sequence', 'feed_url', 'feed_title', 'feed_content', 'feed_author', 'feed_conum', 'extend', 'dependencynote', 'maintenance', 'maintenancenote', 'update', 'clean'));
@@ -538,7 +538,7 @@ define(DASHBOARD_PRESET_MOMATXT, sprintf(PLUGIN_DASHBOARD_MAINTENANCE_TEXT, $ser
                     $plugin_found = serendipity_plugin_api::load_plugin($plugin['name']);
                     break;
                 }
-		    }
+            }
 
             $this->bayes_plugin = $plugin_found;
         }
@@ -581,18 +581,18 @@ define(DASHBOARD_PRESET_MOMATXT, sprintf(PLUGIN_DASHBOARD_MAINTENANCE_TEXT, $ser
     }
 
     /**
-     * Set None-IE9 'Dashboard Unavailable' Mode and provide some browsers upgrades and a dashboard uninstall link
+     * Set None-IE9+ 'Dashboard Unavailable' Mode and provide some browsers upgrades and a dashboard uninstall link
      *
      * @access    private
      * @return
      */
     private static function checkBrowser() {
         global $serendipity;
-        if(preg_match('/(?i)msie [1-8]/',$_SERVER['HTTP_USER_AGENT'])) {
+        if(preg_match('/(?i)msie [6-8]/',$_SERVER['HTTP_USER_AGENT'])) {
             serendipity_die('
                 <div style=" clear: both; text-align:center; position: relative;">
                     <h2>Sorry, no Dashboard support for your Browser!</h2>
-                    <a href="http://windows.microsoft.com/en-US/internet-explorer/downloads/ie-9/worldwide-languages">
+                    <a href="http://windows.microsoft.com/en-US/internet-explorer/downloads/ie-10/worldwide-languages">
                         <img alt="Windows" width="120" height="26" src="' . DASHBOARD_PLUGINPATH . '/img/windows.png" style="border:0 none" border="0" />
                     </a>
                     <p>Please return to the: <a href="' . $serendipity['serendipityHTTPPath'] . 'serendipity_admin.php?serendipity[adminModule]=plugins">plugin installation dir</a>!</p>
@@ -701,8 +701,8 @@ define(DASHBOARD_PRESET_MOMATXT, sprintf(PLUGIN_DASHBOARD_MAINTENANCE_TEXT, $ser
             global $serendipity;
             //error handling in here 
             $articles[0]['content'] = 'There was an error fetching the Serendipity Blog RSS Feed. Try again later.';
-            $serendipity['smarty']->assign('errormsg', $articles[0]['content']);
-            return;
+            //$serendipity['smarty']->assign('errormsg', $articles[0]['content']);
+            return $articles;
         }
 
         // step 1: get the feed (we already have that by function get_url_contents($url))
@@ -1021,13 +1021,15 @@ define(DASHBOARD_PRESET_MOMATXT, sprintf(PLUGIN_DASHBOARD_MAINTENANCE_TEXT, $ser
         foreach ($entries as $ey) {
             // Find out if the entry has been modified later than 30 minutes after creation
             if ($ey['timestamp'] <= ($ey['last_modified'] - 60*30)) {
-                $lm = '<a href="#" title="' . LAST_UPDATED . ': ' . serendipity_formatTime(DATE_FORMAT_SHORT, $ey['last_modified']) . '"><img src="'. serendipity_getTemplateFile('admin/img/clock.png') .'" alt="*" /></a>';
+                //$lm = '<a href="#" title="' . LAST_UPDATED . ': ' . serendipity_formatTime(DATE_FORMAT_SHORT, $ey['last_modified']) . '"><img src="'. serendipity_getTemplateFile('admin/img/clock.png') .'" alt="*" /></a>';
+                $lm = LAST_UPDATED . ': ' . serendipity_formatTime(DATE_FORMAT_SHORT, $ey['last_modified']);
             } else {
                 $lm = '';
             }
 
             if (!$serendipity['showFutureEntries'] && $ey['timestamp'] >= serendipity_serverOffsetHour()) {
-                $entry_pre = '<a href="#" title="' . ENTRY_PUBLISHED_FUTURE . '"><img src="'. serendipity_getTemplateFile('admin/img/clock_future.png') .'" alt="*" /></a> ';
+                //$entry_pre = '<a href="#" title="' . ENTRY_PUBLISHED_FUTURE . '"><img src="'. serendipity_getTemplateFile('admin/img/clock_future.png') .'" alt="*" /></a> ';
+                $entry_pre = ENTRY_PUBLISHED_FUTURE;
             } else {
                 $entry_pre = '';
             }
@@ -1175,11 +1177,10 @@ define(DASHBOARD_PRESET_MOMATXT, sprintf(PLUGIN_DASHBOARD_MAINTENANCE_TEXT, $ser
         $serendipity['smarty']->assign('showElementPlugup', true);
         ob_start();
         // ToDo: ask /serendipity_admin.php?serendipity[adminModule]=plugins&serendipity[adminAction]=addnew&serendipity[only_group]=UPGRADE&serendipity[type]=event
-        //       if there is a upgrade plugin array available and not empty...
+        //       if there is an upgrade plugin array available and not empty...
         serendipity_plugin_api::hook_event('backend_pluginlisting_header', $serendipity['eyecandy']);
-        $candy = ob_get_contents();
+        $plugupnote = ob_get_contents();
         ob_end_clean();
-        $plugupnote = str_replace('<br />', '', $candy); // prior 1.7
 
         $serendipity['smarty']->assign('plugup_hook_note', (!empty($plugupnote) ? $plugupnote : ''));
         $serendipity['smarty']->assign('plugup_block_id', $sort_id);
@@ -1438,6 +1439,8 @@ define(DASHBOARD_PRESET_MOMATXT, sprintf(PLUGIN_DASHBOARD_MAINTENANCE_TEXT, $ser
                     // read already set $serendipity['maintenance'], stored in serendipity_config_local.inc file
                     if (isset($serendipity['maintenance']) && !empty($serendipity['maintenance'])) $servicehook = $serendipity['maintenance']; // [booleanize!]
 
+                    // ToDO: do not use when $serendipity['POST']['adminModule'] != 'templates' - how???
+
                     // containerized backend calls send an ajax noHeading request which passes all smarty and web request into cloned default template
                     if ( ( ( !isset($serendipity['GET']['adminModule']) || empty($serendipity['GET']['adminModule']) ) &&
                            ( !isset($serendipity['POST']['adminModule']) || empty($serendipity['POST']['adminModule']) )
@@ -1446,20 +1449,25 @@ define(DASHBOARD_PRESET_MOMATXT, sprintf(PLUGIN_DASHBOARD_MAINTENANCE_TEXT, $ser
                         // Disable the use of Serendipity JQuery in Dashboard Backend views - remember if having it disabled in template....
                         $serendipity['capabilities']['jquery'] = false;
 
-                        $serendipity['smarty']->security = false;
-                        $serendipity['templatePath'] = 'plugins/';
-                        $serendipity['template'] = 'serendipity_event_dashboard/default';
+                        //$serendipity['smarty']->security = false; no need in 1.7 and up ??
+                        if ( !isset($serendipity['GET']['skipTemplate']) ) { 
+                            $originTemplateName = $serendipity['template'];
+                            $originTemplatePath = $serendipity['templatePath']; /* no need for now */
+                            $serendipity['templatePath'] = 'plugins/'; // do we need to check for the symlinked path here too?
+                            $serendipity['template'] = 'serendipity_event_dashboard/default';
+                        } 
 
                         // assign some head vars to smarty and the new index.tpl file 
                         // - is maintenance mode allowed
                         // - is set servicehook 
-                        // - allow the use of containerized backend views null = never, false = initial-tier (mainly via nav- & selectbar), true = follow links, forms, etc.
+                        // - allow the use of containerized backend views null = never, false = initial-tier (mainly via nav- & selectbar), true = follow all inner links, forms, etc.
                         $serendipity['smarty']->assign(
                             array(
                                 'head_maintenance' => $this->blockMaintenance,
                                 'head_servicehook' => ($this->blockMaintenance && serendipity_db_bool($servicehook)) ? 'true' : 'false',
                                 'head_extend2Cont' => $this->extendToContainer === 'null' ? 'null' : (serendipity_db_bool($this->extendToContainer) ? 'true' : 'false'),
-                                'smarty_dashpath'  => DASHBOARD_PLUGINPATH.'/'
+                                'smarty_dashpath'  => DASHBOARD_PLUGINPATH.'/',
+                                'origin_template'  => $originTemplateName
                             )
                         );
                     }
@@ -1467,11 +1475,18 @@ define(DASHBOARD_PRESET_MOMATXT, sprintf(PLUGIN_DASHBOARD_MAINTENANCE_TEXT, $ser
                     break;
 
                 case 'backend_header':
+                    // Watching the style template section within a modal container view needs the original Serendipity template name and path vars, as this extend to function serendipity_fetchTemplates()
+                    // This is why we need to workaround the load of old backend headers here and include an additional fix for old backend styles, called fobs.css here
+                    if ( isset($serendipity['GET']['noHeading']) && isset($serendipity['GET']['skipTemplate']) ) { 
+                        echo '        <link rel="stylesheet" href="' . DASHBOARD_PLUGINPATH . '/css/fobs.css?v=' . time() . '" type="text/css" media="screen"/>'."\n\n"; // this was to sticky so we need to force loading for some time.
+                        echo "\n\n";
+                        echo '        <script type="text/javascript"> var dashpath = \'' . DASHBOARD_PLUGINPATH . '/\'; </script>'."\n\n";
+                    }
                     // Set backend_header hook content to be appended to head of standard templates/default/admin/index.tpl in sidebar mode backend views
-                    // In case of sidebar serendipty_admin.php startpage is dashboard and dasboard full view, we take our own default admin template
+                    // In case of sidebar serendipty_admin.php startpage is dashboard and dashboard full view, we take our own default admin template
                     if ( ( ( isset($serendipity['GET']['adminModule']) && !empty($serendipity['GET']['adminModule']) ) ||
                            ( isset($serendipity['POST']['adminModule']) && !empty($serendipity['POST']['adminModule']) )
-                         ) && !$serendipity['GET']['noHeading']) {
+                         ) && !$serendipity['GET']['noHeading'] && !isset($serendipity['GET']['skipTemplate']) ) {
 
                         // here we go and and add or restruct the backend header ;-)
                         echo "\n\n";
@@ -1612,7 +1627,7 @@ define(DASHBOARD_PRESET_MOMATXT, sprintf(PLUGIN_DASHBOARD_MAINTENANCE_TEXT, $ser
                     $sysinfo['widgets']  = $this->count_plugins(explode('|','hide|event|eventh'), true);
 
                     ob_start();
-                    // include the POST % GET action file
+                    // include the POST & GET action file
                     include dirname(__FILE__) . '/' . 'dashboard_request_actions.inc.php';
                     // now assign all needed data to smarty
                     $serendipity['smarty']->assign(
