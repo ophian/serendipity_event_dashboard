@@ -1,12 +1,10 @@
 {* HTML5: No  *}
 {* jQuery: No *}
 
-{* Customization notes: All classnames and especially DOM IDs should be kept to keep compatibility with JavaScript calls! *}
-
 {* <script src="{$serendipityHTTPPath}serendipity_editor.js"></script>
 <script src="{$CONST.DASHBOARD_PLUGINPATH}/inc/admin_container.js"></script> we already have the needed functions in 1.7 admin_container.js *}
 
-DASHBOARD-MEDIA-UPLOAD start -->
+<!-- DASHBOARD-MEDIA-UPLOAD start -->
 <div class="image_add_form">{$CONST.ADD_MEDIA_BLAHBLAH}</div>
 
 <form id="uploadform" action="?" method="POST" enctype="multipart/form-data" onsubmit="rememberUploadOptions()">
@@ -67,10 +65,9 @@ DASHBOARD-MEDIA-UPLOAD start -->
        <span id="upload_form"></span>
        <script>
             jQuery(function ($) { 
-			document.getElementById('upload_template').style.display  = 'none';
-            /*addUploadField();*/
-			addUploadField(); 
-			});
+            document.getElementById('upload_template').style.display  = 'none';
+            addUploadField(); 
+            });
        </script>
 
         {serendipity_hookPlugin hook="backend_image_addform" hookAll=true}

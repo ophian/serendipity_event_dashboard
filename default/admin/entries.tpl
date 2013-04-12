@@ -28,9 +28,9 @@
     {/if}
         <div id="edit_entry_category" class="form_select">
             <div class="clearfix">
-				<a href="#" onclick="showItem('categoryselector'); return false" title="{$CONST.TOGGLE_OPTION}"><img src="{serendipity_getFile file='img/plus.png'}" id="option_categoryselector" alt="" border="0"></a>
-				<label for="categoryselector" class="clearfix"> {$CONST.CATEGORY}</label>
-			</div>
+                <a href="#" onclick="showItem('categoryselector'); return false" title="{$CONST.TOGGLE_OPTION}"><img src="{serendipity_getFile file='img/plus.png'}" id="option_categoryselector" alt="" border="0"></a>
+                <label for="categoryselector" class="clearfix"> {$CONST.CATEGORY}</label>
+            </div>
             
             <select id="categoryselector" name="serendipity[categories][]" multiple>
                 <option value="0">{$CONST.NO_CATEGORY}</option>
@@ -70,9 +70,6 @@
         <label for="serendipity[body]">{$CONST.ENTRY_BODY}</label>
     {if NOT $entry_vars.wysiwyg}
         <div id="tools_entry" class="editor_toolbar">{* in dashboard mode we do not need the js document write replacement method, since everything is based on enabled javascript *}
-            {* This whole button bar should be replaced by something external, which maybe even
-               "reacts" to installed markup plugins. I.e. if a blog uses Markdown, the button for
-               italic should not insert an em element but the appropriate Markdown formatting. *}
         {if $entry_vars.wysiwyg_advanced}
             {if $iso2br}
             <input type="button" name="insX" value="NoBR" accesskey="x" onclick="wrapSelection(document.forms['serendipityEntry']['serendipity[body]'],'<nl>','</nl>')">
