@@ -1,6 +1,6 @@
 /*******************************************************************************
- * Proof of Concept Dashboard Plugin info file 1.0.2x
- * last-modified: 2013-01-08
+ * Proof of Concept Dashboard Plugin info file 1.0.4x
+ * last-modified: 2013-04-13
  ******************************************************************************/
  
  As of changing the $serendipity['templatePath'] and $serendipity['template'] on demand, 
@@ -17,6 +17,7 @@
  
 Still buggy and unresolved issues in **modal container** view:
 
-- the drag and drop javascript fails to work (in plugins overview page and the dashboard config view)
 - the upload of media files fails to work (the fields javascript now gathered in serendipity_editor.js vs serendipity[userfile][] collection is missing?)
-- some redirects do not happen how they should to be
+- some redirects do not happen (i.e. submit finish notes) how they should
+- the wysisyg-editor is not usfull within modal views, don't do this
+- 
