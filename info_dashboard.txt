@@ -19,5 +19,5 @@ Still buggy and unresolved issues in **modal container** view:
 
 - the upload of media files fails to work (the fields javascript now gathered in serendipity_editor.js vs serendipity[userfile][] collection is missing?)
 - some redirects do not happen (i.e. submit finish notes) how they should
-- the wysisyg-editor is not usfull within modal views, don't do this
+- the wysisyg-editor is not usefull within modal views, don't do this
 - 

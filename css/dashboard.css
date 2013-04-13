@@ -2229,7 +2229,7 @@ td.serendipityAdminContentDashboard {
 #osx-container #osx-modal-data {font-size:14px; padding:0.6em 1.2em;}
 #osx-container h2 {margin:1em 0 0.6em;}
 #osx-container p {margin-bottom:1em;}
-#osx-container span {color:#777;}
+/*#osx-container span {color:#777;} do not in class^="icon-"] spans */
 
 /* simple Modal additions */
 #osx-modal.help [class^="icon-"]:before, #osx-modal.help [class*=" icon-"]:before,
