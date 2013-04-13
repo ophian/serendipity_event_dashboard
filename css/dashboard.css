@@ -33,17 +33,14 @@
 #mbc_wrapper .mbc_container.black > .mbc_content [class^="icon-"]:before, #mbc_wrapper .mbc_container.black > .mbc_content [class*=" icon-"]:before {
     color: #FFF;
 }
-/*#cont2.mbc_container.black > .mbc_content .blue [class^="icon-"]:before, #cont2.mbc_container.black > .mbc_content .blue [class*=" icon-"]:before,*/
 #dashboard .blue [class^="icon-"]:before, #dashboard .blue [class*=" icon-"]:before,
 .blue [class^="icon-"]:before, .blue [class*=" icon-"]:before {
     color: #33CCFF;
 }
-/*#cont2.mbc_container.black > .mbc_content .green [class^="icon-"]:before, #cont2.mbc_container.black > .mbc_content .green [class*=" icon-"]:before,*/
 #dashboard .green [class^="icon-"]:before, #dashboard .green [class*=" icon-"]:before,
 .green [class^="icon-"]:before, .green [class*=" icon-"]:before {
     color: #00FF33;
 }
-/*#cont2.mbc_container.black > .mbc_content .red [class^="icon-"]:before, #cont2.mbc_container.black > .mbc_content .red [class*=" icon-"]:before,*/
 #dashboard .red [class^="icon-"]:before, #dashboard .red [class*=" icon-"]:before,
 .red [class^="icon-"]:before, .red [class*=" icon-"]:before {
     color: #FF6600;
@@ -60,7 +57,7 @@
 }
 /*
    dashboard css file
-   last modified: 2013-01-31
+   last modified: 2013-04-13
 */
 
 html, body {
@@ -68,6 +65,7 @@ html, body {
 }
 body {
     max-width: 1280px;
+    font-size: 0.875em;/* new for wide screens - overwrites previsous #dashboard.maincontent */
 }
 body > #loaderPanel {
     display: none;
@@ -247,7 +245,7 @@ td.serendipityAdminContentDashboard {
 }
 #dashboard.maincontent {
     display: block;
-    font-size: 90%; /* ... and back in the dashboard to its near old value... could also 90% */
+    /*font-size: 0.9;  ... and back in the dashboard to its near old value... could also 90% - disabled as now a general body rulw 0.875em */
     line-height: normal;
     margin: 0 0 2em;
     max-width: 1208px;
@@ -628,6 +626,11 @@ td.serendipityAdminContentDashboard {
     vertical-align: baseline;
     width: 50%;
 }
+/*added to keep cell content on top in small views */
+#dashboard #update #cell_left, #dashboard #update #cell_right {
+    vertical-align: top;
+}
+
 #dashboard #cell_left h3 { 
     margin: 4px 0; 
 }
@@ -895,6 +898,7 @@ td.serendipityAdminContentDashboard {
 }
 
 #dashboard .block-content-update p {
+    font-size: 0.936em;
     margin: 0;
     padding: 2px;
 }
@@ -906,7 +910,7 @@ td.serendipityAdminContentDashboard {
     background: none repeat scroll 0 0 #EEEEEE;
     border: 1px solid #72878A;
     color: inherit;
-    font-size: 100%;
+    font-size: 0.936em;
     font-weight: normal;
     margin: 0;
     padding: 0;
@@ -1838,15 +1842,10 @@ td.serendipityAdminContentDashboard {
 #cont2 #edit_entry_category {
     margin: 0.75em 0.25em;
 }
-/* temporary: do not display the dashboard in modal container - if form submits fall back to serendipity_admin.php without messages*/
+/* temporary: do not display the dashboard in modal container - if form submits fall back to serendipity_admin.php without messages */
 #cont2 article#dashboard {
     display: none;
 }
-/* Backend Container Box
-#cont2 ul li {
-    display: inline-block;
-    float: none;
-} */
 #cont2 article.media_file.media_enclose_no > header {
     background: inherit;
     border: 0 none;
@@ -1894,35 +1893,9 @@ td.serendipityAdminContentDashboard {
 }
 #cont2 #serendipity_plugin_config { margin:0; }
 
-/*#cont2.mbc_container .mbc_content > #spinLoadProgress {
-    background: none repeat scroll 0 0 #666666;
-    height: 100%;
-    opacity: 0.5;
-    overflow: hidden;
-    position: absolute;
-    text-align: center;
-    vertical-align: middle;
-    width: 100%;
-    z-index: 10;
-}<div id="loading" class="tab-pane fade active in"><i class="icon-load animate-spin"></i> Loading...</div>
-<div style="display: block;" id="spinLoadProgress" role="status" aria-hidden="false">
-     <span id="loaderPanel"><img style="margin-top: 30%;" alt="" src="/Content/images\roller.gif"></span>
-</div>
-*/
-/*
-#cont2.mbc_container > .mbc_content .freetagMenu,
-#cont2.mbc_container > .mbc_content #bayesNav, 
-#cont2.mbc_container > .mbc_content #serendipityStaticpagesNav {
-    font-family: 'Open Sans', sans-serif;
-    font-size: smaller;
-}*/
 #cont2.mbc_container > .mbc_content .freetagMenu {
     line-height: 1.8;
 }
-/*
-#cont2.mbc_container .backend_entry_container {
-    font-size: 108%;
-}*/
 #cont2.mbc_container input.serendipityPrettyButton, #cont2.mbc_container a.serendipityPrettyButton {
     background: url("images/bp_admin_prettybutton.png") repeat scroll 0 50% #055BC6;
     border: 1px solid #055BC6;
@@ -1931,9 +1904,6 @@ td.serendipityAdminContentDashboard {
     text-decoration: none;
     color: white;
 }
-/*#cont2.mbc_container input, #cont2.mbc_container select, #cont2.mbc_container form fieldset, #cont2.mbc_container a.serendipityPrettyButton {
-    font-size: 84%;
-}*/
 #cont2.black .msg_error, #cont2.black .msg_notice, #cont2.black .msg_dialogue,
 #cont2 .mbc_content > .backend_entry_container .msg_success {
     border: 1px solid #A0A0A0;
@@ -2187,17 +2157,6 @@ td.serendipityAdminContentDashboard {
 /* comment answer end */
 
 
-/* temporary tests with new backend .plainList
-#event_col, #event_col li > a, #event_col li > h5 {
-#cont2 ol.pluginmanager_container  li > div,
-#cont2 ol.pluginmanager_container  li > a,
-#cont2 ol.pluginmanager_container  li > h5 {
-    display: inline-block;
-}
-#pluginlist_sidebar li h5, #event_col li > h5 {
-    float: right;*/
-    /*padding: 0.8em 0.5em 0 0; was fixed with YL-Jan-3/4 fixes*/
-/*}*/
 .pluginmanager_container > li {
     list-style: none outside none;
 }
@@ -2233,6 +2192,7 @@ td.serendipityAdminContentDashboard {
 #info-help {
     display: inline-block;
     float: right;
+    margin-top: 7.25%; /* new: move buttom down to edge */
 }
 #info-help-content { display:none; }
 #info-help-content > h3 {
