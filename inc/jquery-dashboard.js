@@ -770,6 +770,7 @@ jQuery(document).ready(function($) {
             }
             $selectbar.toggleClass('visuallyhidden');
             ajaxify(extendLinks); // set/reset ajaxified block container links
+            runTooltip(); // init tooltip for the changed extendLinks nav elements again
         });
 
         if( typeof extendLinks === 'undefined' ) {
