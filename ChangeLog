@@ -1,5 +1,10 @@
+1.0.5
+-----
+reduced clear compiled templates to clear $serendipity['template'] only, as the following recompile could cause a servers memory exhaustment in case of installed gravatar event plugin cache
+
 1.0.4
 1.0.3
+-----
 optomize, update etc.
 
 1.0.2

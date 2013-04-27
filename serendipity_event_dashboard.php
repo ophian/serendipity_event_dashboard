@@ -1,6 +1,6 @@
 <?php # $Id$
 
-// - last modified 2013-04-04
+// - last modified 2013-04-27
 
 if (IN_serendipity !== true) {
     die ("Don't hack!");
@@ -296,7 +296,7 @@ define(DASHBOARD_PRESET_MOMATXT, sprintf(PLUGIN_DASHBOARD_MAINTENANCE_TEXT, $ser
             'php'         => '5.2.6'
         ));
 
-        $propbag->add('version',       '1.0.4');
+        $propbag->add('version',       '1.0.5');
         $propbag->add('author',        'Garvin Hicking, Ian');
         $propbag->add('stackable',     false);
         $propbag->add('configuration', array('read_only', 'path', 'limit_compen', 'limit_comments', 'limit_draft', 'limit_future', 'limit_feed', 'sequence', 'feed_url', 'feed_title', 'feed_content', 'feed_author', 'feed_conum', 'extend', 'dependencynote', 'maintenance', 'maintenancenote', 'update', 'clean'));
