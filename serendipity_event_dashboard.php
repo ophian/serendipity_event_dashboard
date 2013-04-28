@@ -1,6 +1,6 @@
 <?php # $Id$
 
-// - last modified 2012-10-31
+// - last modified 2013-04-28
 
 if (IN_serendipity !== true) {
     die ("Don't hack!");
@@ -73,7 +73,7 @@ if(!defined('AUTOUPDATE_INSTALLED')) {
             'php'         => '5.2.6'
         ));
 
-        $propbag->add('version',       '0.9.9.2');
+        $propbag->add('version',       '0.9.9.3');
         $propbag->add('author',        'Garvin Hicking, Ian');
         $propbag->add('stackable',     false);
         $propbag->add('configuration', array('read_only', 'path', 'limit_comments_pending', 'limit_comments', 'limit_draft', 'limit_future', 'limit_feed', 'sequence', 'feed_url', 'feed_title', 'feed_content', 'feed_author', 'feed_conum', 'dependencynote', 'maintenance', 'maintenancenote', 'update', 'clean'));
@@ -519,7 +519,7 @@ if(!defined('AUTOUPDATE_INSTALLED')) {
 
         // a users note
         // Another way to get the CDATA is to load the xml using
-        // $xml = simplexml_load_string($rawFeed, ‘SimpleXMLElement’, LIBXML_NOCDATA); //(PHP >= 5.1.0)
+        // $xml = simplexml_load_string($rawFeed, 'SimpleXMLElement', LIBXML_NOCDATA); //(PHP >= 5.1.0)
         // ~
         // Then you just get the CDATA elements without complications.
         // See: http://us.php.net/manual/en/function.simplexml-load-string.php
