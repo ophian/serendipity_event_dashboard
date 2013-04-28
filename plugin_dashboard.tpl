@@ -186,6 +186,7 @@
         <li class="checked">Fixed Chrome browser select/option function - this entails the navigation selects to have an empty start option field ... </li>
         <li class="checked">The Info Box now shows a count(all) to adminUsers only, else the count is strict done by userid </li>
         <li class="checked">Fixed Maintenance Mode Super-Cookie to survive a browser close </li>
+        <li class="checked">Reduced clear compiled templates function to clear $serendipity['template'] only, as the following recompile could cause a servers memory exhaustment in case of installed gravatar event plugin cache </li>
         <li></li>
         <li>Add some more maintenance, like size of spamblock log, or hint to install DBClean plugin (?) </li>
         <li>Move help box button into embed mode navigation bar or design box (?) </li>
