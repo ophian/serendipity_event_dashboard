@@ -1,5 +1,5 @@
 <?php # $Id$
-// dashboard_actions.inc.php - last modified 2012-10-04
+// dashboard_actions.inc.php - last modified 2013-04-28
 // some POST & GET actions copied from head of comments.inc.php to get included, as also used for the dashboard plugin
 
 if (IN_serendipity !== true) {
@@ -33,14 +33,14 @@ if ($serendipity['POST']['formAction'] == 'multiDelete' && sizeof($serendipity['
 /* We clear all compiles smarty template files in templates_c */
 if($serendipity['GET']['dashboard_event'] == 'capct' && serendipity_checkFormToken()) { 
     $clear = false;
-    // smarty clear all compiled templates = capct
+    // smarty clear all compiled templates = capct -  - reduced to clear $serendipity['template'] only, as the recompile including the gravatar event plugin may cause a servers memory exhaustment
     if(method_exists($serendipity['smarty'], 'clearCompiledTemplate')) {
-        if($serendipity['smarty']->clearCompiledTemplate()) {
+        if($serendipity['smarty']->clearCompiledTemplate(null, $serendipity['template'])) {
             $clear = true;
         }
     }
     if(!$clear && method_exists($serendipity['smarty'], 'clear_compiled_tpl')) {
-        if($serendipity['smarty']->clear_compiled_tpl()) {
+        if($serendipity['smarty']->clear_compiled_tpl(null, $serendipity['template'])) {
             $clear = true;
         }
     }
