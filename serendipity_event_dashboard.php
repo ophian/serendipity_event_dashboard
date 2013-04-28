@@ -1,6 +1,6 @@
 <?php # $Id$
 
-// - last modified 2013-04-27
+// serendipity_event_dashboard "PoC" - last modified 2013-04-28
 
 if (IN_serendipity !== true) {
     die ("Don't hack!");
@@ -755,7 +755,7 @@ define(DASHBOARD_PRESET_MOMATXT, sprintf(PLUGIN_DASHBOARD_MAINTENANCE_TEXT, $ser
 
         // a users note
         // Another way to get the CDATA is to load the xml using
-        // $xml = simplexml_load_string($rawFeed, ‘SimpleXMLElement’, LIBXML_NOCDATA); //(PHP >= 5.1.0)
+        // $xml = simplexml_load_string($rawFeed, 'SimpleXMLElement', LIBXML_NOCDATA); //(PHP >= 5.1.0)
         // ~
         // Then you just get the CDATA elements without complications.
         // See: http://us.php.net/manual/en/function.simplexml-load-string.php

@@ -159,6 +159,7 @@
         <li class="checked">Fixed MSIE 10.0 request issue </li>
         <li class="checked">Disabled include of bayes plugin hooked function buttons into dashboard comment boxes for now, as this did not work good enough </li>
         <li class="checked">Navbar added dashboard options will now react on side-/selectbar mode also - dynamic linking via data attributes </li>
+        <li class="checked">Reduced clear compiled templates function to clear $serendipity['template'] only, as the following recompile could cause a servers memory exhaustment in case of installed gravatar event plugin cache </li>
         <li class="checked"></li>
 	</ul>
     <ul><strong>ToDo:</strong><a name="todo"></a>
