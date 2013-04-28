@@ -1,4 +1,4 @@
-{*** plugin_dashboard.tpl - last modified 2012-10-04 ***}
+{*** plugin_dashboard.tpl - last modified 2013-04-28 ***}
 {*** debug ***}
 
 <div id="dashboard" class="maincontent">
