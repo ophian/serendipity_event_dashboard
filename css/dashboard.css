@@ -74,7 +74,7 @@ body > #loaderPanel {
 }
 body.spinLoadProgress {
     /* this does not hurt, since we need some content here */
-	position: absolute;
+    position: absolute;
     vertical-align: middle;
     z-index: 1004;
 }
@@ -92,7 +92,7 @@ body.spinLoadProgress > #loaderPanel {
 }
 body.spinLoadProgress > #loaderPanel img {
      margin: 38% auto;
-	 vertical-align: middle;
+     vertical-align: middle;
 }
 
 /* BP5 take over, if in sidebar mode */
@@ -1782,12 +1782,12 @@ td.serendipityAdminContentDashboard {
 }
 #osx-modal-data.content-box,
 #mbc_wrapper .mbc_container .content-box {
-	-moz-column-gap: 1.6em;  
-	-webkit-column-gap: 1.6em; 
-	column-gap: 1.6em; /* Specify a space gap between the columns */
-	-moz-column-rule: thin dotted black;
-	-webkit-column-rule: thin dotted black;
-	column-rule: thin dotted black; /* Specify the width, style and color of the rule between columns */
+    -moz-column-gap: 1.6em;
+    -webkit-column-gap: 1.6em;
+    column-gap: 1.6em; /* Specify a space gap between the columns */
+    -moz-column-rule: thin dotted black;
+    -webkit-column-rule: thin dotted black;
+    column-rule: thin dotted black; /* Specify the width, style and color of the rule between columns */
     -webkit-columns: 100px 3;
     -moz-columns: 100px 3;
     columns: 100px 3; /* Specify the width and number of columns */
@@ -1817,7 +1817,7 @@ td.serendipityAdminContentDashboard {
 #cont2 input[type="week"], #cont2 input[type="text"], #cont2 input[type="url"], 
 #dashboard  textarea, #cont2 textarea, 
 #dashboard  select, #cont2 select {
-	padding: 0;
+    padding: 0;
 }
 #mbc_wrapper .black a {
     color: lightblue;
@@ -2356,32 +2356,32 @@ td.serendipityAdminContentDashboard {
 }
 /* Netbooks only
 @media (max-width: 1024px) {
-	#cont1.container,#cont2.container { width: 88%; }
+    #cont1.container,#cont2.container { width: 88%; }
 } *//**
 @media (min-width: 560px) and (max-width: 800px) {
-	#cont1.container,#cont2.container { width: 80%; } /* range 448px to 640px *//**
+    #cont1.container,#cont2.container { width: 80%; } /* range 448px to 640px *//**
 } 
 @media (min-width: 450px) and (max-width: 560px) {
-	#cont1.container,#cont2.container { width: 88%; } /* range 396px to 492.8px *//**
+    #cont1.container,#cont2.container { width: 88%; } /* range 396px to 492.8px *//**
 } */
 @media (min-width: 975px) and (max-width: 1150px) {
-	#mbc_wrapper .container.mbc_container { width: 68%; } /* range 663px to 782px */
+    #mbc_wrapper .container.mbc_container { width: 68%; } /* range 663px to 782px */
 } 
 @media (min-width: 800px) and (max-width: 975px) {
-	#mbc_wrapper .container.mbc_container { width: 72%; } /* range 576px to 702px */
+    #mbc_wrapper .container.mbc_container { width: 72%; } /* range 576px to 702px */
 } 
 @media (min-width: 625px) and (max-width: 800px) {
-	#mbc_wrapper .container.mbc_container { width: 80%; } /* range 500px to 640px */
+    #mbc_wrapper .container.mbc_container { width: 80%; } /* range 500px to 640px */
 } 
 @media (min-width: 450px) and (max-width: 625px) {
-	#mbc_wrapper .container.mbc_container { width: 88%; } /* range 396px to 550px */
+    #mbc_wrapper .container.mbc_container { width: 88%; } /* range 396px to 550px */
 } 
 /* these are ok, but upper min to max in percent seems better...
 @media (max-width: 800px) {
-	#cont1.container,#cont2.container { width: 560px; }
+    #cont1.container,#cont2.container { width: 560px; }
 }
 @media (max-width: 560px) {
-	#cont1.container,#cont2.container { width: 420px; }
+    #cont1.container,#cont2.container { width: 420px; }
 }
 */
 /* mobile portrait only */
@@ -2392,7 +2392,7 @@ td.serendipityAdminContentDashboard {
     #dashboard #cell_left, #dashboard #cell_right {
         padding: 0;
     }
-	#mbc_wrapper .container.mbc_container { width: 96%; }
+    #mbc_wrapper .container.mbc_container { width: 96%; }
 }
 /* screen only */
 @media (min-width: 1024px) {
